@@ -57,6 +57,9 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Bootstrap\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Bootstrap\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Bootstrap\fonts\glyphicons-halflings-regular.woff" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -65,7 +68,18 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Bootstrap\css\bootstrap-theme.css" />
+    <Content Include="Bootstrap\css\bootstrap-theme.min.css" />
+    <Content Include="Bootstrap\css\bootstrap.css" />
+    <Content Include="Bootstrap\css\bootstrap.min.css" />
+    <Content Include="Bootstrap\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Bootstrap\js\bootstrap.js" />
+    <Content Include="Bootstrap\js\bootstrap.min.js" />
+    <Content Include="CSS\Style.css" />
     <Content Include="Default.aspx" />
+    <Content Include="Javascript\LoginScript.js" />
+    <Content Include="JQuery\jquery-1.10.2 Compressed.js" />
+    <Content Include="JQuery\jquery-1.10.2.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
