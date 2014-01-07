@@ -10,6 +10,6 @@
 namespace Lessoner {
     
     
-    public partial class Default {
+    public partial class about {
     }
 }
