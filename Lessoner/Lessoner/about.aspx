@@ -26,8 +26,13 @@
           </button>
           <a class="navbar-brand" href="#">Lessoner</a>
         </div>
-        <div class="navbar-collapse collapse">
-          <form class="navbar-form navbar-right" role="form">
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="default.aspx">Hauptseite</a></li>
+            <li class="active"><a href="#">Über den Lessoner</a></li>
+            <li><a href="#contact">Kontakt</a></li>
+          </ul>
+            <form class="navbar-form navbar-right" role="form">
             <div class="form-group">
               <input type="text" placeholder="Email" class="form-control">
             </div>
@@ -40,14 +45,13 @@
       </div>
     </div>
 
-    <div class="jumbotron">
-      <div class="container">
-        <h1>Herzlich Willkommen!</h1>
-        <p>Der “Lessoner” dient dazu einen Stundenplan zu erstellen auf den Schüler und Lehrer Zugriff haben.
-             Des weiteren lassen sich Hausaufgaben in den Stundenplan eintragen die wiederum von den Schülern abgefragt werden können.
-             So kann man keine Hausaufgaben mehr “vergessen”.</p>
-        <p><a class="btn btn-primary btn-lg" role="button">Mehr erfahren »</a></p>
+       <div class="container">
+
+      <div class="starter-template">
+        <h1>Bootstrap starter template</h1>
+        <p class="lead">Use this document as a way to quickly start any new project.<br> All you get is this text and a mostly barebones HTML document.</p>
       </div>
+
     </div>
 
     <div class="container">

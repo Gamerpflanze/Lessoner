@@ -27,8 +27,13 @@
           </button>
           <a class="navbar-brand" href="#">Lessoner</a>
         </div>
-        <div class="navbar-collapse collapse">
-          <form class="navbar-form navbar-right" role="form">
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Hauptseite</a></li>
+            <li><a href="about.aspx">Über den Lessoner</a></li>
+            <li><a href="#contact">Kontakt</a></li>
+          </ul>
+            <form class="navbar-form navbar-right" role="form">
             <div class="form-group">
               <input type="text" placeholder="Email" class="form-control">
             </div>
