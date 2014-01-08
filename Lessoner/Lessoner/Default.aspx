@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="Lessoner.Default" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="~/Default.aspx.cs" Inherits="Lessoner.Default" %>
 
 <!DOCTYPE html>
 
@@ -35,10 +35,10 @@
           </ul>
             <form class="navbar-form navbar-right" role="form">
             <div class="form-group">
-              <input type="text" placeholder="Email" class="form-control">
+              <input type="text" placeholder="Email" class="form-control" id="Username"/>
             </div>
             <div class="form-group">
-              <input type="password" placeholder="Passwort" class="form-control">
+              <input type="password" placeholder="Passwort" class="form-control" id="Password"/>
             </div>
             <button type="submit" class="btn btn-success">Anmelden</button>
           </form>
@@ -77,7 +77,7 @@
         </div>
       </div>
 
-      <hr>
+      <hr/>
 
       <footer>
         <p>&copy; Von Florian Fürsenberg und Pascal Gönnewicht</p>

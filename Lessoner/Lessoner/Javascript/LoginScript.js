@@ -29,8 +29,9 @@ function SendLoginData()
     }
 }
 
-function LoginRecieve(ID)
+function LoginRecieve(data)
 {
+    //TODO: Fehlerausgabe und weiterleitung
 }
 
 function AjaxError(message)
