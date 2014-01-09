@@ -33,14 +33,14 @@
             <li><a href="about.aspx">Über den Lessoner</a></li>
             <li><a href="#contact">Kontakt</a></li>
           </ul>
-            <form class="navbar-form navbar-right" role="form">
+          <form class="navbar-form navbar-right" role="form" id="LoginForm">
             <div class="form-group">
               <input type="text" placeholder="Email" class="form-control" id="Username"/>
             </div>
             <div class="form-group">
               <input type="password" placeholder="Passwort" class="form-control" id="Password"/>
             </div>
-            <button type="submit" class="btn btn-success">Anmelden</button>
+            <input type="button" class="btn btn-success" value="Anmelden" onclick="SendLoginData()"/>
           </form>
         </div>
       </div>

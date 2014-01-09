@@ -15,6 +15,13 @@ namespace Lessoner
         public int ID = -1;
         public string Vorname = "";
         public string Nachname = "";
+        public string EMail = "";
+        public string Title = "";
+        public string Strasse= "";
+        public string HSN = "";
+        public string Ort = "";
+        public string PLZ = "";
+        public int KlasseID = -1;
 
         /// <summary>
         /// Gibt die instanz von StoredVars Zurück

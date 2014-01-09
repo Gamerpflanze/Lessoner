@@ -1,6 +1,6 @@
 ﻿public static class LoginReturns
 {
-    public static string LoginConfirmed = "LoginConfirmed";
-    public static string LoginDenited = "LoginDenited";
-    public static string Error = "Error";
+    public const string LoginConfirmed = "LoginConfirmed";
+    public const string LoginDenited = "LoginDenited";
+    public const string Error = "Error";
 }
