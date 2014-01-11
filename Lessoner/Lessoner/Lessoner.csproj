@@ -82,7 +82,6 @@
     <Content Include="Javascript\LoginScript.js" />
     <Content Include="JQuery\jquery-1.10.2 Compressed.js" />
     <Content Include="JQuery\jquery-1.10.2.js" />
-    <Content Include="kontakt.aspx" />
     <Content Include="Lessoner.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -103,13 +102,6 @@
     </Compile>
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="kontakt.aspx.cs">
-      <DependentUpon>kontakt.aspx</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="kontakt.aspx.designer.cs">
-      <DependentUpon>kontakt.aspx</DependentUpon>
     </Compile>
     <Compile Include="Lessoner.aspx.cs">
       <DependentUpon>Lessoner.aspx</DependentUpon>

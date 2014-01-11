@@ -74,11 +74,11 @@ namespace Lessoner
                             }
                             if(i>1)
                             {
-                                return LoginReturns.Error;
+                                return LoginReturns.MultipleUserError;
                             }
                         }
 
-                        if(StoredVars.Objects.Rights>=2)
+                        if(StoredVars.Objects.Rights>=2)//TODO:rootlogin
                         {
                             //Lehrer
                             cmd.CommandText = SQL.Statements.GetTeacherInfos;
@@ -113,13 +113,13 @@ namespace Lessoner
                                 }
                                 if (i > 1)
                                 {
-                                    return LoginReturns.Error;
+                                    return LoginReturns.MultipleUserError;
                                 }
                             }
                         }
                         else
                         {
-                            //Lehrer
+                            //Schueler
                             cmd.CommandText = SQL.Statements.GetStudentInfos;
                             cmd.Parameters.Clear();
                             cmd.Parameters.AddWithValue("@LoginID", StoredVars.Objects.ID);
@@ -145,7 +145,7 @@ namespace Lessoner
                                 }
                                 if (i > 1)
                                 {
-                                    return LoginReturns.Error;
+                                    return LoginReturns.MultipleUserError;
                                 }
                             }
                         }
@@ -157,7 +157,7 @@ namespace Lessoner
                     }
                     catch (Exception ex)
                     {
-                        return LoginReturns.Error;
+                        return LoginReturns.ExeptionError;
                     }
                 }
             }

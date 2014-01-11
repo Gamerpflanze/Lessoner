@@ -34,6 +34,7 @@
             <li><a href="#contact">Kontakt</a></li>
           </ul>
           <form class="navbar-form navbar-right" role="form" id="LoginForm">
+            <span class="label label-danger" id="LoginError"></span>
             <div class="form-group">
               <input type="text" placeholder="Email" class="form-control" id="Username"/>
             </div>
