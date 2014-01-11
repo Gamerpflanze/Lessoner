@@ -12,7 +12,7 @@ namespace Lessoner.SQL
         /// </summary>
         public const string GetUserRights = @"SELECT r.ID as RechteID, a.ID as LoginID FROM tbanmeldung as a
                                             JOIN tbrechte as r
-                                            ON r.ID = a.ID
+                                            ON r.ID = a.RechteID
                                             WHERE Email=@Email AND Passwort = @Passwort";
 
         /// <summary>
@@ -22,6 +22,19 @@ namespace Lessoner.SQL
                                                 JOIN tblehrer as l
                                                 ON l.AnmeldungID = a.ID
                                                 WHERE a.ID = @LoginID";
+
+        public const string GetStudentInfos = @"SELECT s.ID, a.Email, s.Vorname, s.Name, s.Strasse, s.Hausnummer, s.PLZ, s.Ort, s.KlasseID FROM tbanmeldung as a
+                                                JOIN tbschueler as s
+                                                ON s.AnmeldungID = a.ID
+                                                WHERE a.ID = @LoginID";
+
+
+
+
+
+
+
+
 
 
         //Immer Das Letzte Statement (da sehr lang)

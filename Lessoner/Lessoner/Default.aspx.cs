@@ -119,9 +119,36 @@ namespace Lessoner
                         }
                         else
                         {
-                            //Schüler
+                            //Lehrer
+                            cmd.CommandText = SQL.Statements.GetStudentInfos;
+                            cmd.Parameters.Clear();
+                            cmd.Parameters.AddWithValue("@LoginID", StoredVars.Objects.ID);
+                            using (MySqlDataReader reader = cmd.ExecuteReader())
+                            {
+                                int i = 0;
+                                while (reader.Read())
+                                {
+                                    i++;
+                                    //l.ID, a.Email, l.Titel, l.Vorname, l.Name, l.Strasse, l.Hausnummer, l.PLZ, l.Ort, l.KlasseID
+                                    StoredVars.Objects.EMail = Username;
+                                    StoredVars.Objects.Vorname = Convert.ToString(reader["Vorname"]);
+                                    StoredVars.Objects.Nachname = Convert.ToString(reader["Name"]);
+                                    StoredVars.Objects.Strasse = Convert.ToString(reader["Strasse"]);
+                                    StoredVars.Objects.HSN = Convert.ToString(reader["Hausnummer"]);
+                                    StoredVars.Objects.PLZ = Convert.ToString(reader["PLZ"]);
+                                    StoredVars.Objects.Ort = Convert.ToString(reader["Ort"]);
+                                    StoredVars.Objects.KlasseID = Convert.ToInt32(reader["KlasseID"]);
+                                }
+                                if (i == 0)
+                                {
+                                    return LoginReturns.LoginDenited;
+                                }
+                                if (i > 1)
+                                {
+                                    return LoginReturns.Error;
+                                }
+                            }
                         }
-
                         con.Close();
                     }
                     catch (NullReferenceException)
