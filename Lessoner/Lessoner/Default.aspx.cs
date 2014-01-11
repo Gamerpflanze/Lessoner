@@ -20,6 +20,21 @@ namespace Lessoner
             {
                 StoredVars.Objects = new StoredVars();
             }
+            //SELECT Count(*) FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = 'dbLessoner'
+            using (MySqlConnection con = new MySqlConnection("Server=127.0.0.1;Uid=root;Pwd=;"))
+            {
+                using (MySqlCommand cmd = con.CreateCommand())
+                {
+                    cmd.CommandText = "SELECT Count(*) FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = 'dbLessoner'";
+                    con.Open();
+                    if(Convert.ToInt32(cmd.ExecuteScalar())==0)
+                    {
+                        cmd.CommandText = SQL.Statements.CreateDatabase;
+                        cmd.ExecuteNonQuery();
+                    }
+                    con.Close();
+                }
+            }
         }
 
         /// <summary>
