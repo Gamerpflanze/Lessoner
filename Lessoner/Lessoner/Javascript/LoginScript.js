@@ -9,17 +9,14 @@ function SendLoginData()
 
     if(Username==""||Passwort=="")
     {
-        //Fehlermeldung hier
-        var Error = jQuery("<b></b>");
-        Error.text("Fehler");
-        Error.appendTo("#maincontainer");
+        //TODO: Fehlermeldung
     }
     else
     {
         $.ajax({
             type: "POST",
             url: "Default.aspx/GetLoginData",
-            async:true,
+            async: true,
             contentType: "application/json; charset=utf-8;",
             dataType:"json",
             data: JSON.stringify({'Username':Username, 'Passwort':Passwort}),
