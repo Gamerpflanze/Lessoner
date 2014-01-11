@@ -65,7 +65,7 @@ namespace Lessoner
                             while(reader.Read())
                             {
                                 i++;
-                                StoredVars.Objects.Rights = Convert.ToInt32(reader["ID"]);
+                                StoredVars.Objects.Rights = Convert.ToInt32(reader["RechteID"]);
                                 StoredVars.Objects.ID = Convert.ToInt32(reader["LoginID"]);
                             }
                             if(i==0)

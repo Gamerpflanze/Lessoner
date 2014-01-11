@@ -10,7 +10,7 @@ namespace Lessoner.SQL
         /// <summary>
         /// Gibt die Rechte und die ID des Benutzers zurück. @Email = die Email, @Passwort = Das Gehashte Passwort in einer länge von 16byte
         /// </summary>
-        public const string GetUserRights = @"SELECT r.ID, a.ID as LoginID FROM tbanmeldung as a
+        public const string GetUserRights = @"SELECT r.ID as RechteID, a.ID as LoginID FROM tbanmeldung as a
                                             JOIN tbrechte as r
                                             ON r.ID = a.ID
                                             WHERE Email=@Email AND Passwort = @Passwort";
