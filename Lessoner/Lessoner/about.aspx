@@ -30,7 +30,7 @@
           <ul class="nav navbar-nav">
             <li><a href="default.aspx">Hauptseite</a></li>
             <li class="active"><a href="#">Über den Lessoner</a></li>
-            <li><a href="#contact">Kontakt</a></li>
+            <li><a href="kontakt.aspx">Kontakt</a></li>
           </ul>
             <form class="navbar-form navbar-right" role="form">
             <div class="form-group">
@@ -45,42 +45,16 @@
       </div>
     </div>
 
-       <div class="container">
-
-      <div class="starter-template">
-        <h1>Bootstrap starter template</h1>
-        <p class="lead">Use this document as a way to quickly start any new project.<br> All you get is this text and a mostly barebones HTML document.</p>
+      <div class="jumbotron">
+      <div class="container">
+        <h1>Herzlich Willkommen!</h1>
+        <p>Der “Lessoner” dient dazu einen Stundenplan zu erstellen auf den Schüler und Lehrer Zugriff haben.
+             Des weiteren lassen sich Hausaufgaben in den Stundenplan eintragen die wiederum von den Schülern abgefragt werden können.
+             So kann man keine Hausaufgaben mehr “vergessen”.</p>
+        <p><a class="btn btn-primary btn-lg" role="button">Mehr erfahren »</a></p>
       </div>
-
     </div>
 
-    <div class="container">
-      <div class="row">
-        <div class="col-md-4">
-          <h2>Stundenplan</h2>
-          <p> - Bild eines Stundenplanes - <br />
-              Behalte den Überblick über deine Stunden.
-               Fällt morgen die letzte Stunde aus oder solltest du lieber deine Sportsachen einpacken, hier erfährst du es.</p>
-        </div>
-        <div class="col-md-4">
-          <h2>Hausaufgaben</h2>
-          <p>Schnell noch Englisch machen und dann Mathe Seite 166, oder war es doch 168?
-               Ein Blick in die jeweilige Stunde hilft dir weiter und dein Hund muss nicht als Sündenbock enden.</p>
-       </div>
-        <div class="col-md-4">
-          <h2>Austausch</h2>
-          <p>Mal einen Tag nicht da gewesen und dadurch wichtigen Stoff verpasst?
-              Kein Problem! Dein Lehrer kann für dich und alle anderen Schüler Dokumente zum nachlesen bereitstellen.
-          </p>
-        </div>
-      </div>
-
-      <hr>
-
-      <footer>
-        <p>&copy; Von Florian Fürsenberg und Pascal Gönnewicht</p>
-      </footer>
-    </div>
     <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="../../dist/js/bootstrap.min.js"></script>
   </body>
