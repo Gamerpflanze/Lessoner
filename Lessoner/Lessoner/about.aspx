@@ -3,7 +3,8 @@
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>
         Lessoner - Hauptseite
     </title>
@@ -13,7 +14,7 @@
     <script src="Bootstrap/js/bootstrap.js"></script>
     <script src="Javascript/LoginScript.js"></script>
 </head>
-    <body>
+    <body onload="CheckLoggedin('about.aspx')">
 
     <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
       <div class="container">
@@ -32,14 +33,15 @@
             <li class="active"><a href="#">Über den Lessoner</a></li>
             <li><a href="kontakt.aspx">Kontakt</a></li>
           </ul>
-            <form class="navbar-form navbar-right" role="form">
+            <form class="navbar-form navbar-right" role="form" id="LoginForm">
+            <span class="label label-danger" id="LoginError"></span>
             <div class="form-group">
-              <input type="text" placeholder="Email" class="form-control">
+              <input type="text" placeholder="Email" class="form-control" id="Username"/>
             </div>
             <div class="form-group">
-              <input type="password" placeholder="Passwort" class="form-control">
+              <input type="password" placeholder="Passwort" class="form-control" id="Password"/>
             </div>
-            <button type="submit" class="btn btn-success">Anmelden</button>
+            <input type="button" class="btn btn-success" value="Anmelden" onclick="SendLoginData('about.aspx')"/>
           </form>
         </div>
       </div>

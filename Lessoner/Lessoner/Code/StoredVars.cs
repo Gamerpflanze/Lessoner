@@ -22,6 +22,7 @@ namespace Lessoner
         public string Ort = "";
         public string PLZ = "";
         public int KlasseID = -1;
+        public bool Loggedin = false;
 
         /// <summary>
         /// Gibt die instanz von StoredVars Zurück

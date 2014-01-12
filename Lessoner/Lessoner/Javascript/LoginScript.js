@@ -1,10 +1,33 @@
 ﻿/// <reference path="../JQuery/jquery-1.10.2.js" />
 /// <reference path="../Bootstrap/js/bootstrap.js" />
 
-
-function SendLoginData()
+function CheckLoggedin(Page)
 {
-    
+    $.ajax({
+        type: "POST",
+        url: Page + "/CheckLoggedin",
+        async: false,
+        contentType: "application/json; charset=utf-8;",
+        dataType: "json",
+        success: function (data) {
+            if(data.d!="")
+            {
+                jQuery("#LoginError").css("visibility", "none");
+                var LoginForm = jQuery("#LoginForm");
+                LoginForm.empty();
+
+                var ProfileLink = jQuery("<a></a>");
+                ProfileLink.text(data.d);
+                LoginForm.append(ProfileLink);
+            }
+        },
+        error: function (message) {
+            LoginError('2002');
+        }
+    });
+}
+function SendLoginData(Page)
+{
     var Username = jQuery("#Username").val();
     var Passwort = jQuery("#Password").val();
 
@@ -21,17 +44,16 @@ function SendLoginData()
         jQuery("#LoginError").text("Lade...");
         $.ajax({
             type: "POST",
-            url: "Default.aspx/GetLoginData",
+            url: Page+"/GetLoginData",
             async: true,
             contentType: "application/json; charset=utf-8;",
             dataType:"json",
             data: JSON.stringify({ 'Username': Username, 'Passwort': Passwort }),
             success: function (data) { LoginRecieve(data) },
-            error: function (message) { LoginError() }
+            error: function (message) { LoginError('2001') }
         });
     }
 }
-
 function LoginRecieve(data)
 {
     //TODO: Fehlerausgabe und weiterleitung
@@ -51,7 +73,6 @@ function LoginRecieve(data)
     }
     else
     {
-        jQuery("#LoginError").css("visibility", "none");
         var LoginForm = jQuery("#LoginForm");
         LoginForm.empty();
 
@@ -60,8 +81,9 @@ function LoginRecieve(data)
         LoginForm.append(ProfileLink);
     }
 }
-
 function LoginError(message)
 {
-    jQuery("#LoginError").text("Es ist ein Fehler aufgetreten (2001)");
+    jQuery("#LoginError").removeAttr("class");
+    jQuery("#LoginError").attr("class", "label label-danger");
+    jQuery("#LoginError").text("Es ist ein Fehler aufgetreten ("+message+")");
 }

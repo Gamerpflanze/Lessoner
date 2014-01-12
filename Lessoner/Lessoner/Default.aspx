@@ -14,8 +14,7 @@
     <script src="Bootstrap/js/bootstrap.js"></script>
     <script src="Javascript/LoginScript.js"></script>
 </head>
-    <body>
-
+    <body onload="CheckLoggedin('Default.aspx')">
     <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
       <div class="container">
         <div class="navbar-header">
@@ -41,7 +40,7 @@
             <div class="form-group">
               <input type="password" placeholder="Passwort" class="form-control" id="Password"/>
             </div>
-            <input type="button" class="btn btn-success" value="Anmelden" onclick="SendLoginData()"/>
+            <input type="button" class="btn btn-success" value="Anmelden" onclick="SendLoginData('Default.aspx')"/>
           </form>
         </div>
       </div>
