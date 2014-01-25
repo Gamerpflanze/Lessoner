@@ -86,6 +86,7 @@
     <Content Include="JQuery\jquery-1.10.2 Compressed.js" />
     <Content Include="JQuery\jquery-1.10.2.js" />
     <Content Include="Lessoner.aspx" />
+    <Content Include="Programm\Benutzererstellung.exe" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
