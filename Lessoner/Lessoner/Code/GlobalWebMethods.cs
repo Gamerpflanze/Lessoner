@@ -29,8 +29,8 @@ namespace Lessoner
                 {
                     try
                     {
-                        MD5 Hasher = MD5.Create();
-                        byte[] HashedPassword = Hasher.ComputeHash(Encoding.Unicode.GetBytes(Passwort));
+                        SHA1 Hasher = SHA1.Create();
+                        byte[] HashedPassword = Hasher.ComputeHash(Encoding.UTF8.GetBytes(Passwort));
                         cmd.CommandText = SQL.Statements.GetUserRights;
                         cmd.Parameters.AddWithValue("@Email", Username);
                         cmd.Parameters.AddWithValue("@Passwort", HashedPassword);
