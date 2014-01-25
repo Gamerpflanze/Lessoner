@@ -6,7 +6,7 @@
     <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>
-        Lessoner - Hauptseite
+        Über den Lessoner
     </title>
     <link href="Bootstrap/css/bootstrap-theme.css" rel="stylesheet" />
     <link href="Bootstrap/css/bootstrap.css" rel="stylesheet" />
@@ -30,7 +30,7 @@
           <ul class="nav navbar-nav">
             <li><a href="default.aspx">Hauptseite</a></li>
             <li class="active"><a href="#">Über den Lessoner</a></li>
-            <li><a href="kontakt.aspx">Kontakt</a></li>
+            <li><a href="contact.aspx">Kontakt</a></li>
           </ul>
             <form class="navbar-form navbar-right" role="form" id="LoginForm">
             <span class="label label-danger" id="LoginError"></span>

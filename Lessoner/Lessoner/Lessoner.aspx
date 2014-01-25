@@ -10,9 +10,7 @@
     </title>
     <link href="Bootstrap/css/bootstrap-theme.css" rel="stylesheet" />
     <link href="Bootstrap/css/bootstrap.css" rel="stylesheet" />
-    <script src="JQuery/jquery-1.10.2.js"></script>
-    <script src="Bootstrap/js/bootstrap.js"></script>
-    <script src="Javascript/LoginScript.js"></script>
+    <link href="CSS/Style.css" rel="stylesheet" />
 </head>
     <body onload="CheckLoggedin('Lessoner.aspx')">
 
@@ -54,41 +52,81 @@
              Des weiteren lassen sich Hausaufgaben in den Stundenplan eintragen die wiederum von den Schülern abgefragt werden können.
              So kann man keine Hausaufgaben mehr “vergessen”.</p>
         <p><a class="btn btn-primary btn-lg" role="button">Mehr erfahren »</a></p>
+
+        <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th class="tableStunde">Stunde</th>
+                <th class="tableTag">Montag</th>
+                <th class="tableTag">Dienstag</th>
+                <th class="tableTag">Mittwoch</th>
+                <th class="tableTag">Donnerstag</th>
+                <th class="tableTag">Freitag</th>
+              </tr>
+            </thead>
+            <tbody>
+
+              <tr>
+                    <td>1</td>
+              </tr>
+
+              <tr>
+                    <td>2</td>
+              </tr>
+                
+              <tr>
+                    <td>3</td>
+              </tr>
+
+              <tr>
+                    <td>4</td>
+              </tr>
+            
+              <tr>
+                    <td>5</td>
+              </tr>
+
+              <tr>
+                    <td>6</td>
+              </tr>
+
+              <tr>
+                    <td>7</td>
+              </tr>
+
+              <tr>
+                    <td>8</td>
+              </tr>
+
+              <tr>
+                    <td>9</td>
+              </tr>
+
+              <tr>
+                    <td>10</td>
+              </tr>
+                
+              <tr>
+                    <td>11</td>
+              </tr>
+
+              <tr>
+                    <td>12</td>
+              </tr>
+
+
+            </tbody>
+      </table>
+
       </div>
     </div>
 
-    <table class="table">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Username</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>1</td>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-          </tr>
-          <tr>
-            <td>3</td>
-            <td>Larry</td>
-            <td>the Bird</td>
-            <td>@twitter</td>
-          </tr>
-        </tbody>
-      </table>
+    
 
     <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="../../dist/js/bootstrap.min.js"></script>
+    <script src="JQuery/jquery-1.10.2.js"></script>
+    <script src="Bootstrap/js/bootstrap.js"></script>
+    <script src="Javascript/LoginScript.js"></script>
   </body>
 </html>
