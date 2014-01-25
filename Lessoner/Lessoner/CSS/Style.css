@@ -9,3 +9,18 @@
 {
     width:512px;
 }
+
+.tableStunde
+{
+    width:10%;
+}
+
+.tableTag
+{
+    width:18%;
+}
+
+.tableCenter
+{
+    text-align:center;
+}

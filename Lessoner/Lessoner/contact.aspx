@@ -1,12 +1,12 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="~/Default.aspx.cs" Inherits="Lessoner.Default" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="contact.aspx.cs" Inherits="Lessoner.about" %>
 
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head runat="server">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>
-        Lessoner - Hauptseite
+        Kontakt
     </title>
     <link href="Bootstrap/css/bootstrap-theme.css" rel="stylesheet" />
     <link href="Bootstrap/css/bootstrap.css" rel="stylesheet" />
@@ -14,7 +14,8 @@
     <script src="Bootstrap/js/bootstrap.js"></script>
     <script src="Javascript/LoginScript.js"></script>
 </head>
-    <body onload="CheckLoggedin('Default.aspx')">
+    <body onload="CheckLoggedin('about.aspx')">
+
     <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
       <div class="container">
         <div class="navbar-header">
@@ -27,12 +28,11 @@
         </div>
         <div class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Hauptseite</a></li>
+            <li><a href="default.aspx">Hauptseite</a></li>
             <li><a href="about.aspx">Über den Lessoner</a></li>
-            <li><a href="contact.aspx">Kontakt</a></li>
-            <li id="display" style="display:none"><a href="Lessoner.aspx">Stundenplan</a></li>
+            <li class="active"><a href="#">Kontakt</a></li>
           </ul>
-          <form class="navbar-form navbar-right" role="form" id="LoginForm">
+            <form class="navbar-form navbar-right" role="form" id="LoginForm">
             <span class="label label-danger" id="LoginError"></span>
             <div class="form-group">
               <input type="text" placeholder="Email" class="form-control" id="Username"/>
@@ -40,13 +40,13 @@
             <div class="form-group">
               <input type="password" placeholder="Passwort" class="form-control" id="Password"/>
             </div>
-            <input type="button" class="btn btn-success" value="Anmelden" onclick="SendLoginData('Default.aspx')"/>
+            <input type="button" class="btn btn-success" value="Anmelden" onclick="SendLoginData('about.aspx')"/>
           </form>
         </div>
       </div>
     </div>
 
-    <div class="jumbotron">
+      <div class="jumbotron">
       <div class="container">
         <h1>Herzlich Willkommen!</h1>
         <p>Der “Lessoner” dient dazu einen Stundenplan zu erstellen auf den Schüler und Lehrer Zugriff haben.
@@ -56,33 +56,6 @@
       </div>
     </div>
 
-    <div class="container">
-      <div class="row">
-        <div class="col-md-4">
-          <h2>Stundenplan</h2>
-          <p> - Bild eines Stundenplanes - <br />
-              Behalte den Überblick über deine Stunden.
-               Fällt morgen die letzte Stunde aus oder solltest du lieber deine Sportsachen einpacken, hier erfährst du es.</p>
-        </div>
-        <div class="col-md-4">
-          <h2>Hausaufgaben</h2>
-          <p>Schnell noch Englisch machen und dann Mathe Seite 166, oder war es doch 168?
-               Ein Blick in die jeweilige Stunde hilft dir weiter und dein Hund muss nicht als Sündenbock enden.</p>
-       </div>
-        <div class="col-md-4">
-          <h2>Austausch</h2>
-          <p>Mal einen Tag nicht da gewesen und dadurch wichtigen Stoff verpasst?
-              Kein Problem! Dein Lehrer kann für dich und alle anderen Schüler Dokumente zum nachlesen bereitstellen.
-          </p>
-        </div>
-      </div>
-
-      <hr/>
-
-      <footer>
-        <p>&copy; Von Florian Fürsenberg und Pascal Gönnewicht</p>
-      </footer>
-    </div>
     <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="../../dist/js/bootstrap.min.js"></script>
   </body>

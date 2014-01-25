@@ -12,6 +12,7 @@ function CheckLoggedin(Page)
         success: function (data) {
             if(data.d!="")
             {
+                jQuery("#display").css("display", "inline");
                 jQuery("#LoginError").css("visibility", "none");
                 var LoginForm = jQuery("#LoginForm");
                 LoginForm.empty();
