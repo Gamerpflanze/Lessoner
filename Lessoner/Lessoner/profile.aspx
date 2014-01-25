@@ -1,12 +1,12 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="~/Default.aspx.cs" Inherits="Lessoner.Default" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="~/profile.aspx.cs" Inherits="Lessoner.Default" %>
 
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title>
-        Lessoner - Hauptseite
+    <title id="title">
+        Dein Profil
     </title>
     <link href="Bootstrap/css/bootstrap-theme.css" rel="stylesheet" />
     <link href="Bootstrap/css/bootstrap.css" rel="stylesheet" />
@@ -14,7 +14,7 @@
     <script src="Bootstrap/js/bootstrap.js"></script>
     <script src="Javascript/LoginScript.js"></script>
 </head>
-    <body onload="CheckLoggedin('Default.aspx')">
+    <body onload="CheckLoggedin('Default.aspx'); information()">
     <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
       <div class="container">
         <div class="navbar-header">
@@ -30,7 +30,6 @@
             <li class="active"><a href="#">Hauptseite</a></li>
             <li><a href="about.aspx">Über den Lessoner</a></li>
             <li><a href="contact.aspx">Kontakt</a></li>
-            <li id="display" style="display:none"><a href="Lessoner.aspx">Stundenplan</a></li>
           </ul>
           <form class="navbar-form navbar-right" role="form" id="LoginForm">
             <span class="label label-danger" id="LoginError"></span>
@@ -46,18 +45,8 @@
       </div>
     </div>
 
-    <div class="jumbotron">
-      <div class="container">
-        <h1>Herzlich Willkommen!</h1>
-        <p>Der “Lessoner” dient dazu einen Stundenplan zu erstellen auf den Schüler und Lehrer Zugriff haben.
-             Des weiteren lassen sich Hausaufgaben in den Stundenplan eintragen die wiederum von den Schülern abgefragt werden können.
-             So kann man keine Hausaufgaben mehr “vergessen”.</p>
-        <p><a class="btn btn-primary btn-lg" role="button">Mehr erfahren »</a></p>
-      </div>
-    </div>
-
     <div class="container">
-      <div class="row">
+        <div class="row">
         <div class="col-md-4">
           <h2>Stundenplan</h2>
           <p> - Bild eines Stundenplanes - <br />
@@ -73,17 +62,17 @@
           <h2>Austausch</h2>
           <p>Mal einen Tag nicht da gewesen und dadurch wichtigen Stoff verpasst?
               Kein Problem! Dein Lehrer kann für dich und alle anderen Schüler Dokumente zum nachlesen bereitstellen.
+              hallo!
+        <label id="username"></label>
           </p>
         </div>
       </div>
+        
 
-      <hr/>
-
-      <footer>
-        <p>&copy; Von Florian Fürsenberg und Pascal Gönnewicht</p>
-      </footer>
     </div>
+
     <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="../../dist/js/bootstrap.min.js"></script>
+    <script src="Javascript/profile.js"></script>
   </body>
 </html>

@@ -64,56 +64,11 @@
                 <th class="tableTag">Freitag</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody id="Lessoner">
 
               <tr>
-                    <td>1</td>
+                    <td class="tableCenter">1</td>
               </tr>
-
-              <tr>
-                    <td>2</td>
-              </tr>
-                
-              <tr>
-                    <td>3</td>
-              </tr>
-
-              <tr>
-                    <td>4</td>
-              </tr>
-            
-              <tr>
-                    <td>5</td>
-              </tr>
-
-              <tr>
-                    <td>6</td>
-              </tr>
-
-              <tr>
-                    <td>7</td>
-              </tr>
-
-              <tr>
-                    <td>8</td>
-              </tr>
-
-              <tr>
-                    <td>9</td>
-              </tr>
-
-              <tr>
-                    <td>10</td>
-              </tr>
-                
-              <tr>
-                    <td>11</td>
-              </tr>
-
-              <tr>
-                    <td>12</td>
-              </tr>
-
 
             </tbody>
       </table>
@@ -128,5 +83,6 @@
     <script src="JQuery/jquery-1.10.2.js"></script>
     <script src="Bootstrap/js/bootstrap.js"></script>
     <script src="Javascript/LoginScript.js"></script>
+    <script src="Javascript/Lessoner.js"></script>
   </body>
 </html>

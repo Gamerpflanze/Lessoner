@@ -82,10 +82,13 @@
     <Content Include="CSS\Style.css" />
     <Content Include="Default.aspx" />
     <Content Include="Global.asax" />
+    <Content Include="Javascript\Lessoner.js" />
     <Content Include="Javascript\LoginScript.js" />
+    <Content Include="Javascript\profile.js" />
     <Content Include="JQuery\jquery-1.10.2 Compressed.js" />
     <Content Include="JQuery\jquery-1.10.2.js" />
     <Content Include="Lessoner.aspx" />
+    <Content Include="profile.aspx" />
     <Content Include="Programm\Benutzererstellung.exe" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -124,6 +127,13 @@
     </Compile>
     <Compile Include="Lessoner.aspx.designer.cs">
       <DependentUpon>Lessoner.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="profile.aspx.cs">
+      <DependentUpon>profile.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="profile.aspx.designer.cs">
+      <DependentUpon>profile.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SQL\Statements.cs" />
