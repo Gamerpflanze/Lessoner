@@ -28,8 +28,8 @@
         <div class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
             <li><a href="default.aspx">Hauptseite</a></li>
-            <li class="active"><a href="#">Über den Lessoner</a></li>
-            <li><a href="kontakt.aspx">Kontakt</a></li>
+            <li><a href="about.aspx">Über den Lessoner</a></li>
+            <li class="active"><a href="#">Kontakt</a></li>
           </ul>
             <form class="navbar-form navbar-right" role="form">
             <div class="form-group">

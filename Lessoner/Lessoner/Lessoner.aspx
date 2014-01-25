@@ -56,33 +56,37 @@
       </div>
     </div>
 
-    <div class="container">
-      <div class="row">
-        <div class="col-md-4">
-          <h2>Stundenplan</h2>
-          <p> - Bild eines Stundenplanes - <br />
-              Behalte den Überblick über deine Stunden.
-               Fällt morgen die letzte Stunde aus oder solltest du lieber deine Sportsachen einpacken, hier erfährst du es.</p>
-        </div>
-        <div class="col-md-4">
-          <h2>Hausaufgaben</h2>
-          <p>Schnell noch Englisch machen und dann Mathe Seite 166, oder war es doch 168?
-               Ein Blick in die jeweilige Stunde hilft dir weiter und dein Hund muss nicht als Sündenbock enden.</p>
-       </div>
-        <div class="col-md-4">
-          <h2>Austausch</h2>
-          <p>Mal einen Tag nicht da gewesen und dadurch wichtigen Stoff verpasst?
-              Kein Problem! Dein Lehrer kann für dich und alle anderen Schüler Dokumente zum nachlesen bereitstellen.
-          </p>
-        </div>
-      </div>
+    <table class="table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Username</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>Mark</td>
+            <td>Otto</td>
+            <td>@mdo</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>Jacob</td>
+            <td>Thornton</td>
+            <td>@fat</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>Larry</td>
+            <td>the Bird</td>
+            <td>@twitter</td>
+          </tr>
+        </tbody>
+      </table>
 
-      <hr/>
-
-      <footer>
-        <p>&copy; Von Florian Fürsenberg und Pascal Gönnewicht</p>
-      </footer>
-    </div>
     <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="../../dist/js/bootstrap.min.js"></script>
   </body>
