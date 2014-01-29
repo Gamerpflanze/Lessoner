@@ -82,12 +82,15 @@
     <Content Include="CSS\Style.css" />
     <Content Include="Default.aspx" />
     <Content Include="Global.asax" />
+    <Content Include="Javascript\Global.js" />
     <Content Include="Javascript\Lessoner.js" />
+    <Content Include="Javascript\LessonerBuilder.js" />
     <Content Include="Javascript\LoginScript.js" />
     <Content Include="Javascript\profile.js" />
     <Content Include="JQuery\jquery-1.10.2 Compressed.js" />
     <Content Include="JQuery\jquery-1.10.2.js" />
     <Content Include="Lessoner.aspx" />
+    <Content Include="LessonerBuilder.aspx" />
     <Content Include="profile.aspx" />
     <Content Include="Programm\Benutzererstellung.exe" />
     <Content Include="Web.config" />
@@ -102,6 +105,7 @@
     </Compile>
     <Compile Include="Code\Enums.cs" />
     <Compile Include="Code\GlobalWebMethods.cs" />
+    <Compile Include="Code\HelperMethods.cs" />
     <Compile Include="Code\StoredVars.cs" />
     <Compile Include="contact.aspx.cs">
       <DependentUpon>contact.aspx</DependentUpon>
@@ -127,6 +131,13 @@
     </Compile>
     <Compile Include="Lessoner.aspx.designer.cs">
       <DependentUpon>Lessoner.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="LessonerBuilder.aspx.cs">
+      <DependentUpon>LessonerBuilder.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="LessonerBuilder.aspx.designer.cs">
+      <DependentUpon>LessonerBuilder.aspx</DependentUpon>
     </Compile>
     <Compile Include="profile.aspx.cs">
       <DependentUpon>profile.aspx</DependentUpon>

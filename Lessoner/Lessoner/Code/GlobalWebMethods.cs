@@ -46,11 +46,11 @@ namespace Lessoner
                             }
                             if (i == 0)
                             {
-                                return LoginReturns.LoginDenited;
+                                return ErrorReturns.LoginDenited;
                             }
                             if (i > 1)
                             {
-                                return LoginReturns.MultipleUserError;
+                                return ErrorReturns.MultipleUserError;
                             }
                         }
 
@@ -85,11 +85,11 @@ namespace Lessoner
                                 }
                                 if (i == 0)
                                 {
-                                    return LoginReturns.LoginDenited;
+                                    return ErrorReturns.LoginDenited;
                                 }
                                 if (i > 1)
                                 {
-                                    return LoginReturns.MultipleUserError;
+                                    return ErrorReturns.MultipleUserError;
                                 }
                             }
                         }
@@ -117,11 +117,11 @@ namespace Lessoner
                                 }
                                 if (i == 0)
                                 {
-                                    return LoginReturns.LoginDenited;
+                                    return ErrorReturns.LoginDenited;
                                 }
                                 if (i > 1)
                                 {
-                                    return LoginReturns.MultipleUserError;
+                                    return ErrorReturns.MultipleUserError;
                                 }
                             }
                         }
@@ -129,11 +129,11 @@ namespace Lessoner
                     }
                     catch (NullReferenceException)
                     {
-                        return LoginReturns.LoginDenited;
+                        return ErrorReturns.LoginDenited;
                     }
                     catch (Exception ex)
                     {
-                        return LoginReturns.ExeptionError;
+                        return ErrorReturns.ExeptionError;
                     }
                 }
             }

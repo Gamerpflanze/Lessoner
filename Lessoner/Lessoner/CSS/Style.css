@@ -1,4 +1,5 @@
 ﻿body {
+    padding-top:50px;
 }
 
 #UserNameInput
@@ -23,4 +24,27 @@
 .tableCenter
 {
     text-align:center;
+}
+
+.LessonerControlTextBox
+{
+    max-width:128px;
+}
+
+.LessonerButtonLeft
+{
+    border-right:none;
+    border-top-right-radius:0;
+    border-bottom-right-radius:0;
+}
+.LessonerButtonRight
+{
+    border-left:none;
+    border-top-left-radius:0;
+    border-bottom-left-radius:0;
+}
+
+#ErrorText
+{
+    font-weight:normal;
 }
