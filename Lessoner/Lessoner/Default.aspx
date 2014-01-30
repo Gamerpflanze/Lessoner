@@ -31,6 +31,7 @@
             <li><a href="about.aspx">Über den Lessoner</a></li>
             <li><a href="contact.aspx">Kontakt</a></li>
             <li id="display" style="display:none"><a href="Lessoner.aspx">Stundenplan</a></li>
+              
           </ul>
           <form class="navbar-form navbar-right" role="form" id="LoginForm">
             <span class="label label-danger" id="LoginError"></span>
@@ -83,7 +84,6 @@
         <p>&copy; Von Florian Fürsenberg und Pascal Gönnewicht</p>
       </footer>
     </div>
-    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="../../dist/js/bootstrap.min.js"></script>
   </body>
 </html>
