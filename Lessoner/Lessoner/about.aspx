@@ -15,7 +15,10 @@
     <script src="Javascript/LoginScript.js"></script>
 </head>
     <body onload="CheckLoggedin('about.aspx')">
-
+    <div class="alert alert-danger alert-dismissable" id="ErrorDisplay" style="display:none">
+        <button type="button" class="close" aria-hidden="true" onclick="CloseError()">&times;</button>
+        <strong>Fehler: </strong> <label id="ErrorText"></label>
+    </div>
     <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
       <div class="container">
         <div class="navbar-header">
@@ -55,8 +58,8 @@
         <p><a class="btn btn-primary btn-lg" role="button">Mehr erfahren »</a></p>
       </div>
     </div>
-
-    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="../../dist/js/bootstrap.min.js"></script>
+    <script src="Javascript/Global.js"></script>
+
   </body>
 </html>

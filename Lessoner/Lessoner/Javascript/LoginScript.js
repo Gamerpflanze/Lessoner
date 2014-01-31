@@ -1,5 +1,6 @@
 ﻿/// <reference path="../JQuery/jquery-1.10.2.js" />
 /// <reference path="../Bootstrap/js/bootstrap.js" />
+/// <reference path="Global.js" />
 
 function CheckLoggedin(Page)
 {
@@ -23,7 +24,7 @@ function CheckLoggedin(Page)
             }
         },
         error: function (message) {
-            LoginError('2002');
+            DisplayErrorCode('2002');
         }
     });
 }
@@ -51,26 +52,24 @@ function SendLoginData(Page)
             dataType:"json",
             data: JSON.stringify({ 'Username': Username, 'Passwort': Passwort }),
             success: function (data) { LoginRecieve(data) },
-            error: function (message) { LoginError('2001') }
+            error: function (message) {DisplayErrorCode('2001') }
         });
     }
 }
 function LoginRecieve(data)
 {
     //TODO: Fehlerausgabe und weiterleitung
-    jQuery("#LoginError").removeAttr("class");
-    jQuery("#LoginError").attr("class", "label label-danger");
     if(data.d == "LoginDenited")
     {
-        jQuery("#LoginError").text("Benutzername oder Passwort falsch");
+        DisplayError("Benutzername oder Passwort falsch");
     }
     else if (data.d == "ExeptionError")
     {
-        jQuery("#LoginError").text("Es ist ein Fehler aufgetreten (1001)");
+        DisplayErrorCode("1001");
     }
     else if(data.d == "MultipleUserError")
     {
-        jQuery("#LoginError").text("Es ist ein Fehler aufgetreten (1002)");
+        DisplayErrorCode("1002");
     }
     else
     {

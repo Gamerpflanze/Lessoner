@@ -16,7 +16,7 @@
             <button type="button" class="close" aria-hidden="true" onclick="CloseError()">&times;</button>
             <strong>Fehler: </strong> <label id="ErrorText"></label>
         </div>
-    <!---------------------------------------------->
+        <!---------------------------------------------->
     <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
       <div class="container">
         <div class="navbar-header">

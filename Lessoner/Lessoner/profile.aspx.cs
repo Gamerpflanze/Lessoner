@@ -15,18 +15,18 @@ namespace Lessoner
 
         }
         [WebMethod]
-        public static string[] information()
+        public static string[] informations()
         {
-            string[] informations = new string[9];
-            informations[0] = StoredVars.Objects.Title;
-            informations[1] = StoredVars.Objects.Vorname;
-            informations[2] = StoredVars.Objects.Nachname;
-            informations[3] = StoredVars.Objects.Strasse;
-            informations[4] = StoredVars.Objects.HSN;
-            informations[5] = StoredVars.Objects.PLZ;
-            informations[6] = StoredVars.Objects.Ort;
+            string[] information = new string[9];
+            information[0] = StoredVars.Objects.Title;
+            information[1] = StoredVars.Objects.Vorname;
+            information[2] = StoredVars.Objects.Nachname;
+            information[3] = StoredVars.Objects.Strasse;
+            information[4] = StoredVars.Objects.HSN;
+            information[5] = StoredVars.Objects.PLZ;
+            information[6] = StoredVars.Objects.Ort;
 
-            return informations;
+            return information;
         }
     }
 }
