@@ -11,6 +11,9 @@ namespace Lessoner
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            Response.Clear();
+            Response.StatusCode = 403;
+            Response.End(); 
         }
         [WebMethod]
         public static string CheckLoggedin()
@@ -35,7 +38,7 @@ namespace Lessoner
         {
             if (StoredVars.Objects.Loggedin)
             {
-                if (StoredVars.Objects.Rights >= 4)
+                if (StoredVars.Objects.Rights["lessonerbuilder"]["permission"])
                 {
                     dynamic[] Return = new dynamic[1];
                     Return[0] = new dynamic[6];

@@ -8,12 +8,15 @@ namespace Lessoner.SQL
     public static class Statements
     {
         /// <summary>
-        /// Gibt die Rechte und die ID des Benutzers zurück. @Email = die Email, @Passwort = Das Gehashte Passwort in einer länge von 16byte
+        /// Gibt die Rechte und die ID des Benutzers zurück. @Email = die Email, @Passwort = Das mit SHA-1 Gehashte Passwort in einer länge von 20byte
         /// </summary>
-        public const string GetUserRights = @"SELECT r.ID as RechteID, a.ID as LoginID FROM tbanmeldung as a
-                                            JOIN tbrechte as r
-                                            ON r.ID = a.RechteID
-                                            WHERE Email=@Email AND Passwort = @Passwort";
+        public const string GetUserRights = @"SELECT a.ID as LoginID, b.`Group` as RechtGruppe, b.Name as RechtName,r.Wert as RechtWert
+                                                FROM tbanmeldung as a
+                                                JOIN tbrechtewert as r
+                                                ON r.AnmeldungID  = a.ID
+                                                JOIN tbrechtebeschreibung as b
+                                                ON b.ID = r.RechtID
+                                                WHERE a.Email=@Email AND a.Passwort = @Passwort";
 
         /// <summary>
         /// Gibt die Informationen eines Lehrers Zurück. @LoginID = Die Anmelde ID des Lehrers
