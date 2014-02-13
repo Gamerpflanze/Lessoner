@@ -13,7 +13,10 @@
     <link href="CSS/Style.css" rel="stylesheet" />
 </head>
     <body onload="CheckLoggedin('Lessoner.aspx')">
-
+    <div class="alert alert-danger alert-dismissable" id="ErrorDisplay" style="display:none">
+        <button type="button" class="close" aria-hidden="true" onclick="CloseError()">&times;</button>
+        <strong>Fehler: </strong> <label id="ErrorText"></label>
+    </div>
     <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
       <div class="container">
         <div class="navbar-header">
@@ -45,13 +48,12 @@
       </div>
     </div>
 
-    <div class="jumbotron">
       <div class="container">
-        <h1>Herzlich Willkommen!</h1>
-        <p>Der “Lessoner” dient dazu einen Stundenplan zu erstellen auf den Schüler und Lehrer Zugriff haben.
-             Des weiteren lassen sich Hausaufgaben in den Stundenplan eintragen die wiederum von den Schülern abgefragt werden können.
-             So kann man keine Hausaufgaben mehr “vergessen”.</p>
-        <p><a class="btn btn-primary btn-lg" role="button">Mehr erfahren »</a></p>
+
+        <p><a class="btn btn-primary btn-lg" role="button"><< Vorheriger Stundenplan</a>
+           <a class="btn btn-primary btn-lg" role="button">Nächster Stundenplan >></a>
+        </p>
+        <p></p>
 
         <table class="table table-bordered">
             <thead>
@@ -74,7 +76,6 @@
       </table>
 
       </div>
-    </div>
     <script src="JQuery/jquery-1.10.2.js"></script>
     <script src="Bootstrap/js/bootstrap.js"></script>
     <script src="Javascript/LoginScript.js"></script>

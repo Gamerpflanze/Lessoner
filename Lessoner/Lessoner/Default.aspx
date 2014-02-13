@@ -15,6 +15,10 @@
     <script src="Javascript/LoginScript.js"></script>
 </head>
     <body onload="CheckLoggedin('Default.aspx')">
+    <div class="alert alert-danger alert-dismissable" id="ErrorDisplay" style="display:none">
+        <button type="button" class="close" aria-hidden="true" onclick="CloseError()">&times;</button>
+        <strong>Fehler: </strong> <label id="ErrorText"></label>
+    </div>
     <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
       <div class="container">
         <div class="navbar-header">
@@ -31,6 +35,7 @@
             <li><a href="about.aspx">Über den Lessoner</a></li>
             <li><a href="contact.aspx">Kontakt</a></li>
             <li id="display" style="display:none"><a href="Lessoner.aspx">Stundenplan</a></li>
+              
           </ul>
           <form class="navbar-form navbar-right" role="form" id="LoginForm">
             <span class="label label-danger" id="LoginError"></span>
@@ -83,7 +88,6 @@
         <p>&copy; Von Florian Fürsenberg und Pascal Gönnewicht</p>
       </footer>
     </div>
-    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="../../dist/js/bootstrap.min.js"></script>
   </body>
 </html>

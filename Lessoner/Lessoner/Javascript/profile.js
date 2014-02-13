@@ -12,7 +12,7 @@ function information()
 {
     $.ajax({
         type: "POST",
-        url: "profile.aspx/information",
+        url: "profile.aspx/informations",
         async: false,
         contentType: "application/json; charset=utf-8;",
         dataType: "json",
