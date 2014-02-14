@@ -21,6 +21,8 @@ namespace Lessoner.SQL
         /// <summary>
         /// Gibt die Informationen eines Lehrers Zurück. @LoginID = Die Anmelde ID des Lehrers
         /// </summary>
+        /// 
+        //TODO: Florian! Datum für tbStundenplan!
         public const string GetTeacherInfos = @"SELECT l.ID, a.Email, l.Titel, l.Vorname, l.Name, l.Strasse, l.Hausnummer, l.PLZ, l.Ort, l.KlasseID FROM tbanmeldung as a
                                                 JOIN tblehrer as l
                                                 ON l.AnmeldungID = a.ID
@@ -31,17 +33,19 @@ namespace Lessoner.SQL
                                                 ON s.AnmeldungID = a.ID
                                                 WHERE a.ID = @LoginID";
 
-        public const string GetLessonerEdit = @"SELECT t.ID as TagID, fi.ID as FachInfoID, fi.Stunde_Beginn, fi.Stunde_Ende, f.Name, f.NameKurz FROM tbKlasse as k
-                                                JOIN tbStundenplan as st ON st.KlasseID = k.ID
-                                                JOIN tbTage as t ON t.StundenplanID = st.ID
-                                                JOIN tbFachinfo as fi ON fi.TagID = t.ID
-                                                JOIN tbFaecher as f ON fi.FachID = f.ID
-                                                WHERE k.id = @KlasseID
-                                                ORDER BY TagID, Stunde_Beginn";
 
-        public const string CountLessoner = @"SELECT COUNT(s.ID) as StundenplanAnzahl FROM tbStundenplan as s
-                                              JOIN tbKlasse as k ON k.ID = s.KlasseID
-                                              WHERE k.ID = @KlasseID AND s.Datum = @Datum";
+        public const string SetAnmeldung = @"INSERT INTO tbanmeldung (EMail, Passwort)
+                                             VALUES (@EMail, @Passwort)";
+
+        //TODO: Ausprobieren ob folgendes Skript funktioniert!
+        public const string SetStudent = @"INSERT INTO tbschueler (Vorname, Name, Strasse, Hausnummer, PLZ, Ort, KlasseID, AnmeldungID)
+                                           VALUES (@Vorname, @Name, @Strasse, @Hausnummer, @PLZ, @Ort, @KlasseID, SELECT ID
+																							                      FROM tbanmeldung
+																							                      WHERE Email = @Email)	";
+
+        public const string SetClass = @"INSERT INTO tbklasse (Name)
+                                         VALUES (@Name)";
+
 
 
 
