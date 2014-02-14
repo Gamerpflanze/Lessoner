@@ -9,7 +9,12 @@ namespace Lessoner
     {
         public string NameLong = "";
         public string NameShot = "";
-        public string Room = "";
         public int ID = -1;
+        public int TagInfoID = -1;
+        public string Information = "";
+        public int FachModID = -1;
+        public bool FindetStatt = false;
+        public int StundeBeginn = -1;
+        public int StundeEnde = -1;
     }
 }

@@ -43,7 +43,7 @@ namespace Lessoner
             {
                 if (StoredVars.Objects.Rights["lessonerbuilder"]["permission"])
                 {
-                    dynamic[] Return = new dynamic[1];
+                    dynamic[] Return = new dynamic[2];
                     Return[0] = new dynamic[6];
                     DateTime Date = DateTime.Now.Date;
                     Date = Date.AddDays(-((double)HelperMethods.DayOfWeekToNumber(Date.DayOfWeek) - 1));
@@ -53,6 +53,7 @@ namespace Lessoner
                         Date = Date.AddDays(7);
                     }
                     //using()
+                    Return[1] = GlobalWebMethods.GetLessonerBuilder(1, DateTime.Parse(Return[0][0]));
                     return Return;
                 }
                 else

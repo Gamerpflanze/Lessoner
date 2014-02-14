@@ -46,9 +46,23 @@ namespace Lessoner.SQL
         public const string SetClass = @"INSERT INTO tbklasse (Name)
                                          VALUES (@Name)";
 
+        public const string GetLessonerBuilder = @"SELECT ti.ID as TagInfoID, t.Information, fi.ID as FachID, f.Name, f.NameKurz, fm.ID as FachModID, t.FindetStatt, fi.Stunde_Beginn, fi.Stunde_Ende FROM tbklasse as k
+                                                   JOIN tbstundenplan as s ON s.KlasseID = k.ID
+                                                   JOIN tbtage as t ON t.StundenplanID = s.ID
+                                                   JOIN tbtaginfo as ti ON ti.ID = t.TagInfoID
+                                                   Left JOIN tbfachinfo as fi ON t.ID = fi.TagID
+                                                   Left JOIN tbfaecher as f ON f.ID = fi.FachID
+                                                   Left JOIN tbfachmod as fm ON fi.FachModID = fm.ID
+                                                   WHERE k.ID = 1
+                                                   ORDER BY t.ID";
 
+        public const string GetClasses = @"SELECT * FROM tbKlasse AS k ORDER BY k.Name";
 
+        public const string CountLessoner = @"SELECT COUNT(s.ID) as Anzahl FROM tbklasse as k
+                                              JOIN tbstundenplan as s ON k.ID = s.KlasseID
+                                              WHERE k.ID = @KlasseID AND s.Datum = @Datum";
 
+        public const string GetFaecherverteilung = @"SELECT * FROM tbfaecherverteilung";
 
 
 
