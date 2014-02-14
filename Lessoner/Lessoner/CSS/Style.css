@@ -29,6 +29,7 @@
 .LessonerControlTextBox
 {
     max-width:128px;
+    cursor:default !important;
 }
 
 .LessonerButtonLeft
@@ -46,8 +47,4 @@
 #ErrorText
 {
     font-weight:normal;
-}
-#WeekBegin
-{
-    cursor:default;
 }
