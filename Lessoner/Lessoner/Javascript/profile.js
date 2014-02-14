@@ -19,7 +19,7 @@ function getdata() {
             DisplayErrorCode(2004)
         }
     });
-}   //TODO: getprofiledata auf dem Server erstellen zum Daten abfragen Pascal macht das :D
+}   //TODO: getprofiledata auf dem Server erstellen zum Daten abfragen Pascal macht das :D !GetStudentInfos!
 //Data\ProfileImages
 
 function information() {

@@ -21,6 +21,8 @@ namespace Lessoner.SQL
         /// <summary>
         /// Gibt die Informationen eines Lehrers Zurück. @LoginID = Die Anmelde ID des Lehrers
         /// </summary>
+        /// 
+        //TODO: Florian! Datum für tbStundenplan!
         public const string GetTeacherInfos = @"SELECT l.ID, a.Email, l.Titel, l.Vorname, l.Name, l.Strasse, l.Hausnummer, l.PLZ, l.Ort, l.KlasseID FROM tbanmeldung as a
                                                 JOIN tblehrer as l
                                                 ON l.AnmeldungID = a.ID
@@ -31,6 +33,18 @@ namespace Lessoner.SQL
                                                 ON s.AnmeldungID = a.ID
                                                 WHERE a.ID = @LoginID";
 
+
+        public const string SetAnmeldung = @"INSERT INTO tbanmeldung (EMail, Passwort)
+                                             VALUES (@EMail, @Passwort)";
+
+        //TODO: Ausprobieren ob folgendes Skript funktioniert!
+        public const string SetStudent = @"INSERT INTO tbschueler (Vorname, Name, Strasse, Hausnummer, PLZ, Ort, KlasseID, AnmeldungID)
+                                           VALUES (@Vorname, @Name, @Strasse, @Hausnummer, @PLZ, @Ort, @KlasseID, SELECT ID
+																							                      FROM tbanmeldung
+																							                      WHERE Email = @Email)	";
+
+        public const string SetClass = @"INSERT INTO tbklasse (Name)
+                                         VALUES (@Name)";
 
 
 
