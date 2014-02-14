@@ -58,7 +58,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="CSS\about.aspx" />
+    <Content Include="about.aspx" />
     <Content Include="Base.aspx" />
     <Content Include="Bootstrap\fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Bootstrap\fonts\glyphicons-halflings-regular.ttf" />
@@ -100,11 +100,11 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CSS\about.aspx.cs">
+    <Compile Include="about.aspx.cs">
       <DependentUpon>about.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="CSS\about.aspx.designer.cs">
+    <Compile Include="about.aspx.designer.cs">
       <DependentUpon>about.aspx</DependentUpon>
     </Compile>
     <Compile Include="Base.aspx.cs">
