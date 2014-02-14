@@ -136,5 +136,6 @@ namespace Lessoner
             StoredVars.Objects.Loggedin = true;
             return StoredVars.Objects.Vorname + " " + StoredVars.Objects.Nachname;
         }
+        //public static 
     }
 }

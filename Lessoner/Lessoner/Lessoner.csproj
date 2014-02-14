@@ -115,6 +115,7 @@
     <Compile Include="Code\Enums.cs" />
     <Compile Include="Code\GlobalWebMethods.cs" />
     <Compile Include="Code\HelperMethods.cs" />
+    <Compile Include="Code\Lession.cs" />
     <Compile Include="Code\StoredVars.cs" />
     <Compile Include="contact.aspx.cs">
       <DependentUpon>contact.aspx</DependentUpon>

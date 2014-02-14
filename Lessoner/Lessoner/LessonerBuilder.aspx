@@ -51,7 +51,7 @@
         <div class="container">
             <div class="input-group">
                 <button class="btn btn-default LessonerButtonLeft" id="LastDate" onclick="LastDate()" disabled="disabled"><span class="glyphicon glyphicon-arrow-left"></span></button>
-                <input type="text" class="form-control LessonerControlTextBox" id="WeekBegin"/>
+                <input type="text" class="form-control LessonerControlTextBox" id="WeekBegin" disabled="disabled"/>
                 <button class="btn btn-default LessonerButtonRight" id="NextDate"onclick="NextDate()"><span class="glyphicon glyphicon-arrow-right"></span></button>
             </div>
         </div>
