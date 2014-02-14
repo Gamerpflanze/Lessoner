@@ -26,13 +26,13 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">Lessoner</a>
             </div>
             <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
-                    <li><a href="#">Hauptseite</a></li>
+                    <li><a href="default.aspx">Hauptseite</a></li>
                     <li><a href="about.aspx">Über den Lessoner</a></li>
                     <li><a href="kontakt.aspx">Kontakt</a></li>
+                    <li class="active"><a href="Lessoner.aspx">Stundenplan</a></li>
                 </ul>
                 <form class="navbar-form navbar-right" role="form" id="LoginForm">
                     <span class="label label-danger" id="LoginError"></span>
@@ -53,7 +53,7 @@
         <div class="container">
             <div class="input-group">
                 <button class="btn btn-default LessonerButtonLeft" id="LastDate" onclick="LastDate()" disabled="disabled"><span class="glyphicon glyphicon-arrow-left"></span></button>
-                <input type="text" class="form-control LessonerControlTextBox" id="WeekBegin" disabled/>
+                <input type="text" class="form-control LessonerControlTextBox" id="WeekBegin" disabled />
                 <button class="btn btn-default LessonerButtonRight" id="NextDate" onclick="NextDate()"><span class="glyphicon glyphicon-arrow-right"></span></button>
                 <p></p>
             </div>
@@ -81,10 +81,12 @@
                 </tbody>
             </table>
 
-        </div></div>
-        <script src="JQuery/jquery-1.10.2.js"></script>
-        <script src="Bootstrap/js/bootstrap.js"></script>
-        <script src="Javascript/LoginScript.js"></script>
-        <script src="Javascript/Lessoner.js"></script>
+        </div>
+    </div>
+    <script src="Javascript/LessonerBuilder.js"></script>
+    <script src="JQuery/jquery-1.10.2.js"></script>
+    <script src="Bootstrap/js/bootstrap.js"></script>
+    <script src="Javascript/LoginScript.js"></script>
+    <script src="Javascript/Lessoner.js"></script>
 </body>
 </html>
