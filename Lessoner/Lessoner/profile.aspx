@@ -10,6 +10,7 @@
     </title>
     <link href="Bootstrap/css/bootstrap-theme.css" rel="stylesheet" />
     <link href="Bootstrap/css/bootstrap.css" rel="stylesheet" />
+    <link href="CSS/Style.css" rel="stylesheet" />
     <script src="JQuery/jquery-1.10.2.js"></script>
     <script src="Bootstrap/js/bootstrap.js"></script>
     <script src="Javascript/LoginScript.js"></script>
@@ -50,28 +51,14 @@
     </div>
 
     <div class="container">
-        <div class="row">
-        <div class="col-md-4">
-          <h2>Stundenplan</h2>
-          <p> - Bild eines Stundenplanes - <br />
-              Behalte den Überblick über deine Stunden.
-               Fällt morgen die letzte Stunde aus oder solltest du lieber deine Sportsachen einpacken, hier erfährst du es.</p>
-        </div>
-        <div class="col-md-4">
-          <h2>Hausaufgaben</h2>
-          <p>Schnell noch Englisch machen und dann Mathe Seite 166, oder war es doch 168?
-               Ein Blick in die jeweilige Stunde hilft dir weiter und dein Hund muss nicht als Sündenbock enden.</p>
-       </div>
-        <div class="col-md-4">
-          <h2>Austausch</h2>
-          <p>Mal einen Tag nicht da gewesen und dadurch wichtigen Stoff verpasst?
-              Kein Problem! Dein Lehrer kann für dich und alle anderen Schüler Dokumente zum nachlesen bereitstellen.
-              hallo!
-        <label id="username"></label>
-          </p>
-        </div>
-      </div>
-        
+        Hallo Welt!1<br />
+        Hallo Welt!2<br />
+        Hallo Welt!3<br />
+        Hallo Welt!4<br />
+        Hallo Welt!5<br />
+        Hallo Welt!6<br />
+        Hallo Welt!7<br />
+        Hallo Welt!8<br />
 
     </div>
 
