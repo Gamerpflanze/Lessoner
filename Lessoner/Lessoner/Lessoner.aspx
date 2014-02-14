@@ -30,7 +30,7 @@
             </div>
             <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
-                    <li class="active"><a href="#">Hauptseite</a></li>
+                    <li><a href="#">Hauptseite</a></li>
                     <li><a href="about.aspx">Über den Lessoner</a></li>
                     <li><a href="kontakt.aspx">Kontakt</a></li>
                 </ul>
@@ -49,13 +49,13 @@
     </div>
 
 
-
     <div class="page-header">
         <div class="container">
             <div class="input-group">
                 <button class="btn btn-default LessonerButtonLeft" id="LastDate" onclick="LastDate()" disabled="disabled"><span class="glyphicon glyphicon-arrow-left"></span></button>
-                <input type="text" class="form-control LessonerControlTextBox" id="WeekBegin" />
+                <input type="text" class="form-control LessonerControlTextBox" id="WeekBegin" disabled/>
                 <button class="btn btn-default LessonerButtonRight" id="NextDate" onclick="NextDate()"><span class="glyphicon glyphicon-arrow-right"></span></button>
+                <p></p>
             </div>
         </div>
 
@@ -81,10 +81,10 @@
                 </tbody>
             </table>
 
-        </div>
-    <script src="JQuery/jquery-1.10.2.js"></script>
-    <script src="Bootstrap/js/bootstrap.js"></script>
-    <script src="Javascript/LoginScript.js"></script>
-    <script src="Javascript/Lessoner.js"></script>
+        </div></div>
+        <script src="JQuery/jquery-1.10.2.js"></script>
+        <script src="Bootstrap/js/bootstrap.js"></script>
+        <script src="Javascript/LoginScript.js"></script>
+        <script src="Javascript/Lessoner.js"></script>
 </body>
 </html>
