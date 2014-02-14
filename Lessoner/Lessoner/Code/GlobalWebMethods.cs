@@ -23,6 +23,7 @@ namespace Lessoner
         public static string GetLoginData(string Username, string Passwort)
         {
             //TODO: Datenbank abfrage für login
+            StoredVars.Objects = new StoredVars();
             using (MySqlConnection con = new MySqlConnection("Server=127.0.0.1;Database=dbLessoner;Uid=root;Pwd=;"))
             {
                 using (MySqlCommand cmd = con.CreateCommand())
@@ -37,24 +38,18 @@ namespace Lessoner
                         con.Open();
                         using (MySqlDataReader reader = cmd.ExecuteReader())
                         {
-                            int i = 0;//Zur Überprüfung ob EIN(!!!!) login mit diesem benutzer existiert
                             while (reader.Read())
                             {
-                                i++;
-                                StoredVars.Objects.Rights = Convert.ToInt32(reader["RechteID"]);
+                                StoredVars.AddRight((string)reader["RechtGruppe"], (string)reader["RechtName"], (bool)reader["RechtWert"]);
                                 StoredVars.Objects.ID = Convert.ToInt32(reader["LoginID"]);
                             }
-                            if (i == 0)
+                            if (StoredVars.Objects.ID==-1)
                             {
                                 return ErrorReturns.LoginDenited;
                             }
-                            if (i > 1)
-                            {
-                                return ErrorReturns.MultipleUserError;
-                            }
                         }
 
-                        if (StoredVars.Objects.Rights >= 2)//TODO:rootlogin
+                        if (StoredVars.Objects.Rights["login"]["isteacher"])//TODO:rootlogin
                         {
                             //Lehrer
                             cmd.CommandText = SQL.Statements.GetTeacherInfos;

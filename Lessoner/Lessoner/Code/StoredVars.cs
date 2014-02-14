@@ -11,7 +11,7 @@ namespace Lessoner
     public class StoredVars
     {
         //Variablen nicht statisch als public deklarieren
-        public int Rights = -1;
+        public Dictionary<string, Dictionary<string, bool>> Rights = new Dictionary<string,Dictionary<string,bool>>();
         public int ID = -1;
         public string Vorname = "";
         public string Nachname = "";
@@ -37,6 +37,14 @@ namespace Lessoner
             {
                 HttpContext.Current.Session["Session"] = value;
             }
+        }
+        public static void AddRight(string Group, string Name, bool Value)
+        {
+            if (!StoredVars.Objects.Rights.ContainsKey(Group))
+            {
+                StoredVars.Objects.Rights.Add(Group, new Dictionary<string, bool>());
+            }
+            StoredVars.Objects.Rights[Group].Add(Name, Value);
         }
     }
 }
