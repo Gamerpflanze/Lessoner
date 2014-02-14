@@ -48,35 +48,40 @@
         </div>
     </div>
 
-    <div class="container">
 
-        <p>
-            <a class="btn btn-primary btn-lg" role="button"><< Vorheriger Stundenplan</a>
-            <a class="btn btn-primary btn-lg" role="button">Nächster Stundenplan >></a>
-        </p>
-        <p></p>
 
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th class="tableStunde">Stunde</th>
-                    <th class="tableTag">Montag</th>
-                    <th class="tableTag">Dienstag</th>
-                    <th class="tableTag">Mittwoch</th>
-                    <th class="tableTag">Donnerstag</th>
-                    <th class="tableTag">Freitag</th>
-                </tr>
-            </thead>
-            <tbody id="Lessoner">
+    <div class="page-header">
+        <div class="container">
+            <div class="input-group">
+                <button class="btn btn-default LessonerButtonLeft" id="LastDate" onclick="LastDate()" disabled="disabled"><span class="glyphicon glyphicon-arrow-left"></span></button>
+                <input type="text" class="form-control LessonerControlTextBox" id="WeekBegin" />
+                <button class="btn btn-default LessonerButtonRight" id="NextDate" onclick="NextDate()"><span class="glyphicon glyphicon-arrow-right"></span></button>
+            </div>
+        </div>
 
-                <tr>
-                    <td class="tableCenter">1</td>
-                </tr>
+        <div class="container">
 
-            </tbody>
-        </table>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th class="tableStunde">Stunde</th>
+                        <th class="tableTag">Montag</th>
+                        <th class="tableTag">Dienstag</th>
+                        <th class="tableTag">Mittwoch</th>
+                        <th class="tableTag">Donnerstag</th>
+                        <th class="tableTag">Freitag</th>
+                    </tr>
+                </thead>
+                <tbody id="Lessoner">
 
-    </div>
+                    <tr>
+                        <td class="tableCenter"></td>
+                    </tr>
+
+                </tbody>
+            </table>
+
+        </div>
     <script src="JQuery/jquery-1.10.2.js"></script>
     <script src="Bootstrap/js/bootstrap.js"></script>
     <script src="Javascript/LoginScript.js"></script>

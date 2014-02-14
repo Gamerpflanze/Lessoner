@@ -5,9 +5,15 @@
 
 function addrow()
 {
-    //TODO: Flo macht die Arbeit :D
+    //TODO: jQuery Script für die Buttons des Stundenplanes erstellen
 
 
+
+
+
+
+
+    //TODO: jQuery Script für den Stundenplan des jeweiligen Datums anzeigen
 
 
 
