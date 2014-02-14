@@ -96,6 +96,7 @@
     <Content Include="LessonerBuilder.aspx" />
     <Content Include="profile.aspx" />
     <Content Include="Programm\Benutzererstellung.exe" />
+    <Content Include="TeacherEinst.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -159,6 +160,13 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SQL\Statements.cs" />
+    <Compile Include="TeacherEinst.aspx.cs">
+      <DependentUpon>TeacherEinst.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TeacherEinst.aspx.designer.cs">
+      <DependentUpon>TeacherEinst.aspx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ErrorPages\Pictures\" />
