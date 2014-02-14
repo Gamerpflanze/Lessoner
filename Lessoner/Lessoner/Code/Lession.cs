@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace Lessoner.Code
+namespace Lessoner
 {
     public class Lession
     {

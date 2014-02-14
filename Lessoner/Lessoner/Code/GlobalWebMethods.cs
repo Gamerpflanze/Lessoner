@@ -136,6 +136,9 @@ namespace Lessoner
             StoredVars.Objects.Loggedin = true;
             return StoredVars.Objects.Vorname + " " + StoredVars.Objects.Nachname;
         }
-        //public static 
+        public static List<List<Lession>> GetLessoner()
+        {
+            return new List<List<Lession>>();
+        }
     }
 }
