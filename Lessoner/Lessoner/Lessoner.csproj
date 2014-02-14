@@ -64,6 +64,7 @@
     <Content Include="Bootstrap\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="Bootstrap\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="contact.aspx" />
+    <Content Include="Dokumente\dbLessoner.sql" />
     <Content Include="Dokumente\Fehlermeldungen.ods" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
