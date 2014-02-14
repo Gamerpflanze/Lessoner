@@ -136,12 +136,14 @@ namespace Lessoner
             StoredVars.Objects.Loggedin = true;
             return StoredVars.Objects.Vorname + " " + StoredVars.Objects.Nachname;
         }
-        public static List<List<Lession>> GetLessoner()
+        public static List<List<Lession>> GetLessoner(int KlasseID)
         {
             using (MySqlConnection con = new MySqlConnection("Server=127.0.0.1;Database=dbLessoner;Uid=root;Pwd=;"))
             {
                 using(MySqlCommand cmd = new MySqlCommand())
                 {
+                    cmd.CommandText = SQL.Statements.GetLessoner;
+                    cmd.Parameters.AddWithValue("@SchuelerID", KlasseID);
 
                 }
             }

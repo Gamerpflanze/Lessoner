@@ -31,7 +31,17 @@ namespace Lessoner.SQL
                                                 ON s.AnmeldungID = a.ID
                                                 WHERE a.ID = @LoginID";
 
+        public const string GetLessonerEdit = @"SELECT t.ID as TagID, fi.ID as FachInfoID, fi.Stunde_Beginn, fi.Stunde_Ende, f.Name, f.NameKurz FROM tbKlasse as k
+                                                JOIN tbStundenplan as st ON st.KlasseID = k.ID
+                                                JOIN tbTage as t ON t.StundenplanID = st.ID
+                                                JOIN tbFachinfo as fi ON fi.TagID = t.ID
+                                                JOIN tbFaecher as f ON fi.FachID = f.ID
+                                                WHERE k.id = @KlasseID
+                                                ORDER BY TagID, Stunde_Beginn";
 
+        public const string CountLessoner = @"SELECT COUNT(s.ID) as StundenplanAnzahl FROM tbStundenplan as s
+                                              JOIN tbKlasse as k ON k.ID = s.KlasseID
+                                              WHERE k.ID = @KlasseID AND s.Datum = @Datum";
 
 
 
