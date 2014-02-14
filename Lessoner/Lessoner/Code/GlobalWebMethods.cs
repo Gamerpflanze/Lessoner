@@ -47,6 +47,7 @@ namespace Lessoner
                             {
                                 return ErrorReturns.LoginDenited;
                             }
+                            StoredVars.Objects.Loggedin = true;
                         }
 
                         if (StoredVars.Objects.Rights["login"]["isteacher"])//TODO:rootlogin

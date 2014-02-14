@@ -11,9 +11,12 @@ namespace Lessoner
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            Response.Clear();
-            Response.StatusCode = 403;
-            Response.End(); 
+            if (!StoredVars.Objects.Loggedin || !StoredVars.Objects.Rights["lessonerbuilder"]["permission"])
+            {
+                Response.Clear();
+                Response.StatusCode = 403;
+                Response.End();
+            }
         }
         [WebMethod]
         public static string CheckLoggedin()
@@ -49,6 +52,7 @@ namespace Lessoner
                         Return[0][i] = Date.ToString("dd.MM.yyyy");
                         Date = Date.AddDays(7);
                     }
+                    using()
                     return Return;
                 }
                 else
