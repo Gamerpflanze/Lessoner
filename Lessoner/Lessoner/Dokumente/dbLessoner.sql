@@ -57,25 +57,52 @@ DELETE FROM `tbdateien`;
 DROP TABLE IF EXISTS `tbfachinfo`;
 CREATE TABLE IF NOT EXISTS `tbfachinfo` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
-  `Information` varchar(45) NOT NULL,
   `LehrerID` int(11) NOT NULL,
   `FachID` int(11) NOT NULL,
   `TagID` int(11) NOT NULL,
   `Stunde_Beginn` int(11) NOT NULL,
   `Stunde_Ende` int(11) NOT NULL,
+  `FachModID` int(11) DEFAULT NULL,
   PRIMARY KEY (`ID`),
   KEY `fkLehrer_idx` (`LehrerID`),
   KEY `fkFach_idx` (`FachID`),
   KEY `fk_tbFachinfo_tbTage_idx` (`TagID`),
+  KEY `fk_tbFachinfo_tbFachMod` (`FachModID`),
   CONSTRAINT `fkFach` FOREIGN KEY (`FachID`) REFERENCES `tbfaecher` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fkLehrer` FOREIGN KEY (`LehrerID`) REFERENCES `tblehrer` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_tbFachinfo_tbFachMod` FOREIGN KEY (`FachModID`) REFERENCES `tbfachmod` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_tbFachinfo_tbTage` FOREIGN KEY (`TagID`) REFERENCES `tbtage` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
--- Exportiere Daten aus Tabelle dblessoner.tbfachinfo: ~0 rows (ungefähr)
+-- Exportiere Daten aus Tabelle dblessoner.tbfachinfo: ~6 rows (ungefähr)
 DELETE FROM `tbfachinfo`;
 /*!40000 ALTER TABLE `tbfachinfo` DISABLE KEYS */;
+INSERT INTO `tbfachinfo` (`ID`, `LehrerID`, `FachID`, `TagID`, `Stunde_Beginn`, `Stunde_Ende`, `FachModID`) VALUES
+	(1, 7, 2, 1, 1, 2, 1),
+	(2, 7, 3, 1, 3, 3, 3),
+	(3, 8, 4, 3, 1, 3, 2),
+	(4, 7, 5, 5, 1, 3, 1),
+	(5, 8, 1, 8, 1, 3, 1),
+	(7, 7, 2, 10, 1, 3, 2);
 /*!40000 ALTER TABLE `tbfachinfo` ENABLE KEYS */;
+
+
+-- Exportiere Struktur von Tabelle dblessoner.tbfachmod
+DROP TABLE IF EXISTS `tbfachmod`;
+CREATE TABLE IF NOT EXISTS `tbfachmod` (
+  `ID` int(11) NOT NULL,
+  `Bezeichnung` varchar(32) NOT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Exportiere Daten aus Tabelle dblessoner.tbfachmod: ~3 rows (ungefähr)
+DELETE FROM `tbfachmod`;
+/*!40000 ALTER TABLE `tbfachmod` DISABLE KEYS */;
+INSERT INTO `tbfachmod` (`ID`, `Bezeichnung`) VALUES
+	(1, 'Findet statt'),
+	(2, 'Vertretung'),
+	(3, 'Entfällt');
+/*!40000 ALTER TABLE `tbfachmod` ENABLE KEYS */;
 
 
 -- Exportiere Struktur von Tabelle dblessoner.tbfaecher
@@ -83,12 +110,19 @@ DROP TABLE IF EXISTS `tbfaecher`;
 CREATE TABLE IF NOT EXISTS `tbfaecher` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `Name` varchar(45) NOT NULL,
+  `NameKurz` varchar(12) NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
--- Exportiere Daten aus Tabelle dblessoner.tbfaecher: ~0 rows (ungefähr)
+-- Exportiere Daten aus Tabelle dblessoner.tbfaecher: ~5 rows (ungefähr)
 DELETE FROM `tbfaecher`;
 /*!40000 ALTER TABLE `tbfaecher` DISABLE KEYS */;
+INSERT INTO `tbfaecher` (`ID`, `Name`, `NameKurz`) VALUES
+	(1, 'Mathe', 'M'),
+	(2, 'Deutsch', 'D'),
+	(3, 'Englisch', 'E'),
+	(4, 'Programmieren', 'PR'),
+	(5, 'Microcontrollertechnik', 'µC');
 /*!40000 ALTER TABLE `tbfaecher` ENABLE KEYS */;
 
 
@@ -99,13 +133,16 @@ CREATE TABLE IF NOT EXISTS `tbfaecherverteilung` (
   `Stunde` int(11) NOT NULL,
   `Uhrzeit` time NOT NULL,
   `Ende` time NOT NULL,
-  `GruppierungsNr` int(11) NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
--- Exportiere Daten aus Tabelle dblessoner.tbfaecherverteilung: ~0 rows (ungefähr)
+-- Exportiere Daten aus Tabelle dblessoner.tbfaecherverteilung: ~3 rows (ungefähr)
 DELETE FROM `tbfaecherverteilung`;
 /*!40000 ALTER TABLE `tbfaecherverteilung` DISABLE KEYS */;
+INSERT INTO `tbfaecherverteilung` (`ID`, `Stunde`, `Uhrzeit`, `Ende`) VALUES
+	(1, 1, '07:30:00', '08:15:00'),
+	(2, 2, '08:15:00', '09:00:00'),
+	(3, 3, '09:15:00', '10:00:00');
 /*!40000 ALTER TABLE `tbfaecherverteilung` ENABLE KEYS */;
 
 
@@ -120,9 +157,13 @@ CREATE TABLE IF NOT EXISTS `tbfaecherverteilungstundenplan` (
   CONSTRAINT `ZuordnungStundenplan` FOREIGN KEY (`StundenplanID`) REFERENCES `tbstundenplan` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Exportiere Daten aus Tabelle dblessoner.tbfaecherverteilungstundenplan: ~0 rows (ungefähr)
+-- Exportiere Daten aus Tabelle dblessoner.tbfaecherverteilungstundenplan: ~3 rows (ungefähr)
 DELETE FROM `tbfaecherverteilungstundenplan`;
 /*!40000 ALTER TABLE `tbfaecherverteilungstundenplan` DISABLE KEYS */;
+INSERT INTO `tbfaecherverteilungstundenplan` (`StundenplanID`, `FaecherveteilungID`) VALUES
+	(2, 1),
+	(2, 2),
+	(2, 3);
 /*!40000 ALTER TABLE `tbfaecherverteilungstundenplan` ENABLE KEYS */;
 
 
@@ -160,13 +201,14 @@ CREATE TABLE IF NOT EXISTS `tblehrer` (
   KEY `AnmeldungID_idx` (`AnmeldungID`),
   CONSTRAINT `AnmeldungID` FOREIGN KEY (`AnmeldungID`) REFERENCES `tbanmeldung` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `KlasseID` FOREIGN KEY (`KlasseID`) REFERENCES `tbklasse` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 -- Exportiere Daten aus Tabelle dblessoner.tblehrer: ~2 rows (ungefähr)
 DELETE FROM `tblehrer`;
 /*!40000 ALTER TABLE `tblehrer` DISABLE KEYS */;
 INSERT INTO `tblehrer` (`ID`, `Titel`, `Vorname`, `Name`, `Strasse`, `Hausnummer`, `PLZ`, `Ort`, `KlasseID`, `AnmeldungID`) VALUES
-	(7, NULL, 'Max', 'Mustermann', 'Musterstrasse', '1', '12345', 'Musterhausen', NULL, 4);
+	(7, NULL, 'Max', 'Mustermann', 'Musterstrasse', '1', '12345', 'Musterhausen', NULL, 4),
+	(8, NULL, 'Bla', 'Bla', 'Blastraße', '123', '54321', 'Nirgentwo', 1, 2);
 /*!40000 ALTER TABLE `tblehrer` ENABLE KEYS */;
 
 
@@ -200,7 +242,7 @@ CREATE TABLE IF NOT EXISTS `tbrechtewert` (
   PRIMARY KEY (`AnmeldungID`,`RechtID`),
   KEY `FK_tbrechtewert_tbrechtebeschreibung` (`RechtID`),
   CONSTRAINT `FK_tbrechtewert_tbanmeldung` FOREIGN KEY (`AnmeldungID`) REFERENCES `tbanmeldung` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `FK_tbrechtewert_tbrechtebeschreibung` FOREIGN KEY (`RechtID`) REFERENCES `tbrechtebeschreibung` (`iD`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `FK_tbrechtewert_tbrechtebeschreibung` FOREIGN KEY (`RechtID`) REFERENCES `tbrechtebeschreibung` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Exportiere Daten aus Tabelle dblessoner.tbrechtewert: ~4 rows (ungefähr)
@@ -252,11 +294,13 @@ CREATE TABLE IF NOT EXISTS `tbstundenplan` (
   PRIMARY KEY (`ID`),
   KEY `KlasseID_idx` (`KlasseID`),
   CONSTRAINT `Fk_KlasseID` FOREIGN KEY (`KlasseID`) REFERENCES `tbklasse` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
--- Exportiere Daten aus Tabelle dblessoner.tbstundenplan: ~0 rows (ungefähr)
+-- Exportiere Daten aus Tabelle dblessoner.tbstundenplan: ~1 rows (ungefähr)
 DELETE FROM `tbstundenplan`;
 /*!40000 ALTER TABLE `tbstundenplan` DISABLE KEYS */;
+INSERT INTO `tbstundenplan` (`ID`, `Klassename`, `Datum`, `KlasseID`, `FaecherverteilungID`) VALUES
+	(2, 'CI13V1', '2014-02-10', 1, 0);
 /*!40000 ALTER TABLE `tbstundenplan` ENABLE KEYS */;
 
 
@@ -267,17 +311,22 @@ CREATE TABLE IF NOT EXISTS `tbtage` (
   `TagInfoID` int(11) NOT NULL,
   `StundenplanID` int(11) NOT NULL,
   `FindetStatt` tinyint(1) NOT NULL,
-  `Information` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`ID`),
   KEY `fk_tbTage_tbStundenplan_idx` (`StundenplanID`),
   KEY `fk_tbTage_tbTagInfo_idx` (`TagInfoID`),
-  CONSTRAINT `fk_tbTage_tbStundenplan` FOREIGN KEY (`StundenplanID`) REFERENCES `tbstundenplan` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_tbTage_tbTagInfo` FOREIGN KEY (`TagInfoID`) REFERENCES `tbtaginfo` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  CONSTRAINT `fk_tnTage_tbTaginfo` FOREIGN KEY (`TagInfoID`) REFERENCES `tbtaginfo` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_tbTage_tbStundenplan` FOREIGN KEY (`StundenplanID`) REFERENCES `tbstundenplan` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
--- Exportiere Daten aus Tabelle dblessoner.tbtage: ~0 rows (ungefähr)
+-- Exportiere Daten aus Tabelle dblessoner.tbtage: ~5 rows (ungefähr)
 DELETE FROM `tbtage`;
 /*!40000 ALTER TABLE `tbtage` DISABLE KEYS */;
+INSERT INTO `tbtage` (`ID`, `TagInfoID`, `StundenplanID`, `FindetStatt`) VALUES
+	(1, 1, 2, 1),
+	(3, 2, 2, 1),
+	(5, 3, 2, 0),
+	(8, 5, 2, 1),
+	(10, 4, 2, 1);
 /*!40000 ALTER TABLE `tbtage` ENABLE KEYS */;
 
 
@@ -288,11 +337,17 @@ CREATE TABLE IF NOT EXISTS `tbtaginfo` (
   `Name` varchar(10) NOT NULL,
   `NameKurz` varchar(2) NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
--- Exportiere Daten aus Tabelle dblessoner.tbtaginfo: ~0 rows (ungefähr)
+-- Exportiere Daten aus Tabelle dblessoner.tbtaginfo: ~5 rows (ungefähr)
 DELETE FROM `tbtaginfo`;
 /*!40000 ALTER TABLE `tbtaginfo` DISABLE KEYS */;
+INSERT INTO `tbtaginfo` (`ID`, `Name`, `NameKurz`) VALUES
+	(1, 'Montag', 'Mo'),
+	(2, 'Dienstag', 'Di'),
+	(3, 'Mitwoch', 'Mi'),
+	(4, 'Donnerstag', 'Do'),
+	(5, 'Freitag', 'Fr');
 /*!40000 ALTER TABLE `tbtaginfo` ENABLE KEYS */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;

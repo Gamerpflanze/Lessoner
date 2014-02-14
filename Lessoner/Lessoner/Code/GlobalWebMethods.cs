@@ -138,6 +138,13 @@ namespace Lessoner
         }
         public static List<List<Lession>> GetLessoner()
         {
+            using (MySqlConnection con = new MySqlConnection("Server=127.0.0.1;Database=dbLessoner;Uid=root;Pwd=;"))
+            {
+                using(MySqlCommand cmd = new MySqlCommand())
+                {
+
+                }
+            }
             return new List<List<Lession>>();
         }
     }
