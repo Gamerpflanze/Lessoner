@@ -43,7 +43,7 @@ namespace Lessoner
                                 StoredVars.AddRight((string)reader["RechtGruppe"], (string)reader["RechtName"], (bool)reader["RechtWert"]);
                                 StoredVars.Objects.ID = Convert.ToInt32(reader["LoginID"]);
                             }
-                            if (StoredVars.Objects.ID==-1)
+                            if (StoredVars.Objects.ID == -1)
                             {
                                 return ErrorReturns.LoginDenited;
                             }
@@ -136,18 +136,108 @@ namespace Lessoner
             StoredVars.Objects.Loggedin = true;
             return StoredVars.Objects.Vorname + " " + StoredVars.Objects.Nachname;
         }
-        public static List<List<Lession>> GetLessoner(int KlasseID)
+        public static Lession[][] GetLessonerBuilder(int KlasseID, DateTime Date)
         {
+            
             using (MySqlConnection con = new MySqlConnection("Server=127.0.0.1;Database=dbLessoner;Uid=root;Pwd=;"))
             {
-                using(MySqlCommand cmd = new MySqlCommand())
+                using (MySqlCommand cmd = con.CreateCommand())
                 {
-                    //cmd.CommandText = SQL.Statements.GetLessoner;
-                    cmd.Parameters.AddWithValue("@SchuelerID", KlasseID);
+                    try
+                    {
+                        con.Open();
+                        cmd.CommandText = SQL.Statements.CountLessoner;
+                        cmd.Parameters.AddWithValue("@KlasseID", KlasseID);
+                        cmd.Parameters.AddWithValue("@Datum", Date.ToString("yyyy-MM-dd"));
+                        if (Convert.ToInt32(cmd.ExecuteScalar()) > 0)
+                        {
+                            List<Lession> LessionList = new List<Lession>();
+                            Lession[][] ReturnLessions = new Lession[5][];
+
+                            cmd.CommandText = SQL.Statements.GetLessonerBuilder;
+                            using (MySqlDataReader reader = cmd.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    Lession Current = new Lession();
+
+                                    if (DBNull.Value.Equals(reader["information"]))
+                                    {
+                                        Current.Information = Convert.ToString(reader["information"]);
+                                    }
+                                    Current.FindetStatt = Convert.ToBoolean(reader["FindetStatt"]);
+                                    if (Current.FindetStatt)
+                                    {
+                                        Current.ID = Convert.ToInt32(reader["FachID"]);
+                                        Current.NameLong = Convert.ToString(reader["Name"]);
+                                        Current.NameShot = Convert.ToString(reader["NameKurz"]);
+                                        Current.FachModID = Convert.ToInt32(reader["FachModID"]);
+                                        Current.TagInfoID = Convert.ToInt32(reader["TagInfoID"]);
+                                        Current.StundeBeginn = Convert.ToInt32(reader["Stunde_Beginn"]);
+                                        Current.StundeEnde = Convert.ToInt32(reader["Stunde_Ende"]);
+                                        LessionList.Add(Current);
+                                    }
+                                }
+                            }
+
+                            //Inizialisieren von ReturnLessions
+                            for(int i = 1; i<=5; i++)
+                            {
+                                int IndexCount=0;
+                                for(int j = 0; j<LessionList.Count; j++)
+                                {
+                                    if(LessionList[j].TagInfoID == i)
+                                    {
+                                        IndexCount++;
+                                    }
+                                }
+                                ReturnLessions[i - 1] = new Lession[IndexCount];
+                            }
+
+                            //Einsortieren von Fächern
+                            /*for(int i = 0; i<ReturnLessions.Length; i++)
+                            {
+                                for(int j = 0; j<ReturnLessions[i].Length; j++)
+                                {
+                                    for(int k = 0; k<LessionList.Count; k++)
+                                    {
+                                        if(LessionList[k].TagInfoID = i && j )
+                                    }
+                                }
+                            }*/
+                            for(int i = 1; i<=5; i++)
+                            {
+                                List<Lession> SortedLessions = new List<Lession>();
+                                int CurrentLession = 1;
+                                for(int j = 0; j<LessionList.Count; j++)
+                                {
+                                    if(LessionList[j].TagInfoID == i)
+                                    {
+                                        if(LessionList[j].StundeBeginn == CurrentLession)
+                                        {
+                                            SortedLessions.Add(LessionList[j]);
+                                            CurrentLession = LessionList[j].StundeEnde + 1;
+                                        }
+                                    }
+                                }
+                                ReturnLessions[i-1] = SortedLessions.ToArray();
+                            }
+                            return ReturnLessions;
+                        }
+                        else
+                {
+                            return new Lession[5][];
+                        }
+                        con.Close();
 
                 }
+                    catch (Exception ex)
+                    {
+                        //TODO: Fehlerbehebung
+                    }
             }
-            return new List<List<Lession>>();
+            }
+            return new Lession[5][];
         }
     }
 }
