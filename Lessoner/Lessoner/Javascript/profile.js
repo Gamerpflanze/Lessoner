@@ -22,19 +22,3 @@ function getdata() {
 }
 //TODO: getprofiledata auf dem Server erstellen zum Daten abfragen Pascal macht das :D !GetStudentInfos!
 //Data\ProfileImages
-
-function information() {
-    $.ajax({
-        type: "POST",
-        url: "profile.aspx/informations",
-        async: false,
-        contentType: "application/json; charset=utf-8;",
-        dataType: "json",
-        success: function (data) {
-            jQuery("#username").text(data.d[0] + " " + data.d[1] + " " + data.d[2]);
-        },
-        error: function (message) {
-            LoginError('2003');
-        }
-    });
-}

@@ -34,6 +34,14 @@ namespace Lessoner.SQL
                                                 ON s.AnmeldungID = a.ID
                                                 WHERE a.ID = @LoginID";
 
+        public const string GetStudentProfile = @"SELECT s.ID, a.Email, s.Vorname, s.Name, s.Strasse, s.Hausnummer, s.PLZ, s.Ort, s.KlasseID, kl.Name
+                                                  FROM tbanmeldung AS a
+                                                  JOIN tbschueler AS s
+	                                                  ON s.AnmeldungID = a.ID
+                                                  JOIN tbklasse AS kl
+	                                                  ON kl.ID = s.KlasseID
+                                                  WHERE a.ID = @LoginID";
+
 
         public const string SetAnmeldung = @"INSERT INTO tbanmeldung (EMail, Passwort)
                                              VALUES (@EMail, @Passwort)";
