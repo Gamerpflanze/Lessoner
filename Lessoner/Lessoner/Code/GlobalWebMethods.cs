@@ -142,7 +142,7 @@ namespace Lessoner
             {
                 using(MySqlCommand cmd = new MySqlCommand())
                 {
-                    cmd.CommandText = SQL.Statements.GetLessoner;
+                    //cmd.CommandText = SQL.Statements.GetLessoner;
                     cmd.Parameters.AddWithValue("@SchuelerID", KlasseID);
 
                 }

@@ -33,7 +33,6 @@
                 <ul class="nav navbar-nav">
                     <li class="active"><a href="#">Hauptseite</a></li>
                     <li><a href="about.aspx">Über den Lessoner</a></li>
-                    <li><a href="contact.aspx">Kontakt</a></li>
                     <li id="display" style="display: none"><a href="Lessoner.aspx">Stundenplan</a></li>
 
                 </ul>
@@ -95,6 +94,7 @@
 
         <footer>
             <p>&copy; Von Florian Fürsenberg und Pascal Gönnewicht</p>
+            <p><a href="impressum.aspx">Impressum</a></p>
         </footer>
     </div>
     <script src="../../dist/js/bootstrap.min.js"></script>

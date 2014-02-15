@@ -83,6 +83,7 @@
     <Content Include="Default.aspx" />
     <Content Include="ErrorPages\403Error.html" />
     <Content Include="Global.asax" />
+    <Content Include="impressum.aspx" />
     <Content Include="Javascript\Global.js" />
     <Content Include="Javascript\Lessoner.js" />
     <Content Include="Javascript\LessonerBuilder.js" />
@@ -120,6 +121,13 @@
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="impressum.aspx.cs">
+      <DependentUpon>impressum.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="impressum.aspx.designer.cs">
+      <DependentUpon>impressum.aspx</DependentUpon>
     </Compile>
     <Compile Include="Lessoner.aspx.cs">
       <DependentUpon>Lessoner.aspx</DependentUpon>
