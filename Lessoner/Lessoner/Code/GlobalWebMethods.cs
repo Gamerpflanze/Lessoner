@@ -179,7 +179,7 @@ namespace Lessoner
                                     }
                                 }
                             }
-
+                            con.Close();
                             //Inizialisieren von ReturnLessions
                             for(int i = 1; i<=5; i++)
                             {
@@ -222,14 +222,13 @@ namespace Lessoner
                                 }
                                 ReturnLessions[i-1] = SortedLessions.ToArray();
                             }
+
                             return ReturnLessions;
                         }
                         else
                         {
                             return new Lession[5][];
                         }
-                        con.Close();
-                        
                     }
                     catch (Exception ex)
                     {
@@ -238,6 +237,11 @@ namespace Lessoner
                 }
             }
             return new Lession[5][];
+        }
+
+        public static void SetDefaultStudent(int AnmeldungID)
+        {
+
         }
     }
 }

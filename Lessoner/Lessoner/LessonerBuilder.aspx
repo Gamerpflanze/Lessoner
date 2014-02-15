@@ -55,8 +55,11 @@
                 <input type="text" class="form-control LessonerControlTextBox" id="WeekBegin" disabled="disabled"/>
                 <button class="btn btn-default LessonerButtonRight" id="NextDate" onclick="NextDate()"><span class="glyphicon glyphicon-arrow-right"></span></button>
             </div>
-            <select id="SelectClass" >
-            </select>
+            <ul class="dropdown-menu" id="Classes" data-toggle="%KLASSE%">
+                <li>
+                    Klasse
+                </li>
+            </ul>
         </div>
 
         <div class="container">
