@@ -76,7 +76,7 @@ namespace Lessoner.SQL
                                             WHERE k.Name = @Klasse
                                             ORDER BY s.Name ";
 
-        public const string GetFaecherverteilung = @"SELECT * FROM tbfaecherverteilung";
+        public const string GetFaecherverteilung = @"SELECT * FROM tbfaecherverteilung ORDER BY Stunde";
 
         public const string SetRights = @"INSERT INTO tbrechtewert (AnmeldungID, RechteID, Wert)
                                           VALUES (SELECT ID FROM tbanmeldung WHERE EMail = @EMail, SELECT ID FROM tbrechtebeschreibung 

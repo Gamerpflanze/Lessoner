@@ -55,7 +55,36 @@ namespace Lessoner
                         Return[0][i] = Date.ToString("dd.MM.yyyy");
                         Date = Date.AddDays(7);
                     }
-                    using(MySqlConnection con = new MySqlConnection())
+                    using(MySqlConnection con = new MySqlConnection("Server=127.0.0.1;Database=dbLessoner;Uid=root;Pwd=;"))
+                    {
+                        using(MySqlCommand cmd = con.CreateCommand())
+                        {
+                            try
+                            {
+                                cmd.CommandText = SQL.Statements.GetFaecherverteilung;
+                                con.Open();
+                                
+                                using (MySqlDataReader reader = cmd.ExecuteReader())
+                                {
+                                    List<dynamic> Faecherverteilung = new List<dynamic>();
+                                    while(reader.Read())
+                                    {
+                                        List<dynamic> FaecherZeiten = new List<dynamic>();
+                                        FaecherZeiten.Add(reader["Stunde"]);
+                                        FaecherZeiten.Add(reader["Uhrzeit"].ToString());
+                                        FaecherZeiten.Add(reader["Uhrzeit"].ToString());
+                                        Faecherverteilung.Add(FaecherZeiten.ToArray());
+                                    }
+                                    Return[1] = Faecherverteilung.ToArray();
+                                }
+                                con.Close();
+                            }
+                            catch(Exception ex)
+                            {
+
+                            }
+                        }
+                    }
                     //using()
                     Return[2] = GlobalWebMethods.GetLessonerBuilder(1, DateTime.Parse(Return[0][0]));
                     return Return;

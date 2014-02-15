@@ -52,18 +52,18 @@
         <div class="container">
             <div class="input-group">
                 <button class="btn btn-default LessonerButtonLeft" id="LastDate" onclick="LastDate()" disabled="disabled"><span class="glyphicon glyphicon-arrow-left"></span></button>
-                <input type="text" class="form-control LessonerControlTextBox" id="WeekBegin" disabled="disabled"/>
+                <input type="text" class="form-control LessonerControlTextBox" id="WeekBegin" disabled="disabled" />
                 <button class="btn btn-default LessonerButtonRight" id="NextDate" onclick="NextDate()"><span class="glyphicon glyphicon-arrow-right"></span></button>
             </div>
-            <ul class="dropdown-menu" id="Classes" data-toggle="%KLASSE%">
-                <li>
-                    Klasse
-                </li>
-            </ul>
+            <div class="btn-group">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                    Klasse1<span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                </ul>
+            </div>
         </div>
-
         <div class="container">
-
             <table class="table table-bordered">
                 <thead>
                     <tr>
@@ -76,11 +76,6 @@
                     </tr>
                 </thead>
                 <tbody id="Lessoner">
-
-                    <tr>
-                        <td class="tableCenter"></td>
-                    </tr>
-
                 </tbody>
             </table>
         </div>

@@ -31,6 +31,16 @@ function AddData(data)
     {
         Dates = data.d[0];
         jQuery("#WeekBegin").val(data.d[0][0]);
+        var TBody = jQuery("#Lessoner");
+        for (var i = 0; i < data.d[1].length;i++)
+        {
+            var row = jQuery("<tr></tr>");
+            var column = jQuery("<td></td>");
+            column.text(data.d[1][i]);
+            row.append(column);
+            TBody.append(row);
+        }
+
     }
 }
 
