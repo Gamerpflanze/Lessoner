@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.Services;
+using MySql.Data.MySqlClient;
 
 namespace Lessoner
 {
@@ -15,18 +16,34 @@ namespace Lessoner
 
         }
         [WebMethod]
-        public static string[] informations()
+        public static string[] profile()
         {
-            string[] information = new string[9];
-            information[0] = StoredVars.Objects.Title;
-            information[1] = StoredVars.Objects.Vorname;
-            information[2] = StoredVars.Objects.Nachname;
-            information[3] = StoredVars.Objects.Strasse;
-            information[4] = StoredVars.Objects.HSN;
-            information[5] = StoredVars.Objects.PLZ;
-            information[6] = StoredVars.Objects.Ort;
-
-            return information;
+            //TODO: Root PW setzen!
+            //TODO-Pasi: Anderes Statement setzen! GetStudentProfile
+            using(MySqlConnection con = new MySqlConnection("Server=127.0.0.1;Database=dbLessoner;Uid=root;Pwd=;"))
+            {
+                using(MySqlCommand cmd = con.CreateCommand())
+                {
+                    List<string> profiledata = new List<string>();
+                    cmd.CommandText = SQL.Statements.GetStudentInfos;
+                    con.Open();
+                    using(MySqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            profiledata.Add(reader["Email"].ToString());
+                            profiledata.Add(reader["Vorname"].ToString());
+                            profiledata.Add(reader["Name"].ToString());
+                            profiledata.Add(reader["Strasse"].ToString());
+                            profiledata.Add(reader["Hausnummer"].ToString());
+                            profiledata.Add(reader["PLZ"].ToString());
+                            profiledata.Add(reader["Ort"].ToString());
+                            profiledata.Add(reader["ID"].ToString());
+                        }
+                    }
+                    con.Close();
+                }
+            }
         }
     }
 }
