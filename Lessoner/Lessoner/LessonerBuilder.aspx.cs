@@ -5,6 +5,9 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.Services;
+using MySql.Data.MySqlClient;
+using MySql.Data;
+using MySql;
 namespace Lessoner
 {
     public partial class LessonerBuilder : System.Web.UI.Page
@@ -43,7 +46,7 @@ namespace Lessoner
             {
                 if (StoredVars.Objects.Rights["lessonerbuilder"]["permission"])
                 {
-                    dynamic[] Return = new dynamic[2];
+                    dynamic[] Return = new dynamic[3];
                     Return[0] = new dynamic[6];
                     DateTime Date = DateTime.Now.Date;
                     Date = Date.AddDays(-((double)HelperMethods.DayOfWeekToNumber(Date.DayOfWeek) - 1));
@@ -52,8 +55,9 @@ namespace Lessoner
                         Return[0][i] = Date.ToString("dd.MM.yyyy");
                         Date = Date.AddDays(7);
                     }
+                    using(MySqlConnection con = new MySqlConnection())
                     //using()
-                    Return[1] = GlobalWebMethods.GetLessonerBuilder(1, DateTime.Parse(Return[0][0]));
+                    Return[2] = GlobalWebMethods.GetLessonerBuilder(1, DateTime.Parse(Return[0][0]));
                     return Return;
                 }
                 else

@@ -64,7 +64,7 @@ namespace Lessoner.SQL
                                                    Left JOIN tbfachinfo as fi ON t.ID = fi.TagID
                                                    Left JOIN tbfaecher as f ON f.ID = fi.FachID
                                                    Left JOIN tbfachmod as fm ON fi.FachModID = fm.ID
-                                                   WHERE k.ID = 1
+                                                   WHERE k.ID = @KlasseID AND s.Datum = @Datum
                                                    ORDER BY t.ID";
 
         public const string GetClasses = @"SELECT * FROM tbKlasse AS k ORDER BY k.Name";
@@ -75,6 +75,9 @@ namespace Lessoner.SQL
 
         public const string GetFaecherverteilung = @"SELECT * FROM tbfaecherverteilung";
 
+        public const string SetRights = @"INSERT INTO tbrechtewert (AnmeldungID, RechteID, Wert)
+                                          VALUES (SELECT ID FROM tbanmeldung WHERE EMail = @EMail, SELECT ID FROM tbrechtebeschreibung 
+                                          WHERE `Group` = @RechtGruppe AND Name = @RechtName, @Value)";
 
         //TODO: Testen, Ausgabe soll der Pfad der Datei sein
         public const string GetData = @"SELECT Path

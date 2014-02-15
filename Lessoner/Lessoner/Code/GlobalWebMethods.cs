@@ -13,11 +13,11 @@ using MySql.Data.MySqlClient;
 namespace Lessoner
 {
     /// <summary>
-    /// Ruft den Login des Benutzers ab
-    /// </summary>
-    /// <param name="Username">Der Benutzername</param>
-    /// <param name="Passwort">Das Passwort</param>
-    /// <returns>Ein string der Angibt ob man eingeloggt wurde oder nicht (siehe: Code/Enums)</returns>
+        /// Ruft den Login des Benutzers ab
+        /// </summary>
+        /// <param name="Username">Der Benutzername</param>
+        /// <param name="Passwort">Das Passwort</param>
+        /// <returns>Ein string der Angibt ob man eingeloggt wurde oder nicht (siehe: Code/Enums)</returns>
     public class GlobalWebMethods
     {
         public static string GetLoginData(string Username, string Passwort)
@@ -138,7 +138,7 @@ namespace Lessoner
         }
         public static Lession[][] GetLessonerBuilder(int KlasseID, DateTime Date)
         {
-
+            
             using (MySqlConnection con = new MySqlConnection("Server=127.0.0.1;Database=dbLessoner;Uid=root;Pwd=;"))
             {
                 using (MySqlCommand cmd = con.CreateCommand())
@@ -179,7 +179,7 @@ namespace Lessoner
                                     }
                                 }
                             }
-
+                            con.Close();
                             //Inizialisieren von ReturnLessions
                             for (int i = 1; i <= 5; i++)
                             {
@@ -222,20 +222,26 @@ namespace Lessoner
                                 }
                                 ReturnLessions[i - 1] = SortedLessions.ToArray();
                             }
+
                             return ReturnLessions;
                         }
                         else
-                        {
+                {
                             return new Lession[5][];
                         }
-                    }
+                }
                     catch (Exception ex)
                     {
                         //TODO: Fehlerbehebung
                     }
-                }
-                return new Lession[5][];
             }
+            return new Lession[5][];
+        }
+
+        public static void SetDefaultStudent(int AnmeldungID)
+        {
+
         }
     }
+}
 }
