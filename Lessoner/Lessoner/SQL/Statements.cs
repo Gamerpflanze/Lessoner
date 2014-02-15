@@ -23,6 +23,7 @@ namespace Lessoner.SQL
         /// </summary>
         /// 
         //TODO: Florian! Datum für tbStundenplan!
+        //TODO: Florian! Rechtevergabe!
         public const string GetTeacherInfos = @"SELECT l.ID, a.Email, l.Titel, l.Vorname, l.Name, l.Strasse, l.Hausnummer, l.PLZ, l.Ort, l.KlasseID FROM tbanmeldung as a
                                                 JOIN tblehrer as l
                                                 ON l.AnmeldungID = a.ID
@@ -38,10 +39,17 @@ namespace Lessoner.SQL
                                              VALUES (@EMail, @Passwort)";
 
         //TODO: Ausprobieren ob folgendes Skript funktioniert!
-        public const string SetStudent = @"INSERT INTO tbschueler (Vorname, Name, Strasse, Hausnummer, PLZ, Ort, KlasseID, AnmeldungID)
+        public const string SetStudent = @"INSERT INTO tbanmeldung (EMail, Passwort)
+                                           VALUES (@EMail, @Passwort);
+                                           INSERT INTO tbschueler (Vorname, Name, Strasse, Hausnummer, PLZ, Ort, KlasseID, AnmeldungID)
                                            VALUES (@Vorname, @Name, @Strasse, @Hausnummer, @PLZ, @Ort, @KlasseID, SELECT ID
 																							                      FROM tbanmeldung
-																							                      WHERE Email = @Email)	";
+								                                                                                  WHERE Email = @Email)";
+
+        public const string SetTeacher = @"INSERT INTO tblehrer (Titel, Vorname, Name, Strasse, Hausnummer, PLZ, Ort, KlasseID, AnmeldungID)
+                                           VALUES (@Titel, @Vorname, @Name, @Strasse, @Hausnummer, @PLZ, @Ort, @KlasseID, SELECT ID
+																		                                                  FROM tbanmeldung
+																		                                                  WHERE Email = @Email)";
 
         public const string SetClass = @"INSERT INTO tbklasse (Name)
                                          VALUES (@Name)";
@@ -61,6 +69,12 @@ namespace Lessoner.SQL
         public const string CountLessoner = @"SELECT COUNT(s.ID) as Anzahl FROM tbklasse as k
                                               JOIN tbstundenplan as s ON k.ID = s.KlasseID
                                               WHERE k.ID = @KlasseID AND s.Datum = @Datum";
+        public const string GetStudents = @"SELECT s.Vorname, s.Name, s.Strasse, s.Hausnummer, s.PLZ, s.Ort
+                                            FROM tbschueler AS s
+                                            JOIN tbklasse AS k
+	                                            ON s.KlasseID = k.ID
+                                            WHERE k.Name = @Klasse
+                                            ORDER BY s.Name ";
 
         public const string GetFaecherverteilung = @"SELECT * FROM tbfaecherverteilung";
 
