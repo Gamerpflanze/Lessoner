@@ -38,13 +38,10 @@ namespace Lessoner.SQL
         public const string SetAnmeldung = @"INSERT INTO tbanmeldung (EMail, Passwort)
                                              VALUES (@EMail, @Passwort)";
 
-        //TODO: Ausprobieren ob folgendes Skript funktioniert!
         public const string SetStudent = @"INSERT INTO tbanmeldung (EMail, Passwort)
-                                           VALUES (@EMail, @Passwort);
+                                           VALUES (@Email, @Passwort);
                                            INSERT INTO tbschueler (Vorname, Name, Strasse, Hausnummer, PLZ, Ort, KlasseID, AnmeldungID)
-                                           VALUES (@Vorname, @Name, @Strasse, @Hausnummer, @PLZ, @Ort, @KlasseID, SELECT ID
-																							                      FROM tbanmeldung
-								                                                                                  WHERE Email = @Email)";
+                                           VALUES (@Vorname, @Name, @Strasse, @Hausnummer, @PLZ, @Stadt,1, LAST_INSERT_ID())";
 
         public const string SetTeacher = @"INSERT INTO tblehrer (Titel, Vorname, Name, Strasse, Hausnummer, PLZ, Ort, KlasseID, AnmeldungID)
                                            VALUES (@Titel, @Vorname, @Name, @Strasse, @Hausnummer, @PLZ, @Ort, @KlasseID, SELECT ID
@@ -54,6 +51,12 @@ namespace Lessoner.SQL
         public const string SetClass = @"INSERT INTO tbklasse (Name)
                                          VALUES (@Name)";
 
+        public const string GetStudents = @"SELECT s.Vorname, s.Name, s.Strasse, s.Hausnummer, s.PLZ, s.Ort
+                                            FROM tbschueler AS s
+                                            JOIN tbklasse AS k
+	                                            ON s.KlasseID = k.ID
+                                            WHERE k.Name = @Klasse
+                                            ORDER BY s.Name ";
         public const string GetLessonerBuilder = @"SELECT ti.ID as TagInfoID, t.Information, fi.ID as FachID, f.Name, f.NameKurz, fm.ID as FachModID, t.FindetStatt, fi.Stunde_Beginn, fi.Stunde_Ende FROM tbklasse as k
                                                    JOIN tbstundenplan as s ON s.KlasseID = k.ID
                                                    JOIN tbtage as t ON t.StundenplanID = s.ID
@@ -69,16 +72,16 @@ namespace Lessoner.SQL
         public const string CountLessoner = @"SELECT COUNT(s.ID) as Anzahl FROM tbklasse as k
                                               JOIN tbstundenplan as s ON k.ID = s.KlasseID
                                               WHERE k.ID = @KlasseID AND s.Datum = @Datum";
-        public const string GetStudents = @"SELECT s.Vorname, s.Name, s.Strasse, s.Hausnummer, s.PLZ, s.Ort
-                                            FROM tbschueler AS s
-                                            JOIN tbklasse AS k
-	                                            ON s.KlasseID = k.ID
-                                            WHERE k.Name = @Klasse
-                                            ORDER BY s.Name ";
 
         public const string GetFaecherverteilung = @"SELECT * FROM tbfaecherverteilung";
 
 
+        //TODO: Testen, Ausgabe soll der Pfad der Datei sein
+        public const string GetData = @"SELECT Path
+                                        FROM tbdateien	AS da
+                                        JOIN tbfachinfo AS fi
+	                                        ON da.FachinfoID = fi.FachID
+                                        WHERE FachinfoID = @Fachinfo ";
 
 
 

@@ -51,14 +51,29 @@
     </div>
 
     <div class="container">
-        <h1 id="vnname">Max Mustermann</h1>
+        <h1 id="vnname">Pascal Gönnewicht</h1>
 
-        <img src="Data\ProfileImages\0000.jpg" style="width: 300px; height: 300px;" class="hidden-xs" class="hidden-sm">
-        <!-- Bild beim Upload bearbeiten auf 300x300 ohne stauchung -->
-
-
-        
-
+        <div class="row">
+            <div class="col-md-4">
+                <img src="Data\ProfileImages\0001.jpg" height: 300px;" class="hidden-xs" class="hidden-sm">
+                <!-- TODO: Bild beim Upload bearbeiten auf 300x300 ohne stauchung -->
+            </div>
+            <div class="col-md-4">
+                <table class="table table-striped">
+                    <tbody>
+                        <tr>
+                            <td>Bunzlauer Straße 18</td>
+                        </tr>
+                        <tr>
+                            <td>45888 Gelsenkirchen</td>
+                        </tr>
+                        <tr>
+                            <td>Klasse CI13V1</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>

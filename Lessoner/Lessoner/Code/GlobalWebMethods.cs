@@ -13,11 +13,11 @@ using MySql.Data.MySqlClient;
 namespace Lessoner
 {
     /// <summary>
-        /// Ruft den Login des Benutzers ab
-        /// </summary>
-        /// <param name="Username">Der Benutzername</param>
-        /// <param name="Passwort">Das Passwort</param>
-        /// <returns>Ein string der Angibt ob man eingeloggt wurde oder nicht (siehe: Code/Enums)</returns>
+    /// Ruft den Login des Benutzers ab
+    /// </summary>
+    /// <param name="Username">Der Benutzername</param>
+    /// <param name="Passwort">Das Passwort</param>
+    /// <returns>Ein string der Angibt ob man eingeloggt wurde oder nicht (siehe: Code/Enums)</returns>
     public class GlobalWebMethods
     {
         public static string GetLoginData(string Username, string Passwort)
@@ -138,7 +138,7 @@ namespace Lessoner
         }
         public static Lession[][] GetLessonerBuilder(int KlasseID, DateTime Date)
         {
-            
+
             using (MySqlConnection con = new MySqlConnection("Server=127.0.0.1;Database=dbLessoner;Uid=root;Pwd=;"))
             {
                 using (MySqlCommand cmd = con.CreateCommand())
@@ -181,12 +181,12 @@ namespace Lessoner
                             }
 
                             //Inizialisieren von ReturnLessions
-                            for(int i = 1; i<=5; i++)
+                            for (int i = 1; i <= 5; i++)
                             {
-                                int IndexCount=0;
-                                for(int j = 0; j<LessionList.Count; j++)
+                                int IndexCount = 0;
+                                for (int j = 0; j < LessionList.Count; j++)
                                 {
-                                    if(LessionList[j].TagInfoID == i)
+                                    if (LessionList[j].TagInfoID == i)
                                     {
                                         IndexCount++;
                                     }
@@ -205,39 +205,37 @@ namespace Lessoner
                                     }
                                 }
                             }*/
-                            for(int i = 1; i<=5; i++)
+                            for (int i = 1; i <= 5; i++)
                             {
                                 List<Lession> SortedLessions = new List<Lession>();
                                 int CurrentLession = 1;
-                                for(int j = 0; j<LessionList.Count; j++)
+                                for (int j = 0; j < LessionList.Count; j++)
                                 {
-                                    if(LessionList[j].TagInfoID == i)
+                                    if (LessionList[j].TagInfoID == i)
                                     {
-                                        if(LessionList[j].StundeBeginn == CurrentLession)
+                                        if (LessionList[j].StundeBeginn == CurrentLession)
                                         {
                                             SortedLessions.Add(LessionList[j]);
                                             CurrentLession = LessionList[j].StundeEnde + 1;
                                         }
                                     }
                                 }
-                                ReturnLessions[i-1] = SortedLessions.ToArray();
+                                ReturnLessions[i - 1] = SortedLessions.ToArray();
                             }
                             return ReturnLessions;
                         }
                         else
-                {
+                        {
                             return new Lession[5][];
                         }
-                        con.Close();
-
-                }
+                    }
                     catch (Exception ex)
                     {
                         //TODO: Fehlerbehebung
                     }
+                }
+                return new Lession[5][];
             }
-            }
-            return new Lession[5][];
         }
     }
 }
