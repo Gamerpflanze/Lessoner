@@ -60,7 +60,7 @@ namespace Lessoner
                         }
                     }
                     con.Close();
-
+                    profiledata.Add(StoredVars.Objects.KlasseName);
                     return profiledata.ToArray();
                 }
             }
