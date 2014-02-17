@@ -139,7 +139,7 @@ namespace Lessoner
         }
         public static Lession[][] GetLessonerBuilder(int KlasseID, DateTime Date)
         {
-
+            
             using (MySqlConnection con = new MySqlConnection("Server=127.0.0.1;Database=dbLessoner;Uid=root;Pwd=;"))
             {
                 using (MySqlCommand cmd = con.CreateCommand())
@@ -227,16 +227,16 @@ namespace Lessoner
                             return ReturnLessions;
                         }
                         else
-                        {
+                {
                             return new Lession[5][];
                         }
-                    }
+                }
                     catch (Exception ex)
                     {
                         //TODO: Fehlerbehebung
                     }
-                }
-                return new Lession[5][];
+            }
+            return new Lession[5][];
             }
         }
         public static void SetDefaultStudent(int AnmeldungID)
