@@ -6,18 +6,18 @@ function leher() {
     //TODO: Abfrage ob User Lehrer oder Schüler ist
 
 }
-
+//url: "profile.aspx/GetProfileData",
 function getdata() {
-    $.ajax({
+    jQuery.ajax({
         type: "POST",
-        url: "profile.aspx/profiledata",
-        async: true,
+        url: "profile.aspx/GetData",
+        async: false,
         contentType: "application/json; charset=utf-8;",
         dataType: "json",
-        success: function (data) { AddData(data) },
-        error: function (data) {
-            DisplayErrorCode(2004)
-        }
+        //data:"{param:1}",
+        success: function (data) {setdata(data)},
+        error:function(data){
+            DisplayErrorCode(2004)}
     });
 }
 
