@@ -67,7 +67,7 @@
 
         <div class="row">
             <div class="col-md-4">
-                <img src="Data\ProfileImages\0001.jpg" height: 300px;" class="hidden-xs" class="hidden-sm" />
+                <img src="Data\ProfileImages\default.jpg" height: 300px;" class="hidden-xs" class="hidden-sm" />
                 <!-- TODO: Bild beim Upload bearbeiten auf 300x300 ohne stauchung -->
             </div>
             <div class="col-md-4">

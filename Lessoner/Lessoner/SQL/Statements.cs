@@ -36,7 +36,7 @@ namespace Lessoner.SQL
                                                 JOIN tbklasse as k ON s.KlasseID = k.ID
                                                 WHERE a.ID = @LoginID";
 
-        public const string GetStudentProfile = @"SELECT s.ID, a.Email, s.Vorname, s.Name, s.Strasse, s.Hausnummer, s.PLZ, s.Ort, s.KlasseID, kl.Name
+        public const string GetStudentProfile = @"SELECT s.ID, a.Email, s.Vorname, s.Name, s.Strasse, s.Hausnummer, s.PLZ, s.Ort, s.KlasseID, kl.Name, a.Path
                                                   FROM tbanmeldung AS a
                                                   JOIN tbschueler AS s
 	                                                  ON s.AnmeldungID = a.ID
