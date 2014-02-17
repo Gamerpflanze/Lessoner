@@ -11,24 +11,24 @@ namespace Lessoner
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
-        }
-        [WebMethod]
-        public static string CheckLoggedin()
-        {
             if (StoredVars.Objects.Loggedin)
             {
-                return StoredVars.Objects.Vorname + " " + StoredVars.Objects.Nachname;
-            }
-            else
-            {
-                return "";
+                foreach (Control c in LoginControlls.Controls)
+                {
+                    c.Visible = false;
+                }
+                LinkButton ProfileLink = new LinkButton();
+                ProfileLink.Text = StoredVars.Objects.Vorname + " " + StoredVars.Objects.Nachname;
+                LoginControlls.Controls.Add(ProfileLink);
             }
         }
-        [WebMethod]
-        public static string GetLoginData(string Username, string Passwort)
+        protected void btnLoginSubmit_Click(object sender, EventArgs e)
         {
-            return GlobalWebMethods.GetLoginData(Username, Passwort);
+            string Username = GlobalWebMethods.GetLoginData(txtUsername.Text, txtPasswort.Text);
+            LoginControlls.Controls.Clear();
+            LinkButton ProfileLink = new LinkButton();
+            ProfileLink.Text = Username;
+            LoginControlls.Controls.Add(ProfileLink);
         }
     }
 }

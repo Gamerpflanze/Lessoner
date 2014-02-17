@@ -35,15 +35,26 @@
                     <li><a href="about.aspx">Über den Lessoner</a></li>
                     <li><a href="kontakt.aspx">Kontakt</a></li>
                 </ul>
-                <form class="navbar-form navbar-right" role="form" id="LoginForm">
-                    <span class="label label-danger" id="LoginError"></span>
-                    <div class="form-group">
-                        <input type="text" placeholder="Email" class="form-control" id="Username" />
-                    </div>
-                    <div class="form-group">
-                        <input type="password" placeholder="Passwort" class="form-control" id="Password" />
-                    </div>
-                    <input type="button" class="btn btn-success" value="Anmelden" onclick="SendLoginData('Lessoner.aspx')" />
+                <form class="navbar-form navbar-right" role="form" id="LoginForm" runat="server">
+                    <asp:UpdatePanel runat="server">
+                        <ContentTemplate>
+                            <asp:ScriptManager runat="server"></asp:ScriptManager>
+                                <asp:Panel runat="server" ID="LoginControlls">
+                                <div class="form-group">
+                                    <asp:TextBox runat="server" placeholder="Email" class="form-control" id="txtUsername"></asp:TextBox>
+                                </div>
+                                 <div class="form-group">
+                                <asp:TextBox TextMode="Password" placeholder="Passwort" class="form-control" id="txtPasswort" runat="server"></asp:TextBox>
+                                </div>
+                                <asp:Button class="btn btn-success" Text="Anmelden" onclick="btnLoginSubmit_Click" id="btnLoginSubmit" runat="server" />
+                            </asp:Panel>
+                        </ContentTemplate>
+                        <Triggers>
+                            <asp:AsyncPostBackTrigger  ControlID="txtUsername" />
+                            <asp:AsyncPostBackTrigger ControlID="txtPasswort" />
+                            <asp:AsyncPostBackTrigger ControlID="btnLoginSubmit" />
+                        </Triggers>
+                    </asp:UpdatePanel>
                 </form>
             </div>
         </div>
