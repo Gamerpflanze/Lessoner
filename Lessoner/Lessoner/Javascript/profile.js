@@ -22,7 +22,9 @@ function getdata() {
 }
 
 function setdata(data) {
-    jQuery("#vnname").text(data.d[1] + " " + data.d[2])
+    jQuery("#vnname").text(data.d[1] + " " + data.d[2]);
+    jQuery("#strasseNr").text(data.d[3] + " " + data.d[4]);
+    jQuery("PLZOrt").text(data.d[5] + " " + data.d[6])
 }
 //TODO: getprofiledata auf dem Server erstellen zum Daten abfragen Pascal macht das :D !GetStudentInfos!
 //Data\ProfileImages

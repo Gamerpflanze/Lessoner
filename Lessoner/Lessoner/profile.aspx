@@ -14,7 +14,7 @@
     <script src="Bootstrap/js/bootstrap.js"></script>
     <script src="Javascript/LoginScript.js"></script>
 </head>
-<body onload="CheckLoggedin('Default.aspx'); information(); getdata()">
+<body onload="CheckLoggedin('Default.aspx'); getdata()">
     <div class="alert alert-danger alert-dismissable" id="ErrorDisplay" style="display: none">
         <button type="button" class="close" aria-hidden="true" onclick="CloseError()">&times;</button>
         <strong>Fehler: </strong>
@@ -62,13 +62,13 @@
                 <table class="table table-striped">
                     <tbody>
                         <tr>
-                            <td>Bunzlauer Straße 18</td>
+                            <td id="strasseNr">Bunzlauer Straße 18</td>
                         </tr>
                         <tr>
-                            <td>45888 Gelsenkirchen</td>
+                            <td id="PLZOrt">45888 Gelsenkirchen</td>
                         </tr>
                         <tr>
-                            <td>Klasse CI13V1</td>
+                            <td id="Klasse">Klasse CI13V1</td>
                         </tr>
                     </tbody>
                 </table>
