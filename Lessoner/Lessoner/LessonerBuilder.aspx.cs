@@ -95,11 +95,11 @@ namespace Lessoner
         {
             if (WeekIndex < WeekBegins.Count() - 1)
             {
-                btnNextDate.Attributes.Remove("disabled");
+                btnLastDate.Attributes.Remove("disabled");
                 WeekIndex++;
-                if (WeekIndex == WeekBegins.Count())
+                if (WeekIndex == WeekBegins.Count()-1)
                 {
-                    btnLastDate.Attributes.Add("disabled", "disabled");
+                    btnNextDate.Attributes.Add("disabled", "disabled");
                 }
                 txtWeekBegin.Text = WeekBegins[WeekIndex].ToString("dd.MM.yyyy");
             }

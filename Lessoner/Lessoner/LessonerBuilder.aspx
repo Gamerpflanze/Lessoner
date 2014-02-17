@@ -55,19 +55,19 @@
                 </div>
                 <div class="page-header">
                     <div class="container">
-                        <div class="input-group">
-                            <asp:LinkButton CssClass="btn btn-default LessonerButtonLeft DisabledATag" id="btnLastDate" runat="server" OnClick="btnLastDate_Click">
+                        <div class="input-group left" style="float:left">
+                            <asp:LinkButton CssClass="btn btn-default LessonerButtonLeft DisabledATag" ID="btnLastDate" runat="server" OnClick="btnLastDate_Click">
                                 <span class="glyphicon glyphicon-arrow-left"></span>
                             </asp:LinkButton>
-                            <asp:TextBox CssClass="form-control LessonerControlTextBox" id="txtWeekBegin" runat="server" />
-                            <asp:LinkButton CssClass="btn btn-default LessonerButtonRight" id="btnNextDate"  runat="server" onclick="btnNextDate_Click">
+                            <asp:TextBox CssClass="form-control LessonerControlTextBox" ID="txtWeekBegin" runat="server" />
+                            <asp:LinkButton CssClass="btn btn-default LessonerButtonRight" ID="btnNextDate" runat="server" OnClick="btnNextDate_Click">
                                 <span class="glyphicon glyphicon-arrow-right"></span>
                             </asp:LinkButton>
                         </div>
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                        <div class="btn-group" style="float:right">
+                            <asp:LinkButton CssClass="btn btn-default dropdown-toggle" data-toggle="dropdown" runat="server">
                                 Klasse1<span class="caret"></span>
-                            </button>
+                            </asp:LinkButton>
                             <ul class="dropdown-menu">
                             </ul>
                         </div>
