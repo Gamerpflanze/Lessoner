@@ -71,8 +71,8 @@ namespace Lessoner
                                     {
                                         List<dynamic> FaecherZeiten = new List<dynamic>();
                                         FaecherZeiten.Add(reader["Stunde"]);
-                                        FaecherZeiten.Add(reader["Uhrzeit"].ToString());
-                                        FaecherZeiten.Add(reader["Uhrzeit"].ToString());
+                                        FaecherZeiten.Add(TimeSpan.Parse(reader["Uhrzeit"].ToString()).ToString(@"hh\:mm"));
+                                        FaecherZeiten.Add(TimeSpan.Parse(reader["Ende"].ToString()).ToString(@"hh\:mm"));
                                         Faecherverteilung.Add(FaecherZeiten.ToArray());
                                     }
                                     Return[1] = Faecherverteilung.ToArray();

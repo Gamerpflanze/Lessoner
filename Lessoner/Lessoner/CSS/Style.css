@@ -48,3 +48,15 @@
 {
     font-weight:normal;
 }
+.LessonerText
+{
+    line-height:5px;
+}
+.LessonerText:first-child
+{
+    margin-top:0px;
+}
+.LessonerText:last-child
+{
+    margin-bottom:0px;
+}

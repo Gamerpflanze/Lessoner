@@ -15,7 +15,7 @@ namespace Lessoner
         {
 
         }
-        [WebMethod]
+        /*[WebMethod]
         public static string[] profile()
         {
             //TODO: Root PW setzen!
@@ -44,6 +44,6 @@ namespace Lessoner
                     con.Close();
                 }
             }
-        }
+        }*/
     }
 }

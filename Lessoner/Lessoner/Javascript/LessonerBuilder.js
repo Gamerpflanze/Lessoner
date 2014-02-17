@@ -35,12 +35,34 @@ function AddData(data)
         for (var i = 0; i < data.d[1].length;i++)
         {
             var row = jQuery("<tr></tr>");
-            var column = jQuery("<td></td>");
-            column.text(data.d[1][i]);
-            row.append(column);
+            var time = jQuery("<td></td>");
+            var Days = new Array();
+            //TODO: Taginformationen holen
+            for (var j = 0; j < data.d[1]; j++) {
+                Days.push(jQuery("<td></td>"));
+            }
+
+            // column.text(data.d[1][i][0] + "<br>" + data.d[1][i][0] + "<br>" + data.d[1][i][0]);
+            var Number = jQuery("<p></p>");
+            var Begin = jQuery("<p></p>");
+            var End = jQuery("<p></p>");
+
+            Number.text(data.d[1][i][0]);
+            Number.addClass("LessonerText");
+
+            Begin.text(data.d[1][i][1]);
+            Begin.addClass("LessonerText");
+
+            End.text(data.d[1][i][2]);
+            End.addClass("LessonerText");
+
+            time.append(Number);
+            time.append(Begin);
+            time.append(End);
+
+            row.append(time);
             TBody.append(row);
         }
-
     }
 }
 

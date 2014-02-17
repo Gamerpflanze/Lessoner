@@ -9,9 +9,11 @@
     </title>
     <link href="Bootstrap/css/bootstrap-theme.css" rel="stylesheet" />
     <link href="Bootstrap/css/bootstrap.css" rel="stylesheet" />
+    <link href="CSS/Style.css" rel="stylesheet" />
     <script src="JQuery/jquery-1.10.2.js"></script>
     <script src="Bootstrap/js/bootstrap.js"></script>
     <script src="Javascript/LoginScript.js"></script>
+    <script src="Javascript/Global.js"></script>
 </head>
 <body onload="CheckLoggedin('Default.aspx')">
     <div class="alert alert-danger alert-dismissable" id="ErrorDisplay" style="display: none">
@@ -37,7 +39,6 @@
 
                 </ul>
                 <form class="navbar-form navbar-right" role="form" id="LoginForm">
-                    <span class="label label-danger" id="LoginError"></span>
                     <div class="form-group">
                         <input type="text" placeholder="Email" class="form-control" id="Username" />
                     </div>
@@ -98,5 +99,6 @@
         </footer>
     </div>
     <script src="../../dist/js/bootstrap.min.js"></script>
+
 </body>
 </html>
