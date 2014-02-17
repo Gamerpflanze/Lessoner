@@ -14,9 +14,25 @@ namespace Lessoner
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            if (StoredVars.Objects.Loggedin)
+            {
+                foreach (Control c in LoginControlls.Controls)
+                {
+                    c.Visible = false;
+                }
+                LinkButton ProfileLink = new LinkButton();
+                ProfileLink.Text = StoredVars.Objects.Vorname + " " + StoredVars.Objects.Nachname;
+                LoginControlls.Controls.Add(ProfileLink);
+            }
         }
-
+        protected void btnLoginSubmit_Click(object sender, EventArgs e)
+        {
+            string Username = GlobalWebMethods.GetLoginData(txtUsername.Text, txtPasswort.Text);
+            LoginControlls.Controls.Clear();
+            LinkButton ProfileLink = new LinkButton();
+            ProfileLink.Text = Username;
+            LoginControlls.Controls.Add(ProfileLink);
+        }
         [WebMethod, ScriptMethod(ResponseFormat = ResponseFormat.Json, UseHttpGet = false)]
         public static string[] GetData()
         {

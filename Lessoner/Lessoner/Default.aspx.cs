@@ -16,7 +16,6 @@ namespace Lessoner
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            //SELECT Count(*) FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = 'dbLessoner'
             if (StoredVars.Objects.Loggedin)
             {
                 foreach (Control c in LoginControlls.Controls)
@@ -28,24 +27,6 @@ namespace Lessoner
                 LoginControlls.Controls.Add(ProfileLink);
             }
         }
-        [WebMethod]
-        public static string CheckLoggedin()
-        {
-            if (StoredVars.Objects.Loggedin)
-            {
-                return StoredVars.Objects.Vorname +" "+ StoredVars.Objects.Nachname;   
-            }
-            else 
-            {
-                return "";
-            }
-        }
-        [WebMethod]
-        public static string GetLoginData(string Username, string Passwort)
-        {
-            return GlobalWebMethods.GetLoginData(Username, Passwort);
-        }
-
         protected void btnLoginSubmit_Click(object sender, EventArgs e)
         {
             string Username = GlobalWebMethods.GetLoginData(txtUsername.Text, txtPasswort.Text);
