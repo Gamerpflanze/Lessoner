@@ -57,6 +57,7 @@ namespace Lessoner
                             profiledata.Add(reader["Hausnummer"].ToString());
                             profiledata.Add(reader["PLZ"].ToString());
                             profiledata.Add(reader["Ort"].ToString());
+                            profiledata.Add(reader["Path"].ToString());
                         }
                     }
                     con.Close();
