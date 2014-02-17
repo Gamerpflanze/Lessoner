@@ -51,7 +51,7 @@
     </div>
 
     <div class="container">
-        <h1 id="vnname">Pascal Gönnewicht</h1>
+        <h1 id="vnname">Florian</h1>
 
         <div class="row">
             <div class="col-md-4">

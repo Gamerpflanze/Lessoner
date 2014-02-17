@@ -237,12 +237,11 @@ namespace Lessoner
                     }
             }
             return new Lession[5][];
-        }
+        }}
 
         public static void SetDefaultStudent(int AnmeldungID)
         {
 
         }
     }
-}
 }

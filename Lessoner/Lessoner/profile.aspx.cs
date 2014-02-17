@@ -16,7 +16,7 @@ namespace Lessoner
 
         }
         [WebMethod]
-        public static string[] profile()
+        public static string[] profiledata()
         {
             //TODO: Root PW setzen!
             //TODO-Pasi: Anderes Statement setzen! GetStudentProfile
@@ -27,6 +27,7 @@ namespace Lessoner
                     List<string> profiledata = new List<string>();
                     cmd.CommandText = SQL.Statements.GetStudentInfos;
                     con.Open();
+                    cmd.Parameters.AddWithValue("@LoginID", StoredVars.Objects.ID);
                     using(MySqlDataReader reader = cmd.ExecuteReader())
                     {
                         while (reader.Read())
@@ -38,10 +39,10 @@ namespace Lessoner
                             profiledata.Add(reader["Hausnummer"].ToString());
                             profiledata.Add(reader["PLZ"].ToString());
                             profiledata.Add(reader["Ort"].ToString());
-                            profiledata.Add(reader["ID"].ToString());
                         }
                     }
                     con.Close();
+                    return profiledata.ToArray();
                 }
             }
         }

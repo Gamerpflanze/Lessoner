@@ -10,7 +10,7 @@ function leher() {
 function getdata() {
     $.ajax({
         type: "POST",
-        url: "profile.aspx/getprofiledata",
+        url: "profile.aspx/profiledata",
         async: true,
         contentType: "application/json; charset=utf-8;",
         dataType: "json",
@@ -19,6 +19,10 @@ function getdata() {
             DisplayErrorCode(2004)
         }
     });
+}
+
+function setdata(data) {
+    jQuery("#vnname").text(data.d[1] + " " + data.d[2])
 }
 //TODO: getprofiledata auf dem Server erstellen zum Daten abfragen Pascal macht das :D !GetStudentInfos!
 //Data\ProfileImages
