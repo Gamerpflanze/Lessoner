@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.Services;
+using System.Web.Script.Services;
 using MySql.Data.MySqlClient;
 
 namespace Lessoner
@@ -15,20 +16,21 @@ namespace Lessoner
         {
 
         }
-        [WebMethod]
-        public static string[] profiledata()
+
+        [WebMethod, ScriptMethod(ResponseFormat = ResponseFormat.Json, UseHttpGet = false)]
+        public static string[] GetData()
         {
             //TODO: Root PW setzen!
             //TODO-Pasi: Anderes Statement setzen! GetStudentProfile
-            using(MySqlConnection con = new MySqlConnection("Server=127.0.0.1;Database=dbLessoner;Uid=root;Pwd=;"))
+            using (MySqlConnection con = new MySqlConnection("Server=127.0.0.1;Database=dbLessoner;Uid=root;Pwd=;"))
             {
-                using(MySqlCommand cmd = con.CreateCommand())
+                using (MySqlCommand cmd = con.CreateCommand())
                 {
                     List<string> profiledata = new List<string>();
                     cmd.CommandText = SQL.Statements.GetStudentInfos;
                     con.Open();
                     cmd.Parameters.AddWithValue("@LoginID", StoredVars.Objects.ID);
-                    using(MySqlDataReader reader = cmd.ExecuteReader())
+                    using (MySqlDataReader reader = cmd.ExecuteReader())
                     {
                         while (reader.Read())
                         {
@@ -45,6 +47,19 @@ namespace Lessoner
 
                     return profiledata.ToArray();
                 }
+            }
+        }
+
+        [WebMethod]
+        public static string CheckLoggedin()
+        {
+            if (StoredVars.Objects.Loggedin)
+            {
+                return StoredVars.Objects.Vorname + " " + StoredVars.Objects.Nachname;
+            }
+            else
+            {
+                return "";
             }
         }
     }

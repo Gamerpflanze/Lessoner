@@ -17,19 +17,15 @@ namespace Lessoner
         protected void Page_Load(object sender, EventArgs e)
         {
             //SELECT Count(*) FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = 'dbLessoner'
-            using (MySqlConnection con = new MySqlConnection("Server=127.0.0.1;Uid=root;Pwd=;"))
+            if (StoredVars.Objects.Loggedin)
             {
-                using (MySqlCommand cmd = con.CreateCommand())
+                foreach (Control c in LoginControlls.Controls)
                 {
-                    cmd.CommandText = "SELECT Count(*) FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = 'dbLessoner'";
-                    con.Open();
-                    if(Convert.ToInt32(cmd.ExecuteScalar())==0)
-                    {
-                        cmd.CommandText = SQL.Statements.CreateDatabase;
-                        cmd.ExecuteNonQuery();
-                    }
-                    con.Close();
+                    c.Visible = false;
                 }
+                LinkButton ProfileLink = new LinkButton();
+                ProfileLink.Text = StoredVars.Objects.Vorname + " " + StoredVars.Objects.Nachname;
+                LoginControlls.Controls.Add(ProfileLink);
             }
         }
         [WebMethod]
@@ -48,6 +44,15 @@ namespace Lessoner
         public static string GetLoginData(string Username, string Passwort)
         {
             return GlobalWebMethods.GetLoginData(Username, Passwort);
+        }
+
+        protected void btnLoginSubmit_Click(object sender, EventArgs e)
+        {
+            string Username = GlobalWebMethods.GetLoginData(txtUsername.Text, txtPasswort.Text);
+            LoginControlls.Controls.Clear();
+            LinkButton ProfileLink = new LinkButton();
+            ProfileLink.Text = Username;
+            LoginControlls.Controls.Add(ProfileLink);
         }
     }
 }

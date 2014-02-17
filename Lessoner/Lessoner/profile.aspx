@@ -13,8 +13,10 @@
     <script src="JQuery/jquery-1.10.2.js"></script>
     <script src="Bootstrap/js/bootstrap.js"></script>
     <script src="Javascript/LoginScript.js"></script>
+    <script src="Javascript/profile.js"></script>
+    <script src="Javascript/Global.js"></script>
 </head>
-<body onload="CheckLoggedin('Default.aspx'); getdata()">
+<body onload="getdata(); CheckLoggedin('profile.aspx');">
     <div class="alert alert-danger alert-dismissable" id="ErrorDisplay" style="display: none">
         <button type="button" class="close" aria-hidden="true" onclick="CloseError()">&times;</button>
         <strong>Fehler: </strong>
@@ -76,8 +78,8 @@
         </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+    
     <script src="../../dist/js/bootstrap.min.js"></script>
-    <script src="Javascript/profile.js"></script>
+
 </body>
 </html>
