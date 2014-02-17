@@ -111,6 +111,7 @@ namespace Lessoner
                                     StoredVars.Objects.PLZ = Convert.ToString(reader["PLZ"]);
                                     StoredVars.Objects.Ort = Convert.ToString(reader["Ort"]);
                                     StoredVars.Objects.KlasseID = Convert.ToInt32(reader["KlasseID"]);
+                                    StoredVars.Objects.KlasseName = Convert.ToString(reader["KlassenName"]);
                                 }
                                 if (i == 0)
                                 {

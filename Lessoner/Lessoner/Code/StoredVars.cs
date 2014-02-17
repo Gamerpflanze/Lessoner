@@ -22,7 +22,12 @@ namespace Lessoner
         public string Ort = "";
         public string PLZ = "";
         public int KlasseID = -1;
+        public string KlasseName = "";
         public bool Loggedin = false;
+
+        //Cache
+        public LessonerBuilderCache LessonerBuilder = new LessonerBuilderCache();
+
 
         /// <summary>
         /// Gibt die instanz von StoredVars Zurück

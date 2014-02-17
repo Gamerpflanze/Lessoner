@@ -12,17 +12,60 @@ namespace Lessoner
 {
     public partial class LessonerBuilder : System.Web.UI.Page
     {
+        //=================================================================
+        //Globale Variablen
+
+        int WeekIndex
+        {
+            get
+            {
+                return StoredVars.Objects.LessonerBuilder.WeekIndex;
+            }
+            set
+            {
+                StoredVars.Objects.LessonerBuilder.WeekIndex = value;
+            }
+        }
+
+        List<DateTime> WeekBegins
+        {
+            get
+            {
+                return StoredVars.Objects.LessonerBuilder.WeekBegins;
+            }
+            set
+            {
+                StoredVars.Objects.LessonerBuilder.WeekBegins = value;
+            }
+        }
+
+        //=================================================================
+
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (StoredVars.Objects.Loggedin)
+            if (!Page.IsPostBack)
             {
-                foreach (Control c in LoginControlls.Controls)
+                if (StoredVars.Objects.Loggedin)
                 {
-                    c.Visible = false;
+                    foreach (Control c in LoginControlls.Controls)
+                    {
+                        c.Visible = false;
+                    }
+                    LinkButton ProfileLink = new LinkButton();
+                    ProfileLink.Text = StoredVars.Objects.Vorname + " " + StoredVars.Objects.Nachname;
+                    LoginControlls.Controls.Add(ProfileLink);
                 }
-                LinkButton ProfileLink = new LinkButton();
-                ProfileLink.Text = StoredVars.Objects.Vorname + " " + StoredVars.Objects.Nachname;
-                LoginControlls.Controls.Add(ProfileLink);
+
+
+                DateTime Date = DateTime.Now.Date;
+                Date = Date.AddDays(-((double)HelperMethods.DayOfWeekToNumber(Date.DayOfWeek) - 1));
+                for (int i = 0; i < 6; i++)
+                {
+                    StoredVars.Objects.LessonerBuilder.WeekBegins.Add(Date);
+                    Date = Date.AddDays(7);
+                }
+                txtWeekBegin.Text = WeekBegins[WeekIndex].ToString("dd.MM.yyyy");
+
             }
         }
         protected void btnLoginSubmit_Click(object sender, EventArgs e)
@@ -32,6 +75,34 @@ namespace Lessoner
             LinkButton ProfileLink = new LinkButton();
             ProfileLink.Text = Username;
             LoginControlls.Controls.Add(ProfileLink);
+        }
+
+        protected void btnLastDate_Click(object sender, EventArgs e)
+        {
+            if (WeekIndex > 0)
+            {
+                btnNextDate.Attributes.Remove("disabled");
+                WeekIndex--;
+                if (WeekIndex == 0)
+                {
+                    btnLastDate.Attributes.Add("disabled", "disabled");
+                }
+                txtWeekBegin.Text = WeekBegins[WeekIndex].ToString("dd.MM.yyyy");
+            }
+        }
+
+        protected void btnNextDate_Click(object sender, EventArgs e)
+        {
+            if (WeekIndex < WeekBegins.Count() - 1)
+            {
+                btnNextDate.Attributes.Remove("disabled");
+                WeekIndex++;
+                if (WeekIndex == WeekBegins.Count())
+                {
+                    btnLastDate.Attributes.Add("disabled", "disabled");
+                }
+                txtWeekBegin.Text = WeekBegins[WeekIndex].ToString("dd.MM.yyyy");
+            }
         }
 
         [WebMethod]
@@ -50,19 +121,19 @@ namespace Lessoner
                         Return[0][i] = Date.ToString("dd.MM.yyyy");
                         Date = Date.AddDays(7);
                     }
-                    using(MySqlConnection con = new MySqlConnection("Server=127.0.0.1;Database=dbLessoner;Uid=root;Pwd=;"))
+                    using (MySqlConnection con = new MySqlConnection("Server=127.0.0.1;Database=dbLessoner;Uid=root;Pwd=;"))
                     {
-                        using(MySqlCommand cmd = con.CreateCommand())
+                        using (MySqlCommand cmd = con.CreateCommand())
                         {
                             try
                             {
                                 cmd.CommandText = SQL.Statements.GetFaecherverteilung;
                                 con.Open();
-                                
+
                                 using (MySqlDataReader reader = cmd.ExecuteReader())
                                 {
                                     List<dynamic> Faecherverteilung = new List<dynamic>();
-                                    while(reader.Read())
+                                    while (reader.Read())
                                     {
                                         List<dynamic> FaecherZeiten = new List<dynamic>();
                                         FaecherZeiten.Add(reader["Stunde"]);
@@ -74,7 +145,7 @@ namespace Lessoner
                                 }
                                 con.Close();
                             }
-                            catch(Exception ex)
+                            catch (Exception ex)
                             {
 
                             }
