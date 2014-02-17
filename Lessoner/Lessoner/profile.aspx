@@ -80,7 +80,7 @@
                             <td id="PLZOrt"></td>
                         </tr>
                         <tr>
-                            <td id="Klasse">Klasse nicht gegeben!</td>
+                            <td id="Klasse"></td>
                         </tr>
                     </tbody>
                 </table>

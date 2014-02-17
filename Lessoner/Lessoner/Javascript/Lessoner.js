@@ -6,13 +6,7 @@
 function addrow()
 {
     //TODO: jQuery Script für die Buttons des Stundenplanes erstellen
-
-
-
-
-
-
-
+    
     //TODO: jQuery Script für den Stundenplan des jeweiligen Datums anzeigen
 
 
@@ -20,3 +14,35 @@ function addrow()
     $('#Lessoner tr:last').after('<tr><td class="tableCenter">2</td></tr>');
 }
 
+function getdays() {
+    jQuery.ajax({
+        type: "POST",
+        url: "Lessoner.aspx/GetDays",
+        async: false,
+        contentType: "application/json; charset=utf-8;",
+        dataType: "json",
+        //data:"{param:1}",
+        success: function (data) { setdata(data) },
+        error: function (data) {
+            DisplayErrorCode(2004)
+        }
+    });
+}
+//#0 FindetStatt
+//#1 Name
+//#2 Titel
+//#3 Vorname
+//#4 Nachname
+//#5 Stunde_Beginn
+//#6 Stunde_Ende
+//#7 Stunde
+//#8 Uhrzeit
+//#9 TagName
+function setdays(data) {
+    jQuery("#R1C1").text(data.d[1][1]);
+    //jQuery("#R1C1").text(data.d[1][2]);
+    //jQuery("#R1C1").text(data.d[1][3]);
+    //jQuery("#R1C1").text(data.d[1][4]);
+    //jQuery("#R1C1").text(data.d[1][5]);
+    //jQuery("#R1C1").text(data.d[1][6]);    
+}

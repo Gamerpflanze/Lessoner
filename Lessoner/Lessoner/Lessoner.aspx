@@ -84,11 +84,14 @@
                     </tr>
                 </thead>
                 <tbody id="Lessoner">
-
                     <tr>
-                        <td class="tableCenter"></td>
+                        <td id="S1St" class="tableCenter"></td>
+                        <td id="S1Mo" class="tableCenter"></td>
+                        <td id="S1Di" class="tableCenter"></td>
+                        <td id="S1Mi" class="tableCenter"></td>
+                        <td id="S1Do" class="tableCenter"></td>
+                        <td id="S1Fr" class="tableCenter"></td>
                     </tr>
-
                 </tbody>
             </table>
 
