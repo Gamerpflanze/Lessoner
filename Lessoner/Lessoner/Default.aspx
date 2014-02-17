@@ -115,7 +115,7 @@
         <hr />
 
         <footer>
-            <p>&copy; Von Florian Fürsenberg und Pascal Gönnewicht</p>
+            <p>&copy; Von Florian Fürstenberg und Pascal Gönnewicht</p>
             <p><a href="impressum.aspx">Impressum</a></p>
         </footer>
     </div>
