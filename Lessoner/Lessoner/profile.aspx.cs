@@ -42,6 +42,7 @@ namespace Lessoner
                         }
                     }
                     con.Close();
+
                     return profiledata.ToArray();
                 }
             }

@@ -51,24 +51,24 @@
     </div>
 
     <div class="container">
-        <h1 id="vnname">Florian</h1>
+        <h1 id="vnname"></h1>
 
         <div class="row">
             <div class="col-md-4">
-                <img src="Data\ProfileImages\0001.jpg" height: 300px;" class="hidden-xs" class="hidden-sm">
+                <img src="Data\ProfileImages\0001.jpg" height: 300px;" class="hidden-xs" class="hidden-sm" />
                 <!-- TODO: Bild beim Upload bearbeiten auf 300x300 ohne stauchung -->
             </div>
             <div class="col-md-4">
                 <table class="table table-striped">
                     <tbody>
                         <tr>
-                            <td id="strasseNr">Bunzlauer Straße 18</td>
+                            <td id="strasseNr"></td>
                         </tr>
                         <tr>
-                            <td id="PLZOrt">45888 Gelsenkirchen</td>
+                            <td id="PLZOrt"></td>
                         </tr>
                         <tr>
-                            <td id="Klasse">Klasse CI13V1</td>
+                            <td id="Klasse">Klasse nicht gegeben!</td>
                         </tr>
                     </tbody>
                 </table>
