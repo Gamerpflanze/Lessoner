@@ -11,7 +11,7 @@
     <link href="Bootstrap/css/bootstrap.css" rel="stylesheet" />
     <link href="CSS/Style.css" rel="stylesheet" />
 </head>
-<body onload="CheckLoggedin('Lessoner.aspx')">
+<body onload="CheckLoggedin('Lessoner.aspx'); getdays();">
     <div class="alert alert-danger alert-dismissable" id="ErrorDisplay" style="display: none">
         <button type="button" class="close" aria-hidden="true" onclick="CloseError()">&times;</button>
         <strong>Fehler: </strong>
@@ -102,5 +102,6 @@
     <script src="Bootstrap/js/bootstrap.js"></script>
     <script src="Javascript/LoginScript.js"></script>
     <script src="Javascript/Lessoner.js"></script>
+    <script src="Javascript/Global.js"></script>
 </body>
 </html>

@@ -22,7 +22,7 @@ function getdays() {
         contentType: "application/json; charset=utf-8;",
         dataType: "json",
         //data:"{param:1}",
-        success: function (data) { setdata(data) },
+        success: function (data) { setdays(data) },
         error: function (data) {
             DisplayErrorCode(2004)
         }

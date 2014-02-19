@@ -38,7 +38,7 @@
                                 <li><a href="about.aspx">Über den Lessoner</a></li>
                                 <li><a href="kontakt.aspx">Kontakt</a></li>
                             </ul>
-                            <asp:Panel class="navbar-form navbar-right" ID="LoginForm" runat="server">
+                            <asp:Panel CssClass="navbar-form navbar-right" ID="LoginForm" runat="server">
                                 <asp:ScriptManager runat="server"></asp:ScriptManager>
                                 <asp:Panel runat="server" ID="LoginControlls">
                                     <div class="form-group">
@@ -74,7 +74,7 @@
                     </div>
                 </div>
                 <div class="container">
-                    <asp:Table runat="server" ID="tbTimetable" class="table table-bordered">
+                    <asp:Table runat="server" ID="tbTimetable" CssClass="table table-bordered">
                         <asp:TableHeaderRow>
                             <asp:TableHeaderCell CssClass="tableStunde">Zeit</asp:TableHeaderCell>
                             <asp:TableHeaderCell CssClass="tableTag">Montag</asp:TableHeaderCell>

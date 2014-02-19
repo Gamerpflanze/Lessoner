@@ -60,3 +60,27 @@
 {
     margin-bottom:0px;
 }
+.NavbarDropDown
+{
+    color:#fff;
+    border-color:#111111;
+}
+.NavbarDropDown:hover, .NavbarDropDown:focus, .NavbarDropDown:active, .NavbarDropDown.active
+{
+    border-color:#000 !important; 
+    background-color:#000 !important;
+    color:#fff;
+}
+.LoginElement
+{
+    margin-left:4px;
+    margin-right:4px;
+}
+.LoginElement:first-child
+{
+    margin-bottom:4px;
+}
+.LoginElement:last-child
+{
+    margin-top:4px;
+}

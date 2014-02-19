@@ -14,8 +14,9 @@
     <script src="Bootstrap/js/bootstrap.js"></script>
     <script src="Javascript/LoginScript.js"></script>
     <script src="Javascript/Global.js"></script>
+
 </head>
-<body>
+<body onload="">
     <div class="alert alert-danger alert-dismissable" id="ErrorDisplay" style="display: none">
         <button type="button" class="close" aria-hidden="true" onclick="CloseError()">&times;</button>
         <strong>Fehler: </strong>
@@ -51,18 +52,31 @@
                     <asp:UpdatePanel runat="server">
                         <ContentTemplate>
                             <asp:ScriptManager runat="server"></asp:ScriptManager>
-                                <asp:Panel runat="server" ID="LoginControlls">
-                                <div class="form-group">
-                                    <asp:TextBox runat="server" placeholder="Email" class="form-control" id="txtUsername"></asp:TextBox>
+                            <asp:Panel runat="server" ID="LoginControlls">
+                                <div class="btn-group">
+                                    <button type="button" class="btn dropdown-toggle formdropdown navbar-inverse NavbarDropDown" data-toggle="dropdown">
+                                        Anmelden
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu drop navbar-inverse ">
+                                        <asp:Panel runat="server" ID="LoginElements">
+                                            <li class="LoginElement">
+                                                <asp:TextBox runat="server" placeholder="Email" CssClass="form-control" ID="txtUsername"></asp:TextBox></li>
+                                            <li class="LoginElement">
+                                                <asp:TextBox TextMode="Password" placeholder="Passwort" CssClass="form-control" ID="txtPasswort" runat="server"></asp:TextBox></li>
+                                            <li class="LoginElement">
+                                                <asp:Button CssClass="btn btn-success" Text="Anmelden" OnClick="btnLoginSubmit_Click" ID="btnLoginSubmit" runat="server" /></li>
+                                        </asp:Panel>
+                                        <asp:Panel runat="server" ID="UserElements">
+                                            <li>
+                                                <asp:Button CssClass="btn btn-primary" runat="server" ID="btnLogout" Text="Abmelden" /></li>
+                                        </asp:Panel>
+                                    </ul>
                                 </div>
-                                 <div class="form-group">
-                                <asp:TextBox TextMode="Password" placeholder="Passwort" class="form-control" id="txtPasswort" runat="server"></asp:TextBox>
-                                </div>
-                                <asp:Button class="btn btn-success" Text="Anmelden" onclick="btnLoginSubmit_Click" id="btnLoginSubmit" runat="server" />
                             </asp:Panel>
                         </ContentTemplate>
                         <Triggers>
-                            <asp:AsyncPostBackTrigger  ControlID="txtUsername" />
+                            <asp:AsyncPostBackTrigger ControlID="txtUsername" />
                             <asp:AsyncPostBackTrigger ControlID="txtPasswort" />
                             <asp:AsyncPostBackTrigger ControlID="btnLoginSubmit" />
                         </Triggers>

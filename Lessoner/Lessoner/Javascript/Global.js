@@ -14,3 +14,7 @@ function CloseError()
 {
     jQuery("#ErrorDisplay").css("display", "none");
 }
+function OpenFormDropdown()
+{
+
+}
