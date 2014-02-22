@@ -11,7 +11,7 @@ namespace Lessoner {
     
     
     public partial class LessonerBuilder {
-        
+
         /// <summary>
         /// LoginForm-Steuerelement
         /// </summary>
@@ -83,6 +83,24 @@ namespace Lessoner {
         /// Um dies zu ändern, verschieben Sie die Felddeklaration aus der Designerdatei in eine Code-Behind-Datei.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton btnNextDate;
+        
+        /// <summary>
+        /// lbtnOpenClassMenu-Steuerelement
+        /// </summary>
+        /// <remarks>
+        /// Automatisch generiertes Feld
+        /// Um dies zu ändern, verschieben Sie die Felddeklaration aus der Designerdatei in eine Code-Behind-Datei.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton lbtnOpenClassMenu;
+        
+        /// <summary>
+        /// ClassList-Steuerelement
+        /// </summary>
+        /// <remarks>
+        /// Automatisch generiertes Feld
+        /// Um dies zu ändern, verschieben Sie die Felddeklaration aus der Designerdatei in eine Code-Behind-Datei.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl ClassList;
         
         /// <summary>
         /// tbTimetable-Steuerelement

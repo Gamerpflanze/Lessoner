@@ -31,15 +31,6 @@ namespace Lessoner {
         protected global::System.Web.UI.WebControls.Panel LoginControlls;
         
         /// <summary>
-        /// LoginElements-Steuerelement
-        /// </summary>
-        /// <remarks>
-        /// Automatisch generiertes Feld
-        /// Um dies zu ändern, verschieben Sie die Felddeklaration aus der Designerdatei in eine Code-Behind-Datei.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel LoginElements;
-        
-        /// <summary>
         /// txtUsername-Steuerelement
         /// </summary>
         /// <remarks>
@@ -65,23 +56,5 @@ namespace Lessoner {
         /// Um dies zu ändern, verschieben Sie die Felddeklaration aus der Designerdatei in eine Code-Behind-Datei.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnLoginSubmit;
-        
-        /// <summary>
-        /// UserElements-Steuerelement
-        /// </summary>
-        /// <remarks>
-        /// Automatisch generiertes Feld
-        /// Um dies zu ändern, verschieben Sie die Felddeklaration aus der Designerdatei in eine Code-Behind-Datei.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel UserElements;
-        
-        /// <summary>
-        /// btnLogout-Steuerelement
-        /// </summary>
-        /// <remarks>
-        /// Automatisch generiertes Feld
-        /// Um dies zu ändern, verschieben Sie die Felddeklaration aus der Designerdatei in eine Code-Behind-Datei.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnLogout;
     }
 }

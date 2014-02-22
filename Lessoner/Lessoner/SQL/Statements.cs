@@ -67,6 +67,7 @@ namespace Lessoner.SQL
 	                                            ON s.KlasseID = k.ID
                                             WHERE k.Name = @Klasse
                                             ORDER BY s.Name ";
+
         public const string GetLessonerBuilder = @"SELECT ti.ID as TagInfoID, t.Information, fi.ID as FachID, f.Name, f.NameKurz, fm.ID as FachModID, t.FindetStatt, fi.Stunde_Beginn, fi.Stunde_Ende FROM tbklasse as k
                                                    JOIN tbstundenplan as s ON s.KlasseID = k.ID
                                                    JOIN tbtage as t ON t.StundenplanID = s.ID
@@ -74,6 +75,13 @@ namespace Lessoner.SQL
                                                    Left JOIN tbfachinfo as fi ON t.ID = fi.TagID
                                                    Left JOIN tbfaecher as f ON f.ID = fi.FachID
                                                    Left JOIN tbfachmod as fm ON fi.FachModID = fm.ID
+                                                   WHERE k.ID = @KlasseID AND s.Datum = @Datum
+                                                   ORDER BY t.ID";
+
+        public const string GetDayInformations = @"SELECT t.ID as TagID, ti.ID as TagInfoID, t.Information, t.FindetStatt FROM tbklasse as k
+                                                   JOIN tbstundenplan as s ON s.KlasseID = k.ID
+                                                   JOIN tbtage as t ON t.StundenplanID = s.ID
+                                                   JOIN tbtaginfo as ti ON ti.ID = t.TagInfoID
                                                    WHERE k.ID = @KlasseID AND s.Datum = @Datum
                                                    ORDER BY t.ID";
 
@@ -90,14 +98,17 @@ namespace Lessoner.SQL
                                           WHERE `Group` = @RechtGruppe AND Name = @RechtName, @Value)";
 
         //TODO: Testen, Ausgabe soll der Pfad der Datei sein
+        //ACHTUNG BEI MERGE: Fehler wurde korrigiert (Falsche id bei ON). Muss immer noch getestet werden
         public const string GetData = @"SELECT Path
                                         FROM tbdateien	AS da
                                         JOIN tbfachinfo AS fi
-	                                        ON da.FachinfoID = fi.FachID
+	                                        ON da.FachinfoID = fi.ID
                                         WHERE FachinfoID = @Fachinfo ";
 
 
-        //Achtung! 5 mal das selbe für die 5 Tage im Lessoner.aspx
+        /// <summary>
+        /// Achtung! 5 mal das selbe für die 5 Tage im Lessoner.aspx
+        /// </summary>
         public const string GetDays = @"SELECT ta.FindetStatt, fa.Name, le.Titel, le.Vorname, le.Name AS Nachname, fi.Stunde_Beginn, fi.Stunde_Ende, fv.Stunde, fv.Uhrzeit, ti.Name AS TagName
                                         FROM tbstundenplan AS st
                                         JOIN tbklasse AS kl

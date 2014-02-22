@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="~/LessonerBuilder.aspx.cs" Inherits="Lessoner.LessonerBuilder" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="~/LessonerBuilder.aspx.cs" Inherits="Lessoner.LessonerBuilder"%>
 
 <!DOCTYPE html>
 
@@ -54,8 +54,9 @@
                     </div>
                 </div>
                 <div class="page-header">
+
                     <div class="container">
-                        <div class="input-group left" style="float:left">
+                        <div class="input-group left" style="float: left">
                             <asp:LinkButton CssClass="btn btn-default LessonerButtonLeft DisabledATag" ID="btnLastDate" runat="server" OnClick="btnLastDate_Click">
                                 <span class="glyphicon glyphicon-arrow-left"></span>
                             </asp:LinkButton>
@@ -64,18 +65,22 @@
                                 <span class="glyphicon glyphicon-arrow-right"></span>
                             </asp:LinkButton>
                         </div>
-                        <div class="btn-group" style="float:right">
-                            <asp:LinkButton CssClass="btn btn-default dropdown-toggle" data-toggle="dropdown" runat="server">
-                                Klasse1<span class="caret"></span>
+                        <div class="btn-group" style="float: right">
+                            <asp:LinkButton CssClass="btn btn-default dropdown-toggle" data-toggle="dropdown" runat="server" ID="lbtnOpenClassMenu">
+                                KLASSE<span class="caret"></span>
                             </asp:LinkButton>
-                            <ul class="dropdown-menu">
+                            <ul class="dropdown-menu" id="ClassList" runat="server">
                             </ul>
                         </div>
+
                     </div>
+                <div style="width: 100%; border-bottom: 1px solid #eee; margin-top: 20px; margin-bottom: 5px;"></div>
+                <div class="row">
+                </div>
                 </div>
                 <div class="container">
                     <asp:Table runat="server" ID="tbTimetable" CssClass="table table-bordered">
-                        <asp:TableHeaderRow>
+                        <asp:TableHeaderRow TableSection="TableHeader">
                             <asp:TableHeaderCell CssClass="tableStunde">Zeit</asp:TableHeaderCell>
                             <asp:TableHeaderCell CssClass="tableTag">Montag</asp:TableHeaderCell>
                             <asp:TableHeaderCell CssClass="tableTag">Dienstag</asp:TableHeaderCell>
@@ -84,6 +89,35 @@
                             <asp:TableHeaderCell CssClass="tableTag">Freitag</asp:TableHeaderCell>
                         </asp:TableHeaderRow>
                     </asp:Table>
+                    <!--
+                            <asp:TableRow>
+                            <asp:TableCell CssClass="LessonerBuilderCell">
+                                    <button type="button" class="LessonEditButton btn-xs" style="float:left"><span class="glyphicon glyphicon-remove"></span></button>
+                                    <button type="button" class="LessonEditButton btn-xs" style="float:right"><span class="glyphicon glyphicon-pencil"></span></button>
+                            </asp:TableCell>
+                            <asp:TableCell CssClass="LessonerBuilderCell">
+                                    <button type="button" class="LessonEditButton btn-xs" style="float:left"><span class="glyphicon glyphicon-remove"></span></button>
+                                    <button type="button" class="LessonEditButton btn-xs" style="float:right"><span class="glyphicon glyphicon-plus"></span></button>
+                            </asp:TableCell>
+                        </asp:TableRow>
+                        -->
+                </div>
+                <!--Dialoge-->
+                <div class="modal fade" id="LessonEdit" tabindex="-1" role="dialog" aria-labelledby="LessonEditTitle" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <h4 class="modal-title" id="LessonEditTitle">Modal title</h4>
+                            </div>
+                            <div class="modal-body">
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
+                                <button type="button" class="btn btn-primary">Übernehmen</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </ContentTemplate>
             <Triggers>
@@ -91,6 +125,10 @@
                 <asp:AsyncPostBackTrigger ControlID="txtPasswort" />
                 <asp:AsyncPostBackTrigger ControlID="btnLoginSubmit" />
                 <asp:AsyncPostBackTrigger ControlID="tbTimetable" />
+                <asp:AsyncPostBackTrigger ControlID="lbtnOpenClassMenu" />
+                <asp:AsyncPostBackTrigger ControlID="btnNextDate" />
+                <asp:AsyncPostBackTrigger ControlID="btnLastDate" />
+                <asp:AsyncPostBackTrigger ControlID="txtWeekBegin" />
             </Triggers>
         </asp:UpdatePanel>
     </form>

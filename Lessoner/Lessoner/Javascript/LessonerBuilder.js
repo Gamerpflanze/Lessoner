@@ -85,3 +85,10 @@ function LastDate() {
         jQuery("#LastDate").attr("disabled", "disabled");
     }
 }
+$(document).ready(function() {
+    jQuery(".LessonerBuilderCell").hover(function () {//Hover in
+        jQuery(this).children("button").each().css("display", "block");
+
+    }, function () {//Hover out
+        jQuery(this).children("button").each().css("display", "none");
+    })});

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Web.UI.HtmlControls;
 using System.Web.Services;
 using MySql.Data.MySqlClient;
 using MySql.Data;
@@ -14,7 +15,7 @@ namespace Lessoner
     {
         //=================================================================
         //Globale Variablen
-
+        //Dient zur Kürzung
         int WeekIndex
         {
             get
@@ -26,7 +27,6 @@ namespace Lessoner
                 StoredVars.Objects.LessonerBuilder.WeekIndex = value;
             }
         }
-
         List<DateTime> WeekBegins
         {
             get
@@ -38,11 +38,14 @@ namespace Lessoner
                 StoredVars.Objects.LessonerBuilder.WeekBegins = value;
             }
         }
-
         //=================================================================
 
+        //TODO: Exception handling
         protected void Page_Load(object sender, EventArgs e)
         {
+            //EventHandler
+            this.PreRender += new System.EventHandler(this.LessonerBuilder_PreRender);
+            //
             if (!Page.IsPostBack)
             {
                 if (StoredVars.Objects.Loggedin)
@@ -56,7 +59,6 @@ namespace Lessoner
                     LoginControlls.Controls.Add(ProfileLink);
                 }
 
-
                 DateTime Date = DateTime.Now.Date;
                 Date = Date.AddDays(-((double)HelperMethods.DayOfWeekToNumber(Date.DayOfWeek) - 1));
                 for (int i = 0; i < 6; i++)
@@ -65,9 +67,41 @@ namespace Lessoner
                     Date = Date.AddDays(7);
                 }
                 txtWeekBegin.Text = WeekBegins[WeekIndex].ToString("dd.MM.yyyy");
+            }
+            using (MySqlConnection con = new MySqlConnection("Server=127.0.0.1;Database=dbLessoner;Uid=root;Pwd=;"))
+            {
+                using (MySqlCommand cmd = con.CreateCommand())
+                {
+                    cmd.CommandText = SQL.Statements.GetClasses;
+                    con.Open();
 
+                    using (MySqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        bool first = true;
+                        while (reader.Read())
+                        {
+                            HtmlGenericControl li = new HtmlGenericControl("li");
+                            LinkButton ClassLink = new LinkButton();
+
+                            ClassLink.Attributes.Add("data-id", reader["ID"].ToString());
+                            ClassLink.Text = reader["Name"].ToString();
+                            if(first)
+                            {
+                                first = false;
+                                lbtnOpenClassMenu.Text = ClassLink.Text + "<span class=\"caret\"></span>";
+                                lbtnOpenClassMenu.Attributes.Add("data-id", reader["ID"].ToString());
+                            }
+                            ClassLink.Click += new EventHandler(ClassSelect_Click);
+                            
+                            li.Controls.Add(ClassLink);
+                            ClassList.Controls.Add(li);
+                        }
+                    }
+                    con.Close();
+                }
             }
         }
+
         protected void btnLoginSubmit_Click(object sender, EventArgs e)
         {
             string Username = GlobalWebMethods.GetLoginData(txtUsername.Text, txtPasswort.Text);
@@ -76,7 +110,6 @@ namespace Lessoner
             ProfileLink.Text = Username;
             LoginControlls.Controls.Add(ProfileLink);
         }
-
         protected void btnLastDate_Click(object sender, EventArgs e)
         {
             if (WeekIndex > 0)
@@ -90,21 +123,112 @@ namespace Lessoner
                 txtWeekBegin.Text = WeekBegins[WeekIndex].ToString("dd.MM.yyyy");
             }
         }
-
         protected void btnNextDate_Click(object sender, EventArgs e)
         {
             if (WeekIndex < WeekBegins.Count() - 1)
             {
                 btnLastDate.Attributes.Remove("disabled");
                 WeekIndex++;
-                if (WeekIndex == WeekBegins.Count()-1)
+
+                if (WeekIndex == WeekBegins.Count() - 1)
                 {
                     btnNextDate.Attributes.Add("disabled", "disabled");
                 }
                 txtWeekBegin.Text = WeekBegins[WeekIndex].ToString("dd.MM.yyyy");
             }
         }
+        protected void ClassSelect_Click(object sender, EventArgs e)
+        {
+            LinkButton ClassButton = sender as LinkButton;
 
+            lbtnOpenClassMenu.Text = ClassButton.Text+"<span class=\"caret\"></span>";
+            lbtnOpenClassMenu.Attributes["data-id"] = ClassButton.Attributes["data-id"];
+        }
+
+        private void LoadLessoner()
+        {
+            DateTime Week = Convert.ToDateTime(txtWeekBegin.Text);
+            int ClassID = Convert.ToInt32(lbtnOpenClassMenu.Attributes["data-id"]);
+            List<bool> AvailableDays = new List<bool>();
+
+            using(MySqlConnection con = new MySqlConnection("Server=127.0.0.1;Database=dbLessoner;Uid=root;Pwd=;"))
+            {
+                using (MySqlCommand cmd = con.CreateCommand())
+                {
+                    cmd.CommandText = SQL.Statements.GetFaecherverteilung;
+                    con.Open();
+                    using(MySqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while(reader.Read())
+                        {
+                            TableRow row = new TableRow();
+                            TableCell TimeCell = new TableCell();
+                            TimeCell.Controls.Add(BuildTimeCell(Convert.ToInt32(reader["Stunde"]), TimeSpan.Parse(reader["Uhrzeit"].ToString()), TimeSpan.Parse(reader["Ende"].ToString())));
+                            row.Controls.Add(TimeCell);
+                            for(int i = 0; i<5; i++)
+                            {
+                                row.Controls.Add(new TableCell());
+                            }
+                            tbTimetable.Controls.Add(row);
+                        }
+                    }
+                    cmd.CommandText = SQL.Statements.GetDayInformations;
+                    cmd.Parameters.AddWithValue("@KlasseID",ClassID);
+                    cmd.Parameters.AddWithValue("@Datum", Week);
+
+                    using(MySqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        for (int i = 1; reader.Read(); i++)//LOL It works, we shall keep it!!!!!!!!!!!!!!!!!!!
+                        {
+                            if (Convert.ToBoolean(reader["FindetStatt"]))
+                            {
+                                AvailableDays.Add(true);
+                            }
+                            else
+                            {
+                                AvailableDays.Add(false);
+                                (tbTimetable.Controls[1].Controls[i] as TableCell).Text = reader["Information"].ToString();
+                                (tbTimetable.Controls[1].Controls[i] as TableCell).CssClass = "danger LessonerDayFree";
+                            }
+                        }
+                    }
+                    con.Close();
+                }
+            }
+        }
+
+        private HtmlTable BuildTimeCell(int Lession, TimeSpan Begin, TimeSpan End)
+        {
+            HtmlTable TimeTB = new HtmlTable();
+            
+            HtmlTableRow Top = new HtmlTableRow();
+            HtmlTableRow Bottom = new HtmlTableRow();
+
+            HtmlTableCell NumberCell = new HtmlTableCell();
+            HtmlTableCell BeginCell = new HtmlTableCell();
+            HtmlTableCell EndCell = new HtmlTableCell();
+
+            NumberCell.RowSpan = 2;
+            NumberCell.InnerText = Lession.ToString();
+            NumberCell.Style.Add("font-size","16px;");
+            BeginCell.InnerText = Begin.ToString(@"hh\:mm");
+            EndCell.InnerText = End.ToString(@"hh\:mm");
+
+            Top.Controls.Add(NumberCell);
+            Top.Controls.Add(BeginCell);
+
+            Bottom.Controls.Add(EndCell);
+
+            TimeTB.Controls.Add(Top);
+            TimeTB.Controls.Add(Bottom);
+
+            return TimeTB;
+        }
+        //Tasks==================================================================
+
+
+
+        //Webmethoden============================================================
         [WebMethod]
         public static dynamic GetData()
         {
@@ -164,6 +288,15 @@ namespace Lessoner
             {
                 return ErrorReturns.NotLoggedIn;
             }
+        }
+
+        protected void Page_PreRender(object sender, EventArgs e)
+        {
+
+        }
+        private void LessonerBuilder_PreRender(object sender, EventArgs e)
+        {
+            LoadLessoner();
         }
     }
 }

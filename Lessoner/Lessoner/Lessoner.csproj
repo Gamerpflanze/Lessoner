@@ -110,7 +110,7 @@
     <Compile Include="Code\Enums.cs" />
     <Compile Include="Code\GlobalWebMethods.cs" />
     <Compile Include="Code\HelperMethods.cs" />
-    <Compile Include="Code\Lession.cs" />
+    <Compile Include="Code\Lesson.cs" />
     <Compile Include="Code\StoredVars.cs" />
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
@@ -167,6 +167,11 @@
     <Folder Include="Data\Class\" />
     <Folder Include="Data\ProfileImages\" />
     <Folder Include="ErrorPages\Pictures\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="LessonerBuilder.aspx.resx">
+      <DependentUpon>LessonerBuilder.aspx.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
