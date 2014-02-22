@@ -27,7 +27,7 @@ namespace Lessoner
                     con.Open();
                     cmd.Parameters.AddWithValue("@KlassenID", StoredVars.Objects.KlasseID);
                     cmd.Parameters.AddWithValue("@i",-1);//Wert ändert sich in der for schleife
-                    int CurrentLession = 0;
+                    int CurrentLesson = 0;
                     //For-Schleife für Montag bis Freitag
                     for (int x = 1; x <= 5; x++)
                     {
@@ -36,23 +36,31 @@ namespace Lessoner
                         {
                             while (reader.Read())
                             {
-                                Days[x - 1].Add(new List<string>());
-                                Days[x - 1][CurrentLession].Add(reader["FindetStatt"].ToString());
-                                Days[x - 1][CurrentLession].Add(reader["Name"].ToString());
-                                Days[x - 1][CurrentLession].Add(reader["Titel"].ToString());
-                                Days[x - 1][CurrentLession].Add(reader["Vorname"].ToString());
-                                Days[x - 1][CurrentLession].Add(reader["Nachname"].ToString());
-                                Days[x - 1][CurrentLession].Add(reader["Stunde_Beginn"].ToString());
-                                Days[x - 1][CurrentLession].Add(reader["Stunde_Ende"].ToString());
-                                Days[x - 1][CurrentLession].Add(reader["Stunde"].ToString());
-                                Days[x - 1][CurrentLession].Add(reader["Uhrzeit"].ToString());
-                                Days[x - 1][CurrentLession].Add(reader["TagName"].ToString());
-                                CurrentLession++;
+                                Days[x - 1].Add(new List<string>());                                    
+                                Days[x - 1][CurrentLesson].Add(reader["FindetStatt"].ToString());      //0
+                                Days[x - 1][CurrentLesson].Add(reader["Name"].ToString());             //1
+                                Days[x - 1][CurrentLesson].Add(reader["Titel"].ToString());            //2
+                                Days[x - 1][CurrentLesson].Add(reader["Vorname"].ToString());          //3
+                                Days[x - 1][CurrentLesson].Add(reader["Nachname"].ToString());         //4
+                                Days[x - 1][CurrentLesson].Add(reader["Stunde_Beginn"].ToString());    //5
+                                Days[x - 1][CurrentLesson].Add(reader["Stunde_Ende"].ToString());      //6
+                                Days[x - 1][CurrentLesson].Add(reader["Stunde"].ToString());           //7
+                                Days[x - 1][CurrentLesson].Add(reader["Uhrzeit"].ToString());          //8
+                                Days[x - 1][CurrentLesson].Add(reader["TagName"].ToString());          //9
+                                CurrentLesson++;
                             }
                         }
-                        CurrentLession = 0;
+                        CurrentLesson = 0;
                     }
                     con.Close();
+                    //for (int s = 1 ; s == 5; s++)
+                    //{
+                    //    int lenght = Days.GetLength(s);
+                    //    while(lenght > 0)
+                    //    {
+                            
+                    //    }
+                    //}
 
                     return Days;
                 }
