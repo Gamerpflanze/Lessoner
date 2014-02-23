@@ -7,6 +7,11 @@ namespace Lessoner.SQL
 {
     public static class Statements
     {
+        //TODO: Ordnen(?)
+
+
+
+
         /// <summary>
         /// Gibt die Rechte und die ID des Benutzers zurück. @Email = die Email, @Passwort = Das mit SHA-1 Gehashte Passwort in einer länge von 20byte
         /// </summary>
@@ -77,13 +82,21 @@ namespace Lessoner.SQL
                                                    Left JOIN tbfachmod as fm ON fi.FachModID = fm.ID
                                                    WHERE k.ID = @KlasseID AND s.Datum = @Datum
                                                    ORDER BY t.ID";
-
+        /// <summary>
+        /// Gibt zurück ob ein Tag Statt findet oder nicht
+        /// </summary>
         public const string GetDayInformations = @"SELECT t.ID as TagID, ti.ID as TagInfoID, t.Information, t.FindetStatt FROM tbklasse as k
                                                    JOIN tbstundenplan as s ON s.KlasseID = k.ID
                                                    JOIN tbtage as t ON t.StundenplanID = s.ID
                                                    JOIN tbtaginfo as ti ON ti.ID = t.TagInfoID
                                                    WHERE k.ID = @KlasseID AND s.Datum = @Datum
                                                    ORDER BY t.ID";
+
+        public const string GetLessonPerDay = @"SELECT fi.*, f.Name as FachName, f.NameKurz as FachNameKurz, t.TagInfoID FROM tbtage as t
+                                                JOIN tbfachinfo as fi ON t.ID = fi.TagID
+                                                JOIN tbfaecher as f ON fi.FachID = f.ID
+                                                WHERE t.ID = @TagID
+                                                ORDER BY Stunde_Beginn";
 
         public const string GetClasses = @"SELECT * FROM tbKlasse AS k ORDER BY k.Name";
 
@@ -130,7 +143,7 @@ namespace Lessoner.SQL
                                         WHERE ti.ID = @i AND st.KlasseID = @KlassenID
                                         ORDER BY fv.Stunde ASC";
 
-
+        //TODO: Kann das weg?
         //Immer Das Letzte Statement (da sehr lang)
         public const string CreateDatabase = @"-- --------------------------------------------------------
 -- Host:                         127.0.0.1

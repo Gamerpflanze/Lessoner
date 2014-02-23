@@ -96,18 +96,23 @@
 }
 .LessonEditButton:hover
 {
+    color:#000000;
     opacity: 0.5;
 }
-.LessonerBuilderCell button
+.LessonCell a
 {
     display:none;
 }
-.LessonerBuilderCell:hover button
+.LessonCell:hover a
 {
-    display:block;
+    display:inline-block;
 }
 .LessonerDayFree
 {
     font-style:italic;
     text-align:center;
+}
+.LessonCell:hover
+{
+    background-color:#f5f5f5;
 }

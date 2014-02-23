@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="~/LessonerBuilder.aspx.cs" Inherits="Lessoner.LessonerBuilder"%>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="~/LessonerBuilder.aspx.cs" Inherits="Lessoner.LessonerBuilder" Async="true"%>
 
 <!DOCTYPE html>
 

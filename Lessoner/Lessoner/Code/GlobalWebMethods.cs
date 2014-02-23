@@ -130,7 +130,7 @@ namespace Lessoner
             StoredVars.Objects.Loggedin = true;
             return StoredVars.Objects.Vorname + " " + StoredVars.Objects.Nachname;
         }
-        public static Lession[][] GetLessonerBuilder(int KlasseID, DateTime Date)
+        public static Lesson[][] GetLessonerBuilder(int KlasseID, DateTime Date)
         {
 
             using (MySqlConnection con = new MySqlConnection("Server=127.0.0.1;Database=dbLessoner;Uid=root;Pwd=;"))
@@ -145,15 +145,15 @@ namespace Lessoner
                         cmd.Parameters.AddWithValue("@Datum", Date.ToString("yyyy-MM-dd"));
                         if (Convert.ToInt32(cmd.ExecuteScalar()) > 0)
                         {
-                            List<Lession> LessionList = new List<Lession>();
-                            Lession[][] ReturnLessions = new Lession[5][];
+                            List<Lesson> LessionList = new List<Lesson>();
+                            Lesson[][] ReturnLessions = new Lesson[5][];
 
                             cmd.CommandText = SQL.Statements.GetLessonerBuilder;
                             using (MySqlDataReader reader = cmd.ExecuteReader())
                             {
                                 while (reader.Read())
                                 {
-                                    Lession Current = new Lession();
+                                    Lesson Current = new Lesson();
 
                                     if (DBNull.Value.Equals(reader["information"]))
                                     {
@@ -185,7 +185,7 @@ namespace Lessoner
                                         IndexCount++;
                                     }
                                 }
-                                ReturnLessions[i - 1] = new Lession[IndexCount];
+                                ReturnLessions[i - 1] = new Lesson[IndexCount];
                             }
 
                             //Einsortieren von Fächern
@@ -201,7 +201,7 @@ namespace Lessoner
                             }*/
                             for (int i = 1; i <= 5; i++)
                             {
-                                List<Lession> SortedLessions = new List<Lession>();
+                                List<Lesson> SortedLessions = new List<Lesson>();
                                 int CurrentLession = 1;
                                 for (int j = 0; j < LessionList.Count; j++)
                                 {
@@ -221,7 +221,7 @@ namespace Lessoner
                         }
                         else
                         {
-                            return new Lession[5][];
+                            return new Lesson[5][];
                         }
                     }
                     catch (Exception ex)
@@ -229,7 +229,7 @@ namespace Lessoner
                         //TODO: Fehlerbehebung
                     }
                 }
-                return new Lession[5][];
+                return new Lesson[5][];
             }
         }
         public static void SetDefaultStudent(int AnmeldungID)
