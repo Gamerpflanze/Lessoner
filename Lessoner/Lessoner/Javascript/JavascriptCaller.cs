@@ -23,5 +23,10 @@ namespace Lessoner
                                                         jQuery('.modal-backdrop:first').remove();
                                                         jQuery('.modal-backdrop:last').addClass('fade');
                                                         jQuery('#DeleteConfirm').modal('hide');";
+
+        public const string OpenEditDayModal = @"OpenDayEditModal();";
+        public const string KeepEditDayModal = @"KeepDayEditModalOpen();";
+        public const string HideEditDayModal = @"HideDayEditModal();";
+        public const string HideEditDayModalWithAbort = @"HideDayEditModdalWithAbort();";
     }
 }

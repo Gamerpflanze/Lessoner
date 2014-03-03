@@ -112,6 +112,51 @@ namespace Lessoner {
         protected global::System.Web.UI.WebControls.Table tbTimetable;
         
         /// <summary>
+        /// btnEditMonday-Steuerelement
+        /// </summary>
+        /// <remarks>
+        /// Automatisch generiertes Feld
+        /// Um dies zu ändern, verschieben Sie die Felddeklaration aus der Designerdatei in eine Code-Behind-Datei.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton btnEditMonday;
+        
+        /// <summary>
+        /// btnEditTuesday-Steuerelement
+        /// </summary>
+        /// <remarks>
+        /// Automatisch generiertes Feld
+        /// Um dies zu ändern, verschieben Sie die Felddeklaration aus der Designerdatei in eine Code-Behind-Datei.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton btnEditTuesday;
+        
+        /// <summary>
+        /// btnEditWednesday-Steuerelement
+        /// </summary>
+        /// <remarks>
+        /// Automatisch generiertes Feld
+        /// Um dies zu ändern, verschieben Sie die Felddeklaration aus der Designerdatei in eine Code-Behind-Datei.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton btnEditWednesday;
+        
+        /// <summary>
+        /// btnEditThursday-Steuerelement
+        /// </summary>
+        /// <remarks>
+        /// Automatisch generiertes Feld
+        /// Um dies zu ändern, verschieben Sie die Felddeklaration aus der Designerdatei in eine Code-Behind-Datei.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton btnEditThursday;
+        
+        /// <summary>
+        /// btnEditFriday-Steuerelement
+        /// </summary>
+        /// <remarks>
+        /// Automatisch generiertes Feld
+        /// Um dies zu ändern, verschieben Sie die Felddeklaration aus der Designerdatei in eine Code-Behind-Datei.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton btnEditFriday;
+        
+        /// <summary>
         /// ddLessonName-Steuerelement
         /// </summary>
         /// <remarks>
@@ -245,5 +290,41 @@ namespace Lessoner {
         /// Um dies zu ändern, verschieben Sie die Felddeklaration aus der Designerdatei in eine Code-Behind-Datei.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnDeleteConfirm;
+        
+        /// <summary>
+        /// chkTakesPlace-Steuerelement
+        /// </summary>
+        /// <remarks>
+        /// Automatisch generiertes Feld
+        /// Um dies zu ändern, verschieben Sie die Felddeklaration aus der Designerdatei in eine Code-Behind-Datei.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox chkTakesPlace;
+        
+        /// <summary>
+        /// txtDayInfo-Steuerelement
+        /// </summary>
+        /// <remarks>
+        /// Automatisch generiertes Feld
+        /// Um dies zu ändern, verschieben Sie die Felddeklaration aus der Designerdatei in eine Code-Behind-Datei.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtDayInfo;
+        
+        /// <summary>
+        /// btnApplyDay-Steuerelement
+        /// </summary>
+        /// <remarks>
+        /// Automatisch generiertes Feld
+        /// Um dies zu ändern, verschieben Sie die Felddeklaration aus der Designerdatei in eine Code-Behind-Datei.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnApplyDay;
+        
+        /// <summary>
+        /// btnSaveDay-Steuerelement
+        /// </summary>
+        /// <remarks>
+        /// Automatisch generiertes Feld
+        /// Um dies zu ändern, verschieben Sie die Felddeklaration aus der Designerdatei in eine Code-Behind-Datei.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnSaveDay;
     }
 }

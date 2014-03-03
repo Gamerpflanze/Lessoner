@@ -104,6 +104,9 @@ namespace Lessoner.SQL
 
         public const string InsertDefaultLesson = @"INSERT INTO tbfachinfo (LehrerID, FachID, TagID, Stunde_Beginn, Stunde_Ende, FachModID)
                                                     VALUES ((SELECT ID FROM tblehrer LIMIT 1), (SELECT ID FROM tbfaecher LIMIT 1), @TagID, @Stunde, @Stunde, (SELECT ID FROM tbfachmod LIMIT 1))";
+        public const string UpdateDay = @"UPDATE tbtage
+                                          SET FindetStatt = @FindetStatt, Information = @Information
+                                          WHERE ID = @ID;";
         /// <summary>
         /// Gibt zurück ob ein Tag Statt findet oder nicht
         /// </summary>

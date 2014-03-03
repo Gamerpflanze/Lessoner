@@ -13,7 +13,7 @@
     <link href="Bootstrap/css/bootstrap.css" rel="stylesheet" />
     <link href="CSS/Style.css" rel="stylesheet" />
 </head>
-<body onload="AddEventHandler()">
+<body>
     <form runat="server">
         <asp:UpdatePanel runat="server">
             <ContentTemplate>
@@ -62,7 +62,7 @@
                             <asp:LinkButton CssClass="btn btn-default LessonerButtonLeft DisabledATag" ID="btnLastDate" runat="server" OnClick="btnLastDate_Click">
                                 <span class="glyphicon glyphicon-arrow-left"></span>
                             </asp:LinkButton>
-                            <asp:TextBox CssClass="form-control LessonerControlTextBox" ID="txtWeekBegin" runat="server" ReadOnly="true"/>
+                            <asp:TextBox CssClass="form-control LessonerControlTextBox" ID="txtWeekBegin" runat="server" ReadOnly="true" />
                             <asp:LinkButton CssClass="btn btn-default LessonerButtonRight" ID="btnNextDate" runat="server" OnClick="btnNextDate_Click">
                                 <span class="glyphicon glyphicon-arrow-right"></span>
                             </asp:LinkButton>
@@ -83,11 +83,36 @@
                     <asp:Table runat="server" ID="tbTimetable" CssClass="table table-bordered" EnableViewState="false">
                         <asp:TableHeaderRow TableSection="TableHeader">
                             <asp:TableHeaderCell CssClass="tableStunde" runat="server">Zeit</asp:TableHeaderCell>
-                            <asp:TableHeaderCell CssClass="tableTag" runat="server">Montag</asp:TableHeaderCell>
-                            <asp:TableHeaderCell CssClass="tableTag" runat="server">Dienstag</asp:TableHeaderCell>
-                            <asp:TableHeaderCell CssClass="tableTag" runat="server">Mitwoch</asp:TableHeaderCell>
-                            <asp:TableHeaderCell CssClass="tableTag" runat="server">Donnerstag</asp:TableHeaderCell>
-                            <asp:TableHeaderCell CssClass="tableTag" runat="server">Freitag</asp:TableHeaderCell>
+                            <asp:TableHeaderCell CssClass="tableTag" runat="server">
+                                Montag
+                                <asp:LinkButton CssClass="LessonEditButton btn-xs" runat="server" OnClick="EditDay_Click" ID="btnEditMonday">
+                                    <span class="glyphicon glyphicon-pencil"></span>
+                                </asp:LinkButton>
+                            </asp:TableHeaderCell>
+                            <asp:TableHeaderCell CssClass="tableTag" runat="server">
+                                Dienstag
+                                <asp:LinkButton CssClass="LessonEditButton btn-xs" runat="server" OnClick="EditDay_Click" ID="btnEditTuesday">
+                                    <span class="glyphicon glyphicon-pencil"></span>
+                                </asp:LinkButton>
+                            </asp:TableHeaderCell>
+                            <asp:TableHeaderCell CssClass="tableTag" runat="server">
+                                Mitwoch
+                                <asp:LinkButton CssClass="LessonEditButton btn-xs" runat="server" OnClick="EditDay_Click" ID="btnEditWednesday">
+                                    <span class="glyphicon glyphicon-pencil"></span>
+                                </asp:LinkButton>
+                            </asp:TableHeaderCell>
+                            <asp:TableHeaderCell CssClass="tableTag" runat="server">
+                                Donnerstag
+                                <asp:LinkButton CssClass="LessonEditButton btn-xs" runat="server" OnClick="EditDay_Click" ID="btnEditThursday">
+                                    <span class="glyphicon glyphicon-pencil"></span>
+                                </asp:LinkButton>
+                            </asp:TableHeaderCell>
+                            <asp:TableHeaderCell CssClass="tableTag" runat="server">
+                                Freitag
+                                <asp:LinkButton CssClass="LessonEditButton btn-xs" runat="server" OnClick="EditDay_Click" ID="btnEditFriday">
+                                    <span class="glyphicon glyphicon-pencil"></span>
+                                </asp:LinkButton>
+                            </asp:TableHeaderCell>
                         </asp:TableHeaderRow>
                     </asp:Table>
                     <!--
@@ -131,7 +156,7 @@
                                                 Do you want Soy Susedg with that?
                                          <span class="caret"></span>
                                             </button>
-                                            <ul class="dropdown-menu" id="ulTeacher" runat="server" style="text-align:left !important">
+                                            <ul class="dropdown-menu" id="ulTeacher" runat="server" style="text-align: left !important">
                                             </ul>
                                         </div>
                                     </div>
@@ -150,7 +175,7 @@
                                     <div class="col-sm-4" style="float: left">
                                         <div class="input-group">
                                             <span class="input-group-addon">Von</span>
-                                            <asp:TextBox runat="server" ID="txtCountBegin" CssClass="form-control LessonerNumericBox" Text="Gimme back my Nuggets" ReadOnly="true"/>
+                                            <asp:TextBox runat="server" ID="txtCountBegin" CssClass="form-control LessonerNumericBox" Text="Gimme back my Nuggets" ReadOnly="true" />
                                             <span class="input-group-addon UpDownButtonContainer">
                                                 <table>
                                                     <tr>
@@ -170,7 +195,7 @@
                                     <div class="col-xs-4" style="float: left">
                                         <div class="input-group">
                                             <span class="input-group-addon">Bis</span>
-                                            <asp:TextBox runat="server" ID="txtCountEnd" CssClass="form-control LessonerNumericBox" Text="*Calls Painis Cupcake*" ReadOnly="true"/>
+                                            <asp:TextBox runat="server" ID="txtCountEnd" CssClass="form-control LessonerNumericBox" Text="*Calls Painis Cupcake*" ReadOnly="true" />
                                             <span class="input-group-addon UpDownButtonContainer">
                                                 <table>
                                                     <tr>
@@ -190,7 +215,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
-                                <asp:Button runat="server" CssClass="btn btn-primary" Text="Übernehmen" ID="btnApply" OnClick="Apply_Click" data-lessonid=""/>
+                                <asp:Button runat="server" CssClass="btn btn-primary" Text="Übernehmen" ID="btnApply" OnClick="Apply_Click" data-lessonid="" />
                             </div>
                         </div>
                     </div>
@@ -202,10 +227,11 @@
                                 <h4 class="modal-title" id="AskAbortTitle">Achtung</h4>
                             </div>
                             <div class="modal-body">
-                                <!--<span class="glyphicon glyphicon-warning-sign" style="float: left; font-size: 38px; margin-right: 20px;"></span>-->Möchten sie die änderungen an dieser Stunde speichern?
+                                <!--<span class="glyphicon glyphicon-warning-sign" style="float: left; font-size: 38px; margin-right: 20px;"></span>-->
+                                Möchten sie die änderungen an dieser Stunde speichern?
                             </div>
                             <div class="modal-footer" style="margin-top: 0px; text-align: center;">
-                                <asp:button runat="server" CssClass="btn btn-default" Text="Speichern" OnClick="Apply_Click" ID="btnSave"/>
+                                <asp:Button runat="server" CssClass="btn btn-default" Text="Speichern" OnClick="Apply_Click" ID="btnSave" />
                                 <button type="button" class="btn btn-default" onclick="HideLessonEditModal();">Nicht Speichern</button>
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Zurück</button>
                             </div>
@@ -219,17 +245,80 @@
                                 <h4 class="modal-title" id="DeleteConfirmTitle">Bestätigen</h4>
                             </div>
                             <div class="modal-body">
-                                <!--<span class="glyphicon glyphicon-warning-sign" style="float: left; font-size: 38px; margin-right: 20px;"></span>-->Sind sie sicher, dass sie diese Stunde entfernen möchten?
+                                <!--<span class="glyphicon glyphicon-warning-sign" style="float: left; font-size: 38px; margin-right: 20px;"></span>-->
+                                Sind sie sicher, dass sie diese Stunde entfernen möchten?
                             </div>
-                            <div class="modal-footer" >
-                                <asp:button runat="server" CssClass="btn btn-default" Text="Ja" OnClick="btnDeleteConfirm_Click" ID="btnDeleteConfirm"/>
+                            <div class="modal-footer">
+                                <asp:Button runat="server" CssClass="btn btn-default" Text="Ja" OnClick="btnDeleteConfirm_Click" ID="btnDeleteConfirm" />
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Nein</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade" id="EditDay" tabindex="-1" role="dialog" aria-labelledby="EditDayTitle" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <h4 class="modal-title" id="EditDayTitle">Tag bearbeiten</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <!--TODO: Eigene Checkbox Programmieren?-->
+                                        <asp:CheckBox runat="server" Text="Findet statt" ID="chkTakesPlace" OnCheckedChanged="chkTakesPlace_CheckedChanged" AutoPostBack="true" Checked="false" /><!--Nah, Place already taken-->
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="input-group" style="float: right">
+                                            <span class="input-group-addon">Information</span>
+                                            <asp:TextBox runat="server" CssClass="form-control" ID="txtDayInfo"></asp:TextBox>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
+                                    <asp:Button CssClass="btn btn-primary" runat="server" ID="btnApplyDay" OnClick="ApplyDay_Click" Text="Übernehmen" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade AbortModal" id="AbortDay" tabindex="-1" role="dialog" aria-labelledby="AskAbortTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-sm AbortModalDialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="AbortDayTitle">Achtung</h4>
+                            </div>
+                            <div class="modal-body">
+                                <!--<span class="glyphicon glyphicon-warning-sign" style="float: left; font-size: 38px; margin-right: 20px;"></span>-->
+                                Möchten sie die änderungen an diesem Tag speichern?
+                            </div>
+                            <div class="modal-footer" style="margin-top: 0px; text-align: center;">
+                                <asp:Button runat="server" CssClass="btn btn-default" Text="Speichern" OnClick="ApplyDay_Click" ID="btnSaveDay" />
+                                <button type="button" class="btn btn-default" onclick="HideDayEditModdalWithAbort();">Nicht Speichern</button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Zurück</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal" id="LoadingModal" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-body"><!--TODO:Ladezeichen ändern(?)-->
+                                <img src="Data/Images/loading.gif" alt="Lade"/>
                             </div>
                         </div>
                     </div>
                 </div>
             </ContentTemplate>
             <Triggers>
+                <asp:AsyncPostBackTrigger ControlID="btnEditMonday" />
+                <asp:AsyncPostBackTrigger ControlID="btnEditTuesday" />
+                <asp:AsyncPostBackTrigger ControlID="btnEditWednesday" />
+                <asp:AsyncPostBackTrigger ControlID="btnEditThursday" />
+                <asp:AsyncPostBackTrigger ControlID="btnEditFriday" />
+                <asp:AsyncPostBackTrigger ControlID="chkTakesPlace" />
+                <asp:AsyncPostBackTrigger ControlID="txtDayInfo" />
                 <asp:AsyncPostBackTrigger ControlID="IncBegin" />
                 <asp:AsyncPostBackTrigger ControlID="DecBegin" />
                 <asp:AsyncPostBackTrigger ControlID="IncEnd" />

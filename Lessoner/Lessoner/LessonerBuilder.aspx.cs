@@ -95,7 +95,7 @@ namespace Lessoner
         }
         //=================================================================
 
-        //TODO: Exception handling und Optimierungen wie das verringern der datenbankverbindungen
+        //TODO: Optimisierungen
         protected void Page_Load(object sender, EventArgs e)
         {
             //EventHandler
@@ -295,6 +295,7 @@ namespace Lessoner
         {
             public bool FindetStatt;
             public int ID;
+            public int TagInfoID;
         }
         private void InitialiseLessoner()
         {
@@ -400,6 +401,8 @@ namespace Lessoner
                         {
                             (tbTimetable.Controls[0].Controls[Convert.ToInt32(reader["TagInfoID"])] as TableHeaderCell).Attributes.Add("data-id", reader["TagID"].ToString());
                             Day d = new Day();
+                            d.TagInfoID = Convert.ToInt32(reader["TagInfoID"]);
+                            (tbTimetable.Controls[0].Controls[i] as TableCell).Attributes.Add("data-takesplace", reader["FindetStatt"].ToString());
                             if (Convert.ToBoolean(reader["FindetStatt"]))
                             {
                                 d.FindetStatt = true;
@@ -470,10 +473,10 @@ namespace Lessoner
                     {
                         if (!AvailableDays[i].FindetStatt)
                         {
-                            (tbTimetable.Controls[1].Controls[i + 1] as TableCell).RowSpan = tbTimetable.Controls.Count - 1;
+                            (tbTimetable.Controls[1].Controls[AvailableDays[i].TagInfoID] as TableCell).RowSpan = tbTimetable.Controls.Count - 1;
                             for (int k = 2; k < tbTimetable.Controls.Count; k++)
                             {
-                                (tbTimetable.Controls[k].Controls[i + 1] as TableCell).Style.Add("display", "none");
+                                (tbTimetable.Controls[k].Controls[AvailableDays[i].TagInfoID] as TableCell).Style.Add("display", "none");
                             }
                         }
                     }
@@ -571,9 +574,9 @@ namespace Lessoner
             LoadLessoner();
             int Row = tbTimetable.Controls.IndexOf((((sender as Control).Parent as Control).Parent as TableCell).Parent as TableRow);
             int DayID = Convert.ToInt32((tbTimetable.Controls[0].Controls[tbTimetable.Controls[Row].Controls.IndexOf(((sender as Control).Parent as Control).Parent as TableCell)] as TableHeaderCell).Attributes["data-id"]);
-            using(MySqlConnection con = new MySqlConnection("Server=127.0.0.1;Database=dbLessoner;Uid=root;Pwd=;"))
+            using (MySqlConnection con = new MySqlConnection("Server=127.0.0.1;Database=dbLessoner;Uid=root;Pwd=;"))
             {
-                using(MySqlCommand cmd = con.CreateCommand())
+                using (MySqlCommand cmd = con.CreateCommand())
                 {
                     cmd.Parameters.AddWithValue("@TagID", DayID);
                     cmd.Parameters.AddWithValue("@Stunde", Row);
@@ -735,11 +738,48 @@ namespace Lessoner
             LoadLessoner();
             ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "DeleteConfirmModalClode", JavascriptCaller.CloseDeleteConfirmModal, true);
         }
+        protected void EditDay_Click(object sender, EventArgs e)
+        {
+            LoadLessoner();
+            TableHeaderCell DayCell = (sender as Control).Parent as TableHeaderCell;
+            chkTakesPlace.Checked = Convert.ToBoolean(DayCell.Attributes["data-takesplace"]);
+            txtDayInfo.Text = (tbTimetable.Controls[1].Controls[tbTimetable.Controls[0].Controls.IndexOf(DayCell)] as TableCell).Text;
+            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "EditDayOpener", JavascriptCaller.OpenEditDayModal, true);
+            btnApplyDay.Attributes.Add("data-id", DayCell.Attributes["data-id"]);
+        }
+        protected void chkTakesPlace_CheckedChanged(object sender, EventArgs e)
+        {
+            LoadLessoner();
+            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "EditDayModalKeeper", JavascriptCaller.KeepEditDayModal, true);
+        }
+        protected void ApplyDay_Click(object sender, EventArgs e)
+        {
+            using (MySqlConnection con = new MySqlConnection("Server=127.0.0.1;Database=dbLessoner;Uid=root;Pwd=;"))
+            {
+                using(MySqlCommand cmd = con.CreateCommand())
+                {
+                    cmd.CommandText = SQL.Statements.UpdateDay;
+                    cmd.Parameters.AddWithValue("@FindetStatt", Convert.ToByte(chkTakesPlace.Checked));
+                    cmd.Parameters.AddWithValue("@ID", btnApplyDay.Attributes["data-id"]);
+                    cmd.Parameters.AddWithValue("@Information", txtDayInfo.Text);
+                    con.Open();
+                    cmd.ExecuteNonQuery();
+                    con.Close();
+                }
+            }
+            LoadLessoner();
+            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "EditDayModalKeeper", JavascriptCaller.KeepEditDayModal, true);
+            if ((sender as Control).ID == "btnApplyDay")
+            {
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "EditModalCloser", JavascriptCaller.HideEditDayModal, true);
+            }
+            else
+            {
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "EditDayModalCloserWithAbort", JavascriptCaller.HideEditDayModalWithAbort, true);
+            }
+        }
+        //TODO: Den Kommentar hier drunter entfernen
         //Tasks==================================================================
-
-
-
-
 
 
         //Webmethoden============================================================
