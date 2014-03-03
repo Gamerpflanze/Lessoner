@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="~/LessonerBuilder.aspx.cs" Inherits="Lessoner.LessonerBuilder" Async="true"%>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="~/LessonerBuilder.aspx.cs" Inherits="Lessoner.LessonerBuilder" Async="true" %>
 
 <!DOCTYPE html>
 
@@ -6,11 +6,14 @@
 <head runat="server">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title></title>
+    <!--Scripts oben wegen abruffehler-->
+    <script src="JQuery/jquery-1.10.2.js"></script>
+    <script src="Javascript/LessonerBuilder.js"></script>
     <link href="Bootstrap/css/bootstrap-theme.css" rel="stylesheet" />
     <link href="Bootstrap/css/bootstrap.css" rel="stylesheet" />
     <link href="CSS/Style.css" rel="stylesheet" />
 </head>
-<body onload="CheckLoggedin('Lessoner.aspx'); GetData()">
+<body onload="AddEventHandler()">
     <form runat="server">
         <asp:UpdatePanel runat="server">
             <ContentTemplate>
@@ -54,13 +57,12 @@
                     </div>
                 </div>
                 <div class="page-header">
-
                     <div class="container">
                         <div class="input-group left" style="float: left">
                             <asp:LinkButton CssClass="btn btn-default LessonerButtonLeft DisabledATag" ID="btnLastDate" runat="server" OnClick="btnLastDate_Click">
                                 <span class="glyphicon glyphicon-arrow-left"></span>
                             </asp:LinkButton>
-                            <asp:TextBox CssClass="form-control LessonerControlTextBox" ID="txtWeekBegin" runat="server" />
+                            <asp:TextBox CssClass="form-control LessonerControlTextBox" ID="txtWeekBegin" runat="server" ReadOnly="true"/>
                             <asp:LinkButton CssClass="btn btn-default LessonerButtonRight" ID="btnNextDate" runat="server" OnClick="btnNextDate_Click">
                                 <span class="glyphicon glyphicon-arrow-right"></span>
                             </asp:LinkButton>
@@ -74,19 +76,18 @@
                         </div>
 
                     </div>
-                <div style="width: 100%; border-bottom: 1px solid #eee; margin-top: 20px; margin-bottom: 5px;"></div>
-                <div class="row">
-                </div>
+                    <div class="row">
+                    </div>
                 </div>
                 <div class="container">
-                    <asp:Table runat="server" ID="tbTimetable" CssClass="table table-bordered">
+                    <asp:Table runat="server" ID="tbTimetable" CssClass="table table-bordered" EnableViewState="false">
                         <asp:TableHeaderRow TableSection="TableHeader">
-                            <asp:TableHeaderCell CssClass="tableStunde">Zeit</asp:TableHeaderCell>
-                            <asp:TableHeaderCell CssClass="tableTag">Montag</asp:TableHeaderCell>
-                            <asp:TableHeaderCell CssClass="tableTag">Dienstag</asp:TableHeaderCell>
-                            <asp:TableHeaderCell CssClass="tableTag">Mitwoch</asp:TableHeaderCell>
-                            <asp:TableHeaderCell CssClass="tableTag">Donnerstag</asp:TableHeaderCell>
-                            <asp:TableHeaderCell CssClass="tableTag">Freitag</asp:TableHeaderCell>
+                            <asp:TableHeaderCell CssClass="tableStunde" runat="server">Zeit</asp:TableHeaderCell>
+                            <asp:TableHeaderCell CssClass="tableTag" runat="server">Montag</asp:TableHeaderCell>
+                            <asp:TableHeaderCell CssClass="tableTag" runat="server">Dienstag</asp:TableHeaderCell>
+                            <asp:TableHeaderCell CssClass="tableTag" runat="server">Mitwoch</asp:TableHeaderCell>
+                            <asp:TableHeaderCell CssClass="tableTag" runat="server">Donnerstag</asp:TableHeaderCell>
+                            <asp:TableHeaderCell CssClass="tableTag" runat="server">Freitag</asp:TableHeaderCell>
                         </asp:TableHeaderRow>
                     </asp:Table>
                     <!--
@@ -102,25 +103,139 @@
                         </asp:TableRow>
                         -->
                 </div>
+
                 <!--Dialoge-->
                 <div class="modal fade" id="LessonEdit" tabindex="-1" role="dialog" aria-labelledby="LessonEditTitle" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                <h4 class="modal-title" id="LessonEditTitle">Modal title</h4>
+                                <h4 class="modal-title" id="LessonEditTitle">Stunde bearbeiten</h4>
                             </div>
                             <div class="modal-body">
+                                <div class="row" style="text-align: center">
+                                    <div class="col-md-4">
+                                        <div class="btn-group" style="float: left">
+                                            <!--TODO: Platzhalter entfernen(?)-->
+                                            <button class="btn btn-default dropdown-toggle" data-toggle="dropdown" runat="server" id="ddLessonName">
+                                                Chicken nuggets
+                                         <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu" id="ulLessonNames" runat="server">
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="btn-group">
+                                            <button class="btn btn-default dropdown-toggle" data-toggle="dropdown" runat="server" id="ddTeacher">
+                                                Do you want Soy Susedg with that?
+                                         <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu" id="ulTeacher" runat="server" style="text-align:left !important">
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="btn-group" style="float: right">
+                                            <button class="btn btn-default dropdown-toggle" data-toggle="dropdown" runat="server" id="ddLessonMod">
+                                                No *runs away*
+                                         <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu" id="ulLessonMod" runat="server">
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-4" style="float: left">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">Von</span>
+                                            <asp:TextBox runat="server" ID="txtCountBegin" CssClass="form-control LessonerNumericBox" Text="Gimme back my Nuggets" ReadOnly="true"/>
+                                            <span class="input-group-addon UpDownButtonContainer">
+                                                <table>
+                                                    <tr>
+                                                        <td>
+                                                            <asp:LinkButton runat="server" ID="IncBegin" OnClick="IncBegin_Click"><span class="glyphicon glyphicon-chevron-up UpDownGlyph" style="left:0.75pt;"></span></asp:LinkButton>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <asp:LinkButton runat="server" ID="DecBegin" OnClick="DecBegin_Click"><span class="glyphicon glyphicon-chevron-down UpDownGlyph"></span></asp:LinkButton></td>
+                                                    </tr>
+                                                </table>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-4"></div>
+                                    <div class="col-xs-4" style="float: left">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">Bis</span>
+                                            <asp:TextBox runat="server" ID="txtCountEnd" CssClass="form-control LessonerNumericBox" Text="*Calls Painis Cupcake*" ReadOnly="true"/>
+                                            <span class="input-group-addon UpDownButtonContainer">
+                                                <table>
+                                                    <tr>
+                                                        <td>
+                                                            <asp:LinkButton runat="server" ID="IncEnd" OnClick="IncEnd_Click"><span class="glyphicon glyphicon-chevron-up UpDownGlyph" style="left:0.75pt;"></span></asp:LinkButton>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <asp:LinkButton runat="server" ID="DecEnd" OnClick="DecEnd_Click"><span class="glyphicon glyphicon-chevron-down UpDownGlyph"></span></asp:LinkButton></td>
+                                                    </tr>
+                                                </table>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
-                                <button type="button" class="btn btn-primary">Übernehmen</button>
+                                <asp:Button runat="server" CssClass="btn btn-primary" Text="Übernehmen" ID="btnApply" OnClick="Apply_Click" data-lessonid=""/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade AbortModal" id="AskAbort" tabindex="-1" role="dialog" aria-labelledby="AskAbortTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-sm AbortModalDialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="AskAbortTitle">Achtung</h4>
+                            </div>
+                            <div class="modal-body">
+                                <!--<span class="glyphicon glyphicon-warning-sign" style="float: left; font-size: 38px; margin-right: 20px;"></span>-->Möchten sie die änderungen an dieser Stunde speichern?
+                            </div>
+                            <div class="modal-footer" style="margin-top: 0px; text-align: center;">
+                                <asp:button runat="server" CssClass="btn btn-default" Text="Speichern" OnClick="Apply_Click" ID="btnSave"/>
+                                <button type="button" class="btn btn-default" onclick="HideLessonEditModal();">Nicht Speichern</button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Zurück</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade" id="DeleteConfirm" tabindex="-1" role="dialog" aria-labelledby="DeleteConfirmTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-sm AbortModalDialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="DeleteConfirmTitle">Bestätigen</h4>
+                            </div>
+                            <div class="modal-body">
+                                <!--<span class="glyphicon glyphicon-warning-sign" style="float: left; font-size: 38px; margin-right: 20px;"></span>-->Sind sie sicher, dass sie diese Stunde entfernen möchten?
+                            </div>
+                            <div class="modal-footer" >
+                                <asp:button runat="server" CssClass="btn btn-default" Text="Ja" OnClick="btnDeleteConfirm_Click" ID="btnDeleteConfirm"/>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Nein</button>
                             </div>
                         </div>
                     </div>
                 </div>
             </ContentTemplate>
             <Triggers>
+                <asp:AsyncPostBackTrigger ControlID="IncBegin" />
+                <asp:AsyncPostBackTrigger ControlID="DecBegin" />
+                <asp:AsyncPostBackTrigger ControlID="IncEnd" />
+                <asp:AsyncPostBackTrigger ControlID="DecEnd" />
+                <asp:AsyncPostBackTrigger ControlID="IncBegin" />
+                <asp:AsyncPostBackTrigger ControlID="DecBegin" />
                 <asp:AsyncPostBackTrigger ControlID="txtUsername" />
                 <asp:AsyncPostBackTrigger ControlID="txtPasswort" />
                 <asp:AsyncPostBackTrigger ControlID="btnLoginSubmit" />
@@ -129,13 +244,12 @@
                 <asp:AsyncPostBackTrigger ControlID="btnNextDate" />
                 <asp:AsyncPostBackTrigger ControlID="btnLastDate" />
                 <asp:AsyncPostBackTrigger ControlID="txtWeekBegin" />
+                <asp:AsyncPostBackTrigger ControlID="btnApply" />
             </Triggers>
         </asp:UpdatePanel>
     </form>
 </body>
-<script src="JQuery/jquery-1.10.2.js"></script>
 <script src="Bootstrap/js/bootstrap.js"></script>
 <script src="Javascript/LoginScript.js"></script>
-<script src="Javascript/LessonerBuilder.js"></script>
 <script src="Javascript/Global.js"></script>
 </html>

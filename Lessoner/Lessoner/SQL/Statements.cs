@@ -10,8 +10,19 @@ namespace Lessoner.SQL
         //TODO: Ordnen(?)
 
 
+        public const string CheckForLessoner = @"SELECT COUNT(s.ID) FROM tbstundenplan as s
+                                                 WHERE s.KlasseID = @KlasseID AND s.Datum = @Datum ";
 
+        public const string InsertEmptyLessoner = @"INSERT INTO tbstundenplan (Datum, KlasseID, FaecherverteilungID)
+                                                    VALUES(@Datum, @KlasseID, 0);
 
+                                                    INSERT INTO tbTage (TagInfoID, StundenplanID, FindetStatt)
+                                                    VALUES
+                                                    (1,(SELECT ID FROM tbStundenplan WHERE Datum = @Datum and KlasseID = @KlasseID LIMIT 1), 1),
+                                                    (2,(SELECT ID FROM tbStundenplan WHERE Datum = @Datum and KlasseID = @KlasseID LIMIT 1), 1),
+                                                    (3,(SELECT ID FROM tbStundenplan WHERE Datum = @Datum and KlasseID = @KlasseID LIMIT 1), 1),
+                                                    (4,(SELECT ID FROM tbStundenplan WHERE Datum = @Datum and KlasseID = @KlasseID LIMIT 1), 1),
+                                                    (5,(SELECT ID FROM tbStundenplan WHERE Datum = @Datum and KlasseID = @KlasseID LIMIT 1), 1);";
         /// <summary>
         /// Gibt die Rechte und die ID des Benutzers zurück. @Email = die Email, @Passwort = Das mit SHA-1 Gehashte Passwort in einer länge von 20byte
         /// </summary>
@@ -82,14 +93,24 @@ namespace Lessoner.SQL
                                                    Left JOIN tbfachmod as fm ON fi.FachModID = fm.ID
                                                    WHERE k.ID = @KlasseID AND s.Datum = @Datum
                                                    ORDER BY t.ID";
+
+        public const string LessonerBuilderGetTeacher = @"SELECT ID, Name FROM tblehrer";
+        public const string LessonerBuilderGetLessonNames = @"SELECT ID, Name FROM tbfaecher";
+        public const string LessonerBuilderGetLessonMods = @"SELECT ID, Bezeichnung FROM tbfachmod";
+
+        public const string UpdateLesson = @"UPDATE tbfachinfo 
+                                             SET LehrerID = @LehrerID, FachID = @FachID, Stunde_Beginn = @StundeBeginn, Stunde_Ende = @StundeEnde, FachModID = @FachModID
+                                             WHERE ID = @ID";
+
+        public const string InsertDefaultLesson = @"INSERT INTO tbfachinfo (LehrerID, FachID, TagID, Stunde_Beginn, Stunde_Ende, FachModID)
+                                                    VALUES ((SELECT ID FROM tblehrer LIMIT 1), (SELECT ID FROM tbfaecher LIMIT 1), @TagID, @Stunde, @Stunde, (SELECT ID FROM tbfachmod LIMIT 1))";
         /// <summary>
         /// Gibt zurück ob ein Tag Statt findet oder nicht
         /// </summary>
-        public const string GetDayInformations = @"SELECT t.ID as TagID, ti.ID as TagInfoID, t.Information, t.FindetStatt FROM tbklasse as k
-                                                   JOIN tbstundenplan as s ON s.KlasseID = k.ID
+        public const string GetDayInformations = @"SELECT t.ID as TagID, ti.ID as TagInfoID, t.Information, t.FindetStatt FROM tbstundenplan as s
                                                    JOIN tbtage as t ON t.StundenplanID = s.ID
                                                    JOIN tbtaginfo as ti ON ti.ID = t.TagInfoID
-                                                   WHERE k.ID = @KlasseID AND s.Datum = @Datum
+                                                   WHERE s.KlasseID = @KlasseID AND s.Datum = @Datum
                                                    ORDER BY t.ID";
 
         public const string GetLessonPerDay = @"SELECT fi.*, f.Name as FachName, f.NameKurz as FachNameKurz, t.TagInfoID FROM tbtage as t
@@ -97,6 +118,8 @@ namespace Lessoner.SQL
                                                 JOIN tbfaecher as f ON fi.FachID = f.ID
                                                 WHERE t.ID = @TagID
                                                 ORDER BY Stunde_Beginn";
+
+        public const string DeleteLesson = @"DELETE FROM tbfachinfo WHERE ID = @ID";
 
         public const string GetClasses = @"SELECT * FROM tbKlasse AS k ORDER BY k.Name";
 

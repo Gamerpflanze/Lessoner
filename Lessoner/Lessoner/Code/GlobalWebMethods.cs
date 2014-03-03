@@ -155,7 +155,7 @@ namespace Lessoner
                                 {
                                     Lesson Current = new Lesson();
 
-                                    if (DBNull.Value.Equals(reader["information"]))
+                                    if (!DBNull.Value.Equals(reader["information"]))//TODO: herausfinden wieso das hier ist
                                     {
                                         Current.Information = Convert.ToString(reader["information"]);
                                     }

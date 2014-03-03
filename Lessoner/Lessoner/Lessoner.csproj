@@ -108,6 +108,7 @@
       <DependentUpon>about.aspx</DependentUpon>
     </Compile>
     <Compile Include="CacheClasses\LessonerBuilderCache.cs" />
+    <Compile Include="CacheClasses\LessonerBuilderModalCache.cs" />
     <Compile Include="Code\Enums.cs" />
     <Compile Include="Code\GlobalWebMethods.cs" />
     <Compile Include="Code\HelperMethods.cs" />
@@ -133,6 +134,7 @@
     <Compile Include="impressum.aspx.designer.cs">
       <DependentUpon>impressum.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Javascript\JavascriptCaller.cs" />
     <Compile Include="Lessoner.aspx.cs">
       <DependentUpon>Lessoner.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
