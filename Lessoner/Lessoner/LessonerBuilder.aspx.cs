@@ -12,7 +12,8 @@ using MySql;
 namespace Lessoner
 {
     public partial class LessonerBuilder : System.Web.UI.Page
-    {//TODO: LoadLessoner mit Control Events sortieren
+    {
+        //TODO: LoadLessoner mit Control Events sortieren
         //=================================================================
         //Globale Variablen
         //Dient zur Kürzung
@@ -93,16 +94,19 @@ namespace Lessoner
                 StoredVars.Objects.LessonerBuilder.Lessons = value;
             }
         }
+        string Script="";
         //=================================================================
 
         //TODO: Optimisierungen
         protected void Page_Load(object sender, EventArgs e)
         {
             //EventHandler
+            this.LoadComplete += new EventHandler(Page_LoadComplete);
             //this.PreRender += new System.EventHandler(this.LessonerBuilder_PreRender);
             //
             if (!Page.IsPostBack)
             {
+                //btnLastDate.Attributes.Add("disabled", "disabled");
                 if (StoredVars.Objects.Loggedin)
                 {
                     foreach (Control c in LoginControlls.Controls)
@@ -125,6 +129,7 @@ namespace Lessoner
                 LessonerBuilderCache.ClassSelector cl = SelectedTimeTable;
                 cl.ClassID = -1;
                 SelectedTimeTable = cl;
+                btnLastDate.Attributes.Add("disabled", "disabled");
                 using (MySqlConnection con = new MySqlConnection("Server=127.0.0.1;Database=dbLessoner;Uid=root;Pwd=;"))
                 {
                     using (MySqlCommand cmd = con.CreateCommand())
@@ -177,6 +182,7 @@ namespace Lessoner
                             LinkButton ClassLink = new LinkButton();
 
                             ClassLink.Attributes.Add("data-id", reader["ID"].ToString());
+                            ClassLink.OnClientClick = "OpenLoadingIndicator('true');";
                             ClassLink.Text = reader["Name"].ToString();
                             if (first)
                             {
@@ -233,7 +239,7 @@ namespace Lessoner
             }
             InitialiseLessoner();
             lbtnOpenClassMenu.Attributes["data-id"] = SelectedTimeTable.ClassID.ToString();
-            lbtnOpenClassMenu.Text = SelectedTimeTable.ClassName + "<span class=\"caret\"></span>";
+            lbtnOpenClassMenu.InnerHtml = SelectedTimeTable.ClassName + "<span class=\"caret\"></span>";
 
             if (!Page.IsPostBack)
             {
@@ -261,6 +267,7 @@ namespace Lessoner
                 txtWeekBegin.Text = WeekBegins[WeekIndex].ToString("dd.MM.yyyy");
             }
             LoadLessoner();
+            ClearLoadingIndicator();
         }
         protected void btnNextDate_Click(object sender, EventArgs e)
         {
@@ -276,19 +283,20 @@ namespace Lessoner
                 txtWeekBegin.Text = WeekBegins[WeekIndex].ToString("dd.MM.yyyy");
             }
             LoadLessoner();
+            ClearLoadingIndicator();
         }
         protected void ClassSelect_Click(object sender, EventArgs e)
         {
             LinkButton ClassButton = sender as LinkButton;
 
-            lbtnOpenClassMenu.Text = ClassButton.Text + "<span class=\"caret\"></span>";
+            lbtnOpenClassMenu.InnerHtml = ClassButton.Text + "<span class=\"caret\"></span>";
             lbtnOpenClassMenu.Attributes["data-id"] = ClassButton.Attributes["data-id"];
 
             LessonerBuilderCache.ClassSelector c = SelectedTimeTable;
             c.ClassID = Convert.ToInt32(ClassButton.Attributes["data-id"]);
             c.ClassName = ClassButton.Text;
             SelectedTimeTable = c;
-
+            ClearLoadingIndicator();
             LoadLessoner();
         }
         private struct Day //TODO: Vieleicht später als Klasse
@@ -328,6 +336,7 @@ namespace Lessoner
                                 EmptyControlls.Style.Add("float", "right");
                                 AddButton.Controls.Add(AddIcon);
                                 AddButton.Click += new EventHandler(this.AddLession_Click);
+                                AddButton.OnClientClick = "OpenLoadingIndicator('true')";
                                 EmptyControlls.Controls.Add(AddButton);
                                 ScriptManager.GetCurrent(this).RegisterAsyncPostBackControl(AddButton);
 
@@ -342,6 +351,7 @@ namespace Lessoner
                                 EditButton.Style.Add("float", "right");
                                 EditButton.Controls.Add(EditIcon);
                                 EditButton.Click += new EventHandler(this.EditLession_Click);
+                                EditButton.OnClientClick = "OpenLoadingIndicator('true')";
                                 EditControlls.Style.Add("z-index", "999");
                                 EditControlls.Controls.Add(EditButton);
 
@@ -356,7 +366,7 @@ namespace Lessoner
                                 RemoveButton.Style.Add("float", "right");
                                 RemoveButton.Controls.Add(RemoveIcon);
                                 RemoveButton.Click += new EventHandler(this.RemoveLession_Click);
-
+                                RemoveButton.OnClientClick = "OpenLoadingIndicator('true')";
                                 EditControlls.Controls.Add(RemoveButton);
 
                                 ScriptManager.GetCurrent(this).RegisterAsyncPostBackControl(RemoveButton);
@@ -548,7 +558,8 @@ namespace Lessoner
             LoadLessoner();
             int ListID = Convert.ToInt32((((sender as Control).Parent as Control).Parent as TableCell).Attributes["data-listid"]);
             btnDeleteConfirm.Attributes.Add("data-id", Lessons[ListID].ID.ToString());
-            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "DeleteConfirmModalOpener", JavascriptCaller.OpenDeleteConfirmModal, true);
+            ClearLoadingIndicator();
+            Script += JavascriptCaller.OpenDeleteConfirmModal;
         }
         protected void EditLession_Click(object sender, EventArgs e)
         {
@@ -566,8 +577,8 @@ namespace Lessoner
 
             txtCountBegin.Text = lesson.StundeBeginn.ToString();
             txtCountEnd.Text = lesson.StundeEnde.ToString();
-
-            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "EditModalOpener", JavascriptCaller.OpenLessonEditModal, true);
+            ClearLoadingIndicator();
+            Script+= JavascriptCaller.OpenLessonEditModal;
         }
         protected void AddLession_Click(object sender, EventArgs e)
         {
@@ -601,24 +612,24 @@ namespace Lessoner
 
             txtCountBegin.Text = lesson.StundeBeginn.ToString();
             txtCountEnd.Text = lesson.StundeEnde.ToString();
-
-            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "EditModalOpener", JavascriptCaller.OpenLessonEditModal, true);
+            ClearLoadingIndicator();
+            Script+=JavascriptCaller.OpenLessonEditModal;
         }
         private void KeepEditModalOpen()
         {
-            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "EditModalKeeper", JavascriptCaller.KeepEditModal, true);
+            Script += JavascriptCaller.KeepEditModal;
         }
         private void HideEditModal()
         {
-            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "EditModalHider", JavascriptCaller.HideEditModal, true);
+            Script += JavascriptCaller.HideEditModal;
         }
         private void HideEditModalNoAbort()
         {
-            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "EditModalHiderNoAbort", JavascriptCaller.HideEditModalNoAbort, true);
+             Script += JavascriptCaller.HideEditModalNoAbort;
         }
         private void KeepAbortModal()
         {
-            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "AbortModalKeeper", JavascriptCaller.KeepAbortModalOpen, true);
+            Script += JavascriptCaller.KeepAbortModalOpen;
         }
         protected void IncEnd_Click(object sender, EventArgs e)
         {
@@ -719,7 +730,7 @@ namespace Lessoner
                 KeepAbortModal();
                 HideEditModal();
             }
-
+            ClearLoadingIndicator();
             LoadLessoner();
         }
         protected void btnDeleteConfirm_Click(object sender, EventArgs e)
@@ -736,7 +747,8 @@ namespace Lessoner
                 }
             }
             LoadLessoner();
-            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "DeleteConfirmModalClode", JavascriptCaller.CloseDeleteConfirmModal, true);
+            ClearLoadingIndicator();
+            Script += JavascriptCaller.CloseDeleteConfirmModal;
         }
         protected void EditDay_Click(object sender, EventArgs e)
         {
@@ -744,13 +756,14 @@ namespace Lessoner
             TableHeaderCell DayCell = (sender as Control).Parent as TableHeaderCell;
             chkTakesPlace.Checked = Convert.ToBoolean(DayCell.Attributes["data-takesplace"]);
             txtDayInfo.Text = (tbTimetable.Controls[1].Controls[tbTimetable.Controls[0].Controls.IndexOf(DayCell)] as TableCell).Text;
-            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "EditDayOpener", JavascriptCaller.OpenEditDayModal, true);
+            ClearLoadingIndicator();
+            Script+= JavascriptCaller.OpenEditDayModal;
             btnApplyDay.Attributes.Add("data-id", DayCell.Attributes["data-id"]);
         }
         protected void chkTakesPlace_CheckedChanged(object sender, EventArgs e)
         {
             LoadLessoner();
-            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "EditDayModalKeeper", JavascriptCaller.KeepEditDayModal, true);
+            Script+= JavascriptCaller.KeepEditDayModal;
         }
         protected void ApplyDay_Click(object sender, EventArgs e)
         {
@@ -768,15 +781,29 @@ namespace Lessoner
                 }
             }
             LoadLessoner();
-            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "EditDayModalKeeper", JavascriptCaller.KeepEditDayModal, true);
+            ClearLoadingIndicator();
+            Script+=JavascriptCaller.KeepEditDayModal;
             if ((sender as Control).ID == "btnApplyDay")
             {
-                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "EditModalCloser", JavascriptCaller.HideEditDayModal, true);
+                Script+=JavascriptCaller.HideEditDayModal;
             }
             else
             {
-                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "EditDayModalCloserWithAbort", JavascriptCaller.HideEditDayModalWithAbort, true);
+                Script += JavascriptCaller.HideEditDayModalWithAbort;
             }
+            
+        }
+        private void CloseLoadingIndicator()
+        {
+            Script+=JavascriptCaller.CloseLoadingIndicator;
+        }
+        private void ClearLoadingIndicator()
+        {
+            Script += JavascriptCaller.ClearLoadingIndicator;
+        }
+        private void Page_LoadComplete(object sender, EventArgs e)
+        {
+            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "Script", Script, true);
         }
         //TODO: Den Kommentar hier drunter entfernen
         //Tasks==================================================================

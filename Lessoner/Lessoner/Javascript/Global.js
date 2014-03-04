@@ -13,12 +13,7 @@ function CloseError() {
 }
 
 var WantedModalClose = false;
-function OpenLoadingIndicator() {
-    jQuery("#LoadingModal").modal({
-        backdrop: true,
-        keyboard: false,
-        show: true
-    });
+function OpenLoadingIndicator(BackDrop) {
     jQuery("#LoadingModal").on("hide.bs.modal", function () {
         if (WantedModalClose) {
             WantedModalClose = false;
@@ -28,8 +23,18 @@ function OpenLoadingIndicator() {
             return false;
         }
     });
+    jQuery("#LoadingModal").modal({
+        backdrop: (BackDrop == "true"),
+        keyboard: false,
+        show: true
+    });
+    return true;
 }
 function CloseLoadingIndicator() {
     WantedModalClose = true;
     jQuery("#LoadingModal").modal("hide");
+}
+function ClearLoadingIndicator()
+{
+    jQuery(".modal-backdrop").remove();
 }

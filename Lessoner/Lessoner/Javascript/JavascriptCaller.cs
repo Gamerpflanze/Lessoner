@@ -10,9 +10,9 @@ namespace Lessoner
         public const string KeepEditModal = @"KeepEditModalOpen();";
         public const string HideEditModal = @"HideLessonEditModal();";
         public const string OpenLessonEditModal = @"OpenLessonEditModal();";
-        public const string HideEditModalNoAbort = @"HideLessonEditModalNoAbort()";
-        public const string KeepAbortModalOpen = @"KeepAbortModalOpen()";
-        public const string OpenDeleteConfirmModal = @"jQuery('#DeleteConfirm').modal('show')";
+        public const string HideEditModalNoAbort = @"HideLessonEditModalNoAbort();";
+        public const string KeepAbortModalOpen = @"KeepAbortModalOpen();";
+        public const string OpenDeleteConfirmModal = @"jQuery('#DeleteConfirm').modal('show');";
         public const string CloseDeleteConfirmModal = @"var Modal = jQuery('#DeleteConfirm');
                                                         Modal.removeClass('fade');
                                                         Modal.addClass('in');
@@ -28,5 +28,7 @@ namespace Lessoner
         public const string KeepEditDayModal = @"KeepDayEditModalOpen();";
         public const string HideEditDayModal = @"HideDayEditModal();";
         public const string HideEditDayModalWithAbort = @"HideDayEditModdalWithAbort();";
+        public const string CloseLoadingIndicator = @"CloseLoadingIndicator();";
+        public const string ClearLoadingIndicator = @"ClearLoadingIndicator();";
     }
 }

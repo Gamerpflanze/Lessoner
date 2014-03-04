@@ -15,7 +15,7 @@
 </head>
 <body>
     <form runat="server">
-        <asp:UpdatePanel runat="server">
+        <asp:UpdatePanel runat="server" >
             <ContentTemplate>
                 <!-- Fehleranzeige ----------------------------->
                 <div class="alert alert-danger alert-dismissable" id="ErrorDisplay" style="display: none">
@@ -59,18 +59,17 @@
                 <div class="page-header">
                     <div class="container">
                         <div class="input-group left" style="float: left">
-                            <asp:LinkButton CssClass="btn btn-default LessonerButtonLeft DisabledATag" ID="btnLastDate" runat="server" OnClick="btnLastDate_Click">
+                            <asp:LinkButton CssClass="btn btn-default LessonerButtonLeft DisabledATag" ID="btnLastDate" runat="server" OnClick="btnLastDate_Click" OnClientClick="OpenLoadingIndicator('true');">
                                 <span class="glyphicon glyphicon-arrow-left"></span>
                             </asp:LinkButton>
                             <asp:TextBox CssClass="form-control LessonerControlTextBox" ID="txtWeekBegin" runat="server" ReadOnly="true" />
-                            <asp:LinkButton CssClass="btn btn-default LessonerButtonRight" ID="btnNextDate" runat="server" OnClick="btnNextDate_Click">
+                            <asp:LinkButton CssClass="btn btn-default LessonerButtonRight" ID="btnNextDate" runat="server" OnClick="btnNextDate_Click" OnClientClick="OpenLoadingIndicator('true');">
                                 <span class="glyphicon glyphicon-arrow-right"></span>
                             </asp:LinkButton>
                         </div>
                         <div class="btn-group" style="float: right">
-                            <asp:LinkButton CssClass="btn btn-default dropdown-toggle" data-toggle="dropdown" runat="server" ID="lbtnOpenClassMenu">
-                                KLASSE<span class="caret"></span>
-                            </asp:LinkButton>
+                            <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" runat="server" id="lbtnOpenClassMenu">KLASSE<span class="caret"></span>
+                            </a>
                             <ul class="dropdown-menu" id="ClassList" runat="server">
                             </ul>
                         </div>
@@ -85,31 +84,31 @@
                             <asp:TableHeaderCell CssClass="tableStunde" runat="server">Zeit</asp:TableHeaderCell>
                             <asp:TableHeaderCell CssClass="tableTag" runat="server">
                                 Montag
-                                <asp:LinkButton CssClass="LessonEditButton btn-xs" runat="server" OnClick="EditDay_Click" ID="btnEditMonday">
+                                <asp:LinkButton CssClass="LessonEditButton btn-xs" runat="server" OnClick="EditDay_Click" ID="btnEditMonday"  OnClientClick="OpenLoadingIndicator('true');">
                                     <span class="glyphicon glyphicon-pencil"></span>
                                 </asp:LinkButton>
                             </asp:TableHeaderCell>
                             <asp:TableHeaderCell CssClass="tableTag" runat="server">
                                 Dienstag
-                                <asp:LinkButton CssClass="LessonEditButton btn-xs" runat="server" OnClick="EditDay_Click" ID="btnEditTuesday">
+                                <asp:LinkButton CssClass="LessonEditButton btn-xs" runat="server" OnClick="EditDay_Click" ID="btnEditTuesday" OnClientClick="OpenLoadingIndicator('true');">
                                     <span class="glyphicon glyphicon-pencil"></span>
                                 </asp:LinkButton>
                             </asp:TableHeaderCell>
                             <asp:TableHeaderCell CssClass="tableTag" runat="server">
                                 Mitwoch
-                                <asp:LinkButton CssClass="LessonEditButton btn-xs" runat="server" OnClick="EditDay_Click" ID="btnEditWednesday">
+                                <asp:LinkButton CssClass="LessonEditButton btn-xs" runat="server" OnClick="EditDay_Click" ID="btnEditWednesday" OnClientClick="OpenLoadingIndicator('true');">
                                     <span class="glyphicon glyphicon-pencil"></span>
                                 </asp:LinkButton>
                             </asp:TableHeaderCell>
                             <asp:TableHeaderCell CssClass="tableTag" runat="server">
                                 Donnerstag
-                                <asp:LinkButton CssClass="LessonEditButton btn-xs" runat="server" OnClick="EditDay_Click" ID="btnEditThursday">
+                                <asp:LinkButton CssClass="LessonEditButton btn-xs" runat="server" OnClick="EditDay_Click" ID="btnEditThursday" OnClientClick="OpenLoadingIndicator('true');">
                                     <span class="glyphicon glyphicon-pencil"></span>
                                 </asp:LinkButton>
                             </asp:TableHeaderCell>
                             <asp:TableHeaderCell CssClass="tableTag" runat="server">
                                 Freitag
-                                <asp:LinkButton CssClass="LessonEditButton btn-xs" runat="server" OnClick="EditDay_Click" ID="btnEditFriday">
+                                <asp:LinkButton CssClass="LessonEditButton btn-xs" runat="server" OnClick="EditDay_Click" ID="btnEditFriday" OnClientClick="OpenLoadingIndicator('true');">
                                     <span class="glyphicon glyphicon-pencil"></span>
                                 </asp:LinkButton>
                             </asp:TableHeaderCell>
@@ -215,7 +214,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
-                                <asp:Button runat="server" CssClass="btn btn-primary" Text="Übernehmen" ID="btnApply" OnClick="Apply_Click" data-lessonid="" />
+                                <asp:Button runat="server" CssClass="btn btn-primary" Text="Übernehmen" ID="btnApply" OnClick="Apply_Click" data-lessonid=""  OnClientClick="OpenLoadingIndicator('false');"/>
                             </div>
                         </div>
                     </div>
@@ -249,7 +248,7 @@
                                 Sind sie sicher, dass sie diese Stunde entfernen möchten?
                             </div>
                             <div class="modal-footer">
-                                <asp:Button runat="server" CssClass="btn btn-default" Text="Ja" OnClick="btnDeleteConfirm_Click" ID="btnDeleteConfirm" />
+                                <asp:Button runat="server" CssClass="btn btn-default" Text="Ja" OnClick="btnDeleteConfirm_Click" ID="btnDeleteConfirm"  OnClientClick="OpenLoadingIndicator('false');"/>
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Nein</button>
                             </div>
                         </div>
@@ -277,7 +276,7 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
-                                    <asp:Button CssClass="btn btn-primary" runat="server" ID="btnApplyDay" OnClick="ApplyDay_Click" Text="Übernehmen" />
+                                    <asp:Button CssClass="btn btn-primary" runat="server" ID="btnApplyDay" OnClick="ApplyDay_Click" Text="Übernehmen"  OnClientClick="OpenLoadingIndicator('false');"/>
                                 </div>
                             </div>
                         </div>
@@ -294,18 +293,19 @@
                                 Möchten sie die änderungen an diesem Tag speichern?
                             </div>
                             <div class="modal-footer" style="margin-top: 0px; text-align: center;">
-                                <asp:Button runat="server" CssClass="btn btn-default" Text="Speichern" OnClick="ApplyDay_Click" ID="btnSaveDay" />
+                                <asp:Button runat="server" CssClass="btn btn-default" Text="Speichern" OnClick="ApplyDay_Click" ID="btnSaveDay"  OnClientClick="OpenLoadingIndicator('false');"/>
                                 <button type="button" class="btn btn-default" onclick="HideDayEditModdalWithAbort();">Nicht Speichern</button>
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Zurück</button>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="modal" id="LoadingModal" tabindex="-1" role="dialog" aria-hidden="true">
-                    <div class="modal-dialog">
+                <div runat="server" class="modal" id="LoadingModal" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog" style="width: 282px !important; margin-top: 350px;">
                         <div class="modal-content">
-                            <div class="modal-body"><!--TODO:Ladezeichen ändern(?)-->
-                                <img src="Data/Images/loading.gif" alt="Lade"/>
+                            <div class="modal-body">
+                                <!--TODO:Ladezeichen ändern(?)-->
+                                <img src="Data/Images/loading.gif" alt="Lade" id="LoadingImage" />
                             </div>
                         </div>
                     </div>
