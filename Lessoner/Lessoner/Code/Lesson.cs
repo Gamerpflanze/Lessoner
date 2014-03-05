@@ -5,7 +5,7 @@ using System.Web;
 
 namespace Lessoner
 {
-    public class Lession
+    public class Lesson
     {
         public string NameLong = "";
         public string NameShot = "";
@@ -16,5 +16,8 @@ namespace Lessoner
         public bool FindetStatt = false;
         public int StundeBeginn = -1;
         public int StundeEnde = -1;
+        public int LehrerID  = -1;
+        public int TagID = -1;
+        public int FachID = -1;
     }
 }

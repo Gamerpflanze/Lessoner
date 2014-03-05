@@ -62,8 +62,11 @@
     <Content Include="Bootstrap\fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Bootstrap\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="Bootstrap\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Data\Images\loading.gif" />
+    <Content Include="Data\ProfileImages\0000.jpg" />
     <Content Include="Dokumente\dbLessoner.sql" />
     <Content Include="Dokumente\Fehlermeldungen.ods" />
+    <Content Include="ClassDiagram1.cd" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -107,10 +110,11 @@
       <DependentUpon>about.aspx</DependentUpon>
     </Compile>
     <Compile Include="CacheClasses\LessonerBuilderCache.cs" />
+    <Compile Include="CacheClasses\LessonerBuilderModalCache.cs" />
     <Compile Include="Code\Enums.cs" />
     <Compile Include="Code\GlobalWebMethods.cs" />
     <Compile Include="Code\HelperMethods.cs" />
-    <Compile Include="Code\Lession.cs" />
+    <Compile Include="Code\Lesson.cs" />
     <Compile Include="Code\StoredVars.cs" />
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
@@ -132,6 +136,7 @@
     <Compile Include="impressum.aspx.designer.cs">
       <DependentUpon>impressum.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Javascript\JavascriptCaller.cs" />
     <Compile Include="Lessoner.aspx.cs">
       <DependentUpon>Lessoner.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -165,8 +170,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Data\Class\" />
-    <Folder Include="Data\ProfileImages\" />
     <Folder Include="ErrorPages\Pictures\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="LessonerBuilder.aspx.resx">
+      <DependentUpon>LessonerBuilder.aspx.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

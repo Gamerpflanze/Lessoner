@@ -20,7 +20,19 @@
 {
     width:18%;
 }
-
+.tableTag a
+{
+    display:none;
+    float:right;
+}
+.tableTag:hover
+{
+    background-color:#f5f5f5;
+}
+.tableTag:hover a
+{
+    display:block;
+}
 .tableCenter
 {
     text-align:center;
@@ -31,7 +43,6 @@
     max-width:128px;
     cursor:default !important;
 }
-
 .LessonerButtonLeft
 {
     border-right:none;
@@ -60,7 +71,7 @@
 {
     margin-bottom:0px;
 }
-.NavbarDropDown
+.LoginDropDown
 {
     color:#fff;
     border-color:#111111;
@@ -83,4 +94,72 @@
 .LoginElement:last-child
 {
     margin-top:4px;
+}
+
+.LessonEditButton
+{
+    background:none;
+    border:none;
+    color: #000000;
+    text-decoration: none;
+    cursor: pointer;
+    opacity: 0.2;
+}
+.LessonEditButton:hover
+{
+    color:#000000;
+    opacity: 0.5;
+}
+.LessonCell a
+{
+    display:none;
+}
+.LessonCell:hover a
+{
+    display:inline-block;
+}
+.LessonerDayFree
+{
+    font-style:italic;
+    text-align:center;
+}
+.LessonCell:hover
+{
+    background-color:#f5f5f5;
+}
+.AbortModal
+{
+    z-index:9040 !important; 
+}
+.AbortModalDialog
+{
+    margin-top:50px;
+    width:20%;
+    min-width:344px;
+    z-index:9050 !important;
+}
+.UpDownGlyph 
+{
+    position:relative;
+    font-size:12px;
+    text-align:center;
+    width:12px !important;
+    opacity: 0.2;
+    color:#000;
+}
+.UpDownGlyph:hover 
+{
+    opacity: 0.5;
+    color:#000;
+}
+.UpDownButtonContainer 
+{
+    padding-top:0px;
+    padding-bottom:0px;
+    padding-left:2px;
+    padding-right:4px;
+}
+.LessonerNumericBox {
+    cursor:default !important;
+    text-align:right;
 }

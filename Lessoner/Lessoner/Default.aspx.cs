@@ -25,11 +25,6 @@ namespace Lessoner
                 LinkButton ProfileLink = new LinkButton();
                 ProfileLink.Text = StoredVars.Objects.Vorname + " " + StoredVars.Objects.Nachname;
                 LoginControlls.Controls.Add(ProfileLink);
-                LoginElements.Visible = false;
-            }
-            else
-            {
-                UserElements.Visible = false;
             }
         }
         protected void btnLoginSubmit_Click(object sender, EventArgs e)

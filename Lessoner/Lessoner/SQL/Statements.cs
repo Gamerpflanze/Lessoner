@@ -7,6 +7,22 @@ namespace Lessoner.SQL
 {
     public static class Statements
     {
+        //TODO: Ordnen(?)
+
+
+        public const string CheckForLessoner = @"SELECT COUNT(s.ID) FROM tbstundenplan as s
+                                                 WHERE s.KlasseID = @KlasseID AND s.Datum = @Datum ";
+
+        public const string InsertEmptyLessoner = @"INSERT INTO tbstundenplan (Datum, KlasseID, FaecherverteilungID)
+                                                    VALUES(@Datum, @KlasseID, 0);
+
+                                                    INSERT INTO tbTage (TagInfoID, StundenplanID, FindetStatt)
+                                                    VALUES
+                                                    (1,(SELECT ID FROM tbStundenplan WHERE Datum = @Datum and KlasseID = @KlasseID LIMIT 1), 1),
+                                                    (2,(SELECT ID FROM tbStundenplan WHERE Datum = @Datum and KlasseID = @KlasseID LIMIT 1), 1),
+                                                    (3,(SELECT ID FROM tbStundenplan WHERE Datum = @Datum and KlasseID = @KlasseID LIMIT 1), 1),
+                                                    (4,(SELECT ID FROM tbStundenplan WHERE Datum = @Datum and KlasseID = @KlasseID LIMIT 1), 1),
+                                                    (5,(SELECT ID FROM tbStundenplan WHERE Datum = @Datum and KlasseID = @KlasseID LIMIT 1), 1);";
         /// <summary>
         /// Gibt die Rechte und die ID des Benutzers zurück. @Email = die Email, @Passwort = Das mit SHA-1 Gehashte Passwort in einer länge von 20byte
         /// </summary>
@@ -67,6 +83,7 @@ namespace Lessoner.SQL
 	                                            ON s.KlasseID = k.ID
                                             WHERE k.Name = @Klasse
                                             ORDER BY s.Name ";
+
         public const string GetLessonerBuilder = @"SELECT ti.ID as TagInfoID, t.Information, fi.ID as FachID, f.Name, f.NameKurz, fm.ID as FachModID, t.FindetStatt, fi.Stunde_Beginn, fi.Stunde_Ende FROM tbklasse as k
                                                    JOIN tbstundenplan as s ON s.KlasseID = k.ID
                                                    JOIN tbtage as t ON t.StundenplanID = s.ID
@@ -76,6 +93,36 @@ namespace Lessoner.SQL
                                                    Left JOIN tbfachmod as fm ON fi.FachModID = fm.ID
                                                    WHERE k.ID = @KlasseID AND s.Datum = @Datum
                                                    ORDER BY t.ID";
+
+        public const string LessonerBuilderGetTeacher = @"SELECT ID, Name FROM tblehrer";
+        public const string LessonerBuilderGetLessonNames = @"SELECT ID, Name FROM tbfaecher";
+        public const string LessonerBuilderGetLessonMods = @"SELECT ID, Bezeichnung FROM tbfachmod";
+
+        public const string UpdateLesson = @"UPDATE tbfachinfo 
+                                             SET LehrerID = @LehrerID, FachID = @FachID, Stunde_Beginn = @StundeBeginn, Stunde_Ende = @StundeEnde, FachModID = @FachModID
+                                             WHERE ID = @ID";
+
+        public const string InsertDefaultLesson = @"INSERT INTO tbfachinfo (LehrerID, FachID, TagID, Stunde_Beginn, Stunde_Ende, FachModID)
+                                                    VALUES ((SELECT ID FROM tblehrer LIMIT 1), (SELECT ID FROM tbfaecher LIMIT 1), @TagID, @Stunde, @Stunde, (SELECT ID FROM tbfachmod LIMIT 1))";
+        public const string UpdateDay = @"UPDATE tbtage
+                                          SET FindetStatt = @FindetStatt, Information = @Information
+                                          WHERE ID = @ID;";
+        /// <summary>
+        /// Gibt zurück ob ein Tag Statt findet oder nicht
+        /// </summary>
+        public const string GetDayInformations = @"SELECT t.ID as TagID, ti.ID as TagInfoID, t.Information, t.FindetStatt FROM tbstundenplan as s
+                                                   JOIN tbtage as t ON t.StundenplanID = s.ID
+                                                   JOIN tbtaginfo as ti ON ti.ID = t.TagInfoID
+                                                   WHERE s.KlasseID = @KlasseID AND s.Datum = @Datum
+                                                   ORDER BY t.ID";
+
+        public const string GetLessonPerDay = @"SELECT fi.*, f.Name as FachName, f.NameKurz as FachNameKurz, t.TagInfoID FROM tbtage as t
+                                                JOIN tbfachinfo as fi ON t.ID = fi.TagID
+                                                JOIN tbfaecher as f ON fi.FachID = f.ID
+                                                WHERE t.ID = @TagID
+                                                ORDER BY Stunde_Beginn";
+
+        public const string DeleteLesson = @"DELETE FROM tbfachinfo WHERE ID = @ID";
 
         public const string GetClasses = @"SELECT * FROM tbKlasse AS k ORDER BY k.Name";
 
@@ -90,14 +137,17 @@ namespace Lessoner.SQL
                                           WHERE `Group` = @RechtGruppe AND Name = @RechtName, @Value)";
 
         //TODO: Testen, Ausgabe soll der Pfad der Datei sein
+        //ACHTUNG BEI MERGE: Fehler wurde korrigiert (Falsche id bei ON). Muss immer noch getestet werden
         public const string GetData = @"SELECT Path
                                         FROM tbdateien	AS da
                                         JOIN tbfachinfo AS fi
-	                                        ON da.FachinfoID = fi.FachID
+	                                        ON da.FachinfoID = fi.ID
                                         WHERE FachinfoID = @Fachinfo ";
 
 
-        //Achtung! 5 mal das selbe für die 5 Tage im Lessoner.aspx
+        /// <summary>
+        /// Achtung! 5 mal das selbe für die 5 Tage im Lessoner.aspx
+        /// </summary>
         public const string GetDays = @"SELECT ta.FindetStatt, fa.Name, le.Titel, le.Vorname, le.Name AS Nachname, fi.Stunde_Beginn, fi.Stunde_Ende, fv.Stunde, fv.Uhrzeit, ti.Name AS TagName
                                         FROM tbstundenplan AS st
                                         JOIN tbklasse AS kl
@@ -119,7 +169,7 @@ namespace Lessoner.SQL
                                         WHERE ti.ID = @i AND st.KlasseID = @KlassenID
                                         ORDER BY fv.Stunde ASC";
 
-
+        //TODO: Kann das weg?
         //Immer Das Letzte Statement (da sehr lang)
         public const string CreateDatabase = @"-- --------------------------------------------------------
 -- Host:                         127.0.0.1
