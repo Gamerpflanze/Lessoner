@@ -39,12 +39,6 @@ function getdays() {
 //#8 Uhrzeit
 //#9 TagName
 function setdays(data) {
-    switch(data.d[1][7])
-    {
-        case 1:
-            jQuery("tr").text();
-            break;
-        case 2:
-
-    }   
+//(data.d[1][1][7])
+  
 }
