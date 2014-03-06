@@ -15,7 +15,7 @@
 </head>
 <body>
     <form runat="server">
-        <asp:UpdatePanel runat="server" >
+        <asp:UpdatePanel runat="server">
             <ContentTemplate>
                 <!-- Fehleranzeige ----------------------------->
                 <div class="alert alert-danger alert-dismissable" id="ErrorDisplay" style="display: none">
@@ -84,7 +84,7 @@
                             <asp:TableHeaderCell CssClass="tableStunde" runat="server">Zeit</asp:TableHeaderCell>
                             <asp:TableHeaderCell CssClass="tableTag" runat="server">
                                 Montag
-                                <asp:LinkButton CssClass="LessonEditButton btn-xs" runat="server" OnClick="EditDay_Click" ID="btnEditMonday"  OnClientClick="OpenLoadingIndicator('true');">
+                                <asp:LinkButton CssClass="LessonEditButton btn-xs" runat="server" OnClick="EditDay_Click" ID="btnEditMonday" OnClientClick="OpenLoadingIndicator('true');">
                                     <span class="glyphicon glyphicon-pencil"></span>
                                 </asp:LinkButton>
                             </asp:TableHeaderCell>
@@ -127,7 +127,6 @@
                         </asp:TableRow>
                         -->
                 </div>
-
                 <!--Dialoge-->
                 <div class="modal fade" id="LessonEdit" tabindex="-1" role="dialog" aria-labelledby="LessonEditTitle" aria-hidden="true">
                     <div class="modal-dialog">
@@ -165,7 +164,7 @@
                                                 No *runs away*
                                          <span class="caret"></span>
                                             </button>
-                                            <ul class="dropdown-menu" id="ulLessonMod" runat="server">
+                                            <ul class="dropdown-menu" id="ulLessonMod" runat="server" enableviewstate="false">
                                             </ul>
                                         </div>
                                     </div>
@@ -179,12 +178,12 @@
                                                 <table>
                                                     <tr>
                                                         <td>
-                                                            <asp:LinkButton runat="server" ID="IncBegin" OnClick="IncBegin_Click"><span class="glyphicon glyphicon-chevron-up UpDownGlyph" style="left:0.75pt;"></span></asp:LinkButton>
+                                                            <asp:LinkButton runat="server" ID="IncBegin" OnClientClick="btnIncBegin_Click(); return false;"><span class="glyphicon glyphicon-chevron-up UpDownGlyph" style="left:0.75pt;"></span></asp:LinkButton>
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                         <td>
-                                                            <asp:LinkButton runat="server" ID="DecBegin" OnClick="DecBegin_Click"><span class="glyphicon glyphicon-chevron-down UpDownGlyph"></span></asp:LinkButton></td>
+                                                            <asp:LinkButton runat="server" ID="DecBegin" OnClientClick="btnDecBegin_Click(); return false;"><span class="glyphicon glyphicon-chevron-down UpDownGlyph"></span></asp:LinkButton></td>
                                                     </tr>
                                                 </table>
                                             </span>
@@ -199,12 +198,12 @@
                                                 <table>
                                                     <tr>
                                                         <td>
-                                                            <asp:LinkButton runat="server" ID="IncEnd" OnClick="IncEnd_Click"><span class="glyphicon glyphicon-chevron-up UpDownGlyph" style="left:0.75pt;"></span></asp:LinkButton>
+                                                            <asp:LinkButton runat="server" ID="IncEnd" OnClientClick="btnIncEnd_Click(); return false;"><span class="glyphicon glyphicon-chevron-up UpDownGlyph" style="left:0.75pt;"></span></asp:LinkButton>
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                         <td>
-                                                            <asp:LinkButton runat="server" ID="DecEnd" OnClick="DecEnd_Click"><span class="glyphicon glyphicon-chevron-down UpDownGlyph"></span></asp:LinkButton></td>
+                                                            <asp:LinkButton runat="server" ID="DecEnd" OnClientClick="btnDecEnd_Click(); return false;"><span class="glyphicon glyphicon-chevron-down UpDownGlyph"></span></asp:LinkButton></td>
                                                     </tr>
                                                 </table>
                                             </span>
@@ -214,10 +213,17 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
-                                <asp:Button runat="server" CssClass="btn btn-primary" Text="Übernehmen" ID="btnApply" OnClick="Apply_Click" data-lessonid=""  OnClientClick="OpenLoadingIndicator('false');"/>
+                                <asp:Button runat="server" CssClass="btn btn-primary" Text="Übernehmen" ID="btnApply" OnClick="Apply_Click" data-lessonid="" OnClientClick="HideLessonEditModalNoAbort();OpenLoadingIndicator('false');" />
                             </div>
                         </div>
                     </div>
+                    <%--Variablen--%>
+                    <asp:HiddenField ID="Modal_TeacherID" runat="server" Value="" />
+                    <asp:HiddenField ID="Modal_LessonNameID" runat="server" Value="" />
+                    <asp:HiddenField ID="Modal_LessonModID" runat="server" Value="" />
+                    <asp:HiddenField ID="Modal_LessonBegin" runat="server" Value="" />
+                    <asp:HiddenField ID="Modal_LessonEnd" runat="server" Value="" />
+                    <%--_________________--%>
                 </div>
                 <div class="modal fade AbortModal" id="AskAbort" tabindex="-1" role="dialog" aria-labelledby="AskAbortTitle" aria-hidden="true">
                     <div class="modal-dialog modal-sm AbortModalDialog">
@@ -248,7 +254,7 @@
                                 Sind sie sicher, dass sie diese Stunde entfernen möchten?
                             </div>
                             <div class="modal-footer">
-                                <asp:Button runat="server" CssClass="btn btn-default" Text="Ja" OnClick="btnDeleteConfirm_Click" ID="btnDeleteConfirm"  OnClientClick="OpenLoadingIndicator('false');"/>
+                                <asp:Button runat="server" CssClass="btn btn-default" Text="Ja" OnClick="btnDeleteConfirm_Click" ID="btnDeleteConfirm" OnClientClick="CloseDeleteConfirmModal();OpenLoadingIndicator('true');" />
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Nein</button>
                             </div>
                         </div>
@@ -265,7 +271,7 @@
                                 <div class="row">
                                     <div class="col-md-4">
                                         <!--TODO: Eigene Checkbox Programmieren?-->
-                                        <asp:CheckBox runat="server" Text="Findet statt" ID="chkTakesPlace" OnCheckedChanged="chkTakesPlace_CheckedChanged" AutoPostBack="true" Checked="false" /><!--Nah, Place already taken-->
+                                        <asp:CheckBox runat="server" Text="Findet statt" ID="chkTakesPlace" Checked="false" /><!--Nah, Place already taken-->
                                     </div>
                                     <div class="col-md-8">
                                         <div class="input-group" style="float: right">
@@ -276,7 +282,7 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
-                                    <asp:Button CssClass="btn btn-primary" runat="server" ID="btnApplyDay" OnClick="ApplyDay_Click" Text="Übernehmen"  OnClientClick="OpenLoadingIndicator('false');"/>
+                                    <asp:Button CssClass="btn btn-primary" runat="server" ID="btnApplyDay" OnClick="ApplyDay_Click" Text="Übernehmen" OnClientClick="HideDayEditModal();OpenLoadingIndicator('true');" />
                                 </div>
                             </div>
                         </div>
@@ -293,7 +299,7 @@
                                 Möchten sie die änderungen an diesem Tag speichern?
                             </div>
                             <div class="modal-footer" style="margin-top: 0px; text-align: center;">
-                                <asp:Button runat="server" CssClass="btn btn-default" Text="Speichern" OnClick="ApplyDay_Click" ID="btnSaveDay"  OnClientClick="OpenLoadingIndicator('false');"/>
+                                <asp:Button runat="server" CssClass="btn btn-default" Text="Speichern" OnClick="ApplyDay_Click" ID="btnSaveDay" OnClientClick="OpenLoadingIndicator('false');" />
                                 <button type="button" class="btn btn-default" onclick="HideDayEditModdalWithAbort();">Nicht Speichern</button>
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Zurück</button>
                             </div>
@@ -319,12 +325,7 @@
                 <asp:AsyncPostBackTrigger ControlID="btnEditFriday" />
                 <asp:AsyncPostBackTrigger ControlID="chkTakesPlace" />
                 <asp:AsyncPostBackTrigger ControlID="txtDayInfo" />
-                <asp:AsyncPostBackTrigger ControlID="IncBegin" />
-                <asp:AsyncPostBackTrigger ControlID="DecBegin" />
-                <asp:AsyncPostBackTrigger ControlID="IncEnd" />
-                <asp:AsyncPostBackTrigger ControlID="DecEnd" />
-                <asp:AsyncPostBackTrigger ControlID="IncBegin" />
-                <asp:AsyncPostBackTrigger ControlID="DecBegin" />
+
                 <asp:AsyncPostBackTrigger ControlID="txtUsername" />
                 <asp:AsyncPostBackTrigger ControlID="txtPasswort" />
                 <asp:AsyncPostBackTrigger ControlID="btnLoginSubmit" />

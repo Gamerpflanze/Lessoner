@@ -60,27 +60,8 @@ function AddData(data) {
         }
     }
 }
-
-function NextDate() {
-    jQuery("#LastDate").removeAttr("disabled");
-    CurrentIndex++;
-    jQuery("#WeekBegin").val(Dates[CurrentIndex]);
-    if (CurrentIndex == 5) {
-        jQuery("#NextDate").attr("disabled", "disabled");
-    }
-}
-
-function LastDate() {
-    jQuery("#NextDate").removeAttr("disabled");
-    CurrentIndex--;
-    jQuery("#WeekBegin").val(Dates[CurrentIndex]);
-    if (CurrentIndex == 0) {
-        jQuery("#LastDate").attr("disabled", "disabled");
-    }
-}
-
 var WantedModalClose = false;
-function KeepEditModalOpen() {
+/*function KeepEditModalOpen() {
     var Modal = jQuery("#LessonEdit");
     Modal.removeClass("fade");
     Modal.addClass("in");
@@ -101,7 +82,7 @@ function KeepEditModalOpen() {
     });
     jQuery(".modal-backdrop:first").remove();
     jQuery(".modal-backdrop:last").addClass("fade");
-}
+}*/
 function KeepAbortModalOpen() {
     var Modal = jQuery("#AskAbort");
     Modal.removeClass("fade");
@@ -113,6 +94,8 @@ function KeepAbortModalOpen() {
     jQuery(".modal-backdrop:first").remove();
     jQuery(".modal-backdrop:last").addClass("fade");
 }
+
+var MadeChange = false;
 function OpenLessonEditModal() {
     $('#LessonEdit').modal({
         backdrop: true,
@@ -121,6 +104,14 @@ function OpenLessonEditModal() {
         remote: false
     });
     $('#LessonEdit').on('hide.bs.modal', function (e) {
+        if (MadeChange) {
+            MadeChange = false;
+            $('#AskAbort').modal({ backdrop: false });
+            return false;
+        }
+        else {
+            return true;
+        }
         $('#LessonEdit').addClass('fade');
     });
     $('#AskAbort').on('hidden.bs.modal', function (e) {
@@ -135,10 +126,10 @@ function HideLessonEditModal() {
     }, 250)
 }
 function HideLessonEditModalNoAbort() {
-    WantedModalClose = true;
+    MadeChange = false;
     jQuery("#LessonEdit").modal("hide");
 }
-function KeepDayEditModalOpen() {
+/*function KeepDayEditModalOpen() {
     var Modal = jQuery("#EditDay");
     Modal.removeClass("fade");
     Modal.addClass("in");
@@ -159,51 +150,104 @@ function KeepDayEditModalOpen() {
     });
     jQuery(".modal-backdrop:first").remove();
     jQuery(".modal-backdrop:last").addClass("fade");
-}
+}*/
 function OpenDayEditModal() {
-    $('#EditDay').modal({
-        backdrop: true,
-        keyboard: false,
-        show: true,
-        remote: false
-    });
     $('#EditDay').on('hide.bs.modal', function (e) {
         $('#EditDay').addClass('fade');
     });
     $('#AbortDay').on('hidden.bs.modal', function (e) {
         return false;
     });
+    $('#EditDay').modal({
+        backdrop: true,
+        keyboard: false,
+        show: true,
+        remote: false
+    });
 }
 function HideDayEditModal()
 {
-    var Modal = jQuery('#EditDay');
-    Modal.removeClass('fade');
-    Modal.addClass('in');
-    Modal.modal('show');
-    $('#EditDay').on('hide.bs.modal', function (e) {
-        jQuery('#EditDay').addClass('fade');
-    });
-    jQuery('.modal-backdrop:first').remove();
-    jQuery('.modal-backdrop:last').addClass('fade');
-    WantedModalClose = true;
     jQuery('#EditDay').modal('hide');
 }
 function HideDayEditModdalWithAbort()
 {
-    var Modal = jQuery("#AbortDay");
-    Modal.removeClass("fade");
-    Modal.addClass("in");
-    Modal.modal("show");
-    $('#AbortDay').on('hide.bs.modal', function (e) {
-        jQuery("#AbortDay").addClass("fade");
-    });
-
-    jQuery(".modal-backdrop:first").remove();
-    jQuery(".modal-backdrop:last").addClass("fade");
-
     jQuery("#AbortDay").modal("hide");
     setTimeout(function () {
-        WantedModalClose = true;
         jQuery("#EditDay").modal("hide");
     }, 250)
+}
+function CloseDeleteConfirmModal() {
+    jQuery('#DeleteConfirm').modal('hide');
+}
+function Teacher_Click(sender)
+{
+    var ddTeacher = jQuery("#ddTeacher");
+    var Button = jQuery(sender);
+
+    ddTeacher.html(Button.text() + "<span class=\"caret\"></span>");
+    jQuery("#Modal_TeacherID").val(Button.attr("data-id"));
+    MadeChange = true;
+}
+
+function LessonName_Click(sender)
+{
+    var ddLessonName = jQuery("#ddLessonName");
+    var Button = jQuery(sender);
+
+    ddLessonName.html(Button.text() + "<span class=\"caret\"></span>");
+    jQuery("#Modal_LessonNameID").val(Button.attr("data-id"));
+    MadeChange = true;
+}
+function LessonMod_Click(sender)
+{
+    var ddLessonMod = jQuery("#ddLessonMod");
+    var Button = jQuery(sender);
+
+    ddLessonMod.html(Button.text() + "<span class=\"caret\"></span>");
+    jQuery("#Modal_LessonModID").val(Button.attr("data-id"));
+    MadeChange = true;
+}
+
+function btnIncBegin_Click()
+{
+    var Count = parseInt(jQuery("#txtCountBegin").val());
+    var Max = parseInt(jQuery("#txtCountEnd").val());
+    if (Count < Max)
+    {
+        Count++;
+        jQuery("#txtCountBegin").val(Count);
+    }
+    jQuery("#Modal_LessonBegin").val(Count);
+    MadeChange = true;
+}
+function btnDecBegin_Click() {
+    var Count = parseInt(jQuery("#txtCountBegin").val());
+    if (Count > 1) {
+        Count--;
+        jQuery("#txtCountBegin").val(Count);
+    }
+    jQuery("#Modal_LessonBegin").val(Count);
+    MadeChange = true;
+}
+
+function btnIncEnd_Click() {
+    var Count = parseInt(jQuery("#txtCountEnd").val());
+    var Max = parseInt(jQuery("#txtCountEnd").attr("data-totalmax"));
+    if (Count < Max) {
+        Count++;
+        jQuery("#txtCountEnd").val(Count);
+    }
+    
+    jQuery("#Modal_LessonEnd").val(Count);
+    MadeChange = true;
+}
+function btnDecEnd_Click() {
+    var Count = parseInt(jQuery("#txtCountEnd").val());
+    var Min = parseInt(jQuery("#txtCountBegin").val());
+    if (Count > Min) {
+        Count--;
+        jQuery("#txtCountEnd").val(Count);
+    }
+    jQuery("#Modal_LessonEnd").val(Count);
+    MadeChange = true;
 }

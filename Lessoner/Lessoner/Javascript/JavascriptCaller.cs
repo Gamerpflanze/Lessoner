@@ -13,16 +13,7 @@ namespace Lessoner
         public const string HideEditModalNoAbort = @"HideLessonEditModalNoAbort();";
         public const string KeepAbortModalOpen = @"KeepAbortModalOpen();";
         public const string OpenDeleteConfirmModal = @"jQuery('#DeleteConfirm').modal('show');";
-        public const string CloseDeleteConfirmModal = @"var Modal = jQuery('#DeleteConfirm');
-                                                        Modal.removeClass('fade');
-                                                        Modal.addClass('in');
-                                                        Modal.modal('show');
-                                                        $('#DeleteConfirm').on('hide.bs.modal', function (e) {
-                                                            jQuery('#DeleteConfirm').addClass('fade');
-                                                        });
-                                                        jQuery('.modal-backdrop:first').remove();
-                                                        jQuery('.modal-backdrop:last').addClass('fade');
-                                                        jQuery('#DeleteConfirm').modal('hide');";
+        public const string CloseDeleteConfirmModal = @"CloseDeleteConfirmModal();";
 
         public const string OpenEditDayModal = @"OpenDayEditModal();";
         public const string KeepEditDayModal = @"KeepDayEditModalOpen();";

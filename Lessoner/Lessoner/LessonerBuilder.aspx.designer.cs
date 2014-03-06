@@ -274,6 +274,51 @@ namespace Lessoner {
         protected global::System.Web.UI.WebControls.Button btnApply;
         
         /// <summary>
+        /// Modal_TeacherID-Steuerelement
+        /// </summary>
+        /// <remarks>
+        /// Automatisch generiertes Feld
+        /// Um dies zu ändern, verschieben Sie die Felddeklaration aus der Designerdatei in eine Code-Behind-Datei.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField Modal_TeacherID;
+        
+        /// <summary>
+        /// Modal_LessonNameID-Steuerelement
+        /// </summary>
+        /// <remarks>
+        /// Automatisch generiertes Feld
+        /// Um dies zu ändern, verschieben Sie die Felddeklaration aus der Designerdatei in eine Code-Behind-Datei.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField Modal_LessonNameID;
+        
+        /// <summary>
+        /// Modal_LessonModID-Steuerelement
+        /// </summary>
+        /// <remarks>
+        /// Automatisch generiertes Feld
+        /// Um dies zu ändern, verschieben Sie die Felddeklaration aus der Designerdatei in eine Code-Behind-Datei.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField Modal_LessonModID;
+        
+        /// <summary>
+        /// Modal_LessonBegin-Steuerelement
+        /// </summary>
+        /// <remarks>
+        /// Automatisch generiertes Feld
+        /// Um dies zu ändern, verschieben Sie die Felddeklaration aus der Designerdatei in eine Code-Behind-Datei.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField Modal_LessonBegin;
+        
+        /// <summary>
+        /// Modal_LessonEnd-Steuerelement
+        /// </summary>
+        /// <remarks>
+        /// Automatisch generiertes Feld
+        /// Um dies zu ändern, verschieben Sie die Felddeklaration aus der Designerdatei in eine Code-Behind-Datei.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField Modal_LessonEnd;
+        
+        /// <summary>
         /// btnSave-Steuerelement
         /// </summary>
         /// <remarks>

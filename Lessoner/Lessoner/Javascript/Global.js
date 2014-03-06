@@ -36,5 +36,6 @@ function CloseLoadingIndicator() {
 }
 function ClearLoadingIndicator()
 {
+    jQuery("body").removeClass("modal-open");
     jQuery(".modal-backdrop").remove();
 }
