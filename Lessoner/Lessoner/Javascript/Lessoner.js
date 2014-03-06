@@ -38,7 +38,7 @@ function getdays() {
 //#7 Stunde
 //#8 Uhrzeit
 //#9 TagName
-function setdays(data)
-{
+function setdays(data) {
+//(data.d[1][1][7])
 
-}
+    }   
