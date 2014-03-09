@@ -67,13 +67,14 @@
                                 <span class="glyphicon glyphicon-arrow-right"></span>
                             </asp:LinkButton>
                         </div>
+
                         <div class="btn-group" style="float: right">
                             <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" runat="server" id="lbtnOpenClassMenu">KLASSE<span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu" id="ClassList" runat="server">
                             </ul>
                         </div>
-
+                        <button class="btn btn-default" style="float: right;" data-toggle="modal" data-target="#CopyModal">Kopieren</button>
                     </div>
                     <div class="row">
                     </div>
@@ -144,7 +145,7 @@
                                                 Chicken nuggets
                                          <span class="caret"></span>
                                             </button>
-                                            <ul class="dropdown-menu" id="ulLessonNames" runat="server">
+                                            <ul class="dropdown-menu" id="ulLessonNames" runat="server" style="text-align: left !important">
                                             </ul>
                                         </div>
                                     </div>
@@ -164,7 +165,7 @@
                                                 No *runs away*
                                          <span class="caret"></span>
                                             </button>
-                                            <ul class="dropdown-menu" id="ulLessonMod" runat="server" enableviewstate="false">
+                                            <ul class="dropdown-menu" id="ulLessonMod" runat="server" enableviewstate="false" style="text-align: left !important">
                                             </ul>
                                         </div>
                                     </div>
@@ -306,6 +307,90 @@
                         </div>
                     </div>
                 </div>
+                <div class="modal fade" id="CopyModal" tabindex="-1" role="dialog" aria-labelledby="CopyModalTitle" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <h4 class="modal-title" id="CopyModalTitle">Stundenplan Kopieren</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="input-group" id="DateFromGroup">
+                                            <span class="input-group-addon">Von</span>
+                                            <input type="text" class="form-control" runat="server" id="txtDateFrom" onblur="txtDateFrom_Blur()"/>
+                                            <span class="input-group-addon UpDownButtonContainer">
+                                                <table>
+                                                    <tr>
+                                                        <td>
+                                                            <a id="btnDateFromInc" onclick="btnDateFromInc_Click();"><span class="glyphicon glyphicon-chevron-up UpDownGlyph" style="left: 0.75pt;"></span></a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <a id="btnDateFromDec" onclick="btnDateFromDec_Click();"><span class="glyphicon glyphicon-chevron-down UpDownGlyph"></span></a>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="input-group" id="DateToGroup">
+                                            <span class="input-group-addon">Bis</span>
+                                            <input type="text" class="form-control" runat="server" id="txtDateTo" onblur="txtDateTo_Blur()"/>
+                                            <span class="input-group-addon UpDownButtonContainer">
+                                                <table>
+                                                    <tr>
+                                                        <td>
+                                                            <a id="btnDateToInc" onclick="btnDateToInc_Click();"><span class="glyphicon glyphicon-chevron-up UpDownGlyph" style="left: 0.75pt;"></span></a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <a id="btnDateToDec" onclick="btnDateToDec_Click();"><span class="glyphicon glyphicon-chevron-down UpDownGlyph"></span></a>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="input-group" style="width: 50%; margin: auto">
+                                            <span class="input-group-addon">Alle</span>
+                                            <input type="text" id="txtWeekSpace" class="form-control LessonerNumericBox" readonly="readonly"/>
+                                            <span class="input-group-addon UpDownButtonContainer">
+                                                <table>
+                                                    <tr>
+                                                        <td>
+                                                            <a id="btnWeekSpaceInc" onclick="WeekSpaceInc();"><span class="glyphicon glyphicon-chevron-up UpDownGlyph" style="left: 0.75pt;"></span></a>
+                                                        </td>
+                                                        <td rowspan="2">Wochen</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <a id="btnWeekSpaceDec" onclick="WeekSpaceDec();"><span class="glyphicon glyphicon-chevron-down UpDownGlyph"></span></a>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
+                                <asp:LinkButton CssClass="btn btn-primary" runat="server" OnClientClick="return PrepareCopy()" OnClick="btnCopyTimeTable_Click" ID="btnCopyTimeTable" >Kopieren</asp:LinkButton>
+                            </div>
+                        </div>
+                    </div>
+                    <asp:HiddenField ID="Modal_CopyStartDate" runat="server"/>
+                    <asp:HiddenField ID="Modal_CopyEndDate" runat="server"/>
+                    <asp:HiddenField ID="Modal_WeekSpace" runat="server"/>
+                </div>
                 <div runat="server" class="modal" id="LoadingModal" tabindex="-1" role="dialog" aria-hidden="true">
                     <div class="modal-dialog" style="width: 282px !important; margin-top: 350px;">
                         <div class="modal-content">
@@ -318,6 +403,7 @@
                 </div>
             </ContentTemplate>
             <Triggers>
+                <asp:AsyncPostBackTrigger ControlID="btnCopyTimeTable" />
                 <asp:AsyncPostBackTrigger ControlID="btnEditMonday" />
                 <asp:AsyncPostBackTrigger ControlID="btnEditTuesday" />
                 <asp:AsyncPostBackTrigger ControlID="btnEditWednesday" />
@@ -325,7 +411,6 @@
                 <asp:AsyncPostBackTrigger ControlID="btnEditFriday" />
                 <asp:AsyncPostBackTrigger ControlID="chkTakesPlace" />
                 <asp:AsyncPostBackTrigger ControlID="txtDayInfo" />
-
                 <asp:AsyncPostBackTrigger ControlID="txtUsername" />
                 <asp:AsyncPostBackTrigger ControlID="txtPasswort" />
                 <asp:AsyncPostBackTrigger ControlID="btnLoginSubmit" />

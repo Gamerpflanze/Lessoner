@@ -13,6 +13,9 @@ namespace Lessoner.SQL
         public const string CheckForLessoner = @"SELECT COUNT(s.ID) FROM tbstundenplan as s
                                                  WHERE s.KlasseID = @KlasseID AND s.Datum = @Datum ";
 
+        public const string GetLessonerID = @"SELECT ID FROM tbstundenplan as s
+                                              WHERE s.KlasseID = @KlasseID AND s.Datum = @Datum";
+
         public const string InsertEmptyLessoner = @"INSERT INTO tbstundenplan (Datum, KlasseID, FaecherverteilungID)
                                                     VALUES(@Datum, @KlasseID, 0);
 
@@ -73,7 +76,8 @@ namespace Lessoner.SQL
                                            VALUES (@Titel, @Vorname, @Name, @Strasse, @Hausnummer, @PLZ, @Ort, @KlasseID, SELECT ID
 																		                                                  FROM tbanmeldung
 																		                                                  WHERE Email = @Email)";
-
+        public const string DeleteLessonsFromDay = @"DELETE FROM tbfachinfo
+                                                     WHERE TagID = @TagID";
         public const string SetClass = @"INSERT INTO tbklasse (Name)
                                          VALUES (@Name)";
 
@@ -115,6 +119,9 @@ namespace Lessoner.SQL
                                                    JOIN tbtaginfo as ti ON ti.ID = t.TagInfoID
                                                    WHERE s.KlasseID = @KlasseID AND s.Datum = @Datum
                                                    ORDER BY t.ID";
+        public const string GetDayIDs = @"SELECT t.ID, t.TagInfoID FROM tbtage as t
+                                          WHERE t.StundenplanID = @StundenplanID
+                                          ORDER BY t.ID";
 
         public const string GetLessonPerDay = @"SELECT fi.*, f.Name as FachName, f.NameKurz as FachNameKurz, t.TagInfoID FROM tbtage as t
                                                 JOIN tbfachinfo as fi ON t.ID = fi.TagID
@@ -135,7 +142,8 @@ namespace Lessoner.SQL
         public const string SetRights = @"INSERT INTO tbrechtewert (AnmeldungID, RechteID, Wert)
                                           VALUES (SELECT ID FROM tbanmeldung WHERE EMail = @EMail, SELECT ID FROM tbrechtebeschreibung 
                                           WHERE `Group` = @RechtGruppe AND Name = @RechtName, @Value)";
-
+        public const string InsertLesson = @"INSERT INTO tbfachinfo (LehrerID, FachID, TagID, Stunde_Beginn, Stunde_Ende, FachModID)
+                                             VALUES(@LehrerID, @FachID, @TagID, @Stunde_Beginn, @Stunde_Ende, @FachModID)";
         //TODO: Testen, Ausgabe soll der Pfad der Datei sein
         //ACHTUNG BEI MERGE: Fehler wurde korrigiert (Falsche id bei ON). Muss immer noch getestet werden
         public const string GetData = @"SELECT Path

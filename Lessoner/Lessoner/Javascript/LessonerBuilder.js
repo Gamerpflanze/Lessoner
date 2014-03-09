@@ -99,7 +99,7 @@ var MadeChange = false;
 function OpenLessonEditModal() {
     $('#LessonEdit').modal({
         backdrop: true,
-        keyboard: false,
+        keyboard: true,
         show: true,
         remote: false
     });
@@ -165,12 +165,10 @@ function OpenDayEditModal() {
         remote: false
     });
 }
-function HideDayEditModal()
-{
+function HideDayEditModal() {
     jQuery('#EditDay').modal('hide');
 }
-function HideDayEditModdalWithAbort()
-{
+function HideDayEditModdalWithAbort() {
     jQuery("#AbortDay").modal("hide");
     setTimeout(function () {
         jQuery("#EditDay").modal("hide");
@@ -179,8 +177,7 @@ function HideDayEditModdalWithAbort()
 function CloseDeleteConfirmModal() {
     jQuery('#DeleteConfirm').modal('hide');
 }
-function Teacher_Click(sender)
-{
+function Teacher_Click(sender) {
     var ddTeacher = jQuery("#ddTeacher");
     var Button = jQuery(sender);
 
@@ -189,8 +186,7 @@ function Teacher_Click(sender)
     MadeChange = true;
 }
 
-function LessonName_Click(sender)
-{
+function LessonName_Click(sender) {
     var ddLessonName = jQuery("#ddLessonName");
     var Button = jQuery(sender);
 
@@ -198,8 +194,7 @@ function LessonName_Click(sender)
     jQuery("#Modal_LessonNameID").val(Button.attr("data-id"));
     MadeChange = true;
 }
-function LessonMod_Click(sender)
-{
+function LessonMod_Click(sender) {
     var ddLessonMod = jQuery("#ddLessonMod");
     var Button = jQuery(sender);
 
@@ -208,12 +203,10 @@ function LessonMod_Click(sender)
     MadeChange = true;
 }
 
-function btnIncBegin_Click()
-{
+function btnIncBegin_Click() {
     var Count = parseInt(jQuery("#txtCountBegin").val());
     var Max = parseInt(jQuery("#txtCountEnd").val());
-    if (Count < Max)
-    {
+    if (Count < Max) {
         Count++;
         jQuery("#txtCountBegin").val(Count);
     }
@@ -237,7 +230,7 @@ function btnIncEnd_Click() {
         Count++;
         jQuery("#txtCountEnd").val(Count);
     }
-    
+
     jQuery("#Modal_LessonEnd").val(Count);
     MadeChange = true;
 }
@@ -250,4 +243,163 @@ function btnDecEnd_Click() {
     }
     jQuery("#Modal_LessonEnd").val(Count);
     MadeChange = true;
+}
+
+jQuery(document).ready(function () {
+    ClearCopyModal();
+});
+function DateToString(date) {
+    var string = "";
+    if (date.getDate() < 10) {
+        string += "0" + date.getDate();
+    }
+    else {
+        string += date.getDate();
+    }
+    string += ".";
+    if (date.getMonth() + 1 < 10) {
+        string += "0" + (date.getMonth() + 1);
+    }
+    else {
+        string += (date.getMonth() + 1);
+    }
+    string += ".";
+
+    if (date.getFullYear() < 10) {
+        string += "0" + date.getFullYear();
+    }
+    else {
+        string += date.getFullYear();
+    }
+    return string;
+}
+function ClearCopyModal() {
+    var WeekBegin = new Date();
+    var DayOfWeek = WeekBegin.getDay();
+    if (DayOfWeek == 0) { DayOfWeek = 7;}
+    WeekBegin.setDate(WeekBegin.getDate() - DayOfWeek + 1);
+    var DateTo = new Date();
+    DateTo.setDate(WeekBegin.getDate() + 7);
+
+    jQuery("#txtDateFrom").val(DateToString(WeekBegin));
+    jQuery("#txtDateTo").val(DateToString(DateTo));
+    jQuery("#txtWeekSpace").val("1");
+}
+function btnDateFromInc_Click() {
+    var MaxDate = new Date(jQuery("#txtDateTo").val().replace(/(\d{2})\.(\d{2})\.(\d{4})/, '$3-$2-$1'));
+    var Now = new Date(jQuery("#txtDateFrom").val().replace(/(\d{2})\.(\d{2})\.(\d{4})/, '$3-$2-$1'));
+    if (Now < MaxDate) {
+        Now.setDate(Now.getDate() + 7);
+        jQuery("#txtDateFrom").val(DateToString(Now));
+    }
+}
+function btnDateFromDec_Click() {
+    var WeekBegin = new Date();
+    var DayOfWeek = WeekBegin.getDay();
+    if (DayOfWeek == 0) { DayOfWeek = 7; }
+    WeekBegin.setDate(WeekBegin.getDate() - DayOfWeek + 1);
+    var Now = new Date(jQuery("#txtDateFrom").val().replace(/(\d{2})\.(\d{2})\.(\d{4})/, '$3-$2-$1'));
+    if (Now > WeekBegin) {
+        Now.setDate(Now.getDate() - 7);
+        jQuery("#txtDateFrom").val(DateToString(Now));
+    }
+}
+function btnDateToInc_Click() {
+    if (UseDateChangeButton) {
+        var Now = new Date(jQuery("#txtDateTo").val().replace(/(\d{2})\.(\d{2})\.(\d{4})/, '$3-$2-$1'));
+        Now.setDate(Now.getDate() + 7);
+        jQuery("#txtDateTo").val(DateToString(Now));
+    }
+}
+function btnDateToDec_Click() {
+    if (UseDateChangeButton) {
+        var MinDate = new Date(jQuery("#txtDateFrom").val().replace(/(\d{2})\.(\d{2})\.(\d{4})/, '$3-$2-$1'));
+        var Now = new Date(jQuery("#txtDateTo").val().replace(/(\d{2})\.(\d{2})\.(\d{4})/, '$3-$2-$1'));
+        if (Now > MinDate) {
+            Now.setDate(Now.getDate() - 7);
+            jQuery("#txtDateTo").val(DateToString(Now));
+        }
+    }
+}
+var UseDateChangeButton = true;
+function txtDateFrom_Blur() {
+    var WeekBegin = new Date();
+    var DayOfWeek = WeekBegin.getDay();
+    if (DayOfWeek == 0) { DayOfWeek = 7; }
+    WeekBegin.setDate(WeekBegin.getDate() - DayOfWeek + 1);
+    WeekBegin.setTime(0);
+    var date = new Date(jQuery("#txtDateFrom").val().replace(/(\d{2})\.(\d{2})\.(\d{4})/, '$3-$2-$1'));
+
+    DayOfWeek = date.getDay();
+    if (DayOfWeek == 0) { DayOfWeek = 7; }
+
+    date.setDate(date.getDate() - DayOfWeek + 1);
+    if (date.getDate() == NaN || jQuery("#txtDateFrom").val().length != 10 || date < WeekBegin) {
+        jQuery("#DateFromGroup").addClass("has-error");
+        UseDateChangeButton = false;
+    }
+    else {
+        jQuery("#DateFromGroup").removeClass("has-error");
+        UseDateChangeButton = true;
+        jQuery("#txtDateFrom").val(DateToString(date));
+    }
+}
+function txtDateTo_Blur() {
+    var date = new Date(jQuery("#txtDateTo").val().replace(/(\d{2})\.(\d{2})\.(\d{4})/, '$3-$2-$1'));
+    var WeekBegin = new Date();
+    var DayOfWeek = WeekBegin.getDay();
+    if (DayOfWeek == 0) { DayOfWeek = 7; }
+    WeekBegin.setDate(WeekBegin.getDate() - DayOfWeek + 1);
+    WeekBegin.setTime(0);
+    DayOfWeek = date.getDay();
+    if (DayOfWeek == 0) { DayOfWeek = 7; }
+
+    date.setDate(date.getDate() - DayOfWeek + 1);
+    if (date.getDate() == NaN || jQuery("#txtDateTo").val().length != 10 || date < WeekBegin) {
+        jQuery("#DateToGroup").addClass("has-error");
+        UseDateChangeButton = false;
+    }
+    else {
+        jQuery("#DateToGroup").removeClass("has-error");
+        UseDateChangeButton = true;
+        jQuery("#txtDateTo").val(DateToString(date));
+    }
+}
+function PrepareCopy()
+{
+    var NoErrors = true;
+    var date = new Date(jQuery("#txtDateFrom").val().replace(/(\d{2})\.(\d{2})\.(\d{4})/, '$3-$2-$1'));
+    if (date.getDate() == NaN || jQuery("#txtDateFrom").val().length != 10) {
+        jQuery("#DateFromGroup").addClass("has-error");
+        UseDateChangeButton = false;
+        NoErrors = false;
+    }
+    var date = new Date(jQuery("#txtDateTo").val().replace(/(\d{2})\.(\d{2})\.(\d{4})/, '$3-$2-$1'));
+    if (date.getDate() == NaN || jQuery("#txtDateTo").val().length != 10) {
+        jQuery("#DateToGroup").addClass("has-error");
+        UseDateChangeButton = false;
+        NoErrors = false;
+    }
+    if (NoErrors)
+    {
+        jQuery("#Modal_CopyStartDate").val(jQuery("#txtDateFrom").val());
+        jQuery("#Modal_CopyEndDate").val(jQuery("#txtDateTo").val());
+        jQuery("#Modal_WeekSpace").val(jQuery("#txtWeekSpace").val());
+        OpenLoadingIndicator(false);
+        jQuery("#CopyModal").modal("hide");
+    }
+    return NoErrors;
+}
+function WeekSpaceInc()
+{
+    var WeekSpace = parseInt(jQuery("#txtWeekSpace").val());
+    WeekSpace++;
+    jQuery("#txtWeekSpace").val(WeekSpace);
+}
+function WeekSpaceDec() {
+    var WeekSpace = parseInt(jQuery("#txtWeekSpace").val());
+    if (WeekSpace > 1) {
+        WeekSpace--;
+    }
+    jQuery("#txtWeekSpace").val(WeekSpace);
 }

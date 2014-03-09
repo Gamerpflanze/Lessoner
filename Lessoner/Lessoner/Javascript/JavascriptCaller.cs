@@ -21,5 +21,6 @@ namespace Lessoner
         public const string HideEditDayModalWithAbort = @"HideDayEditModdalWithAbort();";
         public const string CloseLoadingIndicator = @"CloseLoadingIndicator();";
         public const string ClearLoadingIndicator = @"ClearLoadingIndicator();";
+        public const string ClearCopyModal = @"ClearCopyModal();";
     }
 }
