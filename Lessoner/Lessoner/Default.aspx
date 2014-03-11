@@ -48,6 +48,8 @@
                     </div>
                     <input type="button" class="btn btn-success" value="Anmelden" onclick="SendLoginData('Default.aspx')" />
                 </form>-->
+
+<!--Login Anfang ------------------------------------------------------------------------------------------------------------------------------------->
                 <form class="navbar-form navbar-right" role="form" id="LoginForm" runat="server">
                     <asp:UpdatePanel runat="server">
                         <ContentTemplate>
@@ -69,6 +71,7 @@
                         </Triggers>
                     </asp:UpdatePanel>
                 </form>
+<!--Login Ende --------------------------------------------------------------------------------------------------------------------------------------->
             </div>
         </div>
     </div>
