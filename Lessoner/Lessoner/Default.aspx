@@ -37,7 +37,6 @@
                     <li class="active"><a href="#">Hauptseite</a></li>
                     <li><a href="about.aspx">Über den Lessoner</a></li>
                     <li id="display" style="display: none"><a href="Lessoner.aspx">Stundenplan</a></li>
-
                 </ul>
                 <!--<form class="navbar-form navbar-right" role="form" id="LoginForm">
                     <div class="form-group">

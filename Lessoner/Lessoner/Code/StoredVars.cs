@@ -27,7 +27,7 @@ namespace Lessoner
 
         //Cache
         public LessonerBuilderCache LessonerBuilder = new LessonerBuilderCache();
-
+        public LessonerCache Lessoner = new LessonerCache();
 
         /// <summary>
         /// Gibt die instanz von StoredVars Zurück

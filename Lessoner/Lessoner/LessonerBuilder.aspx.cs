@@ -9,6 +9,7 @@ using System.Web.Services;
 using MySql.Data.MySqlClient;
 using MySql.Data;
 using MySql;
+using System.Threading.Tasks;
 namespace Lessoner
 {
     public partial class LessonerBuilder : System.Web.UI.Page
@@ -815,30 +816,41 @@ namespace Lessoner
         }
         protected void btnCopyTimeTable_Click(object sender, EventArgs e)
         {
-            List<DateTime> InsertDates = new List<DateTime>();
             DateTime StartDate = Convert.ToDateTime(Modal_CopyStartDate.Value);
             DateTime EndDate = Convert.ToDateTime(Modal_CopyEndDate.Value);
             int WeekSpan = Convert.ToInt32(Modal_WeekSpace.Value);
             DateTime CurrentDate = StartDate;
+            int weekindex = WeekIndex;
+            List<DateTime> weekbegins = WeekBegins;
+            int Class = Convert.ToInt32(lbtnOpenClassMenu.Attributes["data-id"]);
+            Task LessonerDBWriter = new Task(() => CopyLessoner(StartDate, EndDate, WeekSpan, Class, weekindex, weekbegins), TaskCreationOptions.LongRunning);
+            LessonerDBWriter.Start();
+            LoadLessoner();
+        }
+        //Tasks==================================================================
+        private void CopyLessoner(DateTime StartDate, DateTime EndDate, int WeekSpan, int Class, int weekindex, List<DateTime> weekbegins)
+        {
+            List<DateTime> InsertDates = new List<DateTime>();
+            DateTime CurrentDate = StartDate;
             List<Lesson> TimeTableLessons = new List<Lesson>();
             List<DayClone> TimeTableDays = new List<DayClone>();
-            int Class = Convert.ToInt32(lbtnOpenClassMenu.Attributes["data-id"]);
             while (CurrentDate <= EndDate)
             {
                 InsertDates.Add(CurrentDate);
                 CurrentDate = CurrentDate.AddDays(7 * WeekSpan);
             }
-            using(MySqlConnection con = new MySqlConnection("Server=127.0.0.1;Database=dbLessoner;Uid=root;Pwd=;"))
+
+            using (MySqlConnection con = new MySqlConnection("Server=127.0.0.1;Database=dbLessoner;Uid=root;Pwd=;"))
             {
-                using(MySqlCommand cmd = con.CreateCommand())
+                using (MySqlCommand cmd = con.CreateCommand())
                 {
                     cmd.CommandText = SQL.Statements.GetDayInformations;
                     cmd.Parameters.AddWithValue("@KlasseID", Class);
-                    cmd.Parameters.AddWithValue("@Datum", WeekBegins[WeekIndex]);
+                    cmd.Parameters.AddWithValue("@Datum", weekbegins[weekindex]);
                     con.Open();
-                    using(MySqlDataReader reader = cmd.ExecuteReader())
+                    using (MySqlDataReader reader = cmd.ExecuteReader())
                     {
-                        while(reader.Read())
+                        while (reader.Read())
                         {
                             DayClone d = new DayClone();
                             d.ID = Convert.ToInt32(reader["TagID"]);
@@ -851,12 +863,12 @@ namespace Lessoner
                     cmd.Parameters.Clear();
                     cmd.CommandText = SQL.Statements.GetLessonPerDay;
                     cmd.Parameters.AddWithValue("@TagID", -1);
-                    for (int i = 0; i < TimeTableDays.Count; i++ )
+                    for (int i = 0; i < TimeTableDays.Count; i++)
                     {
                         cmd.Parameters["@TagID"].Value = TimeTableDays[i].ID;
-                        using(MySqlDataReader reader = cmd.ExecuteReader())
+                        using (MySqlDataReader reader = cmd.ExecuteReader())
                         {
-                            while(reader.Read())
+                            while (reader.Read())
                             {
                                 Lesson l = new Lesson();
                                 l.ID = Convert.ToInt32(reader["ID"]);
@@ -871,13 +883,13 @@ namespace Lessoner
                             }
                         }
                     }
-                    for (int i = 0; i < InsertDates.Count; i++ )
+                    for (int i = 0; i < InsertDates.Count; i++)
                     {
                         cmd.Parameters.Clear();
                         cmd.Parameters.AddWithValue("@KlasseID", Class);
                         cmd.Parameters.AddWithValue("@Datum", InsertDates[i]);
                         cmd.CommandText = SQL.Statements.CheckForLessoner;
-                        if(Convert.ToInt32(cmd.ExecuteScalar()) == 0)
+                        if (Convert.ToInt32(cmd.ExecuteScalar()) == 0)
                         {
                             cmd.CommandText = SQL.Statements.InsertEmptyLessoner;
                             cmd.ExecuteNonQuery();
@@ -885,13 +897,13 @@ namespace Lessoner
 
                         cmd.CommandText = SQL.Statements.GetLessonerID;
                         int LessonerID = Convert.ToInt32(cmd.ExecuteScalar());
-                        
+
                         cmd.CommandText = SQL.Statements.GetDayIDs;
                         cmd.Parameters.AddWithValue("@StundenplanID", LessonerID);
                         List<Day> days = new List<Day>();
-                        using(MySqlDataReader reader = cmd.ExecuteReader())
+                        using (MySqlDataReader reader = cmd.ExecuteReader())
                         {
-                            while(reader.Read())
+                            while (reader.Read())
                             {
                                 Day d = new Day();
                                 d.ID = Convert.ToInt32(reader["ID"]);
@@ -903,11 +915,11 @@ namespace Lessoner
                         cmd.Parameters.AddWithValue("@FindetStatt", true);
                         cmd.Parameters.AddWithValue("@Information", "");
                         cmd.Parameters.AddWithValue("@ID", -1);
-                        for (int j = 0; j < days.Count; j++ )
+                        for (int j = 0; j < days.Count; j++)
                         {
-                            for(int k =0; k<TimeTableDays.Count; k++)
+                            for (int k = 0; k < TimeTableDays.Count; k++)
                             {
-                                if(TimeTableDays[k].DayNameID == days[j].TagInfoID)
+                                if (TimeTableDays[k].DayNameID == days[j].TagInfoID)
                                 {
                                     cmd.Parameters["@FindetStatt"].Value = TimeTableDays[k].FindetStatt;
                                     cmd.Parameters["@Information"].Value = TimeTableDays[k].Information;
@@ -920,7 +932,7 @@ namespace Lessoner
                         cmd.Parameters.Clear();
                         cmd.CommandText = SQL.Statements.DeleteLessonsFromDay;
                         cmd.Parameters.AddWithValue("@TagID", -1);
-                        for (int j = 0; j < days.Count; j++ )
+                        for (int j = 0; j < days.Count; j++)
                         {
                             cmd.Parameters["@TagID"].Value = days[j].ID;
                             cmd.ExecuteNonQuery();
@@ -933,11 +945,11 @@ namespace Lessoner
                         cmd.Parameters.AddWithValue("@Stunde_Beginn", -1);
                         cmd.Parameters.AddWithValue("@Stunde_Ende", -1);
                         cmd.CommandText = SQL.Statements.InsertLesson;
-                        for(int j = 0; j<TimeTableLessons.Count; j++)
+                        for (int j = 0; j < TimeTableLessons.Count; j++)
                         {
-                            for(int k = 0; k<days.Count; k++)
+                            for (int k = 0; k < days.Count; k++)
                             {
-                                if(days[k].TagInfoID == TimeTableLessons[j].TagInfoID)
+                                if (days[k].TagInfoID == TimeTableLessons[j].TagInfoID)
                                 {
                                     cmd.Parameters["@LehrerID"].Value = TimeTableLessons[j].LehrerID;
                                     cmd.Parameters["@FachID"].Value = TimeTableLessons[j].FachID;
@@ -952,72 +964,6 @@ namespace Lessoner
                     }
                     con.Close();
                 }
-            }
-            LoadLessoner();
-        }
-        //TODO: Den Kommentar hier drunter entfernen
-        //Tasks==================================================================
-
-
-        //Webmethoden============================================================
-        [WebMethod]
-        public static dynamic GetData()
-        {
-            if (StoredVars.Objects.Loggedin)
-            {
-                if (StoredVars.Objects.Rights["lessonerbuilder"]["permission"])
-                {
-                    dynamic[] Return = new dynamic[3];
-                    Return[0] = new dynamic[6];
-                    DateTime Date = DateTime.Now.Date;
-                    Date = Date.AddDays(-((double)HelperMethods.DayOfWeekToNumber(Date.DayOfWeek) - 1));
-                    for (int i = 0; i < Return[0].Length; i++)
-                    {
-                        Return[0][i] = Date.ToString("dd.MM.yyyy");
-                        Date = Date.AddDays(7);
-                    }
-                    using (MySqlConnection con = new MySqlConnection("Server=127.0.0.1;Database=dbLessoner;Uid=root;Pwd=;"))
-                    {
-                        using (MySqlCommand cmd = con.CreateCommand())
-                        {
-                            try
-                            {
-                                cmd.CommandText = SQL.Statements.GetFaecherverteilung;
-                                con.Open();
-
-                                using (MySqlDataReader reader = cmd.ExecuteReader())
-                                {
-                                    List<dynamic> Faecherverteilung = new List<dynamic>();
-                                    while (reader.Read())
-                                    {
-                                        List<dynamic> FaecherZeiten = new List<dynamic>();
-                                        FaecherZeiten.Add(reader["Stunde"]);
-                                        FaecherZeiten.Add(TimeSpan.Parse(reader["Uhrzeit"].ToString()).ToString(@"hh\:mm"));
-                                        FaecherZeiten.Add(TimeSpan.Parse(reader["Ende"].ToString()).ToString(@"hh\:mm"));
-                                        Faecherverteilung.Add(FaecherZeiten.ToArray());
-                                    }
-                                    Return[1] = Faecherverteilung.ToArray();
-                                }
-                                con.Close();
-                            }
-                            catch (Exception ex)
-                            {
-
-                            }
-                        }
-                    }
-                    //using()
-                    Return[2] = GlobalWebMethods.GetLessonerBuilder(1, DateTime.Parse(Return[0][0]));
-                    return Return;
-                }
-                else
-                {
-                    return ErrorReturns.NoAccessAllowed;
-                }
-            }
-            else
-            {
-                return ErrorReturns.NotLoggedIn;
             }
         }
         private void LessonerBuilder_PreRender(object sender, EventArgs e)

@@ -109,6 +109,7 @@
     <Compile Include="about.aspx.designer.cs">
       <DependentUpon>about.aspx</DependentUpon>
     </Compile>
+    <Compile Include="CacheClasses\LessonerCache.cs" />
     <Compile Include="CacheClasses\LessonerBuilderCache.cs" />
     <Compile Include="CacheClasses\LessonerBuilderModalCache.cs" />
     <Compile Include="Code\Enums.cs" />

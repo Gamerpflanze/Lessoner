@@ -1,100 +1,115 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="~/Lessoner.aspx.cs" Inherits="Lessoner.Lessoner" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="~/Lessoner.aspx.cs" Inherits="Lessoner.Lessoner" Async="true" %>
 
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Lessoner - Hauptseite
-    </title>
+    <title></title>
+    <!--Scripts oben wegen abruffehler-->
+    <script src="JQuery/jquery-1.10.2.js"></script>
+    <script src="Javascript/LessonerBuilder.js"></script>
     <link href="Bootstrap/css/bootstrap-theme.css" rel="stylesheet" />
     <link href="Bootstrap/css/bootstrap.css" rel="stylesheet" />
     <link href="CSS/Style.css" rel="stylesheet" />
 </head>
-<body onload="CheckLoggedin('Lessoner.aspx'); getdays();">
-    <div class="alert alert-danger alert-dismissable" id="ErrorDisplay" style="display: none">
-        <button type="button" class="close" aria-hidden="true" onclick="CloseError()">&times;</button>
-        <strong>Fehler: </strong>
-        <label id="ErrorText"></label>
-    </div>
-    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-            </div>
-            <div class="collapse navbar-collapse">
-                <ul class="nav navbar-nav">
-                    <li><a href="default.aspx">Hauptseite</a></li>
-                    <li><a href="about.aspx">Über den Lessoner</a></li>
-                    <li><a href="kontakt.aspx">Kontakt</a></li>
-                    <li class="active"><a href="Lessoner.aspx">Stundenplan</a></li>
-                </ul>
-                <form class="navbar-form navbar-right" role="form" id="LoginForm" runat="server">
-                    <asp:UpdatePanel runat="server">
-                        <ContentTemplate>
-                            <asp:ScriptManager runat="server"></asp:ScriptManager>
-                                <asp:Panel runat="server" ID="LoginControlls">
-                                <div class="form-group">
-                                    <asp:TextBox runat="server" placeholder="Email" class="form-control" id="txtUsername"></asp:TextBox>
-                                </div>
-                                 <div class="form-group">
-                                <asp:TextBox TextMode="Password" placeholder="Passwort" class="form-control" id="txtPasswort" runat="server"></asp:TextBox>
-                                </div>
-                                <asp:Button class="btn btn-success" Text="Anmelden" onclick="btnLoginSubmit_Click" id="btnLoginSubmit" runat="server" />
-                            </asp:Panel>
-                        </ContentTemplate>
-                        <Triggers>
-                            <asp:AsyncPostBackTrigger  ControlID="txtUsername" />
-                            <asp:AsyncPostBackTrigger ControlID="txtPasswort" />
-                            <asp:AsyncPostBackTrigger ControlID="btnLoginSubmit" />
-                        </Triggers>
-                    </asp:UpdatePanel>
-                </form>
-            </div>
-        </div>
-    </div>
+<body>
+    <form runat="server">
+        <asp:UpdatePanel runat="server">
+            <ContentTemplate>
+                <asp:ScriptManager runat="server"></asp:ScriptManager>
+                <!-- Fehleranzeige ----------------------------->
+                <div class="alert alert-danger alert-dismissable" id="ErrorDisplay" style="display: none">
+                    <button type="button" class="close" aria-hidden="true" onclick="CloseError()">&times;</button>
+                    <strong>Fehler: </strong>
+                    <label id="ErrorText"></label>
+                </div>
+                <!---------------------------------------------->
+                <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+                    <div class="container">
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                            <a class="navbar-brand" href="#">Lessoner</a>
+                        </div>
+                        <div class="collapse navbar-collapse">
+                            <ul class="nav navbar-nav">
+                                <li class="active"><a href="#">Hauptseite</a></li>
+                                <li><a href="about.aspx">Über den Lessoner</a></li>
+                                <li><a href="kontakt.aspx">Kontakt</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="page-header">
+                    <div class="container">
+                        <div class="input-group left" style="float: left">
+                            <asp:LinkButton CssClass="btn btn-default LessonerButtonLeft DisabledATag" ID="btnLastDate" runat="server" OnClick="btnLastDate_Click" OnClientClick="OpenLoadingIndicator('true');">
+                                <span class="glyphicon glyphicon-arrow-left"></span>
+                            </asp:LinkButton>
+                            <asp:TextBox CssClass="form-control LessonerControlTextBox" ID="txtWeekBegin" runat="server" ReadOnly="true" />
+                            <asp:LinkButton CssClass="btn btn-default LessonerButtonRight" ID="btnNextDate" runat="server" OnClick="btnNextDate_Click" OnClientClick="OpenLoadingIndicator('true');">
+                                <span class="glyphicon glyphicon-arrow-right"></span>
+                            </asp:LinkButton>
+                        </div>
 
-
-    <div class="page-header">
-        <div class="container">
-            <div class="input-group">
-                <button class="btn btn-default LessonerButtonLeft" id="LastDate" onclick="LastDate()" disabled="disabled"><span class="glyphicon glyphicon-arrow-left"></span></button>
-                <input type="text" class="form-control LessonerControlTextBox" id="WeekBegin" disabled />
-                <button class="btn btn-default LessonerButtonRight" id="NextDate" onclick="NextDate()"><span class="glyphicon glyphicon-arrow-right"></span></button>
-                <p></p>
-            </div>
-        </div>
-
-        <div class="container">
-
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th class="tableStunde">Stunde</th>
-                        <th class="tableTag">Montag</th>
-                        <th class="tableTag">Dienstag</th>
-                        <th class="tableTag">Mittwoch</th>
-                        <th class="tableTag">Donnerstag</th>
-                        <th class="tableTag">Freitag</th>
-                    </tr>
-                </thead>
-                <tbody id="Lessoner">
-
-                </tbody>
-            </table>
-
-        </div>
-    </div>
-    <script src="Javascript/LessonerBuilder.js"></script>
-    <script src="JQuery/jquery-1.10.2.js"></script>
-    <script src="Bootstrap/js/bootstrap.js"></script>
-    <script src="Javascript/LoginScript.js"></script>
-    <script src="Javascript/Lessoner.js"></script>
-    <script src="Javascript/Global.js"></script>
+                        <div class="btn-group" style="float: right" id="divClassSelect" runat="server">
+                            <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" runat="server" id="lbtnOpenClassMenu">KLASSE<span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu" id="ClassList" runat="server">
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="row">
+                    </div>
+                </div>
+                <div class="container">
+                    <asp:Table runat="server" ID="tbTimetable" CssClass="table table-bordered" EnableViewState="false">
+                        <asp:TableHeaderRow TableSection="TableHeader">
+                            <asp:TableHeaderCell CssClass="tableStunde" runat="server">Zeit</asp:TableHeaderCell>
+                            <asp:TableHeaderCell CssClass="tableTag" runat="server">
+                                Montag
+                            </asp:TableHeaderCell>
+                            <asp:TableHeaderCell CssClass="tableTag" runat="server">
+                                Dienstag
+                            </asp:TableHeaderCell>
+                            <asp:TableHeaderCell CssClass="tableTag" runat="server">
+                                Mitwoch
+                            </asp:TableHeaderCell>
+                            <asp:TableHeaderCell CssClass="tableTag" runat="server">
+                                Donnerstag
+                            </asp:TableHeaderCell>
+                            <asp:TableHeaderCell CssClass="tableTag" runat="server">
+                                Freitag
+                            </asp:TableHeaderCell>
+                        </asp:TableHeaderRow>
+                    </asp:Table>
+                </div>
+                <div runat="server" class="modal" id="LoadingModal" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog" style="width: 282px !important; margin-top: 350px;">
+                        <div class="modal-content">
+                            <div class="modal-body">
+                                <img src="Data/Images/loading.gif" alt="Lade" id="LoadingImage" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ContentTemplate>
+            <Triggers>
+                <asp:AsyncPostBackTrigger ControlID="tbTimetable" />
+                <asp:AsyncPostBackTrigger ControlID="lbtnOpenClassMenu" />
+                <asp:AsyncPostBackTrigger ControlID="btnNextDate" />
+                <asp:AsyncPostBackTrigger ControlID="btnLastDate" />
+                <asp:AsyncPostBackTrigger ControlID="txtWeekBegin" />
+            </Triggers>
+        </asp:UpdatePanel>
+    </form>
 </body>
+<script src="Bootstrap/js/bootstrap.js"></script>
+<script src="Javascript/LoginScript.js"></script>
+<script src="Javascript/Global.js"></script>
 </html>

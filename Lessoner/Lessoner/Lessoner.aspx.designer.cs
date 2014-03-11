@@ -13,48 +13,75 @@ namespace Lessoner {
     public partial class Lessoner {
         
         /// <summary>
-        /// LoginForm-Steuerelement
+        /// btnLastDate-Steuerelement
         /// </summary>
         /// <remarks>
         /// Automatisch generiertes Feld
         /// Um dies zu ändern, verschieben Sie die Felddeklaration aus der Designerdatei in eine Code-Behind-Datei.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlForm LoginForm;
+        protected global::System.Web.UI.WebControls.LinkButton btnLastDate;
         
         /// <summary>
-        /// LoginControlls-Steuerelement
+        /// txtWeekBegin-Steuerelement
         /// </summary>
         /// <remarks>
         /// Automatisch generiertes Feld
         /// Um dies zu ändern, verschieben Sie die Felddeklaration aus der Designerdatei in eine Code-Behind-Datei.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel LoginControlls;
+        protected global::System.Web.UI.WebControls.TextBox txtWeekBegin;
         
         /// <summary>
-        /// txtUsername-Steuerelement
+        /// btnNextDate-Steuerelement
         /// </summary>
         /// <remarks>
         /// Automatisch generiertes Feld
         /// Um dies zu ändern, verschieben Sie die Felddeklaration aus der Designerdatei in eine Code-Behind-Datei.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtUsername;
+        protected global::System.Web.UI.WebControls.LinkButton btnNextDate;
         
         /// <summary>
-        /// txtPasswort-Steuerelement
+        /// divClassSelect-Steuerelement
         /// </summary>
         /// <remarks>
         /// Automatisch generiertes Feld
         /// Um dies zu ändern, verschieben Sie die Felddeklaration aus der Designerdatei in eine Code-Behind-Datei.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtPasswort;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divClassSelect;
         
         /// <summary>
-        /// btnLoginSubmit-Steuerelement
+        /// lbtnOpenClassMenu-Steuerelement
         /// </summary>
         /// <remarks>
         /// Automatisch generiertes Feld
         /// Um dies zu ändern, verschieben Sie die Felddeklaration aus der Designerdatei in eine Code-Behind-Datei.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnLoginSubmit;
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor lbtnOpenClassMenu;
+        
+        /// <summary>
+        /// ClassList-Steuerelement
+        /// </summary>
+        /// <remarks>
+        /// Automatisch generiertes Feld
+        /// Um dies zu ändern, verschieben Sie die Felddeklaration aus der Designerdatei in eine Code-Behind-Datei.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl ClassList;
+        
+        /// <summary>
+        /// tbTimetable-Steuerelement
+        /// </summary>
+        /// <remarks>
+        /// Automatisch generiertes Feld
+        /// Um dies zu ändern, verschieben Sie die Felddeklaration aus der Designerdatei in eine Code-Behind-Datei.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Table tbTimetable;
+        
+        /// <summary>
+        /// LoadingModal-Steuerelement
+        /// </summary>
+        /// <remarks>
+        /// Automatisch generiertes Feld
+        /// Um dies zu ändern, verschieben Sie die Felddeklaration aus der Designerdatei in eine Code-Behind-Datei.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl LoadingModal;
     }
 }
