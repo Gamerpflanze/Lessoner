@@ -17,31 +17,44 @@
 
 </head>
 <body onload="">
-    <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-sm">
+    <div class="modal fade" id="LoginModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
             <div class="modal-content">
-                <asp:UpdatePanel runat="server">
-                    <ContentTemplate>
-                        <asp:ScriptManager runat="server"></asp:ScriptManager>
-                        <asp:Panel runat="server" ID="Panel1">
-                            <div class="form-group">
-                                <asp:TextBox runat="server" placeholder="Email" class="form-control" ID="TextBox1"></asp:TextBox>
-                            </div>
-                            <div class="form-group">
-                                <asp:TextBox TextMode="Password" placeholder="Passwort" class="form-control" ID="TextBox2" runat="server"></asp:TextBox>
-                            </div>
-                            <asp:Button class="btn btn-success" Text="Anmelden" OnClick="btnLoginSubmit_Click" ID="Button1" runat="server" />
-                        </asp:Panel>
-                    </ContentTemplate>
-                    <Triggers>
-                        <asp:AsyncPostBackTrigger ControlID="txtUsername" />
-                        <asp:AsyncPostBackTrigger ControlID="txtPasswort" />
-                        <asp:AsyncPostBackTrigger ControlID="btnLoginSubmit" />
-                    </Triggers>
-                </asp:UpdatePanel>
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                </div>
+                <div class="modal-body">
+                    <form role="form" id="LoginForm" runat="server">
+                        <asp:UpdatePanel runat="server">
+                            <ContentTemplate>
+                                <asp:ScriptManager runat="server"></asp:ScriptManager>
+                                <asp:Panel runat="server" ID="LoginControlls">
+                                    <div class="form-group">
+                                        <asp:TextBox runat="server" placeholder="Email" class="form-control" ID="txtUsername"></asp:TextBox>
+                                    </div>
+                                    <div class="form-group">
+                                        <asp:TextBox TextMode="Password" placeholder="Passwort" class="form-control" ID="txtPasswort" runat="server"></asp:TextBox>
+                                    </div>
+                                    <asp:Button class="btn btn-success" Text="Anmelden" OnClick="btnLoginSubmit_Click" ID="btnLoginSubmit" runat="server" />
+                                </asp:Panel>
+                            </ContentTemplate>
+                            <Triggers>
+                                <asp:AsyncPostBackTrigger ControlID="txtUsername" />
+                                <asp:AsyncPostBackTrigger ControlID="txtPasswort" />
+                                <asp:AsyncPostBackTrigger ControlID="btnLoginSubmit" />
+                            </Triggers>
+                        </asp:UpdatePanel>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
             </div>
         </div>
     </div>
+
     <div class="alert alert-danger alert-dismissable" id="ErrorDisplay" style="display: none">
         <button type="button" class="close" aria-hidden="true" onclick="CloseError()">&times;</button>
         <strong>Fehler: </strong>
@@ -63,7 +76,7 @@
                     <li><a href="about.aspx">Über den Lessoner</a></li>
                     <li id="display" style="display: none"><a href="Lessoner.aspx">Stundenplan</a></li>
                     <li>
-                        <button class="btn btn-primary navbar-right" data-toggle="modal" data-target=".bs-example-modal-sm">Einloggen</button></li>
+                        <button class="btn btn-primary navbar-right" data-toggle="modal" data-target="#LoginModal">Einloggen</button></li>
                 </ul>
                 <!--<form class="navbar-form navbar-right" role="form" id="LoginForm">
                     <div class="form-group">
@@ -76,7 +89,7 @@
                 </form>-->
 
                 <!--Login Anfang ------------------------------------------------------------------------------------------------------------------------------------->
-                <%--Das Tool: https://chrome.google.com/webstore/detail/web-developer/bfbameneiokkgbdmiekhjnmfkcnldhhm --%>
+                <!--Das Tool: https://chrome.google.com/webstore/detail/web-developer/bfbameneiokkgbdmiekhjnmfkcnldhhm -->
                 <%--<form class="navbar-form navbar-right" role="form" id="LoginForm" runat="server">
                     <asp:UpdatePanel runat="server">
                         <ContentTemplate>
