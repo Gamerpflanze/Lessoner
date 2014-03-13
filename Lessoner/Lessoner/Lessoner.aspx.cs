@@ -113,7 +113,6 @@ namespace Lessoner
                         {
                             HtmlGenericControl li = new HtmlGenericControl("li");
                             LinkButton ClassLink = new LinkButton();
-
                             ClassLink.Attributes.Add("data-id", reader["ID"].ToString());
                             ClassLink.OnClientClick = "OpenLoadingIndicator('true');";
                             ClassLink.Text = reader["Name"].ToString();
@@ -288,10 +287,18 @@ namespace Lessoner
                                 while (reader.Read())
                                 {
                                     Lesson l = new Lesson();
-                                    int Begin = Convert.ToInt32(reader["Stunde_Beginn"]);//steht hier für Kürzung
-                                    HtmlGenericControl Text = new HtmlGenericControl("span");
-                                    Text.Style.Add("position", "absolute");
-                                    Text.InnerText = reader["FachName"].ToString();
+                                    int Begin = Convert.ToInt32(reader["Stunde_Beginn"]);
+                                    HtmlGenericControl TextBig = new HtmlGenericControl("span");
+                                    HtmlGenericControl TextSmall = new HtmlGenericControl("span");
+
+                                    TextBig.Style.Add("text-align", "center");
+                                    TextBig.InnerText = reader["FachName"].ToString();
+                                    TextBig.Attributes.Add("class", "visible-lg");
+
+                                    TextSmall.Style.Add("text-align", "center");
+                                    TextSmall.InnerText = reader["FachNameKurz"].ToString();
+                                    TextSmall.Attributes.Add("class", "hidden-lg");
+
                                     l.ID = Convert.ToInt32(reader["ID"]);
                                     l.LehrerID = Convert.ToInt32(reader["LehrerID"]);
                                     l.FachID = Convert.ToInt32(reader["FachID"]);
@@ -303,7 +310,8 @@ namespace Lessoner
                                     l.NameShot = reader["FachNameKurz"].ToString();
                                     l.TagInfoID = Convert.ToInt32(reader["TagInfoID"]);
 
-                                    (tbTimetable.Controls[Begin].Controls[l.TagInfoID] as TableCell).Controls.Add(Text);//See?
+                                    (tbTimetable.Controls[Begin].Controls[l.TagInfoID] as TableCell).Controls.Add(TextBig);
+                                    (tbTimetable.Controls[Begin].Controls[l.TagInfoID] as TableCell).Controls.Add(TextSmall);
                                     (tbTimetable.Controls[Begin].Controls[l.TagInfoID] as TableCell).Attributes.Add("data-listid", j.ToString());
                                     (tbTimetable.Controls[Begin].Controls[l.TagInfoID] as TableCell).Attributes["data-infotype"] = "1";
 

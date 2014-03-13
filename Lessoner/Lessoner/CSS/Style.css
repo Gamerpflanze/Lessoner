@@ -1,5 +1,39 @@
-﻿body {
+﻿
+
+
+/*#region Media Query Elemente*/
+.maxwidth-xs {
+    width:initial;
+}
+.maxwidth-sm {
+    width:initial;
+}
+.maxwidth-md {
+    width:initial;
+}
+@media(max-width:767px){
+    .maxwidth-xs {
+        width:100% !important;
+        max-width:none !important;
+    }
+}
+@media(max-width:991px){
+    .maxwidth-sm {
+    width:100% !important;
+    max-width:none !important;
+    }
+}
+@media(max-width:1119px){
+    .maxwidth-md {
+    width:100% !important;
+    max-width:none !important;
+    }
+}
+/*#endregion RegionName*/
+
+body {
     padding-top:50px;
+    max-width:none;
 }
 
 #UserNameInput
@@ -19,6 +53,7 @@
 .tableTag
 {
     width:18%;
+    min-width:125px;
 }
 .tableTag a
 {
@@ -33,6 +68,10 @@
 {
     display:block;
 }
+.tableTag:hover 
+{
+    background-color:#f5f5f5;
+}
 .tableCenter
 {
     text-align:center;
@@ -43,11 +82,17 @@
     max-width:128px;
     cursor:default !important;
 }
+.LessonerButtonLeft, .LessonerButtonRight {
+    background-color:#ffffff !important;
+    display:table-cell;
+    width:39px;
+}
 .LessonerButtonLeft
 {
     border-right:none;
     border-top-right-radius:0;
     border-bottom-right-radius:0;
+    
 }
 .LessonerButtonRight
 {

@@ -41,4 +41,9 @@ function getdays() {
 function setdays(data) {
 //(data.d[1][1][7])
 
-    }   
+}
+
+function Enter(sender)
+{
+
+}

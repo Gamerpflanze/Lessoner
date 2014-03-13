@@ -64,6 +64,7 @@
     <Content Include="Bootstrap\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="Data\Images\loading.gif" />
     <Content Include="Data\ProfileImages\0000.jpg" />
+    <Content Include="DebugPage.aspx" />
     <Content Include="Dokumente\dbLessoner.sql" />
     <Content Include="Dokumente\Fehlermeldungen.ods" />
     <Content Include="ClassDiagram1.cd" />
@@ -117,6 +118,13 @@
     <Compile Include="Code\HelperMethods.cs" />
     <Compile Include="Code\Lesson.cs" />
     <Compile Include="Code\StoredVars.cs" />
+    <Compile Include="DebugPage.aspx.cs">
+      <DependentUpon>DebugPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DebugPage.aspx.designer.cs">
+      <DependentUpon>DebugPage.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

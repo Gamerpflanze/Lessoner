@@ -1,6 +1,15 @@
 ﻿/// <reference path="../JQuery/jquery-1.10.2.js" />
 /// <reference path="../Bootstrap/js/bootstrap.js" />
 
+if (navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPod/i) || navigator.userAgent.match(/Android/i)
+|| navigator.userAgent.match(/BlackBerry/i) || navigator.userAgent.match(/IEMobile/i)) {
+    $("#viewpoint_device").attr("content", "initial-scale = 1");//Wert ändern wenn zu groß
+}
+else if (navigator.userAgent.match(/iPad/i)) {
+    $("#viewpoint_device").attr("content", "initial-scale = 1.00");
+}
+
+
 function DisplayErrorCode(ErrorCode) {
     DisplayError("Es ist ein fehler aufgetreten (" + ErrorCode + ")");
 }
