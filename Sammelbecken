@@ -1,0 +1,4 @@
+Druckbutton:
+
+<button class="btn btn-primary"><i class="icon-white icon-print"></i> Stundenplan drucken</button>
+
