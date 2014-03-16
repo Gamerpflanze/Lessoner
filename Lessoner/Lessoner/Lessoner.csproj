@@ -64,6 +64,7 @@
     <Content Include="Bootstrap\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="Data\Images\loading.gif" />
     <Content Include="Data\ProfileImages\0000.jpg" />
+    <Content Include="Data\ProfileImages\Kunst.jpg" />
     <Content Include="DebugPage.aspx" />
     <Content Include="Dokumente\dbLessoner.sql" />
     <Content Include="Dokumente\Fehlermeldungen.ods" />
@@ -99,6 +100,7 @@
     <Content Include="LessonerBuilder.aspx" />
     <Content Include="profile.aspx" />
     <Content Include="Programm\Benutzererstellung.exe" />
+    <Content Include="Schuelerverwaltung.aspx" />
     <Content Include="TeacherEinst.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -168,6 +170,13 @@
       <DependentUpon>profile.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Schuelerverwaltung.aspx.cs">
+      <DependentUpon>Schuelerverwaltung.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Schuelerverwaltung.aspx.designer.cs">
+      <DependentUpon>Schuelerverwaltung.aspx</DependentUpon>
+    </Compile>
     <Compile Include="SQL\Statements.cs" />
     <Compile Include="TeacherEinst.aspx.cs">
       <DependentUpon>TeacherEinst.aspx</DependentUpon>
@@ -191,6 +200,15 @@
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'IgnoreUser|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Lehrer|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>

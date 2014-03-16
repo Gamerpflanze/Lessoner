@@ -78,7 +78,7 @@ namespace Lessoner
                     Response.End();
                     return;
                 }
-                if (!StoredVars.Objects.Rights["lessonerbuilder"]["permission"])
+                if (!StoredVars.Objects.Rights["lessoner"]["permission"])
                 {
                     Response.Clear();
                     Response.StatusCode = 403;

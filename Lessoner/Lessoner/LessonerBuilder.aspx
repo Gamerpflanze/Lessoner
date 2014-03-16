@@ -116,18 +116,6 @@
                             </asp:TableHeaderCell>
                         </asp:TableHeaderRow>
                     </asp:Table>
-                    <!--
-                            <asp:TableRow>
-                            <asp:TableCell CssClass="LessonerBuilderCell">
-                                    <button type="button" class="LessonEditButton btn-xs" style="float:left"><span class="glyphicon glyphicon-remove"></span></button>
-                                    <button type="button" class="LessonEditButton btn-xs" style="float:right"><span class="glyphicon glyphicon-pencil"></span></button>
-                            </asp:TableCell>
-                            <asp:TableCell CssClass="LessonerBuilderCell">
-                                    <button type="button" class="LessonEditButton btn-xs" style="float:left"><span class="glyphicon glyphicon-remove"></span></button>
-                                    <button type="button" class="LessonEditButton btn-xs" style="float:right"><span class="glyphicon glyphicon-plus"></span></button>
-                            </asp:TableCell>
-                        </asp:TableRow>
-                        -->
                 </div>
                 <!--Dialoge-->
                 <div class="modal fade" id="LessonEdit" tabindex="-1" role="dialog" aria-labelledby="LessonEditTitle" aria-hidden="true">
@@ -141,7 +129,7 @@
                                 <div class="row" style="text-align: center">
                                     <div class="col-md-4">
                                         <div class="btn-group" style="float: left">
-                                            <!--TODO: Platzhalter entfernen(?)-->
+                                            <!--TODO: Platzhalter entfernen(?)                (Frag nicht wieso)-->
                                             <button class="btn btn-default dropdown-toggle" data-toggle="dropdown" runat="server" id="ddLessonName">
                                                 Chicken nuggets
                                          <span class="caret"></span>
@@ -195,7 +183,7 @@
                                     <div class="col-xs-4" style="float: left">
                                         <div class="input-group">
                                             <span class="input-group-addon">Bis</span>
-                                            <asp:TextBox runat="server" ID="txtCountEnd" CssClass="form-control LessonerNumericBox" Text="*Calls Painis Cupcake*" ReadOnly="true" />
+                                            <asp:TextBox runat="server" ID="txtCountEnd" CssClass="form-control LessonerNumericBox" Text="*Calls Painis Cupcake*" ReadOnly="true" /><!-- I AM PAINIS CUPCAKE! I WILL EAT YOU!!!-->
                                             <span class="input-group-addon UpDownButtonContainer">
                                                 <table>
                                                     <tr>
@@ -252,7 +240,6 @@
                                 <h4 class="modal-title" id="DeleteConfirmTitle">Bestätigen</h4>
                             </div>
                             <div class="modal-body">
-                                <!--<span class="glyphicon glyphicon-warning-sign" style="float: left; font-size: 38px; margin-right: 20px;"></span>-->
                                 Sind sie sicher, dass sie diese Stunde entfernen möchten?
                             </div>
                             <div class="modal-footer">
@@ -272,7 +259,6 @@
                             <div class="modal-body">
                                 <div class="row">
                                     <div class="col-md-4">
-                                        <!--TODO: Eigene Checkbox Programmieren?-->
                                         <asp:CheckBox runat="server" Text="Findet statt" ID="chkTakesPlace" Checked="false" /><!--Nah, Place already taken-->
                                     </div>
                                     <div class="col-md-8">
@@ -297,7 +283,6 @@
                                 <h4 class="modal-title" id="AbortDayTitle">Achtung</h4>
                             </div>
                             <div class="modal-body">
-                                <!--<span class="glyphicon glyphicon-warning-sign" style="float: left; font-size: 38px; margin-right: 20px;"></span>-->
                                 Möchten sie die änderungen an diesem Tag speichern?
                             </div>
                             <div class="modal-footer" style="margin-top: 0px; text-align: center;">

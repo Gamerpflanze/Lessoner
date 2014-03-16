@@ -14,25 +14,68 @@ namespace Lessoner
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (StoredVars.Objects.Loggedin)
-            {
-                foreach (Control c in LoginControlls.Controls)
+#if !DEBUG
+                if (!StoredVars.Objects.Loggedin)
                 {
-                    c.Visible = false;
+                    Response.Clear();
+                    Response.StatusCode = 403;
+                    Response.End();
+                    return;
                 }
-                LinkButton ProfileLink = new LinkButton();
-                ProfileLink.Text = StoredVars.Objects.Vorname + " " + StoredVars.Objects.Nachname;
-                LoginControlls.Controls.Add(ProfileLink);
+                if (!StoredVars.Objects.Rights["lessonerbuilder"]["permission"])
+                {
+                    Response.Clear();
+                    Response.StatusCode = 403;
+                    Response.End();
+                    return;
+                }
+#endif
+            int ProfileID;
+            if(Request.QueryString.AllKeys.Contains("profileid"))
+            {
+                ProfileID = Convert.ToInt32(Request.QueryString["profileid"]);
+            }
+            else
+            {
+                ProfileID = -1;
+            }
+
+            if(ProfileID==-1)
+            {
+                if(StoredVars.Objects.Rights["login"]["isteacher"])
+                {
+                    string title = StoredVars.Objects.Title;
+                    lblProfileOf.Text="";
+                    if(title!="")
+                    {
+                        lblProfileOf.Text += title + " ";
+                    }
+                    else
+                    {
+                    }
+                    lblProfileOf.Text += StoredVars.Objects.Vorname + " " + StoredVars.Objects.Nachname;
+                    PersonTyle.Text = "Lehrer";
+                }
+                else
+                { 
+                    PersonTyle.Text = "Schueler";
+                }
+
+                if (StoredVars.Objects.KlasseName == "")
+                {
+                    Class.Text = "Keine";
+                }
+                else
+                {
+                    Class.Text = StoredVars.Objects.KlasseName;
+                }
+                Place.Text = StoredVars.Objects.Ort;
+                Plz.Text = StoredVars.Objects.PLZ;
+                Street.Text = StoredVars.Objects.Strasse;
+                Homenumber.Text = StoredVars.Objects.HSN;
             }
         }
-        protected void btnLoginSubmit_Click(object sender, EventArgs e)
-        {
-            string Username = GlobalWebMethods.GetLoginData(txtUsername.Text, txtPasswort.Text);
-            LoginControlls.Controls.Clear();
-            LinkButton ProfileLink = new LinkButton();
-            ProfileLink.Text = Username;
-            LoginControlls.Controls.Add(ProfileLink);
-        }
+
         [WebMethod, ScriptMethod(ResponseFormat = ResponseFormat.Json, UseHttpGet = false)]
         public static string[] GetData()
         {
@@ -66,7 +109,6 @@ namespace Lessoner
                 }
             }
         }
-
         [WebMethod]
         public static string CheckLoggedin()
         {

@@ -8,8 +8,6 @@ namespace Lessoner.SQL
     public static class Statements
     {
         //TODO: Ordnen(?)
-
-
         public const string CheckForLessoner = @"SELECT COUNT(s.ID) FROM tbstundenplan as s
                                                  WHERE s.KlasseID = @KlasseID AND s.Datum = @Datum ";
 

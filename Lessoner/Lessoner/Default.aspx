@@ -55,7 +55,6 @@
             </div>
         </div>
     </div>
-
     <div class="alert alert-danger alert-dismissable" id="ErrorDisplay" style="display: none">
         <button type="button" class="close" aria-hidden="true" onclick="CloseError()">&times;</button>
         <strong>Fehler: </strong>
@@ -76,19 +75,10 @@
                     <li class="active"><a href="#">Hauptseite</a></li>
                     <li><a href="about.aspx">Über den Lessoner</a></li>
                     <li id="display" style="display: none"><a href="Lessoner.aspx">Stundenplan</a></li>
-                    <li>
-                        <button class="btn btn-primary navbar-right" data-toggle="modal" data-target="#LoginModal">Einloggen</button></li>
                 </ul>
-                <!--<form class="navbar-form navbar-right" role="form" id="LoginForm">
-                    <div class="form-group">
-                        <input type="text" placeholder="Email" class="form-control" id="Username" />
-                    </div>
-                    <div class="form-group">
-                        <input type="password" placeholder="Passwort" class="form-control" id="Password" />
-                    </div>
-                    <input type="button" class="btn btn-success" value="Anmelden" onclick="SendLoginData('Default.aspx')" />
-                </form>-->
-
+                <div class="navbar-form navbar-right">
+                    <button class="btn btn-primary navbar-right maxwidth-xs" data-toggle="modal" data-target="#LoginModal">Einloggen</button>
+                </div>
                 <!--Login Anfang ------------------------------------------------------------------------------------------------------------------------------------->
                 <!--Das Tool: https://chrome.google.com/webstore/detail/web-developer/bfbameneiokkgbdmiekhjnmfkcnldhhm -->
                 <%--<form class="navbar-form navbar-right" role="form" id="LoginForm" runat="server">
@@ -116,7 +106,6 @@
             </div>
         </div>
     </div>
-
     <div class="jumbotron">
         <div class="container">
             <h1>Herzlich Willkommen!</h1>
