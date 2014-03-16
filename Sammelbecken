@@ -2,3 +2,8 @@ Druckbutton:
 
 <button class="btn btn-primary"><i class="icon-white icon-print"></i> Stundenplan drucken</button>
 
+Zum drucken der einzelnen Modals:
+
+http://stackoverflow.com/questions/12181760/twitter-bootstrap-print-content-of-modal-window
+
+Informationen über die nötigen CSS Dateien.
