@@ -18,6 +18,7 @@ Features:
     Schüler:
     - Abfragen des Stundenplanes der jeweiligen Klasse samt Hausaufgaben und Bemerkungen sowie Download
     der von den Lehrern freigegeben Dateien
+
 Features:    
  - Website mit Twitter Bootstrap Design für eine Desktop sowie Mobiloptimierte Seite
  - Direkter Login auf der Hauptseite
