@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name = "viewport" id = "viewpoint_device" />
+    <meta name="viewport" id="viewpoint_device" />
     <title></title>
     <!--Scripts oben wegen abruffehler-->
     <script src="JQuery/jquery-1.10.2.js"></script>
@@ -27,8 +27,8 @@
                 </div>
                 <!---------------------------------------------->
                 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-                   
-                    <div class="container">
+
+                    <div class="container hidden-print">
                         <div class="navbar-header">
                             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                                 <span class="sr-only">Toggle navigation</span>
@@ -47,10 +47,10 @@
                         </div>
                     </div>
                 </div>
-                <div class="page-header">
+                <div class="page-header hidden-print">
                     <div class="container">
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="input-group left maxwidth-sm" style="float: left">
                                     <asp:LinkButton CssClass="btn btn-default LessonerButtonLeft DisabledATag input-group-addon" ID="btnLastDate" runat="server" OnClick="btnLastDate_Click" OnClientClick="OpenLoadingIndicator('true');">
                                         <span class="glyphicon glyphicon-arrow-left"></span>
@@ -62,7 +62,11 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-6">
+                            <div class="col-md-4">
+                                <button class="btn btn-primary btn-large" onclick="javascript:window.print()"><span class="glyphicon glyphicon-print"></span> Stundenplan drucken</button>
+                            </div>
+
+                            <div class="col-md-4">
                                 <div class="btn-group maxwidth-sm" style="float: right" id="divClassSelect" runat="server">
                                     <a class="btn btn-default dropdown-toggle maxwidth-sm" data-toggle="dropdown" runat="server" id="lbtnOpenClassMenu">KLASSE<span class="caret"></span></a>
                                     <ul class="dropdown-menu maxwidth-sm" id="ClassList" runat="server">
@@ -115,6 +119,7 @@
             </Triggers>
         </asp:UpdatePanel>
     </form>
+
 </body>
 <script src="Bootstrap/js/bootstrap.js"></script>
 <script src="Javascript/LoginScript.js"></script>
