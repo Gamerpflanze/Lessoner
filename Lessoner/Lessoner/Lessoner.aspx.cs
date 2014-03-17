@@ -370,6 +370,7 @@ namespace Lessoner
             NumberCell.RowSpan = 2;
             NumberCell.InnerText = Lession.ToString();
             NumberCell.Style.Add("font-size", "16px;");
+            NumberCell.Style.Add("font-weight", "bold");
             BeginCell.InnerText = Begin.ToString(@"hh\:mm");
             EndCell.InnerText = End.ToString(@"hh\:mm");
 
