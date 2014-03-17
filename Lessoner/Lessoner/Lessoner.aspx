@@ -62,7 +62,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-4">
+                            <div class="col-md-4" style="text-align:center">
                                 <button class="btn btn-primary btn-large" onclick="javascript:window.print()"><span class="glyphicon glyphicon-print"></span> Stundenplan drucken</button>
                             </div>
 
