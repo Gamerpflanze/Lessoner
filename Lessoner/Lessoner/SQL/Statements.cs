@@ -46,6 +46,14 @@ namespace Lessoner.SQL
                                                 ON l.AnmeldungID = a.ID
                                                 WHERE a.ID = @LoginID";
 
+        public const string GetStudentList = @"SELECT s.ID, a.Email, s.Vorname, s.Name, s.Strasse, s.Hausnummer, s.PLZ, s.Ort, s.KlasseID, k.Name as KlassenName
+                                                FROM tbanmeldung as a
+                                                JOIN tbschueler as s
+                                                ON s.AnmeldungID = a.ID
+                                                JOIN tbklasse as k ON s.KlasseID = k.ID
+                                                WHERE k.ID=@KlasseID";
+
+
         public const string GetStudentInfos = @"SELECT s.ID, a.Email, s.Vorname, s.Name, s.Strasse, s.Hausnummer, s.PLZ, s.Ort, s.KlasseID, k.Name as KlassenName
                                                 FROM tbanmeldung as a
                                                 JOIN tbschueler as s

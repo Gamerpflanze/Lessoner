@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Schuelerverwaltung.aspx.cs" Inherits="Lessoner.Schuelerverwaltung" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Schuelerverwaltung.aspx.cs" Inherits="Lessoner.Schuelerverwaltung"%>
 
 <!DOCTYPE html>
 
@@ -9,8 +9,8 @@
     <script src="JQuery/jquery-1.10.2.js"></script>
     <script src="Bootstrap/js/bootstrap.js"></script>
     <script src="Javascript/LoginScript.js"></script>
-    <script src="Javascript/profile.js"></script>
     <script src="Javascript/Global.js"></script>
+    <script src="Javascript/Schuelerverwaltung.js"></script>
     <link href="Bootstrap/css/bootstrap-theme.css" rel="stylesheet" />
     <link href="Bootstrap/css/bootstrap.css" rel="stylesheet" />
     <link href="CSS/Style.css" rel="stylesheet" />
@@ -40,22 +40,23 @@
         </div>
         <div class="page-header">
             <div class="container">
-                <asp:UpdatePanel ID="PageHeader" runat="server">
+                <asp:UpdatePanel runat="server" UpdateMode="Always" ID="PageHeader">
                     <ContentTemplate>
                         <div class="col-sm-4">
-                            <div class="btn-group maxwidth-xs">
+                            <div class="btn-group maxwidth-xs" id="ClassSelecter" runat="server">
                                 <a class="btn btn-default dropdown-toggle maxwidth-xs pull-left" data-toggle="dropdown" runat="server" id="OpenClassMenu">Klasse<span class="caret"></span>
                                 </a>
                                 <ul class="dropdown-menu maxwidth-xs" id="ClassList" runat="server">
                                     <li><a onclick="">&lt;Neue Klasse&gt;</a></li>
                                 </ul>
-                            </div>
+                            </div> 
                         </div>
                         <div class="col-sm-4">
                             <button type="button" class="btn btn-default maxwidth-xs">Verschieben</button>
-                        </div>                        
+                        </div>
                         <div class="col-sm-4">
-                            <button type="button" class="btn btn-default maxwidth-xs hidden-xs pull-right">Klassenliste Drucken</button></div>
+                            <button type="button" class="btn btn-default maxwidth-xs hidden-xs pull-right">Klassenliste Drucken</button>
+                        </div>
                     </ContentTemplate>
                     <Triggers>
                     </Triggers>
@@ -63,9 +64,10 @@
             </div>
         </div>
         <div class="container">
-            <asp:UpdatePanel runat="server" ID="MainList">
+            <asp:UpdatePanel runat="server" ID="MainList" UpdateMode="Always">
                 <ContentTemplate>
-                    <asp:Table runat="server" CssClass="table table-hover">
+                    <div id="soy" runat="server"></div>
+                    <asp:Table runat="server" ID="StudentList" CssClass="table table-hover">
                         <asp:TableHeaderRow TableSection="TableHeader">
                             <asp:TableHeaderCell>Vorname</asp:TableHeaderCell>
                             <asp:TableHeaderCell>Nachname</asp:TableHeaderCell>
@@ -74,15 +76,10 @@
                             <asp:TableHeaderCell>PLZ</asp:TableHeaderCell>
                             <asp:TableHeaderCell>Ort</asp:TableHeaderCell>
                         </asp:TableHeaderRow>
-                        <asp:TableFooterRow TableSection="TableFooter">
-                            <asp:TableCell>
-                                <button class="btn btn-default">Hinzufügen</button>
-                            </asp:TableCell>
-                        </asp:TableFooterRow>
+                        
                     </asp:Table>
                 </ContentTemplate>
                 <Triggers>
-
                 </Triggers>
             </asp:UpdatePanel>
         </div>

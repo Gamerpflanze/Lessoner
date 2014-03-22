@@ -67,9 +67,9 @@
                             </div>
 
                             <div class="col-md-4">
-                                <div class="btn-group maxwidth-sm" style="float: right" id="divClassSelect" runat="server">
+                                <div class="btn-group maxwidth-sm" style="float: right" id="SelectClass" runat="server" data-id="-1" data-name="">
                                     <a class="btn btn-default dropdown-toggle maxwidth-sm" data-toggle="dropdown" runat="server" id="lbtnOpenClassMenu">KLASSE<span class="caret"></span></a>
-                                    <ul class="dropdown-menu maxwidth-sm" id="ClassList" runat="server">
+                                    <ul classs="dropdown-menu maxwidth-sm" id="ClassList" runat="server">
                                     </ul>
                                 </div>
                             </div>

@@ -94,6 +94,7 @@
     <Content Include="Javascript\LessonerBuilder.js" />
     <Content Include="Javascript\LoginScript.js" />
     <Content Include="Javascript\profile.js" />
+    <Content Include="Javascript\Schuelerverwaltung.js" />
     <Content Include="JQuery\jquery-1.10.2 Compressed.js" />
     <Content Include="JQuery\jquery-1.10.2.js" />
     <Content Include="Lessoner.aspx" />
