@@ -353,6 +353,19 @@ namespace Lessoner
                             }
                         }
                     }
+                    int MaxLesson = 0;
+                    for(int i = 0; i<Lessons.Count; i++)
+                    {
+                        if(Lessons[i].StundeEnde>MaxLesson)
+                        {
+                            MaxLesson = Lessons[i].StundeEnde;
+                        }
+                    }
+                    int Count = tbTimetable.Controls.Count;
+                    for(int i = MaxLesson+1; i<Count; i++)
+                    {
+                        tbTimetable.Controls.RemoveAt(MaxLesson+1);
+                    }
                 }
             }
         }
