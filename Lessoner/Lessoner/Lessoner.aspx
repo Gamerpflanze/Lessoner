@@ -13,6 +13,7 @@
     <link href="Bootstrap/css/bootstrap-theme.css" rel="stylesheet" />
     <link href="Bootstrap/css/bootstrap.css" rel="stylesheet" />
     <link href="CSS/Style.css" rel="stylesheet" />
+    <link href="CSS/print.css" rel="stylesheet" />
 </head>
 <body>
     <form runat="server">
