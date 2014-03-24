@@ -58,6 +58,15 @@ namespace Lessoner {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl ClassList;
         
         /// <summary>
+        /// StudentRights-Steuerelement
+        /// </summary>
+        /// <remarks>
+        /// Automatisch generiertes Feld
+        /// Um dies zu ändern, verschieben Sie die Felddeklaration aus der Designerdatei in eine Code-Behind-Datei.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl StudentRights;
+        
+        /// <summary>
         /// MainList-Steuerelement
         /// </summary>
         /// <remarks>
@@ -85,13 +94,13 @@ namespace Lessoner {
         protected global::System.Web.UI.WebControls.Table StudentList;
         
         /// <summary>
-        /// AddEmptyStudent-Steuerelement
+        /// btnSave-Steuerelement
         /// </summary>
         /// <remarks>
         /// Automatisch generiertes Feld
         /// Um dies zu ändern, verschieben Sie die Felddeklaration aus der Designerdatei in eine Code-Behind-Datei.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton AddEmptyStudent;
+        protected global::System.Web.UI.WebControls.Button btnSave;
         
         /// <summary>
         /// LoadingModal-Steuerelement

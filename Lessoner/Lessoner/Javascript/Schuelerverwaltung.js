@@ -1,3 +1,82 @@
 ﻿/// <reference path="../JQuery/jquery-1.10.2.js" />
 /// <reference path="../Bootstrap/js/bootstrap.js" 
 /// <reference path="Global.js" />
+var SelectedRow = jQuery("lel");
+var SelectedIndex = -1;
+var DoneChange = false;
+var HasError = false;
+function EditStudent(sender)
+{
+    var Sender = jQuery(sender);
+    if (Sender.parent().index() == SelectedIndex)
+    {
+        return;
+    }
+    jQuery("#StudentRights").appendTo(jQuery("#StudentRightsKeeper"));
+    jQuery("#StudentOptions").remove();
+    for (var i = 0; i < SelectedRow.children().length; i++) {
+        var Input = SelectedRow.first().children(":eq(" + i + ")").children().first();//After 2 hours of trying random stuff, this line of the script works. We are never going to find out why.
+        Input.replaceWith(jQuery("<span>" + Input.val() + "</span>"));
+    }
+
+    SelectedRow = Sender.parent();
+    SelectedIndex = Sender.parent().index();
+    for (var i = 0; i < SelectedRow.children().length; i++) {
+        var Label = SelectedRow.first().children(":eq(" + i + ")").children().first();
+        Label.replaceWith(jQuery("<input type='text' class='form-control' onkeyup='TextChanged(this)' value='" + Label.html() + "' />"));
+    }
+    var TableRow = jQuery("<tr></tr>");
+    var TableCell = jQuery("<td></td>");
+    TableCell.attr("colspan", "7");
+    jQuery("#StudentRights").appendTo(TableCell);
+    TableCell.attr("id", "StudentOptions");
+    TableRow.append(TableCell);
+    TableRow.insertAfter(SelectedRow);
+    for (var i = 0; i < jQuery("#StudentRights").children().length; i++)
+    {
+        var Current = jQuery("#StudentRights").children(":nth-child(" + (i+1) + ")").children().children("input");
+        Current.attr("data-awfaopwjfafaibfauibf", i);
+        if(SelectedRow.attr("data-rights")[parseInt(Current.parent().attr("data-location"))]==1)
+        {
+            Current.prop('checked', true);;
+        }
+        else
+        {
+            Current.prop('checked', false);
+        }
+    }
+}
+function RightChanged(Sender)
+{
+    DoneChange = true;
+    jQuery(Sender).parent().parent().parent().parent().prev().addClass("warning");
+    jQuery(Sender).parent().parent().parent().parent().prev().attr("data-changed", "true");
+}
+function TextChanged(Sender)
+{
+    DoneChange = true;
+    var Input = jQuery(Sender);
+    Input.parent().parent().addClass("warning");
+    Input.parent().parent().attr("data-changed", "true");
+    if(Input.val()=="")
+    {
+        HasError = true;
+        Input.parent().addClass("has-error");
+        Input.parent().parent().removeClass("warning");
+        Input.parent().parent().addClass("danger");
+    }
+    else
+    {
+        HasError = false;
+        Input.parent().removeClass("has-error");
+        Input.parent().parent().removeClass("danger");
+        Input.parent().parent().addClass("warning");
+    }
+}
+window.onbeforeunload = function ()
+{
+    if(DoneChange)
+    {
+        return "Sie haben änderungen an einigen Schülern gemacht, die möglicherweise verloren gehen können.";
+    }
+}

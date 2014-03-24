@@ -373,12 +373,17 @@ namespace Lessoner
         {
             HtmlTable TimeTB = new HtmlTable();
 
+            TimeTB.Attributes.Add("class", "HourTable");
+
             HtmlTableRow Top = new HtmlTableRow();
             HtmlTableRow Bottom = new HtmlTableRow();
 
             HtmlTableCell NumberCell = new HtmlTableCell();
+            NumberCell.Attributes.Add("class", "HourNumber");
             HtmlTableCell BeginCell = new HtmlTableCell();
+            BeginCell.Attributes.Add("class", "HourCell");
             HtmlTableCell EndCell = new HtmlTableCell();
+            EndCell.Attributes.Add("class", "HourCell");
 
             NumberCell.RowSpan = 2;
             NumberCell.InnerText = Lession.ToString();

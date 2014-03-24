@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Schuelerverwaltung.aspx.cs" Inherits="Lessoner.Schuelerverwaltung"%>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Schuelerverwaltung.aspx.cs" Inherits="Lessoner.Schuelerverwaltung" %>
 
 <!DOCTYPE html>
 
@@ -49,7 +49,7 @@
                                 <ul class="dropdown-menu maxwidth-xs" id="ClassList" runat="server">
                                     <li><a onclick="">&lt;Neue Klasse&gt;</a></li>
                                 </ul>
-                            </div> 
+                            </div>
                         </div>
                         <div class="col-sm-4">
                             <button type="button" class="btn btn-default maxwidth-xs">Verschieben</button>
@@ -64,10 +64,13 @@
             </div>
         </div>
         <div class="container">
+            <div id="StudentRightsKeeper" style="display: none">
+                <div id="StudentRights" runat="server"></div>
+            </div>
             <asp:UpdatePanel runat="server" ID="MainList" UpdateMode="Always">
                 <ContentTemplate>
                     <div id="soy" runat="server"></div>
-                    <asp:Table runat="server" ID="StudentList" CssClass="table table-hover">
+                    <asp:Table runat="server" ID="StudentList" CssClass="table">
                         <asp:TableHeaderRow TableSection="TableHeader">
                             <asp:TableHeaderCell>Vorname</asp:TableHeaderCell>
                             <asp:TableHeaderCell>Nachname</asp:TableHeaderCell>
@@ -75,9 +78,10 @@
                             <asp:TableHeaderCell>Hausnr.</asp:TableHeaderCell>
                             <asp:TableHeaderCell>PLZ</asp:TableHeaderCell>
                             <asp:TableHeaderCell>Ort</asp:TableHeaderCell>
+                            <asp:TableHeaderCell>Loginname</asp:TableHeaderCell>
                         </asp:TableHeaderRow>
-                        
                     </asp:Table>
+                    <button type="button" class="btn btn-default">Hinzufügen</button><asp:Button CssClass="btn btn-primary pull-right" runat="server" ID="btnSave"/>
                 </ContentTemplate>
                 <Triggers>
                 </Triggers>
