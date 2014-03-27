@@ -122,7 +122,83 @@
             <div class="col-md-4">
                 <h2>Stundenplan</h2>
                 <p>
-                    - Bild eines Stundenplanes -
+                    <table id="tbTimetable" class="table table-bordered table-responsive">
+		<thead>
+			<tr>
+				<th class="tableStunde">Zeit</th><th class="tableTag" data-id="151" data-takesplace="True">
+                                Montag
+                                </th><th class="tableTag" data-id="152" data-takesplace="True">
+			</tr>
+		</thead><tbody>
+			<tr data-infotype="0">
+				<td><table class="HourTable">
+					<tbody><tr>
+						<td class="HourNumber" rowspan="2" style="font-size:16px;;font-weight:bold;">1</td>
+						<td class="HourCell">07:30</td>
+					</tr>
+					<tr>
+						<td class="HourCell">08:15</td>
+					</tr>
+				</tbody></table>
+				</td><td class="LessonCell" data-listid="0" data-infotype="1" rowspan="2"><span style="text-align:center;" class="visible-lg">Programmieren</span><span style="text-align:center;" class="hidden-lg">PR</span></td><td class="LessonCell" data-listid="2" data-infotype="1" rowspan="2"><span style="text-align:center;" class="visible-lg">Wirtschaft</span><span style="text-align:center;" class="hidden-lg">W</span></td><td class="LessonCell"></td><td class="LessonCell"></td><td class="LessonCell"></td>
+			</tr><tr data-infotype="0">
+				<td><table class="HourTable">
+					<tbody><tr>
+						<td class="HourNumber" rowspan="2" style="font-size:16px;;font-weight:bold;">2</td>
+						<td class="HourCell">08:15</td>
+					</tr>
+					<tr>
+						<td class="HourCell">09:00</td>
+					</tr>
+				</tbody></table>
+				</td><td class="LessonCell" style="display:none;"></td><td class="LessonCell" style="display:none;"></td><td class="LessonCell"></td><td class="LessonCell"></td><td class="LessonCell"></td>
+			</tr><tr data-infotype="0">
+				<td><table class="HourTable">
+					<tbody><tr>
+						<td class="HourNumber" rowspan="2" style="font-size:16px;;font-weight:bold;">3</td>
+						<td class="HourCell">09:15</td>
+					</tr>
+					<tr>
+						<td class="HourCell">10:00</td>
+					</tr>
+				</tbody></table>
+				</td><td class="LessonCell" data-listid="1" data-infotype="1" rowspan="4"><span style="text-align:center;" class="visible-lg">Elektroprozesstechnik</span><span style="text-align:center;" class="hidden-lg">EP</span></td><td class="LessonCell" data-listid="3" data-infotype="1" rowspan="2"><span style="text-align:center;" class="visible-lg">Mathe</span><span style="text-align:center;" class="hidden-lg">M</span></td><td class="LessonCell"></td><td class="LessonCell"></td><td class="LessonCell"></td>
+			</tr><tr data-infotype="0">
+				<td><table class="HourTable">
+					<tbody><tr>
+						<td class="HourNumber" rowspan="2" style="font-size:16px;;font-weight:bold;">4</td>
+						<td class="HourCell">10:00</td>
+					</tr>
+					<tr>
+						<td class="HourCell">10:45</td>
+					</tr>
+				</tbody></table>
+				</td><td class="LessonCell" style="display:none;"></td><td class="LessonCell" style="display:none;"></td><td class="LessonCell"></td><td class="LessonCell"></td><td class="LessonCell"></td>
+			</tr><tr data-infotype="0">
+				<td><table class="HourTable">
+					<tbody><tr>
+						<td class="HourNumber" rowspan="2" style="font-size:16px;;font-weight:bold;">5</td>
+						<td class="HourCell">11:00</td>
+					</tr>
+					<tr>
+						<td class="HourCell">11:45</td>
+					</tr>
+				</tbody></table>
+				</td><td class="LessonCell" style="display:none;"></td><td class="LessonCell"></td><td class="LessonCell"></td><td class="LessonCell"></td><td class="LessonCell"></td>
+			</tr><tr data-infotype="0">
+				<td><table class="HourTable">
+					<tbody><tr>
+						<td class="HourNumber" rowspan="2" style="font-size:16px;;font-weight:bold;">6</td>
+						<td class="HourCell">11:45</td>
+					</tr>
+					<tr>
+						<td class="HourCell">12:30</td>
+					</tr>
+				</tbody></table>
+				</td><td class="LessonCell" style="display:none;"></td><td class="LessonCell" data-listid="4" data-infotype="1"><span style="text-align:center;" class="visible-lg">Betriebssysteme/Netzwerke</span><span style="text-align:center;" class="hidden-lg">BN</span></td><td class="LessonCell"></td><td class="LessonCell"></td><td class="LessonCell"></td>
+			</tr>
+		</tbody>
+	</table>
                     <br />
                     Behalte den Überblick über deine Stunden.
                Fällt morgen die letzte Stunde aus oder solltest du lieber deine Sportsachen einpacken, hier erfährst du es.
