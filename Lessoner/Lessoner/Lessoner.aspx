@@ -28,7 +28,6 @@
                 </div>
                 <!---------------------------------------------->
                 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-
                     <div class="container hidden-print">
                         <div class="navbar-header">
                             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -70,7 +69,7 @@
                             <div class="col-md-4">
                                 <div class="btn-group maxwidth-sm" style="float: right" id="SelectClass" runat="server" data-id="-1" data-name="">
                                     <a class="btn btn-default dropdown-toggle maxwidth-sm" data-toggle="dropdown" runat="server" id="lbtnOpenClassMenu">KLASSE<span class="caret"></span></a>
-                                    <ul classs="dropdown-menu maxwidth-sm" id="ClassList" runat="server">
+                                    <ul class="dropdown-menu maxwidth-sm" id="ClassList" runat="server">
                                     </ul>
                                 </div>
                             </div>

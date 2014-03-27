@@ -35,6 +35,20 @@ namespace Lessoner.SQL
                                                 ON b.ID = r.RechtID
                                                 WHERE a.Email=@Email AND a.Passwort = @Passwort";
 
+        public const string GetStudentRights = @"SELECT a.ID as LoginID, b.`Group` as RechtGruppe, b.Name as RechtName,r.Wert as RechtWert
+                                                 FROM tbanmeldung as a
+                                                 JOIN tbschueler as s
+                                                 ON s.AnmeldungID=a.ID
+                                                 JOIN tbrechtewert as r
+                                                 ON r.AnmeldungID  = a.ID
+                                                 JOIN tbrechtebeschreibung as b
+                                                 ON b.ID = r.RechtID
+                                                 WHERE s.ID=@SchuelerID
+                                                 ORDER BY b.ID";
+
+        public const string GetAllRights = @"SELECT * FROM tbrechtebeschreibung
+                                             ORDER BY ID";
+
         /// <summary>
         /// Gibt die Informationen eines Lehrers Zurück. @LoginID = Die Anmelde ID des Lehrers
         /// </summary>
@@ -47,11 +61,11 @@ namespace Lessoner.SQL
                                                 WHERE a.ID = @LoginID";
 
         public const string GetStudentList = @"SELECT s.ID, a.Email, s.Vorname, s.Name, s.Strasse, s.Hausnummer, s.PLZ, s.Ort, s.KlasseID, k.Name as KlassenName
-                                                FROM tbanmeldung as a
-                                                JOIN tbschueler as s
-                                                ON s.AnmeldungID = a.ID
-                                                JOIN tbklasse as k ON s.KlasseID = k.ID
-                                                WHERE k.ID=@KlasseID";
+                                               FROM tbanmeldung as a
+                                               JOIN tbschueler as s
+                                               ON s.AnmeldungID = a.ID
+                                               JOIN tbklasse as k ON s.KlasseID = k.ID
+                                               WHERE k.ID=@KlasseID";
 
 
         public const string GetStudentInfos = @"SELECT s.ID, a.Email, s.Vorname, s.Name, s.Strasse, s.Hausnummer, s.PLZ, s.Ort, s.KlasseID, k.Name as KlassenName
