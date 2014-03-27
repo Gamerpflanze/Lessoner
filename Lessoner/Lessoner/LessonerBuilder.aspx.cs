@@ -147,7 +147,7 @@ namespace Lessoner
                 cl.ClassID = -1;
                 SelectedTimeTable = cl;
                 btnLastDate.Attributes.Add("disabled", "disabled");
-                using (MySqlConnection con = new MySqlConnection("Server=127.0.0.1;Database=dbLessoner;Uid=root;Pwd=;"))
+                using (MySqlConnection con = new MySqlConnection(SQL.Statements.ConnectionString))
                 {
                     using (MySqlCommand cmd = con.CreateCommand())
                     {
@@ -183,7 +183,7 @@ namespace Lessoner
                     }
                 }
             }
-            using (MySqlConnection con = new MySqlConnection("Server=127.0.0.1;Database=dbLessoner;Uid=root;Pwd=;"))
+            using (MySqlConnection con = new MySqlConnection(SQL.Statements.ConnectionString))
             {
                 using (MySqlCommand cmd = con.CreateCommand())
                 {
@@ -324,7 +324,7 @@ namespace Lessoner
         }
         private void InitialiseLessoner()
         {
-            using (MySqlConnection con = new MySqlConnection("Server=127.0.0.1;Database=dbLessoner;Uid=root;Pwd=;"))
+            using (MySqlConnection con = new MySqlConnection(SQL.Statements.ConnectionString))
             {
                 using (MySqlCommand cmd = con.CreateCommand())
                 {
@@ -407,7 +407,7 @@ namespace Lessoner
             int ClassID = Convert.ToInt32(lbtnOpenClassMenu.Attributes["data-id"]);
             List<Day> AvailableDays = new List<Day>();
             Lessons.Clear();
-            using (MySqlConnection con = new MySqlConnection("Server=127.0.0.1;Database=dbLessoner;Uid=root;Pwd=;"))
+            using (MySqlConnection con = new MySqlConnection(SQL.Statements.ConnectionString))
             {
                 using (MySqlCommand cmd = con.CreateCommand())
                 {
@@ -608,7 +608,7 @@ namespace Lessoner
             LoadLessoner();
             int Row = tbTimetable.Controls.IndexOf((((sender as Control).Parent as Control).Parent as TableCell).Parent as TableRow);
             int DayID = Convert.ToInt32((tbTimetable.Controls[0].Controls[tbTimetable.Controls[Row].Controls.IndexOf(((sender as Control).Parent as Control).Parent as TableCell)] as TableHeaderCell).Attributes["data-id"]);
-            using (MySqlConnection con = new MySqlConnection("Server=127.0.0.1;Database=dbLessoner;Uid=root;Pwd=;"))
+            using (MySqlConnection con = new MySqlConnection(SQL.Statements.ConnectionString))
             {
                 using (MySqlCommand cmd = con.CreateCommand())
                 {
@@ -720,7 +720,7 @@ namespace Lessoner
         protected void Apply_Click(object sender, EventArgs e)
         {
             Control btn = (Control)sender;
-            using (MySqlConnection con = new MySqlConnection("Server=127.0.0.1;Database=dbLessoner;Uid=root;Pwd=;"))
+            using (MySqlConnection con = new MySqlConnection(SQL.Statements.ConnectionString))
             {
                 using (MySqlCommand cmd = con.CreateCommand())
                 {
@@ -744,7 +744,7 @@ namespace Lessoner
         }
         protected void btnDeleteConfirm_Click(object sender, EventArgs e)
         {
-            using (MySqlConnection con = new MySqlConnection("Server=127.0.0.1;Database=dbLessoner;Uid=root;Pwd=;"))
+            using (MySqlConnection con = new MySqlConnection(SQL.Statements.ConnectionString))
             {
                 using (MySqlCommand cmd = con.CreateCommand())
                 {
@@ -771,7 +771,7 @@ namespace Lessoner
 
         protected void ApplyDay_Click(object sender, EventArgs e)
         {
-            using (MySqlConnection con = new MySqlConnection("Server=127.0.0.1;Database=dbLessoner;Uid=root;Pwd=;"))
+            using (MySqlConnection con = new MySqlConnection(SQL.Statements.ConnectionString))
             {
                 using (MySqlCommand cmd = con.CreateCommand())
                 {
@@ -841,7 +841,7 @@ namespace Lessoner
                 CurrentDate = CurrentDate.AddDays(7 * WeekSpan);
             }
 
-            using (MySqlConnection con = new MySqlConnection("Server=127.0.0.1;Database=dbLessoner;Uid=root;Pwd=;"))
+            using (MySqlConnection con = new MySqlConnection(SQL.Statements.ConnectionString))
             {
                 using (MySqlCommand cmd = con.CreateCommand())
                 {

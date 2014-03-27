@@ -15,6 +15,11 @@
 }
 
 @media print {
+    div
+    {
+        border:none !important;
+        overflow:hidden !important;
+    }
     #tbTimetable > thead > tr > th{
         border: thin solid black !important;
     }

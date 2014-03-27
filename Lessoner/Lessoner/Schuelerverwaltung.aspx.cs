@@ -5,6 +5,8 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
+using System.Web.Services;
+using System.Web.Script.Services;
 using MySql;
 using MySql.Data;
 using MySql.Data.MySqlClient;
@@ -37,7 +39,7 @@ namespace Lessoner
         #region Handler
         #endregion
         #region DBCOnnection
-        MySqlConnection con = new MySqlConnection("Server=127.0.0.1;Database=dbLessoner;Uid=root;Pwd=;");
+        MySqlConnection con = new MySqlConnection(SQL.Statements.ConnectionString);
 
         protected void Page_Init(object sender, EventArgs e)
         {
@@ -165,8 +167,9 @@ namespace Lessoner
         {
             TableRow row = new TableRow();
             row.Attributes.Add("data-rights", Rights);
-            row.Attributes.Add("data-changed", "false");            
+            row.Attributes.Add("data-changed", "false");
             row.Attributes.Add("data-newstudent", "false");
+            row.Attributes.Add("data-id", ID.ToString());
             
             row.TableSection = TableRowSection.TableBody;
 
@@ -247,6 +250,46 @@ namespace Lessoner
                     }
                 }
             }
+        }
+        /* 0=Success
+         * 1=Nicht erlaubt
+         * 2+[]=Fehler pro zeile
+         */
+        [WebMethod, ScriptMethod(ResponseFormat = ResponseFormat.Json, UseHttpGet = false)]
+        public static dynamic SaveStudent(dynamic StudentData)
+        {
+            dynamic ErrorArray = new dynamic[2];
+            ErrorArray[0] = 2;
+            ErrorArray[1] = new List<dynamic>();
+            if (!StoredVars.Objects.Loggedin || !StoredVars.Objects.Rights["studentmanagement"]["permission"])
+            {
+                return 2;
+            }
+            using(MySqlConnection con = new MySqlConnection(SQL.Statements.ConnectionString))
+            {
+                using(MySqlCommand cmd = con.CreateCommand())
+                {
+                    for(int i = 0; i<StudentData.Length; i++)
+                    {
+                        if(StudentData[i][0])
+                        {//Neuer Schüler
+
+                        }
+                        else
+                        {//Aktualisieren
+                            if (StudentData[i][1] && !StoredVars.Objects.Rights["studentmanagement"]["permission"])
+                            {//Änderungen
+                                if(StudentData[i].Length!=5||StudentData[i][3].Length!=9||StudentData[i][4].Length!=7)//Daten auf richtiges format überprüfen
+                                {
+                                    ErrorArray[1].Add(i);
+                                    continue;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            return 0;
         }
     }
 }

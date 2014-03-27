@@ -81,7 +81,7 @@ namespace Lessoner
         {
             //TODO: Root PW setzen!
             //TODO-Pasi: Anderes Statement setzen! GetStudentProfile
-            using (MySqlConnection con = new MySqlConnection("Server=127.0.0.1;Database=dbLessoner;Uid=root;Pwd=;"))
+            using (MySqlConnection con = new MySqlConnection(SQL.Statements.ConnectionString))
             {
                 using (MySqlCommand cmd = con.CreateCommand())
                 {

@@ -81,7 +81,8 @@
                             <asp:TableHeaderCell>Loginname</asp:TableHeaderCell>
                         </asp:TableHeaderRow>
                     </asp:Table>
-                    <button type="button" class="btn btn-default">Hinzufügen</button><asp:Button CssClass="btn btn-primary pull-right" runat="server" ID="btnSave"/>
+                    <button type="button" class="btn btn-default">Hinzufügen</button>
+                    <button type="button" class="btn btn-primary pull-right" onclick="SaveStudents()">Speichern</button>
                 </ContentTemplate>
                 <Triggers>
                 </Triggers>

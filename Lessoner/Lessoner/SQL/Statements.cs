@@ -7,6 +7,8 @@ namespace Lessoner.SQL
 {
     public static class Statements
     {
+        public const string ConnectionString = @"Server=127.0.0.1;Database=dbLessoner;Uid=root;Pwd=;";
+
         //TODO: Ordnen(?)
         public const string CheckForLessoner = @"SELECT COUNT(s.ID) FROM tbstundenplan as s
                                                  WHERE s.KlasseID = @KlasseID AND s.Datum = @Datum ";
@@ -34,7 +36,7 @@ namespace Lessoner.SQL
                                                 JOIN tbrechtebeschreibung as b
                                                 ON b.ID = r.RechtID
                                                 WHERE a.Email=@Email AND a.Passwort = @Passwort";
-
+        
         public const string GetStudentRights = @"SELECT a.ID as LoginID, b.`Group` as RechtGruppe, b.Name as RechtName,r.Wert as RechtWert
                                                  FROM tbanmeldung as a
                                                  JOIN tbschueler as s

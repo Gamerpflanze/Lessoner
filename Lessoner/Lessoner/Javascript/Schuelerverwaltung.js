@@ -56,7 +56,6 @@ function TextChanged(Sender)
 {
     DoneChange = true;
     var Input = jQuery(Sender);
-    Input.parent().parent().addClass("warning");
     Input.parent().parent().attr("data-changed", "true");
     if(Input.val()=="")
     {
@@ -67,12 +66,60 @@ function TextChanged(Sender)
     }
     else
     {
-        HasError = false;
-        Input.parent().removeClass("has-error");
-        Input.parent().parent().removeClass("danger");
-        Input.parent().parent().addClass("warning");
+        if (!Input.parent().parent().hasClass("warning")) {
+            var Current = Input.parent().parent();
+            for (var i = 0; i < Input.parent().parent().children().length; i++)
+            {
+                if(Current.children(":nth-child(" + (i+1) + ")").children().val()=="")
+                {
+                    return;
+                }
+            }
+            HasError = false;
+            Input.parent().removeClass("has-error");
+            Input.parent().parent().removeClass("danger");
+            Input.parent().parent().addClass("warning");
+        }
     }
 }
+
+function SaveStudents()
+{
+    var Table = jQuery("#StudentList").children("tbody");
+    var Submit = new Array();
+    for(var i = 1; i<=Table.children().length; i++)
+    {
+        var Current = Table.children(":nth-child(" + i + ")");
+        Submit.push(new Array());
+        //      S IT I 
+        //Submit[][][]
+        Submit[i - 1].push(Current.attr("data-newstudent"));
+        Submit[i - 1].push(Current.attr("data-changed"));
+        Submit[i - 1].push(Current.attr("data-id"));
+        Submit[i - 1].push(Current.attr("data-rights"));
+        Submit[i - 1].push(new Array());
+        for(var j = 1; j<=Current.children().length; j++)
+        {
+            var Input = Current.children(":nth-child(" + j + ")").children();
+            Submit[i - 1][4].push(Input.text());
+        }
+    }
+    $.ajax({
+        async: true,
+        type: "POST",
+        url: "Schuelerverwaltung.aspx/SaveStudent",
+        data: JSON.stringify({ "StudentData": Submit }),//Converting JSON to JSON works,                                                                  because fuck dis
+        dataType: "JSON",
+        contentType: "application/json; charset=utf-8;",
+        success: function (data) {
+            //make everything look guts and glory
+        },
+        error: function (message) {
+            //sum error
+        }
+    });
+}
+
 window.onbeforeunload = function ()
 {
     if(DoneChange)
