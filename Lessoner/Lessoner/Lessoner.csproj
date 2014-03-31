@@ -66,6 +66,7 @@
     <Content Include="Data\Images\loading.gif" />
     <Content Include="Data\ProfileImages\0000.jpg" />
     <Content Include="Data\ProfileImages\Kunst.jpg" />
+    <Content Include="dbLessoner.sql" />
     <Content Include="DebugPage.aspx" />
     <Content Include="Dokumente\dbLessoner.sql" />
     <Content Include="Dokumente\Fehlermeldungen.ods" />

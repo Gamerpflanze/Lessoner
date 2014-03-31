@@ -11,9 +11,11 @@
     <script src="Javascript/LoginScript.js"></script>
     <script src="Javascript/Global.js"></script>
     <script src="Javascript/Schuelerverwaltung.js"></script>
+    <link href="Bootstrap/css/bootstrap-theme.css" rel="stylesheet" />
     <link href="Bootstrap/css/bootstrap.css" rel="stylesheet" />
     <!--
-        <link href="Bootstrap/css/bootstrap-theme.css" rel="stylesheet" />
+        I am Painis Cupcake, I will eat you!
+                                -Painis Cupcake
     -->
     <link href="CSS/Style.css" rel="stylesheet" />
     <title>Schüler Verwaltung</title>

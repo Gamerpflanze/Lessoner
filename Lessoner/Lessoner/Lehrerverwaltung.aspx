@@ -11,9 +11,9 @@
     <script src="Javascript/LoginScript.js"></script>
     <script src="Javascript/Global.js"></script>
     <script src="Javascript/Lehrerverwaltung.js"></script>
+     <link href="Bootstrap/css/bootstrap-theme.css" rel="stylesheet" />
     <link href="Bootstrap/css/bootstrap.css" rel="stylesheet" />
     <!--
-        <link href="Bootstrap/css/bootstrap-theme.css" rel="stylesheet" />
     -->
     <link href="CSS/Style.css" rel="stylesheet" />
     <title>Lehrer Verwaltung</title>
