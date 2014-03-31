@@ -202,7 +202,7 @@ namespace Lessoner
             CellDelete.Attributes.Add("data-ignoretransform", "true");
             HtmlButton DeleteButton = new HtmlButton();
             DeleteButton.Attributes.Add("onclick", "DeleteStudent(this)");
-            DeleteButton.Attributes.Add("class", "btn btn-danger");
+            DeleteButton.Attributes.Add("class", "btn btn-danger hidden-print");
             DeleteButton.Attributes.Add("data-id", ID.ToString());
             HtmlGenericControl DeleteSpan = new HtmlGenericControl("span");
             DeleteSpan.Attributes.Add("class", "glyphicon glyphicon-remove");
