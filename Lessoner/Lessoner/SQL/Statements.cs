@@ -7,6 +7,56 @@ namespace Lessoner.SQL
 {
     public static class Statements
     {
+        public const string UpdateClass = @"UPDATE tbklasse
+                                            SET Name = @Name
+                                            WHERE ID = @ID";
+        public const string DeleteClass = @"DELETE FROM tbklasse
+                                            WHERE ID = @ID";
+        public const string InsertClass = @"INSERT INTO tbklasse (Name)
+                                            VALUES(@Name)";
+        public const string DeleteLogin = @"DELETE FROM tbanmeldung WHERE ID = @ID";
+        public const string UpdateLoginName = @"UPDATE tbanmeldung
+                                                SET Email = @Email
+                                                WHERE ID=@AnmeldungID";
+        /// <summary>
+        /// Fügt einen neuen Login hinzu und gibt die id zurück
+        /// </summary>
+        public const string InsertNewLogin = @"INSERT INTO tbanmeldung (Email, Passwort)
+                                                 VALUES(@Email, @Password);
+                                                 SELECT LAST_INSERT_ID();";
+        public const string InsertNewStudent = @"INSERT INTO tbschueler (Vorname, Name, Strasse, Hausnummer, PLZ, Ort, KlasseID, AnmeldungID)
+                                                 VALUES (@Vorname, @Name, @Strasse, @Hausnummer, @PLZ, @Ort, @KlasseID, @AnmeldungID)";
+        public const string InsertNewTeacher = @"INSERT INTO tblehrer (Titel, Vorname, Name, Strasse, Hausnummer, PLZ, Ort, AnmeldungID)
+                                                 VALUES (@Titel, @Vorname, @Name, @Strasse, @Hausnummer, @PLZ, @Ort, @AnmeldungID)";
+        public const string InsertNewRights = @"INSERT INTO tbrechtewert (AnmeldungID, RechtID, Wert)
+                                                VALUES
+                                                (@AnmeldungID, 1, @Right1),
+                                                (@AnmeldungID, 2, @Right2),
+                                                (@AnmeldungID, 3, @Right3),
+                                                (@AnmeldungID, 4, @Right4),
+                                                (@AnmeldungID, 5, @Right5),
+                                                (@AnmeldungID, 6, @Right6),
+                                                (@AnmeldungID, 7, @Right7),
+                                                (@AnmeldungID, 8, @Right8),
+                                                (@AnmeldungID, 9, @Right9),
+                                                (@AnmeldungID, 10, @Right10)";
+        public const string UpdateTeacher = @"UPDATE tbschueler
+                                              SET Titel = @Titel, Vorname=@Vorname, Name=@Name, Strasse=@Strasse, Hausnummer=@Hausnummer, PLZ=@PLZ, Ort=@Ort
+                                              WHERE AnmeldungID=@AnmeldungID";
+        public const string UpdateStudent = @"UPDATE tblehrer
+                                              SET Vorname=@Vorname, Name=@Name, Strasse=@Strasse, Hausnummer=@Hausnummer, PLZ=@PLZ, Ort=@Ort
+                                              WHERE AnmeldungID=@AnmeldungID";
+        
+        public const string UpdateRights = @"UPDATE tbrechtewert SET Wert=@Right1 WHERE RechtID=2 AND AnmeldungID=@AnmeldungID;
+                                             UPDATE tbrechtewert SET Wert=@Right2 WHERE RechtID=3 AND AnmeldungID=@AnmeldungID;
+                                             UPDATE tbrechtewert SET Wert=@Right3 WHERE RechtID=4 AND AnmeldungID=@AnmeldungID;
+                                             UPDATE tbrechtewert SET Wert=@Right4 WHERE RechtID=5 AND AnmeldungID=@AnmeldungID;
+                                             UPDATE tbrechtewert SET Wert=@Right5 WHERE RechtID=6 AND AnmeldungID=@AnmeldungID;
+                                             UPDATE tbrechtewert SET Wert=@Right6 WHERE RechtID=7 AND AnmeldungID=@AnmeldungID;
+                                             UPDATE tbrechtewert SET Wert=@Right7 WHERE RechtID=8 AND AnmeldungID=@AnmeldungID;
+                                             UPDATE tbrechtewert SET Wert=@Right8 WHERE RechtID=9 AND AnmeldungID=@AnmeldungID;
+                                             UPDATE tbrechtewert SET Wert=@Right9 WHERE RechtID=10 AND AnmeldungID=@AnmeldungID;";
+
         public const string ConnectionString = @"Server=127.0.0.1;Database=dbLessoner;Uid=root;Pwd=;";
 
         //TODO: Ordnen(?)
@@ -48,6 +98,17 @@ namespace Lessoner.SQL
                                                  WHERE s.ID=@SchuelerID
                                                  ORDER BY b.ID";
 
+        public const string GetTeacherRights = @"SELECT a.ID as LoginID, b.`Group` as RechtGruppe, b.Name as RechtName,r.Wert as RechtWert
+                                                 FROM tbanmeldung as a
+                                                 JOIN tblehrer as l
+                                                 ON l.AnmeldungID=a.ID
+                                                 JOIN tbrechtewert as r
+                                                 ON r.AnmeldungID  = a.ID
+                                                 JOIN tbrechtebeschreibung as b
+                                                 ON b.ID = r.RechtID
+                                                 WHERE l.ID=@LehrerID
+                                                 ORDER BY b.ID";
+
         public const string GetAllRights = @"SELECT * FROM tbrechtebeschreibung
                                              ORDER BY ID";
 
@@ -62,13 +123,17 @@ namespace Lessoner.SQL
                                                 ON l.AnmeldungID = a.ID
                                                 WHERE a.ID = @LoginID";
 
-        public const string GetStudentList = @"SELECT s.ID, a.Email, s.Vorname, s.Name, s.Strasse, s.Hausnummer, s.PLZ, s.Ort, s.KlasseID, k.Name as KlassenName
+        public const string GetStudentList = @"SELECT s.ID, s.AnmeldungID, a.Email, s.Vorname, s.Name, s.Strasse, s.Hausnummer, s.PLZ, s.Ort, s.KlasseID, k.Name as KlassenName
                                                FROM tbanmeldung as a
                                                JOIN tbschueler as s
                                                ON s.AnmeldungID = a.ID
                                                JOIN tbklasse as k ON s.KlasseID = k.ID
                                                WHERE k.ID=@KlasseID";
 
+        public const string GetTeacherList = @"SELECT l.Titel, l.ID, l.AnmeldungID, a.Email, l.Vorname, l.Name, l.Strasse, l.Hausnummer, l.PLZ, l.Ort, l.KlasseID as KlassenName
+                                                FROM tbanmeldung as a
+                                                JOIN tblehrer as l
+                                                ON l.AnmeldungID = a.ID";
 
         public const string GetStudentInfos = @"SELECT s.ID, a.Email, s.Vorname, s.Name, s.Strasse, s.Hausnummer, s.PLZ, s.Ort, s.KlasseID, k.Name as KlassenName
                                                 FROM tbanmeldung as a

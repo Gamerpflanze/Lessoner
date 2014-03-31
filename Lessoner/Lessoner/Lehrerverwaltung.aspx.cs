@@ -14,28 +14,13 @@ using MySql.Data;
 using MySql.Data.MySqlClient;
 namespace Lessoner
 {
-    public partial class Schuelerverwaltung : System.Web.UI.Page
+    public partial class Lehrerverwaltung : System.Web.UI.Page
     {
         #region Structs
         struct Class
         {
             public string Name;
             public int ID;
-        }
-        #endregion
-        #region Get/Set Stuff
-        private Class GetSelectedClass()
-        {
-            Class c = new Class();
-            c.Name = ClassSelecter.Attributes["data-name"];
-            c.ID = Convert.ToInt32(ClassSelecter.Attributes["data-id"]);
-            return c;
-        }
-        private void SetSelectedClass(int ID, String Name)
-        {
-            ClassSelecter.Attributes["data-name"] = Name;
-            ClassSelecter.Attributes["data-id"] = ID.ToString();
-            OpenClassMenu.InnerHtml = Name + "<span class='caret'></span>";
         }
         #endregion
         #region Handler
@@ -67,53 +52,16 @@ namespace Lessoner
                     return;
                 }
 #endif
-            AddClasses(!Page.IsPostBack);
             BuildRightOptions();
-            LoadStudentList();
-        }
-        private void AddClasses(bool SetNew)
-        {
-            using (MySqlCommand cmd = con.CreateCommand())
-            {
-                cmd.CommandText = SQL.Statements.GetClasses;
-                using (MySqlDataReader reader = cmd.ExecuteReader())
-                {
-                    bool First = true;
-                    while (reader.Read())
-                    {
-                        if(First&&SetNew)
-                        {
-                            SetSelectedClass(Convert.ToInt32(reader["ID"]), reader["Name"].ToString());
-                            First = false;
-                        }
-                        HtmlGenericControl li = new HtmlGenericControl("li");
-                        LinkButton ClassLink = new LinkButton();
-
-                        ClassLink.Attributes.Add("data-id", reader["ID"].ToString());
-                        ClassLink.ID="Class"+reader["ID"].ToString();
-                        ClassLink.Text = reader["Name"].ToString();
-                        ClassLink.Click += new EventHandler(ClassSelect_Click);
-                        ClassLink.OnClientClick = "ReadyClassChange();";
-                        ScriptManager.GetCurrent(this).RegisterAsyncPostBackControl(ClassLink);
-                        li.Controls.Add(ClassLink);
-                        ClassList.Controls.Add(li);
-                    }
-                }
-            }
+            LoadTeacherList();
         }
         /*protected void AddEmptyStudent_Click(object sender, EventArgs e)
         {
 
         }*/
-        protected void ClassSelect_Click(object sender, EventArgs e)
+        struct Teacher
         {
-            LinkButton l = sender as LinkButton;
-            SetSelectedClass(Convert.ToInt32(l.Attributes["data-id"]), l.Text);
-            LoadStudentList();
-            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "LoadingIndicatorCloser", "jQuery('#LoadingModal').modal('hide');", true);
-        }
-        struct Student
-        {
+            public string Titel;
             public int ID;
             public int LoginID;
             public string Email;
@@ -123,48 +71,51 @@ namespace Lessoner
             public string Hausnummer;
             public string PLZ;
             public string Ort;
-            public int KlasseID;
-            public string KlasseName;
         }
-        private void LoadStudentList()
+        private void LoadTeacherList()
         {
-            int Count=StudentList.Controls.Count;
+            int Count = TeacherList.Controls.Count;
             for (int i = 1; i < Count; i++)
             {
-                StudentList.Controls.RemoveAt(1);
+                TeacherList.Controls.RemoveAt(1);
             }
             using (MySqlCommand cmd = con.CreateCommand())
             {
-                cmd.CommandText = SQL.Statements.GetStudentList;
+                cmd.CommandText = SQL.Statements.GetTeacherList;
                 cmd.Parameters.Clear();
-                cmd.Parameters.AddWithValue("@KlasseID", GetSelectedClass().ID);
-                List<Student> Students = new List<Student>();
+                List<Teacher> Teachers = new List<Teacher>();
                 using (MySqlDataReader reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
                     {
-                        Student s = new Student();
+                        Teacher t = new Teacher();
 
-                        s.ID = Convert.ToInt32(reader["ID"]);
-                        s.LoginID = Convert.ToInt32(reader["AnmeldungID"]);
-                        s.Email = reader["Email"].ToString();
-                        s.Vorname = reader["Vorname"].ToString();
-                        s.Name = reader["Name"].ToString();
-                        s.Strasse = reader["Strasse"].ToString();
-                        s.Hausnummer = reader["Hausnummer"].ToString();
-                        s.PLZ = reader["PLZ"].ToString();
-                        s.Ort = reader["Ort"].ToString();
-                        s.KlasseID = Convert.ToInt32(reader["KlasseID"]);
-                        s.KlasseName = reader["KlassenName"].ToString();
-                        Students.Add(s);
+                        t.ID = Convert.ToInt32(reader["ID"]);
+                        t.LoginID = Convert.ToInt32(reader["AnmeldungID"]);
+                        t.Email = reader["Email"].ToString();
+                        t.Vorname = reader["Vorname"].ToString();
+                        t.Name = reader["Name"].ToString();
+                        t.Strasse = reader["Strasse"].ToString();
+                        t.Hausnummer = reader["Hausnummer"].ToString();
+                        t.PLZ = reader["PLZ"].ToString();
+                        t.Ort = reader["Ort"].ToString();
+                        if(DBNull.Value.Equals(reader["Titel"]))
+                        {
+                            t.Titel = "";
+                        }
+                        else
+                        {
+                            t.Titel = reader["Titel"].ToString();
+                        }
+                        Teachers.Add(t);
                     }
                 }
                 cmd.Parameters.Clear();
-                cmd.CommandText = SQL.Statements.GetStudentRights;
-                cmd.Parameters.AddWithValue("@SchuelerID", -1);
-                foreach (Student s in Students)
+                cmd.CommandText = SQL.Statements.GetTeacherRights;
+                cmd.Parameters.AddWithValue("@LehrerID", -1);
+                foreach (Teacher t in Teachers)
                 {
-                    cmd.Parameters["@SchuelerID"].Value = s.ID;
+                    cmd.Parameters["@LehrerID"].Value = t.ID;
                     string Rights = "";
                     using (MySqlDataReader reader = cmd.ExecuteReader())
                     {
@@ -176,12 +127,12 @@ namespace Lessoner
                             }
                             Rights += Convert.ToInt32(reader["RechtWert"]).ToString();//Umweg damitt 1 oder 0 anstatt true oder false
                         }
-                        StudentList.Controls.Add(BuildStudentRow(s.LoginID, s.Email, s.Vorname, s.Name, s.Strasse, s.Hausnummer, s.PLZ, s.Ort, s.KlasseID, s.KlasseName, Rights));
+                        TeacherList.Controls.Add(BuildStudentRow(t.LoginID, t.Email,t.Titel, t.Vorname, t.Name, t.Strasse, t.Hausnummer, t.PLZ, t.Ort, Rights));
                     }
                 }
             }
         }
-        private TableRow BuildStudentRow(int ID, string Email, string Vorname, string Name, string Strasse, string HausNr, string PLZ, string Ort, int KlasseID, string KlasseName, string Rights)
+        private TableRow BuildStudentRow(int ID, string Email, string Title, string Vorname, string Name, string Strasse, string HausNr, string PLZ, string Ort, string Rights)
         {
             TableRow row = new TableRow();
             row.Attributes.Add("data-rights", Rights);
@@ -191,60 +142,67 @@ namespace Lessoner
 
             row.TableSection = TableRowSection.TableBody;
 
+            TableCell CellTitle = new TableCell();
+            CellTitle.Attributes.Add("onClick", "EditTeacher(this)");
+            Label lTitle = new Label();
+            lTitle.Text = Title;
+            CellTitle.Controls.Add(lTitle);
+            row.Controls.Add(CellTitle);
+
             TableCell CellVorname = new TableCell();
-            CellVorname.Attributes.Add("onClick", "EditStudent(this)");
+            CellVorname.Attributes.Add("onClick", "EditTeacher(this)");
             Label lVorname = new Label();
             lVorname.Text = Vorname;
             CellVorname.Controls.Add(lVorname);
             row.Controls.Add(CellVorname);
 
             TableCell CellName = new TableCell();
-            CellName.Attributes.Add("onClick", "EditStudent(this)");
+            CellName.Attributes.Add("onClick", "EditTeacher(this)");
             Label lName = new Label();
             lName.Text = Name;
             CellName.Controls.Add(lName);
             row.Controls.Add(CellName);
 
             TableCell CellStrasse = new TableCell();
-            CellStrasse.Attributes.Add("onClick", "EditStudent(this)");
+            CellStrasse.Attributes.Add("onClick", "EditTeacher(this)");
             Label lStrasse = new Label();
             lStrasse.Text = Strasse;
             CellStrasse.Controls.Add(lStrasse);
             row.Controls.Add(CellStrasse);
 
             TableCell CellHausNr = new TableCell();
-            CellHausNr.Attributes.Add("onClick", "EditStudent(this)");
+            CellHausNr.Attributes.Add("onClick", "EditTeacher(this)");
             Label lHausNr = new Label();
             lHausNr.Text = HausNr;
             CellHausNr.Controls.Add(lHausNr);
             row.Controls.Add(CellHausNr);
 
             TableCell CellPLZ = new TableCell();
-            CellPLZ.Attributes.Add("onClick", "EditStudent(this)");
+            CellPLZ.Attributes.Add("onClick", "EditTeacher(this)");
             Label lPLZ = new Label();
             lPLZ.Text = PLZ;
             CellPLZ.Controls.Add(lPLZ);
             row.Controls.Add(CellPLZ);
 
             TableCell CellOrt = new TableCell();
-            CellOrt.Attributes.Add("onClick", "EditStudent(this)");
+            CellOrt.Attributes.Add("onClick", "EditTeacher(this)");
             Label lOrt = new Label();
             lOrt.Text = Ort;
             CellOrt.Controls.Add(lOrt);
             row.Controls.Add(CellOrt);
 
             TableCell CellEmail = new TableCell();
-            CellEmail.Attributes.Add("onClick", "EditStudent(this)");
+            CellEmail.Attributes.Add("onClick", "EditTeacher(this)");
             Label lEmail = new Label();
             lEmail.Text = Email;
             CellEmail.Controls.Add(lEmail);
             row.Controls.Add(CellEmail);
-            
+
             TableCell CellDelete = new TableCell();
             CellDelete.Attributes.Add("data-ignoretransform", "true");
             HtmlButton DeleteButton = new HtmlButton();
             DeleteButton.Attributes.Add("onclick", "DeleteStudent(this)");
-            DeleteButton.Attributes.Add("class","btn btn-danger");
+            DeleteButton.Attributes.Add("class", "btn btn-danger");
             DeleteButton.Attributes.Add("data-id", ID.ToString());
             HtmlGenericControl DeleteSpan = new HtmlGenericControl("span");
             DeleteSpan.Attributes.Add("class", "glyphicon glyphicon-remove");
@@ -274,7 +232,7 @@ namespace Lessoner
                         HtmlGenericControl label = new HtmlGenericControl("label");
 
                         //check.Attributes.Add("onchange", "RightChanged(this)");
-                        check.Attributes.Add("data-location", Location.ToString());
+                        span.Attributes.Add("data-location", Location.ToString());
                         check.ID = reader["ID"].ToString();
                         label.InnerText = reader["Beschreibung"].ToString();
                         label.Attributes.Add("for", reader["ID"].ToString());
@@ -282,7 +240,7 @@ namespace Lessoner
                         span.Controls.Add(check);
                         span.Controls.Add(label);
                         Div.Controls.Add(span);
-                        StudentRights.Controls.Add(Div);
+                        TeacherRights.Controls.Add(Div);
                         Location++;
                     }
                 }
@@ -293,7 +251,7 @@ namespace Lessoner
          * 2+[]=Fehler pro zeile
          */
         [WebMethod, ScriptMethod(ResponseFormat = ResponseFormat.Json, UseHttpGet = false)]
-        public static dynamic SaveStudent(dynamic StudentData, int ClassID)
+        public static dynamic SaveTeacher(dynamic TeacherData)
         {
             dynamic ErrorArray = new dynamic[2];
             ErrorArray[0] = 2;
@@ -311,46 +269,46 @@ namespace Lessoner
                     try
                     {
                         con.Open();
-                        for (int i = 0; i < StudentData.Length; i++)
+                        for (int i = 0; i < TeacherData.Length; i++)
                         {
 #if !DEBUG
                             if (Convert.ToBoolean(StudentData[i][1]) && !StoredVars.Objects.Rights["studentmanagement"]["permission"])
 #endif
                             {
-                                if (Convert.ToBoolean(StudentData[i][0]))
+                                if (Convert.ToBoolean(TeacherData[i][0]))
                                 {//Neuer Schüler
                                     byte[] Password;
-                                    if (StudentData[i].Length != 5 || StudentData[i][3].Length != 9 || StudentData[i][4].Length != 7)//Daten auf richtiges format überprüfen
+                                    if (TeacherData[i].Length != 5 || TeacherData[i][3].Length != 9 || TeacherData[i][4].Length != 8)//Daten auf richtiges format überprüfen
                                     {
                                         ErrorArray[1].Add(i);
                                         continue;
                                     }
                                     using (SHA1 hasher = SHA1.Create())
                                     {
-                                        Password = hasher.ComputeHash(Encoding.UTF8.GetBytes(StudentData[i][4][3] + StudentData[i][4][4]));
+                                        Password = hasher.ComputeHash(Encoding.UTF8.GetBytes(TeacherData[i][4][3] + TeacherData[i][4][4]));
                                     }
                                     cmd.CommandText = SQL.Statements.InsertNewLogin;
-                                    cmd.Parameters.AddWithValue("@Email", StudentData[i][4][6]);
+                                    cmd.Parameters.AddWithValue("@Email", TeacherData[i][4][6]);
                                     cmd.Parameters.AddWithValue("@Password", Password);
                                     int LoginID = Convert.ToInt32(cmd.ExecuteScalar());
                                     cmd.Parameters.Clear();
-                                    cmd.CommandText = SQL.Statements.InsertNewStudent;
+                                    cmd.CommandText = SQL.Statements.InsertNewTeacher;
                                     cmd.Parameters.AddWithValue("@AnmeldungID", LoginID);
-                                    cmd.Parameters.AddWithValue("@Vorname", StudentData[i][4][0]);
-                                    cmd.Parameters.AddWithValue("@Name", StudentData[i][4][1]);
-                                    cmd.Parameters.AddWithValue("@Strasse", StudentData[i][4][2]);
-                                    cmd.Parameters.AddWithValue("@Hausnummer", StudentData[i][4][3]);
-                                    cmd.Parameters.AddWithValue("@PLZ", StudentData[i][4][4]);
-                                    cmd.Parameters.AddWithValue("@Ort", StudentData[i][4][5]);
-                                    cmd.Parameters.AddWithValue("@KlasseID", ClassID);
+                                    cmd.Parameters.AddWithValue("@Titel", TeacherData[i][4][0]);
+                                    cmd.Parameters.AddWithValue("@Vorname", TeacherData[i][4][1]);
+                                    cmd.Parameters.AddWithValue("@Name", TeacherData[i][4][2]);
+                                    cmd.Parameters.AddWithValue("@Strasse", TeacherData[i][4][3]);
+                                    cmd.Parameters.AddWithValue("@Hausnummer", TeacherData[i][4][4]);
+                                    cmd.Parameters.AddWithValue("@PLZ", TeacherData[i][4][5]);
+                                    cmd.Parameters.AddWithValue("@Ort", TeacherData[i][4][6]);
                                     cmd.ExecuteNonQuery();
                                     cmd.Parameters.Clear();
                                     cmd.CommandText = SQL.Statements.InsertNewRights;
                                     cmd.Parameters.AddWithValue("@AnmeldungID", LoginID);
-                                    cmd.Parameters.AddWithValue("@Right1", 0);//da Kein Lehrer
-                                    for (int j = 0; j < StudentData[i][3].Length; j++)
+                                    cmd.Parameters.AddWithValue("@Right1", 1);//da Lehrer
+                                    for (int j = 0; j < TeacherData[i][3].Length; j++)
                                     {//                                                            V    Doesnt work another way              V 
-                                        cmd.Parameters.AddWithValue("@Right" + (j + 2).ToString(), Convert.ToByte(StudentData[i][3][j] == '1'));
+                                        cmd.Parameters.AddWithValue("@Right" + (j + 2).ToString(), Convert.ToByte(TeacherData[i][3][j] == '1'));
                                     }
                                     cmd.ExecuteNonQuery();
                                     cmd.Parameters.Clear();
@@ -359,32 +317,33 @@ namespace Lessoner
                                 {
                                     //Aktualisieren
                                     //Änderungen
-                                    if (StudentData[i].Length != 5 || StudentData[i][3].Length != 9 || StudentData[i][4].Length != 7)//Daten auf richtiges format überprüfen
+                                    if (TeacherData[i].Length != 5 || TeacherData[i][3].Length != 9 || TeacherData[i][4].Length != 7)//Daten auf richtiges format überprüfen
                                     {
                                         ErrorArray[1].Add(i);
                                         continue;
                                     }
                                     cmd.CommandText = SQL.Statements.UpdateRights;      //Update Rechte
-                                    cmd.Parameters.AddWithValue("@AnmeldungID", StudentData[i][2]);
-                                    for (int j = 0; j < StudentData[i][3].Length; j++)
+                                    cmd.Parameters.AddWithValue("@AnmeldungID", TeacherData[i][2]);
+                                    for (int j = 0; j < TeacherData[i][3].Length; j++)
                                     {
-                                        cmd.Parameters.AddWithValue("@Right" + (j + 1).ToString(), Convert.ToByte(StudentData[i][3][j] == '1'));
+                                        cmd.Parameters.AddWithValue("@Right" + (j + 1).ToString(), Convert.ToByte(TeacherData[i][3][j] == '1'));
                                     }
                                     cmd.ExecuteNonQuery();
                                     cmd.Parameters.Clear();
-                                    cmd.CommandText = SQL.Statements.UpdateStudent;     //Update Informationen
-                                    cmd.Parameters.AddWithValue("@AnmeldungID", StudentData[i][2]);
-                                    cmd.Parameters.AddWithValue("@Vorname", StudentData[i][4][0]);
-                                    cmd.Parameters.AddWithValue("@Name", StudentData[i][4][1]);
-                                    cmd.Parameters.AddWithValue("@Strasse", StudentData[i][4][2]);
-                                    cmd.Parameters.AddWithValue("@Hausnummer", StudentData[i][4][3]);
-                                    cmd.Parameters.AddWithValue("@PLZ", StudentData[i][4][4]);
-                                    cmd.Parameters.AddWithValue("@Ort", StudentData[i][4][5]);
+                                    cmd.CommandText = SQL.Statements.UpdateTeacher;     //Update Informationen
+                                    cmd.Parameters.AddWithValue("@AnmeldungID", TeacherData[i][2]);
+                                    cmd.Parameters.AddWithValue("@Titel", TeacherData[i][4][0]);
+                                    cmd.Parameters.AddWithValue("@Vorname", TeacherData[i][4][1]);
+                                    cmd.Parameters.AddWithValue("@Name", TeacherData[i][4][2]);
+                                    cmd.Parameters.AddWithValue("@Strasse", TeacherData[i][4][3]);
+                                    cmd.Parameters.AddWithValue("@Hausnummer", TeacherData[i][4][4]);
+                                    cmd.Parameters.AddWithValue("@PLZ", TeacherData[i][4][5]);
+                                    cmd.Parameters.AddWithValue("@Ort", TeacherData[i][4][6]);
                                     cmd.ExecuteNonQuery();
                                     cmd.Parameters.Clear();
                                     cmd.CommandText = SQL.Statements.UpdateLoginName;   //Loginname Updaten
-                                    cmd.Parameters.Add("@Email", StudentData[i][4][6]);
-                                    cmd.Parameters.AddWithValue("@AnmeldungID", StudentData[i][2]);
+                                    cmd.Parameters.Add("@Email", TeacherData[i][4][6]);
+                                    cmd.Parameters.AddWithValue("@AnmeldungID", TeacherData[i][2]);
                                     cmd.ExecuteNonQuery();
                                     cmd.Parameters.Clear();
                                 }
@@ -411,83 +370,18 @@ namespace Lessoner
 
         protected void DeleteConfirmButton_Click(object sender, EventArgs e)
         {
-            using(MySqlCommand cmd = con.CreateCommand())
+            using (MySqlCommand cmd = con.CreateCommand())
             {
                 cmd.Parameters.AddWithValue("@ID", Convert.ToInt32(DeleteTarget.Value));
                 cmd.CommandText = SQL.Statements.DeleteLogin;
                 cmd.ExecuteNonQuery();
             }
-            LoadStudentList();
-            CloseDeleteStudentModal();
+            LoadTeacherList();
+            CloseDeleteTeacherModal();
         }
-        private void CloseDeleteStudentModal()
+        private void CloseDeleteTeacherModal()
         {
             ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "LoadingModalCloser", "jQuery('#DeleteConfirmModal').modal('hide');jQuery('#LoadingModal').modal('hide');", true);
-        }
-        private void CloseNewClassModal()
-        {
-            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "NewClassModalCloser", "jQuery('#NewClassModal').modal('hide');jQuery('#LoadingModal').modal('hide');", true);
-        }
-        private void CloseRenameClassModal()
-        {
-            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "RenameClassModalCloser", "jQuery('#RenameClassModal').modal('hide');jQuery('#LoadingModal').modal('hide');", true);
-        }
-        private void CloseDeleteClassModal()
-        {
-            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "DeleteClassModalCloser", "jQuery('#DeleteClassConfirmModal').modal('hide');jQuery('#LoadingModal').modal('hide');", true);
-        }
-        protected void NewClassConfirm_Click(object sender, EventArgs e)
-        {
-            using(MySqlCommand cmd = con.CreateCommand())
-            {
-                cmd.CommandText = SQL.Statements.InsertClass;
-                cmd.Parameters.AddWithValue("@Name", NewClassName.Text);
-                cmd.ExecuteNonQuery();
-            }
-            CloseNewClassModal();
-            int Count = ClassList.Controls.Count;
-            for (int i = 1; i < Count; i++)
-            {
-                ClassList.Controls.RemoveAt(1);
-            }
-            AddClasses(false);
-        }
-        protected void RenameClassConfirm_Click(object sender, EventArgs e)
-        {
-            using (MySqlCommand cmd = con.CreateCommand())
-            {
-                cmd.Parameters.AddWithValue("@ID", GetSelectedClass().ID);
-                cmd.Parameters.AddWithValue("@Name", RenameClassName.Text);
-                cmd.CommandText = SQL.Statements.UpdateClass;
-                cmd.ExecuteNonQuery();
-            }
-            Class c = GetSelectedClass();
-            int Count = ClassList.Controls.Count;
-            for (int i = 1; i < Count; i++ )
-            {
-                ClassList.Controls.RemoveAt(1);
-            }
-            SetSelectedClass(c.ID, RenameClassName.Text);
-            LoadStudentList();
-            CloseRenameClassModal();
-            AddClasses(false);
-        }
-        protected void DeleteClassConfirmButton_Click(object sender, EventArgs e)
-        {
-            using(MySqlCommand cmd = con.CreateCommand())
-            {
-                cmd.CommandText = SQL.Statements.DeleteClass;
-                cmd.Parameters.AddWithValue("@ID", GetSelectedClass().ID);
-                int iD = GetSelectedClass().ID;
-                cmd.ExecuteNonQuery();
-            }
-            int Count = ClassList.Controls.Count;
-            for (int i = 1; i < Count; i++)
-            {
-                ClassList.Controls.RemoveAt(1);
-            }
-            CloseDeleteClassModal();
-            AddClasses(true);
         }
     }
 }
