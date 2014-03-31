@@ -13,6 +13,7 @@
     <script src="Javascript/Schuelerverwaltung.js"></script>
     <link href="Bootstrap/css/bootstrap-theme.css" rel="stylesheet" />
     <link href="Bootstrap/css/bootstrap.css" rel="stylesheet" />
+    <link href="CSS/print.css" rel="stylesheet" />
     <!--
         I am Painis Cupcake, I will eat you!
                                 -Painis Cupcake
@@ -48,21 +49,21 @@
                     <ContentTemplate>
                         <div class="col-sm-3">
                             <div class="btn-group maxwidth-xs" id="ClassSelecter" runat="server">
-                                <a class="btn btn-default dropdown-toggle maxwidth-xs pull-left" data-toggle="dropdown" runat="server" id="OpenClassMenu">Keine Klasse<span class="caret"></span>
+                                <a class="btn btn-default dropdown-toggle maxwidth-xs pull-left" data-toggle="dropdown" runat="server" id="OpenClassMenu">Keine Klasse<span class="hidden-print caret"></span>
                                 </a>
-                                <ul class="dropdown-menu maxwidth-xs" id="ClassList" runat="server">
+                                <ul class="dropdown-menu maxwidth-xs hidden-print" id="ClassList" runat="server">
                                     <li><a onclick="jQuery('#NewClassModal').modal('show');">&lt;Neue Klasse&gt;</a></li>
                                 </ul>
                             </div>
                         </div>
                         <div class="col-sm-3" style="text-align: center">
-                            <button type="button" class="btn btn-default maxwidth-xs" onclick="jQuery('#RenameClassModal').modal('show')">Umbenennen</button>
+                            <button type="button" class="btn btn-default maxwidth-xs hidden-print" onclick="jQuery('#RenameClassModal').modal('show')">Umbenennen</button>
                         </div>
                         <div class="col-sm-3" style="text-align: center">
-                            <button type="button" class="btn btn-default maxwidth-xs" onclick="jQuery('#DeleteClassConfirmModal').modal('show')">Löschen</button>
+                            <button type="button" class="btn btn-default maxwidth-xs hidden-print" onclick="jQuery('#DeleteClassConfirmModal').modal('show')">Löschen</button>
                         </div>
                         <div class="col-sm-3">
-                            <button type="button" class="btn btn-default maxwidth-xs hidden-xs pull-right">Klassenliste Drucken</button>
+                            <button type="button" class="btn btn-default maxwidth-xs hidden-xs pull-right hidden-print" onclick="javascript:window.print()">Klassenliste Drucken</button>
                         </div>
                     </ContentTemplate>
                     <Triggers>
@@ -89,8 +90,8 @@
                             <asp:TableHeaderCell></asp:TableHeaderCell>
                         </asp:TableHeaderRow>
                     </asp:Table>
-                    <button type="button" class="btn btn-default" onclick="AddNewStudent()">Hinzufügen</button>
-                    <button type="button" class="btn btn-primary pull-right" onclick="SaveStudents()">Speichern</button>
+                    <button type="button" class="btn btn-default hidden-print" onclick="AddNewStudent()">Hinzufügen</button>
+                    <button type="button" class="btn btn-primary pull-right hidden-print" onclick="SaveStudents()">Speichern</button>
                 </ContentTemplate>
                 <Triggers>
                 </Triggers>
