@@ -4,7 +4,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <meta name = "viewport" id = "viewpoint_device" />
+    <meta name="viewport" id="viewpoint_device" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Lessoner - Hauptseite
     </title>
@@ -72,7 +72,6 @@
             <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
                     <li class="active"><a href="#">Hauptseite</a></li>
-                    <li><a href="about.aspx">Über den Lessoner</a></li>
                     <li id="display" style="display: none"><a href="Lessoner.aspx">Stundenplan</a></li>
                 </ul>
                 <div class="navbar-form navbar-right">
@@ -119,99 +118,138 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <h2>Stundenplan</h2>
                 <p>
-                    <table id="tbTimetable" class="table table-bordered table-responsive">
-		<thead>
-			<tr>
-				<th class="tableStunde">Zeit</th><th class="tableTag" data-id="151" data-takesplace="True">
-                                Montag
-                                </th><th class="tableTag" data-id="152" data-takesplace="True">
-			</tr>
-		</thead><tbody>
-			<tr data-infotype="0">
-				<td><table class="HourTable">
-					<tbody><tr>
-						<td class="HourNumber" rowspan="2" style="font-size:16px;;font-weight:bold;">1</td>
-						<td class="HourCell">07:30</td>
-					</tr>
-					<tr>
-						<td class="HourCell">08:15</td>
-					</tr>
-				</tbody></table>
-				</td><td class="LessonCell" data-listid="0" data-infotype="1" rowspan="2"><span style="text-align:center;" class="visible-lg">Programmieren</span><span style="text-align:center;" class="hidden-lg">PR</span></td><td class="LessonCell" data-listid="2" data-infotype="1" rowspan="2"><span style="text-align:center;" class="visible-lg">Wirtschaft</span><span style="text-align:center;" class="hidden-lg">W</span></td><td class="LessonCell"></td><td class="LessonCell"></td><td class="LessonCell"></td>
-			</tr><tr data-infotype="0">
-				<td><table class="HourTable">
-					<tbody><tr>
-						<td class="HourNumber" rowspan="2" style="font-size:16px;;font-weight:bold;">2</td>
-						<td class="HourCell">08:15</td>
-					</tr>
-					<tr>
-						<td class="HourCell">09:00</td>
-					</tr>
-				</tbody></table>
-				</td><td class="LessonCell" style="display:none;"></td><td class="LessonCell" style="display:none;"></td><td class="LessonCell"></td><td class="LessonCell"></td><td class="LessonCell"></td>
-			</tr><tr data-infotype="0">
-				<td><table class="HourTable">
-					<tbody><tr>
-						<td class="HourNumber" rowspan="2" style="font-size:16px;;font-weight:bold;">3</td>
-						<td class="HourCell">09:15</td>
-					</tr>
-					<tr>
-						<td class="HourCell">10:00</td>
-					</tr>
-				</tbody></table>
-				</td><td class="LessonCell" data-listid="1" data-infotype="1" rowspan="4"><span style="text-align:center;" class="visible-lg">Elektroprozesstechnik</span><span style="text-align:center;" class="hidden-lg">EP</span></td><td class="LessonCell" data-listid="3" data-infotype="1" rowspan="2"><span style="text-align:center;" class="visible-lg">Mathe</span><span style="text-align:center;" class="hidden-lg">M</span></td><td class="LessonCell"></td><td class="LessonCell"></td><td class="LessonCell"></td>
-			</tr><tr data-infotype="0">
-				<td><table class="HourTable">
-					<tbody><tr>
-						<td class="HourNumber" rowspan="2" style="font-size:16px;;font-weight:bold;">4</td>
-						<td class="HourCell">10:00</td>
-					</tr>
-					<tr>
-						<td class="HourCell">10:45</td>
-					</tr>
-				</tbody></table>
-				</td><td class="LessonCell" style="display:none;"></td><td class="LessonCell" style="display:none;"></td><td class="LessonCell"></td><td class="LessonCell"></td><td class="LessonCell"></td>
-			</tr><tr data-infotype="0">
-				<td><table class="HourTable">
-					<tbody><tr>
-						<td class="HourNumber" rowspan="2" style="font-size:16px;;font-weight:bold;">5</td>
-						<td class="HourCell">11:00</td>
-					</tr>
-					<tr>
-						<td class="HourCell">11:45</td>
-					</tr>
-				</tbody></table>
-				</td><td class="LessonCell" style="display:none;"></td><td class="LessonCell"></td><td class="LessonCell"></td><td class="LessonCell"></td><td class="LessonCell"></td>
-			</tr><tr data-infotype="0">
-				<td><table class="HourTable">
-					<tbody><tr>
-						<td class="HourNumber" rowspan="2" style="font-size:16px;;font-weight:bold;">6</td>
-						<td class="HourCell">11:45</td>
-					</tr>
-					<tr>
-						<td class="HourCell">12:30</td>
-					</tr>
-				</tbody></table>
-				</td><td class="LessonCell" style="display:none;"></td><td class="LessonCell" data-listid="4" data-infotype="1"><span style="text-align:center;" class="visible-lg">Betriebssysteme/Netzwerke</span><span style="text-align:center;" class="hidden-lg">BN</span></td><td class="LessonCell"></td><td class="LessonCell"></td><td class="LessonCell"></td>
-			</tr>
-		</tbody>
-	</table>
                     <br />
                     Behalte den Überblick über deine Stunden.
                Fällt morgen die letzte Stunde aus oder solltest du lieber deine Sportsachen einpacken, hier erfährst du es.
+                    <table id="tbTimetable" class="table table-bordered table-responsive">
+                        <%--TODO: Modals für den Stunenplan einfügen--%>
+                        <thead>
+                            <tr>
+                                <th class="tableStunde">Zeit</th>
+                                <th class="tableTag" data-id="151" data-takesplace="True">Montag
+                                </th>
+                                <th class="tableTag" data-id="152" data-takesplace="True"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr data-infotype="0">
+                                <td>
+                                    <table class="HourTable">
+                                        <tbody>
+                                            <tr>
+                                                <td class="HourNumber" rowspan="2" style="font-size: 16px; font-weight: bold;">1</td>
+                                                <td class="HourCell">07:30</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="HourCell">08:15</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                                <td class="LessonCell" data-listid="0" data-infotype="1" rowspan="2"><span style="text-align: center;" class="visible-lg">Programmieren</span><span style="text-align: center;" class="hidden-lg">PR</span></td>
+                                <td class="LessonCell" data-listid="2" data-infotype="1" rowspan="2"><span style="text-align: center;" class="visible-lg">Wirtschaft</span><span style="text-align: center;" class="hidden-lg">W</span></td>
+                            </tr>
+                            <tr data-infotype="0">
+                                <td>
+                                    <table class="HourTable">
+                                        <tbody>
+                                            <tr>
+                                                <td class="HourNumber" rowspan="2" style="font-size: 16px; font-weight: bold;">2</td>
+                                                <td class="HourCell">08:15</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="HourCell">09:00</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                                <td class="LessonCell" style="display: none;"></td>
+                                <td class="LessonCell" style="display: none;"></td>
+                            </tr>
+                            <tr data-infotype="0">
+                                <td>
+                                    <table class="HourTable">
+                                        <tbody>
+                                            <tr>
+                                                <td class="HourNumber" rowspan="2" style="font-size: 16px; font-weight: bold;">3</td>
+                                                <td class="HourCell">09:15</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="HourCell">10:00</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                                <td class="LessonCell" data-listid="1" data-infotype="1" rowspan="4"><span style="text-align: center;" class="visible-lg">Elektroprozesstechnik</span><span style="text-align: center;" class="hidden-lg">EP</span></td>
+                                <td class="LessonCell" data-listid="3" data-infotype="1" rowspan="2"><span style="text-align: center;" class="visible-lg">Mathe</span><span style="text-align: center;" class="hidden-lg">M</span></td>
+                            </tr>
+                            <tr data-infotype="0">
+                                <td>
+                                    <table class="HourTable">
+                                        <tbody>
+                                            <tr>
+                                                <td class="HourNumber" rowspan="2" style="font-size: 16px; font-weight: bold;">4</td>
+                                                <td class="HourCell">10:00</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="HourCell">10:45</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                                <td class="LessonCell" style="display: none;"></td>
+                                <td class="LessonCell" style="display: none;"></td>
+                            </tr>
+                            <tr data-infotype="0">
+                                <td>
+                                    <table class="HourTable">
+                                        <tbody>
+                                            <tr>
+                                                <td class="HourNumber" rowspan="2" style="font-size: 16px; font-weight: bold;">5</td>
+                                                <td class="HourCell">11:00</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="HourCell">11:45</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                                <td class="LessonCell" style="display: none;"></td>
+                                <td class="LessonCell" data-listid="4" data-infotype="1"><span style="text-align: center;" class="visible-lg">frei</span><span style="text-align: center;" class="hidden-lg">BN</span></td>
+
+                            </tr>
+                            <tr data-infotype="0">
+                                <td>
+                                    <table class="HourTable">
+                                        <tbody>
+                                            <tr>
+                                                <td class="HourNumber" rowspan="2" style="font-size: 16px; font-weight: bold;">6</td>
+                                                <td class="HourCell">11:45</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="HourCell">12:30</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                                <td class="LessonCell" style="display: none;"></td>
+                                <td class="LessonCell" data-listid="4" data-infotype="1"><span style="text-align: center;" class="visible-lg">Betriebssysteme/Netzwerke</span><span style="text-align: center;" class="hidden-lg">BN</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </p>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <h2>Hausaufgaben</h2>
                 <p>
                     Schnell noch Englisch machen und dann Mathe Seite 166, oder war es doch 168?
                Ein Blick in die jeweilige Stunde hilft dir weiter und dein Hund muss nicht als Sündenbock enden.
                 </p>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <h2>Austausch</h2>
                 <p>
                     Mal einen Tag nicht da gewesen und dadurch wichtigen Stoff verpasst?
