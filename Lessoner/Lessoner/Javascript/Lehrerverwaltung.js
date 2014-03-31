@@ -5,15 +5,15 @@ var SelectedRow = jQuery([]);
 var SelectedIndex = -1;
 var DoneChange = false;
 var HasError = false;
-function EditStudent(sender)
+function EditTeacher(sender)
 {
     var Sender = jQuery(sender);
     if (Sender.parent().index() == SelectedIndex)
     {
         return;
     }
-    jQuery("#StudentRights").appendTo(jQuery("#StudentRightsKeeper"));
-    jQuery("#StudentOptions").parent().remove();
+    jQuery("#TeacherRights").appendTo(jQuery("#TeacherRightsKeeper"));
+    jQuery("#TeacherOptions").parent().remove();
     for (var i = 0; i < SelectedRow.children().length; i++) {
         if (SelectedRow.children(":nth-child(" + (i+1) + ")").attr("data-ignoretransform") == "true") { continue; }
         var Input = SelectedRow.first().children(":eq(" + i + ")").children().first();//After 2 hours of trying random stuff, this line of the script works. We are never going to find out why.
@@ -30,14 +30,14 @@ function EditStudent(sender)
     }
     var TableRow = jQuery("<tr></tr>");
     var TableCell = jQuery("<td></td>");
-    TableCell.attr("colspan", "8");
-    jQuery("#StudentRights").appendTo(TableCell);
-    TableCell.attr("id", "StudentOptions");
+    TableCell.attr("colspan", "9");
+    jQuery("#TeacherRights").appendTo(TableCell);
+    TableCell.attr("id", "TeacherOptions");
     TableRow.append(TableCell);
     TableRow.insertAfter(SelectedRow);
-    for (var i = 0; i < jQuery("#StudentRights").children().length; i++)
+    for (var i = 0; i < jQuery("#TeacherRights").children().length; i++)
     {
-        var Current = jQuery("#StudentRights").children(":nth-child(" + (i+1) + ")").children().children("input");
+        var Current = jQuery("#TeacherRights").children(":nth-child(" + (i+1) + ")").children().children("input");
         if(SelectedRow.attr("data-rights")[parseInt(Current.parent().attr("data-location"))]==1)
         {
             Current.prop('checked', true);;
@@ -90,7 +90,7 @@ function TextChanged(Sender)
     }
 }
 
-function SaveStudents()
+function SaveTeachers()
 {
     if (!DoneChange || HasError)
     {
@@ -104,17 +104,17 @@ function SaveStudents()
         Input.replaceWith(jQuery("<span>" + Input.val() + "</span>"));
     }
     EditRow.removeAttr("id");
-    jQuery("#StudentRights").appendTo(jQuery("#StudentRightsKeeper"));
-    jQuery("#StudentOptions").parent().remove();
+    jQuery("#TeacherRights").appendTo(jQuery("#TeacherRightsKeeper"));
+    jQuery("#TeacherOptions").parent().remove();
     SelectedRow = jQuery([]);
     SelectedIndex = -1;
-    var Table = jQuery("#StudentList").children("tbody");
+    var Table = jQuery("#TeacherList").children("tbody");
     var Submit = new Array();
     for(var i = 1; i<=Table.children().length; i++)
     {
         var Current = Table.children(":nth-child(" + i + ")");
         Submit.push(new Array());
-        Submit[i - 1].push(Current.attr("data-newstudent"));
+        Submit[i - 1].push(Current.attr("data-newTeacher"));
         Submit[i - 1].push(Current.attr("data-changed"));
         Submit[i - 1].push(Current.attr("data-id"));
         Submit[i - 1].push(Current.attr("data-rights"));
@@ -129,8 +129,8 @@ function SaveStudents()
     $.ajax({
         async: true,
         type: "POST",
-        url: "Schuelerverwaltung.aspx/SaveStudent",
-        data: JSON.stringify({ "StudentData": Submit, "ClassID":parseInt(jQuery("#ClassSelecter").attr("data-id")) }),//Converting JSON to JSON works,                                                                  because fuck dis
+        url: "Lehrerverwaltung.aspx/SaveTeacher",
+        data: JSON.stringify({ "TeacherData": Submit }),//Converting JSON to JSON works,                                                                  because fuck dis
         dataType: "JSON",
         contentType: "application/json; charset=utf-8;",
         success: function (data) {
@@ -140,7 +140,7 @@ function SaveStudents()
                 {
                     var CurrentRow=Table.children(":nth-child("+i+")");
                     CurrentRow.removeClass("warning");
-                    CurrentRow.attr("data-newstudent", "false");
+                    CurrentRow.attr("data-newTeacher", "false");
                     CurrentRow.attr("data-changed", "false");
                 }
                 HasError = false;
@@ -157,23 +157,24 @@ function SaveStudents()
         }
     });
 }
-function AddNewStudent()
+function AddNewTeacher()
 {
     HasError = true;
     DoneChange = true;
-    var NewRow = jQuery('<tr data-changed="true" data-newstudent="true" data-id="-1" class="danger" data-rights="000000000">\
-            <td onclick="EditStudent(this)" class="has-error"><span></span></td>\
-            <td onclick="EditStudent(this)" class="has-error"><span></span></td>\
-            <td onclick="EditStudent(this)" class="has-error"><span></span></td>\
-            <td onclick="EditStudent(this)" class="has-error"><span></span></td>\
-            <td onclick="EditStudent(this)" class="has-error"><span></span></td>\
-            <td onclick="EditStudent(this)" class="has-error"><span></span></td>\
-            <td onclick="EditStudent(this)" class="has-error"><span></span></td>\
+    var NewRow = jQuery('<tr data-changed="true" data-newTeacher="true" data-id="-1" class="danger" data-rights="000000000">\
+            <td onclick="EditTeacher(this)" class="has-error"><span></span></td>\
+            <td onclick="EditTeacher(this)" class="has-error"><span></span></td>\
+            <td onclick="EditTeacher(this)" class="has-error"><span></span></td>\
+            <td onclick="EditTeacher(this)" class="has-error"><span></span></td>\
+            <td onclick="EditTeacher(this)" class="has-error"><span></span></td>\
+            <td onclick="EditTeacher(this)" class="has-error"><span></span></td>\
+            <td onclick="EditTeacher(this)" class="has-error"><span></span></td>\
+            <td onclick="EditTeacher(this)" class="has-error"><span></span></td>\
         </tr>');
-    NewRow.appendTo(jQuery("#StudentList"));
+    NewRow.appendTo(jQuery("#TeacherList"));
     NewRow.children(":first").click();
 }
-function DeleteStudent(sender)
+function DeleteTeacher(sender)
 {
     jQuery("#DeleteTarget").val(jQuery(sender).attr("data-id"));
     jQuery("#DeleteConfirmModal").modal("show");
@@ -182,14 +183,6 @@ function SetCharAt(string, replacement, index) {
     return string.substring(0, index) + replacement + string.substring(index + String(replacement).length, string.length);
 }
 
-function ReadyClassChange()
-{
-    SelectedIndex = -1;
-    SelectedRow = jQuery([]);
-    jQuery('#LoadingModal').modal({ backdrop: 'static', keyboard: false });
-    jQuery("#StudentRights").appendTo(jQuery("#StudentRightsKeeper"));
-    jQuery("#StudentOptions").parent().remove();
-}
 
 
 
@@ -199,6 +192,6 @@ window.onbeforeunload = function ()
 {
     if(DoneChange)
     {
-        return "Sie haben änderungen an einigen Schülern gemacht, die möglicherweise verloren gehen können.";
+        return "Sie haben änderungen an einigen Lehrern gemacht, die möglicherweise verloren gehen können.";
     }
 }

@@ -95,9 +95,11 @@
     <Content Include="Javascript\LessonerBuilder.js" />
     <Content Include="Javascript\LoginScript.js" />
     <Content Include="Javascript\profile.js" />
+    <Content Include="Javascript\Lehrerverwaltung.js" />
     <Content Include="Javascript\Schuelerverwaltung.js" />
     <Content Include="JQuery\jquery-1.10.2 Compressed.js" />
     <Content Include="JQuery\jquery-1.10.2.js" />
+    <Content Include="Lehrerverwaltung.aspx" />
     <Content Include="Lessoner.aspx" />
     <Content Include="LessonerBuilder.aspx" />
     <Content Include="profile.aspx" />
@@ -150,6 +152,13 @@
       <DependentUpon>impressum.aspx</DependentUpon>
     </Compile>
     <Compile Include="Javascript\JavascriptCaller.cs" />
+    <Compile Include="Lehrerverwaltung.aspx.cs">
+      <DependentUpon>Lehrerverwaltung.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Lehrerverwaltung.aspx.designer.cs">
+      <DependentUpon>Lehrerverwaltung.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Lessoner.aspx.cs">
       <DependentUpon>Lessoner.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

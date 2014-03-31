@@ -81,12 +81,12 @@ namespace Lessoner
                             }
                             if (i == 0)
                             {
-                                throw new MultipleUserException();
+                                throw new NoLoginException();
                             }
                             if (i > 1)
                             {
                                 //return ErrorReturns.MultipleUserError;
-                                throw new NoLoginException();
+                                throw new MultipleUserException();
                             }
                         }
                     }
