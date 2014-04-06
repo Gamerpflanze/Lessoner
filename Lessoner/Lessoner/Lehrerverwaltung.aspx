@@ -11,8 +11,9 @@
     <script src="Javascript/LoginScript.js"></script>
     <script src="Javascript/Global.js"></script>
     <script src="Javascript/Lehrerverwaltung.js"></script>
-    <link href="Bootstrap/css/bootstrap-theme.css" rel="stylesheet" />
+     <link href="Bootstrap/css/bootstrap-theme.css" rel="stylesheet" />
     <link href="Bootstrap/css/bootstrap.css" rel="stylesheet" />
+    <link href="CSS/print.css" rel="stylesheet" />
     <!--
     -->
     <link href="CSS/Style.css" rel="stylesheet" />
@@ -61,7 +62,14 @@
         </div>
         <div class="page-header">
             <div class="container">
-                <button type="button" class="btn btn-default maxwidth-xs hidden-xs pull-right">Lehrerliste Drucken</button>
+                <div class="col-sm-4">
+                </div>
+                <div class="col-sm-4" style="text-align: center">
+                    <h3>Lehrerliste</h3>
+                </div>
+                <div class="col-sm-4">
+                    <button type="button" class="btn btn-default maxwidth-xs hidden-xs pull-right" onclick="javascript:window.print()">Lehrerliste Drucken</button>
+                </div>
             </div>
         </div>
         <div class="container">
@@ -84,8 +92,8 @@
                             <asp:TableHeaderCell></asp:TableHeaderCell>
                         </asp:TableHeaderRow>
                     </asp:Table>
-                    <button type="button" class="btn btn-default" onclick="AddNewTeacher()">Hinzufügen</button>
-                    <button type="button" class="btn btn-primary pull-right" onclick="SaveTeachers()">Speichern</button>
+                    <button type="button" class="btn btn-default hidden-print" onclick="AddNewTeacher()">Hinzufügen</button>
+                    <button type="button" class="btn btn-primary pull-right hidden-print" onclick="SaveTeachers()">Speichern</button>
                 </ContentTemplate>
                 <Triggers>
                 </Triggers>

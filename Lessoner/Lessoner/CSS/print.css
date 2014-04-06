@@ -1,6 +1,6 @@
 ﻿@page {
     size: 21.0cm 29.7cm;
-    margin-top: -1cm;
+    margin-top: -2cm;
     margin-bottom: 1cm;
 }
 
@@ -15,17 +15,17 @@
 }
 
 @media print {
-    div
-    {
+    div {
         font-size: 9pt;
-        border:none !important;
-        overflow:hidden !important;
+        border: none !important;
+        overflow: hidden !important;
     }
-    #tbTimetable > thead > tr > th{
+
+    #tbTimetable > thead > tr > th {
         border: thin solid black !important;
     }
 
-        #tbTimetable > tbody > tr > td{
+    #tbTimetable > tbody > tr > td {
         border: thin solid black !important;
     }
 
@@ -33,7 +33,7 @@
         border: none !important;
     }
 
-    .caret
-    {
+    .caret {
         display: none;
     }
+}
