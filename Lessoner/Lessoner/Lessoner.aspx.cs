@@ -6,6 +6,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
 using System.Web.Services;
+using System.IO;
 using MySql.Data.MySqlClient;
 using MySql.Data;
 using MySql;
@@ -35,7 +36,7 @@ namespace Lessoner
                 StoredVars.Objects.Lessoner.WeekBegins = value;
             }
         }
-        LessonerCache.ClassSelector SelectedTimeTable
+        LessonerCache.Selecter SelectedTimeTable
         {
             get
             {
@@ -46,7 +47,17 @@ namespace Lessoner
                 StoredVars.Objects.Lessoner.SelectedTimeTable = value;
             }
         }
-
+        bool TeacherLessons
+        {
+            get
+            {
+                return StoredVars.Objects.Lessoner.TeacherLessons;
+            }
+            set
+            {
+                StoredVars.Objects.Lessoner.TeacherLessons = value;
+            }
+        }
         List<Lesson> Lessons
         {
             get
@@ -59,6 +70,10 @@ namespace Lessoner
             }
         }
         string Script = "";
+        protected void Page_Init(object sender, EventArgs e)
+        {
+            InitialiseLessoner();
+        }
         protected void Page_Load(object sender, EventArgs e)
         {
             //Http Errors 'nd shit
@@ -67,7 +82,7 @@ namespace Lessoner
             this.LoadComplete += new EventHandler(Page_LoadComplete);
             //this.PreRender += new System.EventHandler(this.LessonerBuilder_PreRender);
             //
-            Script += JavascriptCaller.ClearCopyModal;
+            //Script += JavascriptCaller.ClearCopyModal;
             if (!Page.IsPostBack)
             {
 #if !DEBUG
@@ -78,14 +93,72 @@ namespace Lessoner
                     Response.End();
                     return;
                 }
-                if (!StoredVars.Objects.Rights["lessoner"]["permission"])
+                int RemovedElements = 0;
+
+                if (!StoredVars.Objects.Rights["login"]["isteacher"])
                 {
-                    Response.Clear();
-                    Response.StatusCode = 403;
-                    Response.End();
-                    return;
+                    if (!StoredVars.Objects.Rights["lessoner"]["openteacher"])
+                    {
+                        RemovedElements++;
+                        ClassTeacherSwitchContainer.Controls.Clear();
+                        ClassTeacherSwitchContainer.Style.Add("display", "none");
+                    }
+                    if (!StoredVars.Objects.Rights["lessoner"]["chooseclass"])
+                    {
+                        RemovedElements++;
+                        if (!StoredVars.Objects.Rights["lessoner"]["openteacher"])
+                        {
+                            ClassTeacherSelecter.Style.Add("display", "none");
+                        }
+                        else
+                        {
+                            lbtnOpenClassMenu.Disabled = true;
+                        }
+
+                        LessonerCache.Selecter stt = SelectedTimeTable;
+                        stt.ID = StoredVars.Objects.KlasseID;
+                        stt.Name = StoredVars.Objects.KlasseName;
+                        SelectedTimeTable = stt;
+                        lbtnOpenClassMenu.Attributes["data-id"] = SelectedTimeTable.ID.ToString();
+                        lbtnOpenClassMenu.InnerHtml = SelectedTimeTable.Name + "<span class=\"caret\"></span>";
+                    }
+                }
+                if(!StoredVars.Objects.Rights["lessoner"]["uploadfile"])
+                {
+                    UploadButton.Style.Add("display", "none");
+                    FileUploader.Style.Add("display", "none");
+                }
+                if (!StoredVars.Objects.Rights["lessoner"]["uploadfile"])
+                {
+                    Script += "CantDeleteFiles();";
+                }
+                if (RemovedElements > 0)
+                {
+                    if (RemovedElements == 1)
+                    {
+                        WeekSelectContainer.Attributes.Add("class", "col-md-4");
+                        PrintButtonContainer.Attributes.Add("class", "col-md-4 hidden-sm");
+                        ClassTeacherSwitchContainer.Attributes.Add("class", "col-md-4");
+                        ClassTeacherSelecter.Attributes.Add("class", "col-md-4");
+                    }
+                    else
+                    {
+                        WeekSelectContainer.Attributes.Add("class", "col-md-6");
+                        PrintButtonContainer.Attributes.Add("class", "col-md-6 hidden-sm");
+                        ClassTeacherSwitchContainer.Attributes.Add("class", "col-md-6");
+                        ClassTeacherSelecter.Attributes.Add("class", "col-md-6");
+                    }
                 }
 #endif
+                if (!Page.IsPostBack)
+                {
+                    TeacherLessons = false;
+                }
+                if (StoredVars.Objects.Loggedin)
+                {
+                    PageDropDown.Style.Add("display", "block");
+                    ReadyPageDropDown();
+                }
                 DateTime Date = DateTime.Now.Date;
                 Date = Date.AddDays(-((double)HelperMethods.DayOfWeekToNumber(Date.DayOfWeek) - 1));
                 for (int i = 0; i < 6; i++)
@@ -94,10 +167,22 @@ namespace Lessoner
                     Date = Date.AddDays(7);
                 }
                 txtWeekBegin.Text = WeekBegins[WeekIndex].ToString("dd.MM.yyyy");
-                LessonerCache.ClassSelector cl = SelectedTimeTable;
-                cl.ClassID = -1;
-                SelectedTimeTable = cl;
+
                 btnLastDate.Attributes.Add("disabled", "disabled");
+            }
+            if (StoredVars.Objects.Rights["login"]["isteacher"])
+            {
+                LessonerCache.Selecter stt = SelectedTimeTable;
+                stt.ID = -1;
+                stt.Name = "";
+                SelectedTimeTable = stt;
+            }
+            else
+            {
+                LessonerCache.Selecter stt = SelectedTimeTable;
+                stt.ID = StoredVars.Objects.KlasseID;
+                stt.Name = StoredVars.Objects.KlasseName;
+                SelectedTimeTable = stt;
             }
             using (MySqlConnection con = new MySqlConnection(SQL.Statements.ConnectionString))
             {
@@ -114,33 +199,59 @@ namespace Lessoner
                             HtmlGenericControl li = new HtmlGenericControl("li");
                             LinkButton ClassLink = new LinkButton();
                             ClassLink.Attributes.Add("data-id", reader["ID"].ToString());
-                            ClassLink.OnClientClick = "OpenLoadingIndicator('true');";
+                            ClassLink.OnClientClick = "jQuery('#LoadingModal').modal({backdrop:'static', keyboard:false});";
                             ClassLink.Text = reader["Name"].ToString();
                             if (first)
                             {
                                 first = false;
-                                if (SelectedTimeTable.ClassID == -1)
+                                if (SelectedTimeTable.ID == -1)
                                 {
-                                    LessonerCache.ClassSelector c = SelectedTimeTable;
-                                    c.ClassID = Convert.ToInt32(reader["ID"].ToString());
-                                    c.ClassName = reader["Name"].ToString();
+                                    LessonerCache.Selecter c = SelectedTimeTable;
+                                    c.ID = Convert.ToInt32(reader["ID"].ToString());
+                                    c.Name = reader["Name"].ToString();
                                     SelectedTimeTable = c;
                                 }
                             }
                             ClassLink.Click += new EventHandler(ClassSelect_Click);
-
+                            ScriptManager.GetCurrent(this).RegisterAsyncPostBackControl(ClassLink);
                             li.Controls.Add(ClassLink);
                             ClassList.Controls.Add(li);
+                        }
+                    }
+
+                    cmd.CommandText = SQL.Statements.GetTeacher;
+
+                    using (MySqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            HtmlGenericControl li = new HtmlGenericControl("li");
+                            LinkButton TeacherLink = new LinkButton();
+                            TeacherLink.Attributes.Add("data-id", reader["ID"].ToString());
+                            TeacherLink.OnClientClick = "jQuery('#LoadingModal').modal({backdrop:'static', keyboard:false});";
+                            TeacherLink.Text = reader["Name"].ToString();
+
+                            TeacherLink.Click += new EventHandler(TeacherSelect_Click);
+                            ScriptManager.GetCurrent(this).RegisterAsyncPostBackControl(TeacherLink);
+                            li.Controls.Add(TeacherLink);
+                            TeacherList.Controls.Add(li);
                         }
                     }
                     con.Close();
                 }
             }
-            InitialiseLessoner();
-            lbtnOpenClassMenu.Attributes["data-id"] = SelectedTimeTable.ClassID.ToString();
-            lbtnOpenClassMenu.InnerHtml = SelectedTimeTable.ClassName + "<span class=\"caret\"></span>";
+            if (TeacherLessons)
+            {
+                TeacherMenu.InnerHtml = SelectedTimeTable.Name + "<span class=\"caret\"></span>";
+                TeacherMenu.Attributes.Add("data-id", SelectedTimeTable.ID.ToString());
+            }
+            else
+            {
+                lbtnOpenClassMenu.Attributes["data-id"] = SelectedTimeTable.ID.ToString();
+                lbtnOpenClassMenu.InnerHtml = SelectedTimeTable.Name + "<span class=\"caret\"></span>";
+            }
 
-            if (!Page.IsPostBack)
+            if (!ScriptManager.GetCurrent(Page).IsInAsyncPostBack)
             {
                 LoadLessoner();
             }
@@ -183,9 +294,23 @@ namespace Lessoner
             lbtnOpenClassMenu.InnerHtml = ClassButton.Text + "<span class=\"caret\"></span>";
             lbtnOpenClassMenu.Attributes["data-id"] = ClassButton.Attributes["data-id"];
 
-            LessonerCache.ClassSelector c = SelectedTimeTable;
-            c.ClassID = Convert.ToInt32(ClassButton.Attributes["data-id"]);
-            c.ClassName = ClassButton.Text;
+            LessonerCache.Selecter c = SelectedTimeTable;
+            c.ID = Convert.ToInt32(ClassButton.Attributes["data-id"]);
+            c.Name = ClassButton.Text;
+            SelectedTimeTable = c;
+            ClearLoadingIndicator();
+            LoadLessoner();
+        }
+        protected void TeacherSelect_Click(object sender, EventArgs e)
+        {
+            LinkButton TeacherButton = sender as LinkButton;
+
+            TeacherMenu.InnerHtml = TeacherButton.Text + "<span class=\"caret\"></span>";
+            TeacherMenu.Attributes["data-id"] = TeacherButton.Attributes["data-id"];
+
+            LessonerCache.Selecter c = SelectedTimeTable;
+            c.ID = Convert.ToInt32(TeacherButton.Attributes["data-id"]);
+            c.Name = TeacherButton.Text;
             SelectedTimeTable = c;
             ClearLoadingIndicator();
             LoadLessoner();
@@ -240,12 +365,15 @@ namespace Lessoner
                     con.Open();
 
                     cmd.Parameters.AddWithValue("@KlasseID", ClassID);
-                    cmd.Parameters.AddWithValue("@Datum", Week);
-                    cmd.CommandText = SQL.Statements.CheckForLessoner;
-                    if (Convert.ToInt32(cmd.ExecuteScalar()) == 0)
+                    cmd.Parameters.AddWithValue("@Datum", WeekBegins[WeekIndex]);
+                    if (!TeacherLessons)
                     {
-                        cmd.CommandText = SQL.Statements.InsertEmptyLessoner;
-                        cmd.ExecuteNonQuery();
+                        cmd.CommandText = SQL.Statements.CheckForLessoner;
+                        if (Convert.ToInt32(cmd.ExecuteScalar()) == 0)
+                        {
+                            cmd.CommandText = SQL.Statements.InsertEmptyLessoner;
+                            cmd.ExecuteNonQuery();
+                        }
                     }
                     cmd.CommandText = SQL.Statements.GetDayInformations;
                     using (MySqlDataReader reader = cmd.ExecuteReader())
@@ -273,60 +401,90 @@ namespace Lessoner
                             }
                         }
                     }
-                    cmd.CommandText = SQL.Statements.GetLessonPerDay;
                     cmd.Parameters.Clear();
-                    cmd.Parameters.AddWithValue("@TagID", -1);
+                    if (TeacherLessons)
+                    {
+                        cmd.CommandText = SQL.Statements.GetLessonPerDayTeacher;
+                        cmd.Parameters.AddWithValue("@LehrerID", SelectedTimeTable.ID);
+                        cmd.Parameters.AddWithValue("@TagInfoID", -1);
+                        cmd.Parameters.AddWithValue("@Woche", WeekBegins[WeekIndex]);
+                    }
+                    else
+                    {
+                        cmd.CommandText = SQL.Statements.GetLessonPerDay;
+                        cmd.Parameters.AddWithValue("@TagID", -1);
+                    }
                     int j = 0;
                     for (int i = 0; i < AvailableDays.Count; i++)
                     {
-                        if (AvailableDays[i].FindetStatt)
+                        if (TeacherLessons)
+                        {
+                            cmd.Parameters["@TagInfoID"].Value = i + 1;
+                        }
+                        else
                         {
                             cmd.Parameters["@TagID"].Value = AvailableDays[i].ID;
-                            using (MySqlDataReader reader = cmd.ExecuteReader())
+                            if (!AvailableDays[i].FindetStatt)
                             {
-                                while (reader.Read())
-                                {
-                                    Lesson l = new Lesson();
-                                    int Begin = Convert.ToInt32(reader["Stunde_Beginn"]);
-                                    HtmlGenericControl TextBig = new HtmlGenericControl("span");
-                                    HtmlGenericControl TextSmall = new HtmlGenericControl("span");
-
-                                    TextBig.Style.Add("text-align", "center");
-                                    TextBig.InnerText = reader["FachName"].ToString();
-                                    TextBig.Attributes.Add("class", "visible-lg");
-
-                                    TextSmall.Style.Add("text-align", "center");
-                                    TextSmall.InnerText = reader["FachNameKurz"].ToString();
-                                    TextSmall.Attributes.Add("class", "hidden-lg");
-
-                                    l.ID = Convert.ToInt32(reader["ID"]);
-                                    l.LehrerID = Convert.ToInt32(reader["LehrerID"]);
-                                    l.FachID = Convert.ToInt32(reader["FachID"]);
-                                    l.TagID = AvailableDays[i].ID;
-                                    l.StundeBeginn = Convert.ToInt32(reader["Stunde_Beginn"]);
-                                    l.StundeEnde = Convert.ToInt32(reader["Stunde_Ende"]);
-                                    l.FachModID = Convert.ToInt32(reader["FachModID"]);
-                                    l.NameLong = reader["FachName"].ToString();
-                                    l.NameShot = reader["FachNameKurz"].ToString();
-                                    l.TagInfoID = Convert.ToInt32(reader["TagInfoID"]);
-
-                                    (tbTimetable.Controls[Begin].Controls[l.TagInfoID] as TableCell).Controls.Add(TextBig);
-                                    (tbTimetable.Controls[Begin].Controls[l.TagInfoID] as TableCell).Controls.Add(TextSmall);
-                                    (tbTimetable.Controls[Begin].Controls[l.TagInfoID] as TableCell).Attributes.Add("data-listid", j.ToString());
-                                    (tbTimetable.Controls[Begin].Controls[l.TagInfoID] as TableCell).Attributes["data-infotype"] = "1";
-
-                                    if (l.FachModID == 2)
-                                    {
-                                        (tbTimetable.Controls[Begin].Controls[l.TagInfoID] as TableCell).CssClass += " warning";
-                                    }
-                                    else if (l.FachModID == 3)
-                                    {
-                                        (tbTimetable.Controls[Begin].Controls[l.TagInfoID] as TableCell).CssClass += " danger";
-                                    }
-                                    Lessons.Add(l);
-                                    j++;
-                                }
+                                continue;
                             }
+                        }
+                        using (MySqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                Lesson l = new Lesson();
+                                int Begin = Convert.ToInt32(reader["Stunde_Beginn"]);
+                                HtmlGenericControl TextBig = new HtmlGenericControl("span");
+                                HtmlGenericControl TextSmall = new HtmlGenericControl("span");
+
+                                TextBig.Style.Add("text-align", "center");
+                                TextBig.InnerText = reader["FachName"].ToString();
+                                TextBig.Attributes.Add("class", "visible-lg");
+
+                                TextSmall.Style.Add("text-align", "center");
+                                TextSmall.InnerText = reader["FachNameKurz"].ToString();
+                                TextSmall.Attributes.Add("class", "hidden-lg");
+
+                                l.ID = Convert.ToInt32(reader["ID"]);
+                                l.LehrerID = Convert.ToInt32(reader["LehrerID"]);
+                                l.FachID = Convert.ToInt32(reader["FachID"]);
+                                l.TagID = AvailableDays[i].ID;
+                                l.StundeBeginn = Convert.ToInt32(reader["Stunde_Beginn"]);
+                                l.StundeEnde = Convert.ToInt32(reader["Stunde_Ende"]);
+                                l.FachModID = Convert.ToInt32(reader["FachModID"]);
+                                l.NameLong = reader["FachName"].ToString();
+                                l.NameShot = reader["FachNameKurz"].ToString();
+                                l.TagInfoID = Convert.ToInt32(reader["TagInfoID"]);
+
+                                LinkButton LessonClick = new LinkButton();
+                                LessonClick.Click += new EventHandler(Lesson_Click);
+                                ScriptManager.GetCurrent(this).RegisterAsyncPostBackControl(LessonClick);
+                                /*height: 100%;
+                                width: 100%;
+                                position: relative;
+                                display: block;*/
+                                //(tbTimetable.Controls[Begin].Controls[l.TagInfoID] as TableCell).Attributes.Add("data-id", reader["ID"].ToString());
+                                (tbTimetable.Controls[Begin].Controls[l.TagInfoID] as TableCell).Attributes.Add("onclick", "LoadLessonInfoModal(" + reader["ID"].ToString() + ", true)");
+                                (tbTimetable.Controls[Begin].Controls[l.TagInfoID] as TableCell).Controls.Add(TextBig);
+                                (tbTimetable.Controls[Begin].Controls[l.TagInfoID] as TableCell).Controls.Add(TextSmall);
+                                (tbTimetable.Controls[Begin].Controls[l.TagInfoID] as TableCell).Attributes.Add("data-listid", j.ToString());
+                                (tbTimetable.Controls[Begin].Controls[l.TagInfoID] as TableCell).Attributes["data-infotype"] = "1";
+                                (tbTimetable.Controls[Begin].Controls[l.TagInfoID] as TableCell).Style.Add("position", "relative");
+                                (tbTimetable.Controls[Begin].Controls[l.TagInfoID] as TableCell).Style.Add("pading", "0px");
+                                (tbTimetable.Controls[Begin].Controls[l.TagInfoID] as TableCell).Controls.Add(LessonClick);
+                                if (l.FachModID == 2)
+                                {
+                                    (tbTimetable.Controls[Begin].Controls[l.TagInfoID] as TableCell).CssClass += " warning";
+                                }
+                                else if (l.FachModID == 3)
+                                {
+                                    (tbTimetable.Controls[Begin].Controls[l.TagInfoID] as TableCell).CssClass += " danger";
+                                }
+                                Lessons.Add(l);
+                                j++;
+                            }
+
                         }
                     }
                     con.Close();
@@ -354,17 +512,17 @@ namespace Lessoner
                         }
                     }
                     int MaxLesson = 0;
-                    for(int i = 0; i<Lessons.Count; i++)
+                    for (int i = 0; i < Lessons.Count; i++)
                     {
-                        if(Lessons[i].StundeEnde>MaxLesson)
+                        if (Lessons[i].StundeEnde > MaxLesson)
                         {
                             MaxLesson = Lessons[i].StundeEnde;
                         }
                     }
                     int Count = tbTimetable.Controls.Count;
-                    for(int i = MaxLesson+1; i<Count; i++)
+                    for (int i = MaxLesson + 1; i < Count; i++)
                     {
-                        tbTimetable.Controls.RemoveAt(MaxLesson+1);
+                        tbTimetable.Controls.RemoveAt(MaxLesson + 1);
                     }
                 }
             }
@@ -406,13 +564,212 @@ namespace Lessoner
         {
             Script += JavascriptCaller.CloseLoadingIndicator;
         }
+        protected void Lesson_Click(object sender, EventArgs e)
+        {
+            LoadLessoner();
+        }
         private void ClearLoadingIndicator()
         {
-            Script += JavascriptCaller.ClearLoadingIndicator;
+            Script += "jQuery('#LoadingModal').modal('hide');";
         }
         private void Page_LoadComplete(object sender, EventArgs e)
         {
             ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "Script", Script, true);
+        }
+
+        protected void FileUploader_UploadedComplete(object sender, EventArgs e)
+        {
+
+        }
+        protected void UploadButton_Click(object sender, EventArgs e)
+        {
+            int ID = Convert.ToInt32(CurrentLesson.Value);
+            if (FileUploader.HasFile)
+            {
+                string NewFilePath = Server.MapPath("Data\\Files\\") + Guid.NewGuid().ToString("N") + Path.GetExtension(FileUploader.FileName);
+                using (MySqlConnection con = new MySqlConnection(SQL.Statements.ConnectionString))
+                {
+                    using (MySqlCommand cmd = con.CreateCommand())
+                    {
+                        con.Open();
+
+                        cmd.CommandText = SQL.Statements.InsertFile;
+                        cmd.Parameters.AddWithValue("@LessonID", ID);
+                        cmd.Parameters.AddWithValue("@Path", NewFilePath);
+                        cmd.Parameters.AddWithValue("@FileName", FileUploader.FileName);
+                        cmd.ExecuteNonQuery();
+                        FileUploader.SaveAs(NewFilePath);
+                        con.Close();
+                    }
+                }
+            }
+            ReloadLessonInfoModal();
+        }
+
+        protected void FileUploader_UploadedFileError(object sender, EventArgs e)
+        {
+
+
+        }
+        private void ReloadLessonInfoModal()
+        {
+            int ID = Convert.ToInt32(CurrentLesson.Value);
+            dynamic Data = LoadLessonInfoModal(ID);
+            LessonInfoText.Text = Data[0];
+            for (int i = 0; i < Data[1][0].Count; i++)
+            {
+                TableRow Row = new TableRow();
+                TableCell FileName = new TableCell();
+                TableCell DownloadButtonCell = new TableCell();
+                HtmlGenericControl DownloadButton = new HtmlGenericControl("button");
+                HtmlGenericControl RemoveButton = new HtmlGenericControl("button");
+
+                FileName.Text = Data[1][1][i];
+                DownloadButton.Attributes.Add("type", "button");
+                DownloadButton.Attributes.Add("class", "btn btn-primary");
+                DownloadButton.Attributes.Add("onclick", "window.location.href='/Data/FileDownload.aspx?File=" + Data[1][0][i] + "'");
+                DownloadButton.InnerHtml = "<span class=\"glyphicon glyphicon-download\"></span>";
+
+                RemoveButton.Attributes.Add("type", "button");
+                RemoveButton.Attributes.Add("class", "btn btn-danger");
+                RemoveButton.Attributes.Add("onclick", "DeleteFile(" + "'" + Data[1][0][i] + "'" + ',' + ID + ")");
+                RemoveButton.InnerHtml = "<span class=\"glyphicon glyphicon-remove\"></span>";
+
+
+                DownloadButtonCell.Style.Add("width", "96px");
+                DownloadButtonCell.Controls.Add(RemoveButton);
+                DownloadButtonCell.Controls.Add(DownloadButton);
+
+                Row.Controls.Add(FileName);
+                Row.Controls.Add(DownloadButtonCell);
+                FileTable.Controls.Add(Row);
+            }
+            Script += JavascriptCaller.ReOpenLessonInfoModal;
+        }
+        protected void ApplyInfoText_Click(object sender, EventArgs e)
+        {
+            using (MySqlConnection con = new MySqlConnection(SQL.Statements.ConnectionString))
+            {
+                using (MySqlCommand cmd = con.CreateCommand())
+                {
+                    con.Open();
+                    cmd.CommandText = SQL.Statements.UpdateInfo;
+                    cmd.Parameters.AddWithValue("@Information", LessonInfoText.Text);
+                    cmd.Parameters.AddWithValue("@ID", CurrentLesson.Value);
+                    cmd.ExecuteNonQuery();
+                    con.Close();
+                }
+            }
+
+            ReloadLessonInfoModal();
+        }
+        [WebMethod]
+        public static dynamic LoadLessonInfoModal(int ID)
+        {
+            dynamic Return = new dynamic[2];
+            Return[0] = "";
+            Return[1] = new dynamic[2];
+            Return[1][0] = new List<string>();
+            Return[1][1] = new List<string>();
+            using (MySqlConnection con = new MySqlConnection(SQL.Statements.ConnectionString))
+            {
+                using (MySqlCommand cmd = con.CreateCommand())
+                {
+                    cmd.CommandText = SQL.Statements.GetLessonInfoText;
+                    cmd.Parameters.AddWithValue("@ID", ID);
+                    con.Open();
+                    Return[0] = cmd.ExecuteScalar().ToString();
+                    cmd.CommandText = SQL.Statements.GetFiles;
+                    using (MySqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            Return[1][0].Add(Path.GetFileName(reader["Path"].ToString()));
+                            Return[1][1].Add(reader["FileName"].ToString());
+                        }
+                    }
+                    con.Close();
+                }
+            }
+            return Return;
+        }
+        [WebMethod]
+        public static void DeleteFile(string FileName)
+        {
+            using (MySqlConnection con = new MySqlConnection(SQL.Statements.ConnectionString))
+            {
+                using (MySqlCommand cmd = con.CreateCommand())
+                {
+                    con.Open();
+                    cmd.CommandText = SQL.Statements.DeleteFile;
+                    cmd.Parameters.AddWithValue("@FileName", FileName);
+                    cmd.ExecuteNonQuery();
+                    con.Close();
+                }
+            }
+        }
+        private void ReadyPageDropDown()
+        {
+            User.InnerText = StoredVars.Objects.Vorname + " " + StoredVars.Objects.Nachname;
+            if (!StoredVars.Objects.Rights["lessonerbuilder"]["permission"])
+            {
+                LinkLessonerBuilder.Style.Add("display", "none");
+            }
+            if (!StoredVars.Objects.Rights["studentmanagement"]["permission"])
+            {
+                LinkStudentManagement.Style.Add("display", "none");
+            }
+            if (!StoredVars.Objects.Rights["lessonerbuilder"]["permission"])
+            {
+                //LinkLessonerBuilder.Dispose();
+            }
+        }
+
+        protected void TeacherSwitch_Click(object sender, EventArgs e)
+        {
+            TeacherLessons = true;
+
+            LessonerCache.Selecter s = new LessonerCache.Selecter();
+            s.Name = (TeacherList.Controls[1].Controls[0] as LinkButton).Text;
+            s.ID = Convert.ToInt32((TeacherList.Controls[1].Controls[0] as LinkButton).Attributes["data-id"]);
+            s.Week = SelectedTimeTable.Week;
+            SelectedTimeTable = s;
+
+            TeacherMenu.InnerHtml = s.Name + "<span class=\"caret\"></span>";
+            TeacherMenu.Attributes.Add("data-id", s.ID.ToString());
+            SelectClass.Style.Add("display", "none");
+            SelectTeacher.Style.Add("display", "block");
+            ClassTeacherSwitchButton.InnerHtml = "Lehrer" + "<span class=\"caret\"></span>";
+            LoadLessoner();
+        }
+
+        protected void ClassSwitch_Click(object sender, EventArgs e)
+        {
+            TeacherLessons = false;
+
+            LessonerCache.Selecter s = new LessonerCache.Selecter();
+            s.Name = (ClassList.Controls[1].Controls[0] as LinkButton).Text;
+            s.ID = Convert.ToInt32((ClassList.Controls[1].Controls[0] as LinkButton).Attributes["data-id"]);
+            s.Week = SelectedTimeTable.Week;
+            SelectedTimeTable = s;
+
+            lbtnOpenClassMenu.InnerHtml = s.Name + "<span class=\"caret\"></span>";
+            lbtnOpenClassMenu.Attributes.Add("data-id", s.ID.ToString());
+            SelectClass.Style.Add("display", "block");
+            SelectTeacher.Style.Add("display", "none");
+            ClassTeacherSwitchButton.InnerHtml = "Klasse" + "<span class=\"caret\"></span>";
+
+            if (!StoredVars.Objects.Rights["lessoner"]["chooseclass"])
+            {
+                LessonerCache.Selecter stt = SelectedTimeTable;
+                stt.ID = StoredVars.Objects.KlasseID;
+                stt.Name = StoredVars.Objects.KlasseName;
+                SelectedTimeTable = stt;
+                lbtnOpenClassMenu.Attributes["data-id"] = SelectedTimeTable.ID.ToString();
+                lbtnOpenClassMenu.InnerHtml = SelectedTimeTable.Name + "<span class=\"caret\"></span>";
+            }
+
+            LoadLessoner();
         }
     }
 }

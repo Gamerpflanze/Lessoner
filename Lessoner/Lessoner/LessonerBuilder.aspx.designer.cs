@@ -22,49 +22,76 @@ namespace Lessoner {
         protected global::System.Web.UI.HtmlControls.HtmlMeta viewpoint_device;
         
         /// <summary>
-        /// LoginForm-Steuerelement
+        /// MainPanel-Steuerelement
         /// </summary>
         /// <remarks>
         /// Automatisch generiertes Feld
         /// Um dies zu ändern, verschieben Sie die Felddeklaration aus der Designerdatei in eine Code-Behind-Datei.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel LoginForm;
+        protected global::System.Web.UI.UpdatePanel MainPanel;
         
         /// <summary>
-        /// LoginControlls-Steuerelement
+        /// LoginControllsUpdatePanel-Steuerelement
         /// </summary>
         /// <remarks>
         /// Automatisch generiertes Feld
         /// Um dies zu ändern, verschieben Sie die Felddeklaration aus der Designerdatei in eine Code-Behind-Datei.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel LoginControlls;
+        protected global::System.Web.UI.UpdatePanel LoginControllsUpdatePanel;
         
         /// <summary>
-        /// txtUsername-Steuerelement
+        /// PageDropDown-Steuerelement
         /// </summary>
         /// <remarks>
         /// Automatisch generiertes Feld
         /// Um dies zu ändern, verschieben Sie die Felddeklaration aus der Designerdatei in eine Code-Behind-Datei.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtUsername;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl PageDropDown;
         
         /// <summary>
-        /// txtPasswort-Steuerelement
+        /// User-Steuerelement
         /// </summary>
         /// <remarks>
         /// Automatisch generiertes Feld
         /// Um dies zu ändern, verschieben Sie die Felddeklaration aus der Designerdatei in eine Code-Behind-Datei.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtPasswort;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl User;
         
         /// <summary>
-        /// btnLoginSubmit-Steuerelement
+        /// LinkLessoner-Steuerelement
         /// </summary>
         /// <remarks>
         /// Automatisch generiertes Feld
         /// Um dies zu ändern, verschieben Sie die Felddeklaration aus der Designerdatei in eine Code-Behind-Datei.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnLoginSubmit;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl LinkLessoner;
+        
+        /// <summary>
+        /// LinkLessonerBuilder-Steuerelement
+        /// </summary>
+        /// <remarks>
+        /// Automatisch generiertes Feld
+        /// Um dies zu ändern, verschieben Sie die Felddeklaration aus der Designerdatei in eine Code-Behind-Datei.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl LinkLessonerBuilder;
+        
+        /// <summary>
+        /// LinkStudentManagement-Steuerelement
+        /// </summary>
+        /// <remarks>
+        /// Automatisch generiertes Feld
+        /// Um dies zu ändern, verschieben Sie die Felddeklaration aus der Designerdatei in eine Code-Behind-Datei.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl LinkStudentManagement;
+        
+        /// <summary>
+        /// LinkTeacherMamagement-Steuerelement
+        /// </summary>
+        /// <remarks>
+        /// Automatisch generiertes Feld
+        /// Um dies zu ändern, verschieben Sie die Felddeklaration aus der Designerdatei in eine Code-Behind-Datei.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl LinkTeacherMamagement;
         
         /// <summary>
         /// btnLastDate-Steuerelement
@@ -184,6 +211,15 @@ namespace Lessoner {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl ulLessonNames;
         
         /// <summary>
+        /// RemoveLessonName-Steuerelement
+        /// </summary>
+        /// <remarks>
+        /// Automatisch generiertes Feld
+        /// Um dies zu ändern, verschieben Sie die Felddeklaration aus der Designerdatei in eine Code-Behind-Datei.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlButton RemoveLessonName;
+        
+        /// <summary>
         /// ddTeacher-Steuerelement
         /// </summary>
         /// <remarks>
@@ -274,6 +310,33 @@ namespace Lessoner {
         protected global::System.Web.UI.WebControls.LinkButton DecEnd;
         
         /// <summary>
+        /// ddRoom-Steuerelement
+        /// </summary>
+        /// <remarks>
+        /// Automatisch generiertes Feld
+        /// Um dies zu ändern, verschieben Sie die Felddeklaration aus der Designerdatei in eine Code-Behind-Datei.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlButton ddRoom;
+        
+        /// <summary>
+        /// RoomList-Steuerelement
+        /// </summary>
+        /// <remarks>
+        /// Automatisch generiertes Feld
+        /// Um dies zu ändern, verschieben Sie die Felddeklaration aus der Designerdatei in eine Code-Behind-Datei.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl RoomList;
+        
+        /// <summary>
+        /// RemoveRoom-Steuerelement
+        /// </summary>
+        /// <remarks>
+        /// Automatisch generiertes Feld
+        /// Um dies zu ändern, verschieben Sie die Felddeklaration aus der Designerdatei in eine Code-Behind-Datei.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlButton RemoveRoom;
+        
+        /// <summary>
         /// btnApply-Steuerelement
         /// </summary>
         /// <remarks>
@@ -326,6 +389,15 @@ namespace Lessoner {
         /// Um dies zu ändern, verschieben Sie die Felddeklaration aus der Designerdatei in eine Code-Behind-Datei.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField Modal_LessonEnd;
+        
+        /// <summary>
+        /// Modal_RoomID-Steuerelement
+        /// </summary>
+        /// <remarks>
+        /// Automatisch generiertes Feld
+        /// Um dies zu ändern, verschieben Sie die Felddeklaration aus der Designerdatei in eine Code-Behind-Datei.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField Modal_RoomID;
         
         /// <summary>
         /// btnSave-Steuerelement
@@ -436,6 +508,24 @@ namespace Lessoner {
         protected global::System.Web.UI.WebControls.HiddenField Modal_WeekSpace;
         
         /// <summary>
+        /// RoomName-Steuerelement
+        /// </summary>
+        /// <remarks>
+        /// Automatisch generiertes Feld
+        /// Um dies zu ändern, verschieben Sie die Felddeklaration aus der Designerdatei in eine Code-Behind-Datei.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox RoomName;
+        
+        /// <summary>
+        /// AddRoom-Steuerelement
+        /// </summary>
+        /// <remarks>
+        /// Automatisch generiertes Feld
+        /// Um dies zu ändern, verschieben Sie die Felddeklaration aus der Designerdatei in eine Code-Behind-Datei.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button AddRoom;
+        
+        /// <summary>
         /// LoadingModal-Steuerelement
         /// </summary>
         /// <remarks>
@@ -443,5 +533,50 @@ namespace Lessoner {
         /// Um dies zu ändern, verschieben Sie die Felddeklaration aus der Designerdatei in eine Code-Behind-Datei.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl LoadingModal;
+        
+        /// <summary>
+        /// RemoveConfirmButton-Steuerelement
+        /// </summary>
+        /// <remarks>
+        /// Automatisch generiertes Feld
+        /// Um dies zu ändern, verschieben Sie die Felddeklaration aus der Designerdatei in eine Code-Behind-Datei.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button RemoveConfirmButton;
+        
+        /// <summary>
+        /// NormalLessonName-Steuerelement
+        /// </summary>
+        /// <remarks>
+        /// Automatisch generiertes Feld
+        /// Um dies zu ändern, verschieben Sie die Felddeklaration aus der Designerdatei in eine Code-Behind-Datei.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox NormalLessonName;
+        
+        /// <summary>
+        /// ShortLessonName-Steuerelement
+        /// </summary>
+        /// <remarks>
+        /// Automatisch generiertes Feld
+        /// Um dies zu ändern, verschieben Sie die Felddeklaration aus der Designerdatei in eine Code-Behind-Datei.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox ShortLessonName;
+        
+        /// <summary>
+        /// AddLesson-Steuerelement
+        /// </summary>
+        /// <remarks>
+        /// Automatisch generiertes Feld
+        /// Um dies zu ändern, verschieben Sie die Felddeklaration aus der Designerdatei in eine Code-Behind-Datei.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button AddLesson;
+        
+        /// <summary>
+        /// RemoveLessonNameButton-Steuerelement
+        /// </summary>
+        /// <remarks>
+        /// Automatisch generiertes Feld
+        /// Um dies zu ändern, verschieben Sie die Felddeklaration aus der Designerdatei in eine Code-Behind-Datei.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button RemoveLessonNameButton;
     }
 }

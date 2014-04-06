@@ -52,6 +52,11 @@ namespace Lessoner
                     return;
                 }
 #endif
+            if (StoredVars.Objects.Loggedin)
+            {
+                PageDropDown.Style.Add("display", "block");
+                ReadyPageDropDown();
+            }
             BuildRightOptions();
             LoadTeacherList();
         }
@@ -272,7 +277,7 @@ namespace Lessoner
                         for (int i = 0; i < TeacherData.Length; i++)
                         {
 #if !DEBUG
-                            if (Convert.ToBoolean(StudentData[i][1]) && !StoredVars.Objects.Rights["studentmanagement"]["permission"])
+                            if (Convert.ToBoolean(TeacherData[i][1]) && !StoredVars.Objects.Rights["studentmanagement"]["permission"])
 #endif
                             {
                                 if (Convert.ToBoolean(TeacherData[i][0]))
@@ -317,7 +322,7 @@ namespace Lessoner
                                 {
                                     //Aktualisieren
                                     //Änderungen
-                                    if (TeacherData[i].Length != 5 || TeacherData[i][3].Length != 9 || TeacherData[i][4].Length != 7)//Daten auf richtiges format überprüfen
+                                    if (TeacherData[i].Length != 5 || TeacherData[i][3].Length != 9 || TeacherData[i][4].Length != 8)//Daten auf richtiges format überprüfen
                                     {
                                         ErrorArray[1].Add(i);
                                         continue;
@@ -382,6 +387,22 @@ namespace Lessoner
         private void CloseDeleteTeacherModal()
         {
             ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "LoadingModalCloser", "jQuery('#DeleteConfirmModal').modal('hide');jQuery('#LoadingModal').modal('hide');", true);
+        }
+        private void ReadyPageDropDown()
+        {
+            User.InnerText = StoredVars.Objects.Vorname + " " + StoredVars.Objects.Nachname;
+            if (!StoredVars.Objects.Rights["lessonerbuilder"]["permission"])
+            {
+                LinkLessonerBuilder.Style.Add("display", "none");
+            }
+            if (!StoredVars.Objects.Rights["studentmanagement"]["permission"])
+            {
+                LinkStudentManagement.Style.Add("display", "none");
+            }
+            if (!StoredVars.Objects.Rights["lessonerbuilder"]["permission"])
+            {
+                //LinkLessonerBuilder.Dispose();
+            }
         }
     }
 }

@@ -10,5 +10,6 @@ namespace Lessoner
         public Dictionary<int,string> Teacher = new Dictionary<int,string>();
         public Dictionary<int,string> LessonName = new Dictionary<int,string>();
         public Dictionary<int,string> LessonModifier = new Dictionary<int,string>();
+        public Dictionary<int, string> Rooms = new Dictionary<int, string>();
     }
 }

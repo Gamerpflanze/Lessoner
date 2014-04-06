@@ -22,5 +22,11 @@ namespace Lessoner
         public const string CloseLoadingIndicator = @"CloseLoadingIndicator();";
         public const string ClearLoadingIndicator = @"ClearLoadingIndicator();";
         public const string ClearCopyModal = @"ClearCopyModal();";
+        public const string ReOpenLessonInfoModal = @"jQuery(document).ready(function () { 
+                                                          jQuery('#LessonInfoModal').removeClass('fade');
+                                                          jQuery('#LessonInfoModal').modal('show');
+                                                          jQuery('.modal-backdrop').addClass('fade');
+                                                          jQuery('#LessonInfoModal').addClass('fade');
+                                                      });";
     }
 }

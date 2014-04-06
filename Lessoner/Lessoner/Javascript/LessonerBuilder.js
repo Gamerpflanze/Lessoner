@@ -194,6 +194,14 @@ function LessonName_Click(sender) {
     jQuery("#Modal_LessonNameID").val(Button.attr("data-id"));
     MadeChange = true;
 }
+function Room_Click(sender) {
+    var ddRoom = jQuery("#ddRoom");
+    var Button = jQuery(sender);
+
+    ddRoom.html(Button.text() + "<span class=\"caret\"></span>");
+    jQuery("#Modal_RoomID").val(Button.attr("data-id"));
+    MadeChange = true;
+}
 function LessonMod_Click(sender) {
     var ddLessonMod = jQuery("#ddLessonMod");
     var Button = jQuery(sender);
@@ -403,3 +411,12 @@ function WeekSpaceDec() {
     }
     jQuery("#txtWeekSpace").val(WeekSpace);
 }
+function ReadyRemoveRoom()
+{
+    jQuery("#DeleteRoomName").text(jQuery("#ddRoom").text());
+    jQuery('#RemoveRoomConfirm').modal({ backdrop: false });
+} 
+function ReadyRemoveLessonName() {
+    jQuery("#LessonNameToRemove").text(jQuery("#ddLessonName").text());
+    jQuery('#RemoveLessonNameConfirm').modal({ backdrop: false });
+} 

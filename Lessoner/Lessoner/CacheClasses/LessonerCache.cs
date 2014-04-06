@@ -7,15 +7,16 @@ namespace Lessoner
 {
     public class LessonerCache
     {
-        public struct ClassSelector
+        public struct Selecter
         {
-            public int ClassID;
-            public string ClassName;
+            public int ID;
+            public string Name;
             public int Week;
         }
         public int WeekIndex = 0;
         public List<DateTime> WeekBegins = new List<DateTime>();
-        public ClassSelector SelectedTimeTable;
+        public Selecter SelectedTimeTable;
         public List<Lesson> Lessons = new List<Lesson>();
+        public bool TeacherLessons = false;
     }
 }

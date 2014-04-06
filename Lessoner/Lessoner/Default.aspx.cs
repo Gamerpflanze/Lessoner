@@ -25,6 +25,10 @@ namespace Lessoner
                 LinkButton ProfileLink = new LinkButton();
                 ProfileLink.Text = StoredVars.Objects.Vorname + " " + StoredVars.Objects.Nachname;
                 LoginControlls.Controls.Add(ProfileLink);
+
+                OpenLogin.Style.Add("display", "none");
+                PageDropDown.Style.Add("display", "block");
+                ReadyPageDropDown();
             }
         }
         protected void btnLoginSubmit_Click(object sender, EventArgs e)
@@ -36,18 +40,38 @@ namespace Lessoner
             }
             catch(MultipleUserException)
             {
-
+                ScriptManager.RegisterClientScriptBlock(this, typeof(Page), "ErrorDisplay", "LoginFailed()", true);
                 return;
             }
             catch(NoLoginException)
             {
-                ScriptManager.RegisterClientScriptBlock(this, typeof(Page),"ErrorDisplay","alert('beeeb')",true);
+                ScriptManager.RegisterClientScriptBlock(this, typeof(Page), "ErrorDisplay", "LoginFailed()", true);
                 return;
             }
+            LoginControlls.CssClass = "";
             LoginControlls.Controls.Clear();
             LinkButton ProfileLink = new LinkButton();
             ProfileLink.Text = Username;
             LoginControlls.Controls.Add(ProfileLink);
+            OpenLogin.Style.Add("display", "none");
+            PageDropDown.Style.Add("display", "block");
+            ReadyPageDropDown();
+        }
+        private void ReadyPageDropDown()
+        {
+            User.InnerText = StoredVars.Objects.Vorname + " " + StoredVars.Objects.Nachname;
+            if(!StoredVars.Objects.Rights["lessonerbuilder"]["permission"])
+            {
+                LinkLessonerBuilder.Style.Add("display", "none");
+            }
+            if (!StoredVars.Objects.Rights["studentmanagement"]["permission"])
+            {
+                LinkStudentManagement.Style.Add("display", "none");
+            }
+            if (!StoredVars.Objects.Rights["lessonerbuilder"]["permission"])
+            {
+                //LinkLessonerBuilder.Dispose();
+            }
         }
     }
 }
