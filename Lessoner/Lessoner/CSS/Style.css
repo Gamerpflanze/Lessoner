@@ -155,10 +155,13 @@ body {
 .LessonCell a
 {
     display:none;
+    color:#333;
 }
+
 .LessonCell:hover a
 {
-    display:inline-block;
+    display:block;
+    text-decoration:none;
 }
 .LessonerDayFree
 {

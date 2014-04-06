@@ -14,10 +14,6 @@
     <link href="Bootstrap/css/bootstrap-theme.css" rel="stylesheet" />
     <link href="Bootstrap/css/bootstrap.css" rel="stylesheet" />
     <link href="CSS/print.css" rel="stylesheet" />
-    <!--
-        I am Painis Cupcake, I will eat you!
-                                -Painis Cupcake
-    -->
     <link href="CSS/Style.css" rel="stylesheet" />
     <title>Schüler Verwaltung</title>
 </head>
@@ -40,6 +36,25 @@
                         <li><a href="about.aspx">Über den Lessoner</a></li>
                         <li><a href="contact.aspx">Kontakt</a></li>
                     </ul>
+                    <div class="navbar-form navbar-right">
+                        <asp:UpdatePanel runat="server" UpdateMode="Always" ID="LoginControllsUpdatePanel">
+                            <ContentTemplate>
+                                <div class="btn-group" style="display: none" runat="server" id="PageDropDown">
+                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                        <span runat="server" id="User"></span><span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li id="LinkLessoner" runat="server"><a href="/lessoner.aspx">Stundenplan</a></li>
+                                        <li id="LinkLessonerBuilder" runat="server"><a href="/lessonerbuilder.aspx">Stundenplanerstellung</a></li>
+                                        <li id="LinkStudentManagement" runat="server"><a href="/schuelerverwaltung.aspx">Schülerverwaltung</a></li>
+                                        <li id="LinkTeacherMamagement" runat="server"><a href="/lehrerverwaltung.aspx">Lehrerverwaltung</a></li>
+                                        <li role="presentation" class="divider"></li>
+                                        <li><a>Passwort ändern</a></li>
+                                    </ul>
+                                </div>
+                            </ContentTemplate>
+                        </asp:UpdatePanel>
+                    </div>
                 </div>
             </div>
         </div>

@@ -8,7 +8,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Lessoner - Hauptseite
     </title>
-    <link href="Bootstrap/css/bootstrap-theme.css" rel="stylesheet" />
+
     <link href="Bootstrap/css/bootstrap.css" rel="stylesheet" />
     <link href="CSS/Style.css" rel="stylesheet" />
     <script src="JQuery/jquery-1.10.2.js"></script>
@@ -18,21 +18,21 @@
 
 </head>
 <body onload="">
-    <div class="modal fade" id="LoginModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" id="myModalLabel">Einloggen</h4>
-                </div>
-                <div class="modal-body">
-                    <form role="form" id="LoginForm" runat="server">
+    <form runat="server">
+        <div class="modal fade" id="LoginModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="myModalLabel">Einloggen</h4>
+                    </div>
+                    <div class="modal-body">
                         <asp:UpdatePanel runat="server">
                             <ContentTemplate>
                                 <asp:ScriptManager runat="server"></asp:ScriptManager>
                                 <asp:Panel runat="server" ID="LoginControlls">
                                     <div class="form-group">
-                                        <asp:TextBox runat="server" placeholder="Email" class="form-control" ID="txtUsername"></asp:TextBox>
+                                        <asp:TextBox runat="server" placeholder="Login" class="form-control" ID="txtUsername"></asp:TextBox>
                                     </div>
                                     <div class="form-group">
                                         <asp:TextBox TextMode="Password" placeholder="Passwort" class="form-control" ID="txtPasswort" runat="server"></asp:TextBox>
@@ -46,58 +46,75 @@
                                 <asp:AsyncPostBackTrigger ControlID="btnLoginSubmit" />
                             </Triggers>
                         </asp:UpdatePanel>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal">Schließen</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="alert alert-danger alert-dismissable" id="ErrorDisplay" style="display: none">
-        <button type="button" class="close" aria-hidden="true" onclick="CloseError()">&times;</button>
-        <strong>Fehler: </strong>
-        <label id="ErrorText"></label>
-    </div>
-    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-            </div>
-            <div class="collapse navbar-collapse">
-                <ul class="nav navbar-nav">
-                    <li class="active"><a href="#">Hauptseite</a></li>
-                    <li id="display" style="display: none"><a href="Lessoner.aspx">Stundenplan</a></li>
-                </ul>
-                <div class="navbar-form navbar-right">
-                    <button class="btn btn-primary navbar-right maxwidth-xs" data-toggle="modal" data-target="#LoginModal">Einloggen</button>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Schließen</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="jumbotron">
-        <div class="container">
-            <h1>Herzlich Willkommen!</h1>
-            <p>
-                Der “Lessoner” dient dazu einen Stundenplan zu erstellen auf den Schüler und Lehrer Zugriff haben.
+        <div class="alert alert-danger alert-dismissable" id="ErrorDisplay" style="display: none">
+            <button type="button" class="close" aria-hidden="true" onclick="CloseError()">&times;</button>
+            <strong>Fehler: </strong>
+            <label id="ErrorText"></label>
+        </div>
+        <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <li class="active"><a href="#">Hauptseite</a></li>
+                        <li id="display" style="display: none"><a href="Lessoner.aspx">Stundenplan</a></li>
+                    </ul>
+                    <div class="navbar-form navbar-right">
+                        <asp:UpdatePanel runat="server" UpdateMode="Always" ID="LoginControllsUpdatePanel">
+                            <ContentTemplate>
+                                <button class="btn btn-primary navbar-right maxwidth-xs" runat="server" data-toggle="modal" data-target="#LoginModal" id="OpenLogin">Einloggen</button>
+                                <div class="btn-group" style="display: none" runat="server" id="PageDropDown">
+                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                        <span runat="server" id="User"></span><span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li id="LinkLessoner" runat="server"><a href="/lessoner.aspx">Stundenplan</a></li>
+                                        <li id="LinkLessonerBuilder" runat="server"><a href="/lessonerbuilder.aspx">Stundenplanerstellung</a></li>
+                                        <li id="LinkStudentManagement" runat="server"><a href="/schuelerverwaltung.aspx">Schülerverwaltung</a></li>
+                                        <li id="LinkTeacherMamagement" runat="server"><a href="/lehrerverwaltung.aspx">Lehrerverwaltung</a></li>
+                                        <li role="presentation" class="divider"></li>
+                                        <li><a>Passwort ändern</a></li>
+                                    </ul>
+                                </div>
+                            </ContentTemplate>
+                        </asp:UpdatePanel>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="jumbotron">
+            <div class="container">
+                <h1>Herzlich Willkommen!</h1>
+                <p>
+                    Der “Lessoner” dient dazu einen Stundenplan zu erstellen auf den Schüler und Lehrer Zugriff haben.
              Des weiteren lassen sich Hausaufgaben in den Stundenplan eintragen die wiederum von den Schülern abgefragt werden können.
              So kann man keine Hausaufgaben mehr “vergessen”.
-            </p>
+                </p>
+            </div>
         </div>
-    </div>
 
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6">
-                <h2>Stundenplan</h2>
-                <p>
-                    <br />
-                    Behalte den Überblick über deine Stunden.
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h2>Stundenplan</h2>
+                    <p>
+                        <br />
+                        Behalte den Überblick über deine Stunden.
                Fällt morgen die letzte Stunde aus oder solltest du lieber deine Sportsachen einpacken, hier erfährst du es.
                     <table id="tbTimetable" class="table table-bordered table-responsive">
                         <thead>
@@ -213,196 +230,197 @@
                             </tr>
                         </tbody>
                     </table>
-                </p>
-            </div>
-            <div class="col-md-3">
-                <h2>Hausaufgaben</h2>
-                <p>
-                    Schnell noch Englisch machen und dann Mathe Seite 166, oder war es doch 168?
+                    </p>
+                </div>
+                <div class="col-md-3">
+                    <h2>Hausaufgaben</h2>
+                    <p>
+                        Schnell noch Englisch machen und dann Mathe Seite 166, oder war es doch 168?
                     Ein Blick in die jeweilige Stunde hilft dir weiter und dein Hund muss nicht als Sündenbock enden.<br />
-                    Probiere es gleich aus und klicke auf eine Stunde links in der Tabelle.
-                </p>
-            </div>
-            <div class="col-md-3">
-                <h2>Austausch</h2>
-                <p>
-                    Mal einen Tag nicht da gewesen und dadurch wichtigen Stoff verpasst?
+                        Probiere es gleich aus und klicke auf eine Stunde links in der Tabelle.
+                    </p>
+                </div>
+                <div class="col-md-3">
+                    <h2>Austausch</h2>
+                    <p>
+                        Mal einen Tag nicht da gewesen und dadurch wichtigen Stoff verpasst?
                     Kein Problem! Dein Lehrer kann für dich und alle anderen Schüler Dokumente zum nachlesen bereitstellen.
          
-                </p>
+                    </p>
+                </div>
             </div>
+
+            <hr />
+
+            <footer>
+                <p>&copy; Von Florian Fürstenberg und Pascal Gönnewicht</p>
+                <p><a href="impressum.aspx">Impressum</a></p>
+            </footer>
         </div>
 
-        <hr />
-
-        <footer>
-            <p>&copy; Von Florian Fürstenberg und Pascal Gönnewicht</p>
-            <p><a href="impressum.aspx">Impressum</a></p>
-        </footer>
-    </div>
-
-    <div class="modal fade" id="Programmieren">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">Programmieren</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-md-2">
-                                Lehrer:<br />
-                                Raum:<br />
-                                Hausaufgaben:
-                            </div>
-                            <div class="col-md-3">
-                                Herr Hoffmeister<br />
-                                505<br />
-                                Keine
+        <div class="modal fade" id="Programmieren">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">Programmieren</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-2">
+                                    Lehrer:<br />
+                                    Raum:<br />
+                                    Hausaufgaben:
+                                </div>
+                                <div class="col-md-3">
+                                    Herr Hoffmeister<br />
+                                    505<br />
+                                    Keine
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="modal fade" id="Elektroprozesstechnik">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">Elektroprozesstechnik</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-md-2">
-                                Lehrer:<br />
-                                Raum:<br />
-                                Hausaufgaben:
-                            </div>
-                            <div class="col-md-2">
-                                Herr Auffenberg<br />
-                                407<br />
-                                Buch Seite 116, Aufgaben 2-8<br />
-                                Aufgabe 4 mit den Widerständen R1 = 1kOhm und R2 = 10kOhm
+        <div class="modal fade" id="Elektroprozesstechnik">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">Elektroprozesstechnik</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-2">
+                                    Lehrer:<br />
+                                    Raum:<br />
+                                    Hausaufgaben:
+                                </div>
+                                <div class="col-md-2">
+                                    Herr Auffenberg<br />
+                                    407<br />
+                                    Buch Seite 116, Aufgaben 2-8<br />
+                                    Aufgabe 4 mit den Widerständen R1 = 1kOhm und R2 = 10kOhm
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="modal fade" id="Wirtschaft">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">Wirtschaft</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-md-2">
-                                Lehrer:<br />
-                                Raum:<br />
-                                Hausaufgaben:
-                            </div>
-                            <div class="col-md-2">
-                                Herr Stracke<br />
-                                407<br />
-                                Wirtschaftsteil lesen<br />
-                                Test steht an!
+        <div class="modal fade" id="Wirtschaft">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">Wirtschaft</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-2">
+                                    Lehrer:<br />
+                                    Raum:<br />
+                                    Hausaufgaben:
+                                </div>
+                                <div class="col-md-2">
+                                    Herr Stracke<br />
+                                    407<br />
+                                    Wirtschaftsteil lesen<br />
+                                    Test steht an!
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="modal fade" id="Mathe">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">Mathe</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-md-2">
-                                Lehrer:<br />
-                                Raum:<br />
-                                Hausaufgaben:
-                            </div>
-                            <div class="col-md-2">
-                                Herr Schneider<br />
-                                416<br />
-                                Keine
+        <div class="modal fade" id="Mathe">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">Mathe</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-2">
+                                    Lehrer:<br />
+                                    Raum:<br />
+                                    Hausaufgaben:
+                                </div>
+                                <div class="col-md-2">
+                                    Herr Schneider<br />
+                                    416<br />
+                                    Keine
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="modal fade" id="Frei">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">Frei</h4>
-                </div>
-                <div class="modal-body">
-                    Frei, auf Wunsch Eigenverantwortliches Arbeiten in Raum 407.
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="modal fade" id="BN">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">Betriebssysteme/Netzwerke</h4>
+        <div class="modal fade" id="Frei">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">Frei</h4>
+                    </div>
+                    <div class="modal-body">
+                        Frei, auf Wunsch Eigenverantwortliches Arbeiten in Raum 407.
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
+                    </div>
                 </div>
-                <div class="modal-body">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-md-2">
-                                Lehrer:<br />
-                                Raum:<br />
-                                Hausaufgaben:
-                            </div>
-                            <div class="col-md-2">
-                                Herr Sielaff<br />
-                                504<br />
-                                Wiederholung in Subnetting
+            </div>
+        </div>
+        <div class="modal fade" id="BN">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">Betriebssysteme/Netzwerke</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-2">
+                                    Lehrer:<br />
+                                    Raum:<br />
+                                    Hausaufgaben:
+                                </div>
+                                <div class="col-md-2">
+                                    Herr Sielaff<br />
+                                    504<br />
+                                    Wiederholung in Subnetting
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    </form>
 </body>
 </html>

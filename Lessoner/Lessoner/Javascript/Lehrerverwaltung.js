@@ -121,7 +121,7 @@ function SaveTeachers()
         Submit[i - 1].push(new Array());
         for(var j = 1; j<=Current.children().length; j++)
         {
-            if (EditRow.children(":nth-child(" + i + ")").attr("data-ignoretransform") == "true") { continue; }
+            if (Current.children(":nth-child(" + j + ")").attr("data-ignoretransform") == "true") { continue; }
             var Input = Current.children(":nth-child(" + j + ")").children();
             Submit[i - 1][4].push(Input.text());
         }

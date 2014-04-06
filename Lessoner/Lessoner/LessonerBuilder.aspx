@@ -4,7 +4,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <meta name = "viewport" id = "viewpoint_device" />
+    <meta name="viewport" id="viewpoint_device" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title></title>
     <!--Scripts oben wegen abruffehler-->
@@ -16,7 +16,8 @@
 </head>
 <body>
     <form runat="server">
-        <asp:UpdatePanel runat="server">
+    <asp:ScriptManager runat="server"></asp:ScriptManager>
+        <asp:UpdatePanel runat="server" UpdateMode="Always" ID="MainPanel">
             <ContentTemplate>
                 <!-- Fehleranzeige ----------------------------->
                 <div class="alert alert-danger alert-dismissable" id="ErrorDisplay" style="display: none">
@@ -42,18 +43,25 @@
                                 <li><a href="about.aspx">Über den Lessoner</a></li>
                                 <li><a href="kontakt.aspx">Kontakt</a></li>
                             </ul>
-                            <asp:Panel CssClass="navbar-form navbar-right" ID="LoginForm" runat="server">
-                                <asp:ScriptManager runat="server"></asp:ScriptManager>
-                                <asp:Panel runat="server" ID="LoginControlls">
-                                    <div class="form-group">
-                                        <asp:TextBox runat="server" placeholder="Email" CssClass="form-control" ID="txtUsername"></asp:TextBox>
-                                    </div>
-                                    <div class="form-group">
-                                        <asp:TextBox TextMode="Password" placeholder="Passwort" CssClass="form-control" ID="txtPasswort" runat="server"></asp:TextBox>
-                                    </div>
-                                    <asp:Button CssClass="btn btn-success" Text="Anmelden" OnClick="btnLoginSubmit_Click" ID="btnLoginSubmit" runat="server" />
-                                </asp:Panel>
-                            </asp:Panel>
+                            <div class="navbar-form navbar-right">
+                                <asp:UpdatePanel runat="server" UpdateMode="Always" ID="LoginControllsUpdatePanel">
+                                    <ContentTemplate>
+                                        <div class="btn-group" style="display: none" runat="server" id="PageDropDown">
+                                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                                <span runat="server" id="User"></span><span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li id="LinkLessoner" runat="server"><a href="/lessoner.aspx">Stundenplan</a></li>
+                                                <li id="LinkLessonerBuilder" runat="server"><a href="/lessonerbuilder.aspx">Stundenplanerstellung</a></li>
+                                                <li id="LinkStudentManagement" runat="server"><a href="/schuelerverwaltung.aspx">Schülerverwaltung</a></li>
+                                                <li id="LinkTeacherMamagement" runat="server"><a href="/lehrerverwaltung.aspx">Lehrerverwaltung</a></li>
+                                                <li role="presentation" class="divider"></li>
+                                                <li><a>Passwort ändern</a></li>
+                                            </ul>
+                                        </div>
+                                    </ContentTemplate>
+                                </asp:UpdatePanel>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -128,21 +136,20 @@
                             <div class="modal-body">
                                 <div class="row" style="text-align: center">
                                     <div class="col-md-4">
-                                        <div class="btn-group" style="float: left">
-                                            <!--TODO: Platzhalter entfernen(?)                (Frag nicht wieso)-->
+                                        <div class="btn-group pull-left">
                                             <button class="btn btn-default dropdown-toggle" data-toggle="dropdown" runat="server" id="ddLessonName">
-                                                Chicken nuggets
-                                         <span class="caret"></span>
+                                                <span class="caret">Kein Fach</span>
                                             </button>
                                             <ul class="dropdown-menu" id="ulLessonNames" runat="server" style="text-align: left !important">
+                                                <li><a onclick="jQuery('#NewLessonModal').modal({backdrop:false});">&lt;Neues Fach&gt;</a></li>
                                             </ul>
                                         </div>
+                                        <button type="button" runat="server" class="pull-left btn btn-danger pull-right" id="RemoveLessonName" onclick="ReadyRemoveLessonName()"><span class="glyphicon glyphicon-remove"></span></button>
                                     </div>
                                     <div class="col-sm-4">
                                         <div class="btn-group">
                                             <button class="btn btn-default dropdown-toggle" data-toggle="dropdown" runat="server" id="ddTeacher">
-                                                Do you want Soy Susedg with that?
-                                         <span class="caret"></span>
+                                                <span class="caret"></span>
                                             </button>
                                             <ul class="dropdown-menu" id="ulTeacher" runat="server" style="text-align: left !important">
                                             </ul>
@@ -151,8 +158,7 @@
                                     <div class="col-sm-4">
                                         <div class="btn-group" style="float: right">
                                             <button class="btn btn-default dropdown-toggle" data-toggle="dropdown" runat="server" id="ddLessonMod">
-                                                No *runs away*
-                                         <span class="caret"></span>
+                                                <span class="caret"></span>
                                             </button>
                                             <ul class="dropdown-menu" id="ulLessonMod" runat="server" enableviewstate="false" style="text-align: left !important">
                                             </ul>
@@ -163,7 +169,7 @@
                                     <div class="col-sm-4" style="float: left">
                                         <div class="input-group">
                                             <span class="input-group-addon">Von</span>
-                                            <asp:TextBox runat="server" ID="txtCountBegin" CssClass="form-control LessonerNumericBox" Text="Gimme back my Nuggets" ReadOnly="true" />
+                                            <asp:TextBox runat="server" ID="txtCountBegin" CssClass="form-control LessonerNumericBox" Text="" ReadOnly="true" />
                                             <span class="input-group-addon UpDownButtonContainer">
                                                 <table>
                                                     <tr>
@@ -183,7 +189,7 @@
                                     <div class="col-xs-4" style="float: left">
                                         <div class="input-group">
                                             <span class="input-group-addon">Bis</span>
-                                            <asp:TextBox runat="server" ID="txtCountEnd" CssClass="form-control LessonerNumericBox" Text="*Calls Painis Cupcake*" ReadOnly="true" /><!-- I AM PAINIS CUPCAKE! I WILL EAT YOU!!!-->
+                                            <asp:TextBox runat="server" ID="txtCountEnd" CssClass="form-control LessonerNumericBox" Text="" ReadOnly="true" />
                                             <span class="input-group-addon UpDownButtonContainer">
                                                 <table>
                                                     <tr>
@@ -200,6 +206,19 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="row">
+                                    <div class="col-xs-6">
+                                        <div class="btn-group pull-left" style="float: right">
+                                            <button class="btn btn-default dropdown-toggle" data-toggle="dropdown" runat="server" id="ddRoom">
+                                                <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu" id="RoomList" runat="server" enableviewstate="false" style="text-align: left !important">
+                                                <li><a onclick="jQuery('#NewRoomModal').modal({backdrop:false});">&lt;Neuer Raum&gt;</a></li>
+                                            </ul>
+                                        </div>
+                                        <button type="button" runat="server" class="pull-left btn btn-danger pull-right" id="RemoveRoom" onclick="ReadyRemoveRoom()"><span class="glyphicon glyphicon-remove"></span></button>
+                                    </div>
+                                </div>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
@@ -213,6 +232,7 @@
                     <asp:HiddenField ID="Modal_LessonModID" runat="server" Value="" />
                     <asp:HiddenField ID="Modal_LessonBegin" runat="server" Value="" />
                     <asp:HiddenField ID="Modal_LessonEnd" runat="server" Value="" />
+                    <asp:HiddenField ID="Modal_RoomID" runat="server" Value="" />
                     <%--_________________--%>
                 </div>
                 <div class="modal fade AbortModal" id="AskAbort" tabindex="-1" role="dialog" aria-labelledby="AskAbortTitle" aria-hidden="true">
@@ -305,7 +325,7 @@
                                     <div class="col-lg-6">
                                         <div class="input-group" id="DateFromGroup">
                                             <span class="input-group-addon">Von</span>
-                                            <input type="text" class="form-control" runat="server" id="txtDateFrom" onblur="txtDateFrom_Blur()"/>
+                                            <input type="text" class="form-control" runat="server" id="txtDateFrom" onblur="txtDateFrom_Blur()" />
                                             <span class="input-group-addon UpDownButtonContainer">
                                                 <table>
                                                     <tr>
@@ -325,7 +345,7 @@
                                     <div class="col-lg-6">
                                         <div class="input-group" id="DateToGroup">
                                             <span class="input-group-addon">Bis</span>
-                                            <input type="text" class="form-control" runat="server" id="txtDateTo" onblur="txtDateTo_Blur()"/>
+                                            <input type="text" class="form-control" runat="server" id="txtDateTo" onblur="txtDateTo_Blur()" />
                                             <span class="input-group-addon UpDownButtonContainer">
                                                 <table>
                                                     <tr>
@@ -347,7 +367,7 @@
                                     <div class="col-lg-12">
                                         <div class="input-group" style="width: 50%; margin: auto">
                                             <span class="input-group-addon">Alle</span>
-                                            <input type="text" id="txtWeekSpace" class="form-control LessonerNumericBox" readonly="readonly"/>
+                                            <input type="text" id="txtWeekSpace" class="form-control LessonerNumericBox" readonly="readonly" />
                                             <span class="input-group-addon UpDownButtonContainer">
                                                 <table>
                                                     <tr>
@@ -369,23 +389,13 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
-                                <asp:LinkButton CssClass="btn btn-primary" runat="server" OnClientClick="return PrepareCopy()" OnClick="btnCopyTimeTable_Click" ID="btnCopyTimeTable" >Kopieren</asp:LinkButton>
+                                <asp:LinkButton CssClass="btn btn-primary" runat="server" OnClientClick="return PrepareCopy()" OnClick="btnCopyTimeTable_Click" ID="btnCopyTimeTable">Kopieren</asp:LinkButton>
                             </div>
                         </div>
                     </div>
-                    <asp:HiddenField ID="Modal_CopyStartDate" runat="server"/>
-                    <asp:HiddenField ID="Modal_CopyEndDate" runat="server"/>
-                    <asp:HiddenField ID="Modal_WeekSpace" runat="server"/>
-                </div>
-                <div runat="server" class="modal" id="LoadingModal" tabindex="-1" role="dialog" aria-hidden="true">
-                    <div class="modal-dialog" style="width: 282px !important; margin-top: 350px;">
-                        <div class="modal-content">
-                            <div class="modal-body">
-                                <!--TODO:Ladezeichen ändern(?)-->
-                                <img src="Data/Images/loading.gif" alt="Lade" id="LoadingImage" />
-                            </div>
-                        </div>
-                    </div>
+                    <asp:HiddenField ID="Modal_CopyStartDate" runat="server" />
+                    <asp:HiddenField ID="Modal_CopyEndDate" runat="server" />
+                    <asp:HiddenField ID="Modal_WeekSpace" runat="server" />
                 </div>
             </ContentTemplate>
             <Triggers>
@@ -397,9 +407,6 @@
                 <asp:AsyncPostBackTrigger ControlID="btnEditFriday" />
                 <asp:AsyncPostBackTrigger ControlID="chkTakesPlace" />
                 <asp:AsyncPostBackTrigger ControlID="txtDayInfo" />
-                <asp:AsyncPostBackTrigger ControlID="txtUsername" />
-                <asp:AsyncPostBackTrigger ControlID="txtPasswort" />
-                <asp:AsyncPostBackTrigger ControlID="btnLoginSubmit" />
                 <asp:AsyncPostBackTrigger ControlID="tbTimetable" />
                 <asp:AsyncPostBackTrigger ControlID="lbtnOpenClassMenu" />
                 <asp:AsyncPostBackTrigger ControlID="btnNextDate" />
@@ -408,6 +415,142 @@
                 <asp:AsyncPostBackTrigger ControlID="btnApply" />
             </Triggers>
         </asp:UpdatePanel>
+        <div class="modal fade AbortModal" id="NewRoomModal" tabindex="-1" role="dialog" aria-labelledby="NewRoomModalTitle" aria-hidden="true">
+            <div class="modal-dialog AbortModalDialog">
+                <div class="modal-content">
+                    <asp:UpdatePanel runat="server" UpdateMode="Conditional">
+                        <ContentTemplate>
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <h4 class="modal-title" id="NewRoomModalTitle">Neuer Raum</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="input-group">
+                                    <span class="input-group-addon">Name</span>
+                                    <asp:TextBox CssClass="form-control" runat="server" ID="RoomName"></asp:TextBox>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
+                                <asp:Button CssClass="btn btn-primary" runat="server" Text="Übernehmen" ID="AddRoom" OnClick="AddRoom_Click" />
+                            </div>
+                        </ContentTemplate>
+                        <Triggers>
+                            <asp:AsyncPostBackTrigger ControlID="AddRoom" />
+                        </Triggers>
+                    </asp:UpdatePanel>
+                </div>
+            </div>
+        </div>
+        <div runat="server" class="modal" id="LoadingModal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog" style="width: 282px !important; margin-top: 350px;">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <!--TODO:Ladezeichen ändern(?)-->
+                        <img src="Data/Images/loading.gif" alt="Lade" id="LoadingImage" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade AbortModal" id="RemoveRoomConfirm" tabindex="-1" role="dialog" aria-labelledby="RemoveRoomConfirmTitle" aria-hidden="true">
+            <div class="modal-dialog modal-sm AbortModalDialog">
+                <div class="modal-content">
+                    <asp:UpdatePanel runat="server" UpdateMode="Conditional">
+                        <ContentTemplate>
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="RemoveRoomConfirmTitle">Bestätigen</h4>
+                            </div>
+                            <div class="modal-body">
+                                Sind sie sicher dass sie den Raum <span id="DeleteRoomName"></span>löschen möchten? (Alle Stunden die diesen Raum verwenden erhalten den Raum "Kein Raum")
+                            </div>
+                            <div class="modal-footer" style="margin-top: 0px; text-align: center;">
+                                <asp:Button runat="server" CssClass="btn btn-default" Text="Ja" OnClick="RemoveRoom_Click" ID="RemoveConfirmButton" OnClientClick="" />
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Nein</button>
+                            </div>
+                        </ContentTemplate>
+                        <Triggers>
+                            <asp:AsyncPostBackTrigger ControlID="RemoveConfirmButton" />
+                        </Triggers>
+                    </asp:UpdatePanel>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade AbortModal" id="NewLessonModal" tabindex="-1" role="dialog" aria-labelledby="NewLessonModalTitle" aria-hidden="true">
+            <div class="modal-dialog AbortModalDialog">
+                <div class="modal-content">
+                    <asp:UpdatePanel runat="server" UpdateMode="Conditional">
+                        <ContentTemplate>
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <h4 class="modal-title" id="NewLessonModalTitle">Neues Fach</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="input-group">
+                                    <span class="input-group-addon">Name</span>
+                                    <asp:TextBox CssClass="form-control" runat="server" ID="NormalLessonName"></asp:TextBox>
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon">Name Kurz</span>
+                                    <asp:TextBox CssClass="form-control" runat="server" ID="ShortLessonName"></asp:TextBox>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
+                                <asp:Button CssClass="btn btn-primary" runat="server" Text="Übernehmen" ID="AddLesson" OnClick="AddLesson_Click" />
+                            </div>
+                        </ContentTemplate>
+                        <Triggers>
+                            <asp:AsyncPostBackTrigger ControlID="AddRoom" />
+                        </Triggers>
+                    </asp:UpdatePanel>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade AbortModal" id="RemoveLessonNameConfirm" tabindex="-1" role="dialog" aria-labelledby="RemoveLessonNameConfirmTitle" aria-hidden="true">
+            <div class="modal-dialog modal-sm AbortModalDialog">
+                <div class="modal-content">
+                    <asp:UpdatePanel runat="server" UpdateMode="Conditional">
+                        <ContentTemplate>
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="RemoveLessonNameConfirmTitle">Bestätigen</h4>
+                            </div>
+                            <div class="modal-body">
+                                Sind sie sicher dass sie das Fach <span id="LessonNameToRemove"></span>löschen möchten?</br> <u><b>Achtung!</b> Wird dieses Fach verwendet kann es aus Sicherheitsgründen nicht gelöscht werden.</u>
+                            </div>
+                            <div class="modal-footer" style="margin-top: 0px; text-align: center;">
+                                <asp:Button runat="server" CssClass="btn btn-default" Text="Ja" OnClick="RemoveLessonNameButton_Click" ID="RemoveLessonNameButton" OnClientClick="" />
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Nein</button>
+                            </div>
+                        </ContentTemplate>
+                        <Triggers>
+                            <asp:AsyncPostBackTrigger ControlID="RemoveConfirmButton" />
+                        </Triggers>
+                    </asp:UpdatePanel>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade AbortModal" id="LessonNameNotDeleted" tabindex="-1" role="dialog" aria-labelledby="LessonNameNotDeletedTitle" aria-hidden="true">
+            <div class="modal-dialog modal-sm AbortModalDialog">
+                <div class="modal-content">
+                    <asp:UpdatePanel runat="server" UpdateMode="Conditional">
+                        <ContentTemplate>
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="LessonNameNotDeletedTitle">Bestätigen</h4>
+                            </div>
+                            <div class="modal-body">
+                                Das gewählte Fach konnte nicht gelöscht werden.
+                            </div>
+                            <div class="modal-footer" style="margin-top: 0px; text-align: center;">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">OK</button>
+                            </div>
+                        </ContentTemplate>
+                        <Triggers>
+                            <asp:AsyncPostBackTrigger ControlID="RemoveConfirmButton" />
+                        </Triggers>
+                    </asp:UpdatePanel>
+                </div>
+            </div>
+        </div>
     </form>
 </body>
 <script src="Bootstrap/js/bootstrap.js"></script>

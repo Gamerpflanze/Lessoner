@@ -19,5 +19,7 @@ namespace Lessoner
         public int LehrerID  = -1;
         public int TagID = -1;
         public int FachID = -1;
+        public string RoomName = "Kein Raum";
+        public int RoomID = -1;
     }
 }

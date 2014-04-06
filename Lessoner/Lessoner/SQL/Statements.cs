@@ -7,6 +7,36 @@ namespace Lessoner.SQL
 {
     public static class Statements
     {
+        public const string GetTeacher = @"SELECT * FROM tblehrer";
+        public const string DeleteLessonName = @"DELETE FROM tbfaecher
+                                                 WHERE ID = @ID";
+
+        public const string InsertNewLessonName = @"INSERT INTO tbfaecher (Name, NameKurz)
+                                                    VALUES (@Name, @NameKurz);
+                                                    SELECT LAST_INSERT_ID();";
+
+        public const string RemoveRoom = @"DELETE FROM tbraum
+                                           WHERE ID = @ID";
+
+        public const string GetRooms = @"SELECT * FROM tbraum";
+
+        public const string InsertRoom = @"INSERT INTO tbraum (Name)
+                                           VALUES (@RaumName);
+                                           SELECT LAST_INSERT_ID();";
+
+        public const string UpdateInfo = @"UPDATE tbfachinfo
+                                           SET Information = @Information
+                                           WHERE ID = @ID";
+        public const string DeleteFile = @"DELETE FROM tbdateien
+                                           WHERE Path LIKE CONCAT('%',@FileName)";
+        public const string GetFile = @"SELECT * FROM tbdateien
+                                        WHERE Path LIKE CONCAT('%', @FileName)";
+        public const string InsertFile = @"INSERT INTO tbdateien (FachInfoID, Path, FileName)
+                                           VALUES (@LessonID, @Path, @FileName)";
+        public const string GetFiles = @"SELECT * FROM tbdateien
+                                         WHERE FachinfoID = @ID";
+        public const string GetLessonInfoText = @"SELECT Information FROM tbfachinfo
+                                                  WHERE ID = @ID";
         public const string UpdateClass = @"UPDATE tbklasse
                                             SET Name = @Name
                                             WHERE ID = @ID";
@@ -40,7 +70,7 @@ namespace Lessoner.SQL
                                                 (@AnmeldungID, 8, @Right8),
                                                 (@AnmeldungID, 9, @Right9),
                                                 (@AnmeldungID, 10, @Right10)";
-        public const string UpdateTeacher = @"UPDATE tbschueler
+        public const string UpdateTeacher = @"UPDATE tblehrer
                                               SET Titel = @Titel, Vorname=@Vorname, Name=@Name, Strasse=@Strasse, Hausnummer=@Hausnummer, PLZ=@PLZ, Ort=@Ort
                                               WHERE AnmeldungID=@AnmeldungID";
         public const string UpdateStudent = @"UPDATE tblehrer
@@ -190,7 +220,7 @@ namespace Lessoner.SQL
         public const string LessonerBuilderGetLessonMods = @"SELECT ID, Bezeichnung FROM tbfachmod";
 
         public const string UpdateLesson = @"UPDATE tbfachinfo 
-                                             SET LehrerID = @LehrerID, FachID = @FachID, Stunde_Beginn = @StundeBeginn, Stunde_Ende = @StundeEnde, FachModID = @FachModID
+                                             SET LehrerID = @LehrerID, FachID = @FachID, Stunde_Beginn = @StundeBeginn, Stunde_Ende = @StundeEnde, FachModID = @FachModID, RaumID = @RaumID
                                              WHERE ID = @ID";
 
         public const string InsertDefaultLesson = @"INSERT INTO tbfachinfo (LehrerID, FachID, TagID, Stunde_Beginn, Stunde_Ende, FachModID)
@@ -210,9 +240,20 @@ namespace Lessoner.SQL
                                           WHERE t.StundenplanID = @StundenplanID
                                           ORDER BY t.ID";
 
-        public const string GetLessonPerDay = @"SELECT fi.*, f.Name as FachName, f.NameKurz as FachNameKurz, t.TagInfoID FROM tbtage as t
+        public const string GetLessonPerDayTeacher = @"SELECT fi.*, f.Name as FachName, f.NameKurz as FachNameKurz, t.TagInfoID, r.ID as RaumID, r.Name as RaumName 
+                                                       FROM tbtage as t
+                                                       JOIN tbfachinfo as fi ON t.ID = fi.TagID
+                                                       JOIN tbfaecher as f ON fi.FachID = f.ID
+                                                       JOIN tblehrer as l ON l.ID = fi.LehrerID
+                                                       JOIN tbstundenplan as s ON s.ID =  t.StundenplanID
+                                                       LEFT JOIN tbraum as r on fi.RaumID = r.ID
+                                                       WHERE l.ID = @LehrerID AND t.TagInfoID=@TagInfoID AND s.Datum = @Woche
+                                                       ORDER BY Stunde_Beginn";
+
+        public const string GetLessonPerDay = @"SELECT fi.*, f.Name as FachName, f.NameKurz as FachNameKurz, t.TagInfoID, r.ID as RaumID, r.Name as RaumName FROM tbtage as t
                                                 JOIN tbfachinfo as fi ON t.ID = fi.TagID
                                                 JOIN tbfaecher as f ON fi.FachID = f.ID
+                                                LEFT JOIN tbraum as r on fi.RaumID = r.ID
                                                 WHERE t.ID = @TagID
                                                 ORDER BY Stunde_Beginn";
 

@@ -14,7 +14,6 @@ namespace Lessoner
 {
     public partial class LessonerBuilder : System.Web.UI.Page
     {
-        //TODO: LoadLessoner mit Control Events sortieren
         //=================================================================
         //Globale Variablen
         //Dient zur Kürzung
@@ -60,6 +59,17 @@ namespace Lessoner
             set
             {
                 StoredVars.Objects.LessonerBuilder.Modal.Teacher = value;
+            }
+        }
+        Dictionary<int, string> Rooms
+        {
+            get
+            {
+                return StoredVars.Objects.LessonerBuilder.Modal.Rooms;
+            }
+            set
+            {
+                StoredVars.Objects.LessonerBuilder.Modal.Rooms = value;
             }
         }
         Dictionary<int, string> LessonName
@@ -126,13 +136,8 @@ namespace Lessoner
                 //btnLastDate.Attributes.Add("disabled", "disabled");
                 if (StoredVars.Objects.Loggedin)
                 {
-                    foreach (Control c in LoginControlls.Controls)
-                    {
-                        c.Visible = false;
-                    }
-                    LinkButton ProfileLink = new LinkButton();
-                    ProfileLink.Text = StoredVars.Objects.Vorname + " " + StoredVars.Objects.Nachname;
-                    LoginControlls.Controls.Add(ProfileLink);
+                    PageDropDown.Style.Add("display", "block");
+                    ReadyPageDropDown();
                 }
 
                 DateTime Date = DateTime.Now.Date;
@@ -155,6 +160,7 @@ namespace Lessoner
                         Teacher.Clear();
                         LessonName.Clear();
                         LessonModifier.Clear();
+                        Rooms.Clear();
                         cmd.CommandText = SQL.Statements.LessonerBuilderGetTeacher;
                         using (MySqlDataReader reader = cmd.ExecuteReader())
                         {
@@ -179,6 +185,15 @@ namespace Lessoner
                                 LessonModifier.Add(Convert.ToInt32(reader["ID"]), reader["Bezeichnung"].ToString());
                             }
                         }
+                        cmd.CommandText = SQL.Statements.GetRooms;
+                        using (MySqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                Rooms.Add(Convert.ToInt32(reader["ID"]), reader["Name"].ToString());
+                            }
+                        }
+                        Rooms.Add(-1, "Kein Raum");
                         con.Close();
                     }
                 }
@@ -254,6 +269,17 @@ namespace Lessoner
                 LessonModLink.Attributes.Add("onclick", "LessonMod_Click(this);");
                 ulLessonMod.Controls.Add(li);
             }
+            foreach (int i in Rooms.Keys)
+            {
+                HtmlGenericControl li = new HtmlGenericControl("li");
+                HyperLink RoomLink = new HyperLink();
+
+                RoomLink.Attributes.Add("data-id", i.ToString());
+                RoomLink.Text = Rooms[i];
+                li.Controls.Add(RoomLink);
+                RoomLink.Attributes.Add("onclick", "Room_Click(this);");///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                RoomList.Controls.Add(li);
+            }
             InitialiseLessoner();
             lbtnOpenClassMenu.Attributes["data-id"] = SelectedTimeTable.ClassID.ToString();
             lbtnOpenClassMenu.InnerHtml = SelectedTimeTable.ClassName + "<span class=\"caret\"></span>";
@@ -262,14 +288,6 @@ namespace Lessoner
             {
                 LoadLessoner();
             }
-        }
-        protected void btnLoginSubmit_Click(object sender, EventArgs e)
-        {
-            string Username = GlobalWebMethods.GetLoginData(txtUsername.Text, txtPasswort.Text);
-            LoginControlls.Controls.Clear();
-            LinkButton ProfileLink = new LinkButton();
-            ProfileLink.Text = Username;
-            LoginControlls.Controls.Add(ProfileLink);
         }
         protected void btnLastDate_Click(object sender, EventArgs e)
         {
@@ -475,7 +493,11 @@ namespace Lessoner
                                     l.NameLong = reader["FachName"].ToString();
                                     l.NameShot = reader["FachNameKurz"].ToString();
                                     l.TagInfoID = Convert.ToInt32(reader["TagInfoID"]);
-
+                                    if (!DBNull.Value.Equals(reader["RaumID"]))
+                                    {
+                                        l.RoomID = Convert.ToInt32(reader["RaumID"]);
+                                        l.RoomName = reader["RaumName"].ToString();
+                                    }
                                     (tbTimetable.Controls[Begin].Controls[l.TagInfoID] as TableCell).Controls.Add(Text);//See?
                                     (tbTimetable.Controls[Begin].Controls[l.TagInfoID] as TableCell).Attributes.Add("data-listid", j.ToString());
                                     (tbTimetable.Controls[Begin].Controls[l.TagInfoID] as TableCell).Attributes["data-infotype"] = "1";
@@ -588,10 +610,12 @@ namespace Lessoner
             ddTeacher.InnerHtml = Teacher[lesson.LehrerID] + "<span class=\"caret\"></span>";
             ddLessonName.InnerHtml = LessonName[lesson.FachID] + "<span class=\"caret\"></span>";
             ddLessonMod.InnerHtml = LessonModifier[lesson.FachModID] + "<span class=\"caret\"></span>";
+            ddRoom.InnerHtml = Rooms[lesson.RoomID] + "<span class=\"caret\"></span>";
 
             Modal_TeacherID.Value = lesson.LehrerID.ToString();
             Modal_LessonNameID.Value = lesson.FachID.ToString();
             Modal_LessonModID.Value = lesson.FachModID.ToString();
+            Modal_RoomID.Value = lesson.RoomID.ToString();
 
             txtCountBegin.Text = lesson.StundeBeginn.ToString();
             txtCountEnd.Text = lesson.StundeEnde.ToString();
@@ -632,6 +656,7 @@ namespace Lessoner
             Modal_TeacherID.Value = lesson.LehrerID.ToString();
             Modal_LessonNameID.Value = lesson.FachID.ToString();
             Modal_LessonModID.Value = lesson.FachModID.ToString();
+            Modal_RoomID.Value = lesson.RoomID.ToString();
 
             txtCountBegin.Text = lesson.StundeBeginn.ToString();
             txtCountEnd.Text = lesson.StundeEnde.ToString();
@@ -733,7 +758,15 @@ namespace Lessoner
                     cmd.Parameters.AddWithValue("@FachModID", Modal_LessonModID.Value);
                     cmd.Parameters.AddWithValue("@StundeBeginn", Modal_LessonBegin.Value);
                     cmd.Parameters.AddWithValue("@StundeEnde", Modal_LessonEnd.Value);
+                    if (Modal_RoomID.Value == "-1")
+                    {
+                        cmd.Parameters.AddWithValue("@RaumID", DBNull.Value);
+                    }
+                    else
+                    {
+                        cmd.Parameters.AddWithValue("@RaumID", Modal_RoomID.Value);
 
+                    }
                     cmd.ExecuteNonQuery();
 
                     con.Close();
@@ -970,6 +1003,237 @@ namespace Lessoner
         private void LessonerBuilder_PreRender(object sender, EventArgs e)
         {
             LoadLessoner();
+        }
+
+        protected void AddRoom_Click(object sender, EventArgs e)
+        {
+            int ID = -1;
+            using (MySqlConnection con = new MySqlConnection(SQL.Statements.ConnectionString))
+            {
+                using (MySqlCommand cmd = con.CreateCommand())
+                {
+                    con.Open();
+                    cmd.CommandText = SQL.Statements.InsertRoom;
+                    cmd.Parameters.AddWithValue("@RaumName", RoomName.Text);
+                    ID = Convert.ToInt32(cmd.ExecuteScalar());
+                    con.Close();
+                }
+            }
+            HtmlGenericControl li = new HtmlGenericControl("li");
+            HyperLink RoomLink = new HyperLink();
+
+            RoomLink.Attributes.Add("data-id", ID.ToString());
+            RoomLink.Text = RoomName.Text;
+            li.Controls.Add(RoomLink);
+            RoomLink.Attributes.Add("onclick", "Room_Click(this)");
+            RoomList.Controls.Add(li);
+            Rooms.Add(ID, RoomName.Text);
+            Script += @"jQuery('#NewRoomModal').modal('hide');
+                        jQuery(document).ready(function(){
+                            jQuery('#LessonEdit').removeClass('fade');
+                            jQuery('#LessonEdit').modal('show');
+                            jQuery('.modal-backdrop:first').remove();
+                            jQuery('#LessonEdit').addClass('fade');
+                            jQuery('.modal-backdrop').addClass('fade');
+                        });";
+        }
+
+        protected void RemoveRoom_Click(object sender, EventArgs e)
+        {
+            if (Modal_RoomID.Value != "-1")
+            {
+                using (MySqlConnection con = new MySqlConnection(SQL.Statements.ConnectionString))
+                {
+                    using (MySqlCommand cmd = con.CreateCommand())
+                    {
+                        con.Open();
+                        cmd.CommandText = SQL.Statements.RemoveRoom;
+                        cmd.Parameters.AddWithValue("@ID", Convert.ToInt32(Modal_RoomID.Value));
+                        cmd.ExecuteNonQuery();
+                        con.Close();
+                    }
+                }
+                Rooms.Remove(Convert.ToInt32(Modal_RoomID.Value));
+
+                if (Rooms.Count > 0)
+                {
+                    int Count = RoomList.Controls.Count;
+                    for (int i = 1; i < Count; i++)
+                    {
+                        RoomList.Controls.RemoveAt(1);
+                    }
+                    bool first = true;
+                    foreach (int i in Rooms.Keys)
+                    {
+                        HtmlGenericControl li = new HtmlGenericControl("li");
+                        HyperLink RoomLink = new HyperLink();
+
+                        RoomLink.Attributes.Add("data-id", i.ToString());
+                        RoomLink.Text = Rooms[i];
+                        li.Controls.Add(RoomLink);
+                        RoomLink.Attributes.Add("onclick", "Room_Click(this);");///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                        RoomList.Controls.Add(li);
+                        if (first)
+                        {
+                            first = false;
+
+                            ddRoom.InnerHtml = Rooms[i] + "<span class=\"caret\"></span>";
+                            Modal_RoomID.Value = i.ToString();
+                        }
+                    }
+
+                }
+                else
+                {
+                    ddRoom.InnerHtml = "Kein Raum" + "<span class=\"caret\"></span>";
+                    Modal_RoomID.Value = "-1";
+                }
+            }
+            Script += @"jQuery('#RemoveRoomConfirm').modal('hide');
+                        jQuery(document).ready(function(){
+                            jQuery('#LessonEdit').removeClass('fade');
+                            jQuery('#LessonEdit').modal('show');
+                            jQuery('.modal-backdrop:first').remove();
+                            jQuery('#LessonEdit').addClass('fade');
+                            jQuery('.modal-backdrop').addClass('fade');
+                        });";
+        }
+
+        protected void AddLesson_Click(object sender, EventArgs e)
+        {
+            int ID;
+            using (MySqlConnection con = new MySqlConnection(SQL.Statements.ConnectionString))
+            {
+                using (MySqlCommand cmd = con.CreateCommand())
+                {
+                    con.Open();
+                    cmd.CommandText = SQL.Statements.InsertNewLessonName;
+                    cmd.Parameters.AddWithValue("@Name", NormalLessonName.Text);
+                    cmd.Parameters.AddWithValue("@Namekurz", ShortLessonName.Text);
+                    ID = Convert.ToInt32(cmd.ExecuteScalar());
+                    con.Close();
+                }
+            }
+            LessonName.Add(ID, NormalLessonName.Text);
+            Script += @"jQuery('#NewLessonModal').modal('hide');
+                        jQuery(document).ready(function(){
+                            jQuery('#LessonEdit').removeClass('fade');
+                            jQuery('#LessonEdit').modal('show');
+                            jQuery('.modal-backdrop:first').remove();
+                            jQuery('#LessonEdit').addClass('fade');
+                            jQuery('.modal-backdrop').addClass('fade');
+                        });";
+            ulLessonNames.Controls.Clear();
+            foreach (int i in LessonName.Keys)
+            {
+                HtmlGenericControl li = new HtmlGenericControl("li");
+                HyperLink LessonNameLink = new HyperLink();
+
+                LessonNameLink.Attributes.Add("data-id", i.ToString());
+                LessonNameLink.Text = LessonName[i];
+                li.Controls.Add(LessonNameLink);
+                LessonNameLink.Attributes.Add("onclick", "LessonName_Click(this);");
+                ulLessonNames.Controls.Add(li);
+            }
+        }
+
+        protected void RemoveLessonNameButton_Click(object sender, EventArgs e)
+        {
+            LoadLessoner();
+            if (Modal_LessonNameID.Value == "-1")
+            {
+                return;
+            }
+            using (MySqlConnection con = new MySqlConnection(SQL.Statements.ConnectionString))
+            {
+                using (MySqlCommand cmd = con.CreateCommand())
+                {
+
+                    con.Open();
+                    cmd.CommandText = SQL.Statements.DeleteLessonName;
+                    cmd.Parameters.AddWithValue("@ID", Convert.ToInt32(Modal_LessonNameID.Value));
+                    try
+                    {
+                        cmd.ExecuteNonQuery();
+                    }
+                    catch (MySqlException)
+                    {
+                        Script += @"
+                        jQuery(document).ready(function(){
+                            jQuery('#RemoveLessonNameConfirm').modal('hide');
+                            jQuery('#LessonEdit').removeClass('fade');
+                            jQuery('#LessonEdit').modal('show');
+                            jQuery('.modal-backdrop:first').remove();
+                            jQuery('#LessonEdit').addClass('fade');
+                            jQuery('.modal-backdrop').addClass('fade');
+                            jQuery('#LessonNameNotDeleted').modal({backdrop:false});
+                        });";
+
+                        con.Close();
+                        return;
+                    }
+                    con.Close();
+                }
+            }
+            LessonName.Remove(Convert.ToInt32(Modal_LessonNameID.Value));
+
+            if (LessonName.Count > 0)
+            {
+                int Count = ulLessonNames.Controls.Count;
+                for (int i = 1; i < Count; i++)
+                {
+                    ulLessonNames.Controls.RemoveAt(1);
+                }
+                bool first = true;
+
+                foreach (int i in LessonName.Keys)
+                {
+                    HtmlGenericControl li = new HtmlGenericControl("li");
+                    HyperLink LessonNameLink = new HyperLink();
+
+                    LessonNameLink.Attributes.Add("data-id", i.ToString());
+                    LessonNameLink.Text = LessonName[i];
+                    li.Controls.Add(LessonNameLink);
+                    LessonNameLink.Attributes.Add("onclick", "LessonName_Click(this);");
+                    ulLessonNames.Controls.Add(li);
+                    if (first)
+                    {
+                        first = false;
+
+                        ddLessonName.InnerHtml = LessonName[i] + "<span class=\"caret\"></span>";
+                        Modal_LessonNameID.Value = i.ToString();
+                    }
+                }
+                Script += @"jQuery('#RemoveLessonNameConfirm').modal('hide');
+                        jQuery(document).ready(function(){
+                            jQuery('#LessonEdit').removeClass('fade');
+                            jQuery('#LessonEdit').modal('show');
+                            jQuery('.modal-backdrop:first').remove();
+                            jQuery('#LessonEdit').addClass('fade');
+                            jQuery('.modal-backdrop').addClass('fade');
+                        });";
+            }
+            else
+            {
+                ddLessonName.InnerHtml = "Keine Fächer" + "<span class=\"caret\"></span>";
+                Modal_LessonNameID.Value = "-1";
+            }
+        }
+        private void ReadyPageDropDown()
+        {
+            User.InnerText = StoredVars.Objects.Vorname + " " + StoredVars.Objects.Nachname;
+            if (!StoredVars.Objects.Rights["lessonerbuilder"]["permission"])
+            {
+                LinkLessonerBuilder.Style.Add("display", "none");
+            }
+            if (!StoredVars.Objects.Rights["studentmanagement"]["permission"])
+            {
+                LinkStudentManagement.Style.Add("display", "none");
+            }
+            if (!StoredVars.Objects.Rights["lessonerbuilder"]["permission"])
+            {
+                //LinkLessonerBuilder.Dispose();
+            }
         }
     }
 }

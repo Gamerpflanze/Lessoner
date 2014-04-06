@@ -23,28 +23,16 @@ function CloseError() {
 
 var WantedModalClose = false;
 function OpenLoadingIndicator(BackDrop) {
-    jQuery("#LoadingModal").on("hide.bs.modal", function () {
-        if (WantedModalClose) {
-            WantedModalClose = false;
-            return true;
-        }
-        else {
-            return false;
-        }
-    });
     jQuery("#LoadingModal").modal({
         backdrop: (BackDrop == "true"),
         keyboard: false,
         show: true
     });
-    return true;
 }
 function CloseLoadingIndicator() {
-    WantedModalClose = true;
     jQuery("#LoadingModal").modal("hide");
 }
 function ClearLoadingIndicator()
 {
-    jQuery("body").removeClass("modal-open");
-    jQuery(".modal-backdrop").remove();
+    jQuery("#LoadingModal").modal("hide");
 }

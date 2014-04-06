@@ -67,6 +67,11 @@ namespace Lessoner
                     return;
                 }
 #endif
+            if (StoredVars.Objects.Loggedin)
+            {
+                PageDropDown.Style.Add("display", "block");
+                ReadyPageDropDown();
+            }
             AddClasses(!Page.IsPostBack);
             BuildRightOptions();
             LoadStudentList();
@@ -274,7 +279,7 @@ namespace Lessoner
                         HtmlGenericControl label = new HtmlGenericControl("label");
 
                         //check.Attributes.Add("onchange", "RightChanged(this)");
-                        check.Attributes.Add("data-location", Location.ToString());
+                        span.Attributes.Add("data-location", Location.ToString());
                         check.ID = reader["ID"].ToString();
                         label.InnerText = reader["Beschreibung"].ToString();
                         label.Attributes.Add("for", reader["ID"].ToString());
@@ -314,7 +319,7 @@ namespace Lessoner
                         for (int i = 0; i < StudentData.Length; i++)
                         {
 #if !DEBUG
-                            if (Convert.ToBoolean(StudentData[i][1]) && !StoredVars.Objects.Rights["studentmanagement"]["permission"])
+                            if (Convert.ToBoolean(StudentData[i][1]))
 #endif
                             {
                                 if (Convert.ToBoolean(StudentData[i][0]))
@@ -488,6 +493,22 @@ namespace Lessoner
             }
             CloseDeleteClassModal();
             AddClasses(true);
+        }
+        private void ReadyPageDropDown()
+        {
+            User.InnerText = StoredVars.Objects.Vorname + " " + StoredVars.Objects.Nachname;
+            if (!StoredVars.Objects.Rights["lessonerbuilder"]["permission"])
+            {
+                LinkLessonerBuilder.Style.Add("display", "none");
+            }
+            if (!StoredVars.Objects.Rights["studentmanagement"]["permission"])
+            {
+                LinkStudentManagement.Style.Add("display", "none");
+            }
+            if (!StoredVars.Objects.Rights["lessonerbuilder"]["permission"])
+            {
+                //LinkLessonerBuilder.Dispose();
+            }
         }
     }
 }
