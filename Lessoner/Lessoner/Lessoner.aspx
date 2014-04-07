@@ -82,7 +82,7 @@
                                 </div>
                             </div>
                             <div class="col-md-3 hidden-sm" style="text-align: center" runat="server" id="PrintButtonContainer">
-                                <button class="btn btn-primary btn-large" onclick="javascript:window.print()"><span class="glyphicon glyphicon-print"></span>Stundenplan drucken</button>
+                                <button class="btn btn-primary btn-large" onclick="javascript:window.print()"><span class="glyphicon glyphicon-print"></span>   Stundenplan drucken</button>
                             </div>
                             <div class="col-md-3" runat="server" id="ClassTeacherSwitchContainer">
                                 <div class="btn-group maxwidth-sm" style="float: right" id="ClassTeacherSwitch" runat="server" data-id="-1" data-name="">
@@ -162,7 +162,7 @@
                                     </asp:TableHeaderRow>
                                 </asp:Table>
                                 <div class="input-group" style="width: 100% !important;">
-                                    <asp:FileUpload CssClass="pull-left" OnUploadedFileError="FileUploader_UploadedFileError" OnUploadedComplete="FileUploader_UploadedComplete" runat="server" ID="FileUploader" OnClientUploadStarted="alert('a');" />
+                                    <asp:FileUpload CssClass="pull-left btn btn-default" OnUploadedFileError="FileUploader_UploadedFileError" OnUploadedComplete="FileUploader_UploadedComplete" runat="server" ID="FileUploader" />
                                     <asp:Button runat="server" Text="Hochladen" CssClass="btn btn-default pull-right" ID="UploadButton" OnClick="UploadButton_Click" />
                                     <asp:HiddenField runat="server" ID="CurrentLesson" />
                                 </div>
