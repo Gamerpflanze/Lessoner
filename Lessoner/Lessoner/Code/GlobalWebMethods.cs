@@ -53,6 +53,7 @@ namespace Lessoner
                     {
                         StoredVars.Objects.Loggedin = true;
                         StoredVars.Objects.Vorname = "root";
+                        StoredVars.Objects.EMail = "root";
                         return "root";
                     }
                     if (StoredVars.Objects.Rights["login"]["isteacher"])//TODO:rootlogin

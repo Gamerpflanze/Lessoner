@@ -25,7 +25,7 @@ namespace Lessoner
         #endregion
         #region Handler
         #endregion
-        #region DBCOnnection
+        #region DBConnection
         MySqlConnection con = new MySqlConnection(SQL.Statements.ConnectionString);
 
         protected void Page_Init(object sender, EventArgs e)
@@ -216,7 +216,7 @@ namespace Lessoner
                 TableCell CellDelete = new TableCell();
                 CellDelete.Attributes.Add("data-ignoretransform", "true");
                 HtmlButton DeleteButton = new HtmlButton();
-                DeleteButton.Attributes.Add("onclick", "DeleteStudent(this)");
+                DeleteButton.Attributes.Add("onclick", "DeleteTeacher(this)");
                 DeleteButton.Attributes.Add("class", "btn btn-danger hidden-print");
                 DeleteButton.Attributes.Add("data-id", ID.ToString());
                 HtmlGenericControl DeleteSpan = new HtmlGenericControl("span");
@@ -273,7 +273,7 @@ namespace Lessoner
             ErrorArray[0] = 2;
             ErrorArray[1] = new List<dynamic>();
 #if !DEBUG
-            if (!StoredVars.Objects.Loggedin || !StoredVars.Objects.Rights["studentmanagement"]["permission"])
+            if (!StoredVars.Objects.Loggedin || !StoredVars.Objects.Rights["teachermanagement"]["editteacher"])
             {
                 return 2;
             }
@@ -288,7 +288,7 @@ namespace Lessoner
                         for (int i = 0; i < TeacherData.Length; i++)
                         {
 #if !DEBUG
-                            if (Convert.ToBoolean(TeacherData[i][1]) && !StoredVars.Objects.Rights["studentmanagement"]["permission"])
+                            if (Convert.ToBoolean(TeacherData[i][1]))
 #endif
                             {
                                 if (Convert.ToBoolean(TeacherData[i][0]))

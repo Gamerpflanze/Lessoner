@@ -88,7 +88,7 @@
                                         <span runat="server" id="User"></span><span class="caret"></span>
                                     </a>
                                     <ul class="dropdown-menu">
-                                        <li><a>Passwort ändern</a></li>
+                                        <li><a onclick="jQuery('#ChangePasswordModal').modal('show');">Passwort ändern</a></li>
                                         <li>
                                             <asp:LinkButton ID="Logoutbutton" runat="server" OnClick="Logoutbutton_Click">Abmelden</asp:LinkButton></li>
                                     </ul>
@@ -256,7 +256,6 @@
 
             <footer>
                 <p>&copy; Von Florian Fürstenberg und Pascal Gönnewicht</p>
-                <p><a href="impressum.aspx">Impressum</a></p>
             </footer>
         </div>
 
@@ -420,6 +419,36 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
                     </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="ChangePasswordModal" tabindex="-1" role="dialog" aria-labelledby="ChangePasswordModalTitle" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <asp:UpdatePanel runat="server" ID="ChangePassordModal">
+                        <ContentTemplate>
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <h4 class="modal-title" id="ChangePasswordModalTitle">Passwort ändern</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group" id="OldPass">
+                                    <asp:TextBox runat="server" CssClass="form-control" placeholder="Altes Passwort" TextMode="Password" ID="OldPasswort"></asp:TextBox>
+                                </div>
+                                <hr />
+                                <div class="form-group" id="NewPass1">
+                                    <asp:TextBox runat="server" CssClass="form-control" placeholder="Neues Passwort" TextMode="Password" ID="NewPassword1"></asp:TextBox>
+                                </div>
+                                <div class="form-group" id="NewPass2">
+                                    <asp:TextBox runat="server" CssClass="form-control" placeholder="Neues Passwort wiederholen" TextMode="Password" ID="NewPassword2"></asp:TextBox>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
+                                <asp:Button runat="server" CssClass="btn btn-default" Text="Passwort Speichern" ID="SavePassword" OnClick="SavePassword_Click" OnClientClick=""/>
+                                </div>
+                        </ContentTemplate>
+                    </asp:UpdatePanel>
                 </div>
             </div>
         </div>

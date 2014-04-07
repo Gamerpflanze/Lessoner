@@ -97,7 +97,6 @@
     <Content Include="ClassDiagram1.cd" />
     <Content Include="ErrorPages\500Error.html" />
     <Content Include="ErrorPages\404Error.html" />
-    <Content Include="packages.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -257,7 +256,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>16776</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>

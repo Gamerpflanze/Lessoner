@@ -40,24 +40,6 @@ namespace Lessoner {
         protected global::System.Web.UI.UpdatePanel LoginControllsUpdatePanel;
         
         /// <summary>
-        /// PageDropDown-Steuerelement
-        /// </summary>
-        /// <remarks>
-        /// Automatisch generiertes Feld
-        /// Um dies zu ändern, verschieben Sie die Felddeklaration aus der Designerdatei in eine Code-Behind-Datei.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl PageDropDown;
-        
-        /// <summary>
-        /// User-Steuerelement
-        /// </summary>
-        /// <remarks>
-        /// Automatisch generiertes Feld
-        /// Um dies zu ändern, verschieben Sie die Felddeklaration aus der Designerdatei in eine Code-Behind-Datei.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl User;
-        
-        /// <summary>
         /// LinkLessoner-Steuerelement
         /// </summary>
         /// <remarks>
@@ -92,6 +74,24 @@ namespace Lessoner {
         /// Um dies zu ändern, verschieben Sie die Felddeklaration aus der Designerdatei in eine Code-Behind-Datei.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl LinkTeacherMamagement;
+        
+        /// <summary>
+        /// PageDropDown-Steuerelement
+        /// </summary>
+        /// <remarks>
+        /// Automatisch generiertes Feld
+        /// Um dies zu ändern, verschieben Sie die Felddeklaration aus der Designerdatei in eine Code-Behind-Datei.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl PageDropDown;
+        
+        /// <summary>
+        /// User-Steuerelement
+        /// </summary>
+        /// <remarks>
+        /// Automatisch generiertes Feld
+        /// Um dies zu ändern, verschieben Sie die Felddeklaration aus der Designerdatei in eine Code-Behind-Datei.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl User;
         
         /// <summary>
         /// Logoutbutton-Steuerelement

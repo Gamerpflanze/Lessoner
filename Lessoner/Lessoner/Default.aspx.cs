@@ -30,6 +30,10 @@ namespace Lessoner
                 PageDropDown.Style.Add("display", "block");
                 ReadyPageDropDown();
             }
+
+            OldPasswort.Attributes.Add("onKeyDown", "jQuery('#OldPass').removeClass('has-error');");
+            NewPassword1.Attributes.Add("onKeyDown", "jQuery('#NewPass1').removeClass('has-error');jQuery('#NewPass2').removeClass('has-error');");
+            NewPassword2.Attributes.Add("onKeyDown", "jQuery('#NewPass1').removeClass('has-error');jQuery('#NewPass2').removeClass('has-error');");
         }
         protected void btnLoginSubmit_Click(object sender, EventArgs e)
         {
@@ -79,6 +83,39 @@ namespace Lessoner
         {
             StoredVars.Objects = new StoredVars();
             Response.Redirect("/default.aspx", true);
+        }
+
+        protected void SavePassword_Click(object sender, EventArgs e)
+        {
+            using(MySqlConnection con = new MySqlConnection(SQL.Statements.ConnectionString))
+            {
+                using(MySqlCommand cmd = con.CreateCommand())
+                {
+                    con.Open();
+                    cmd.CommandText = SQL.Statements.CheckPassword;
+                    cmd.Parameters.AddWithValue("@Email", StoredVars.Objects.EMail);
+                    cmd.Parameters.AddWithValue("@Passwort", SHA1.Create().ComputeHash(Encoding.UTF8.GetBytes(OldPasswort.Text)));
+                    if(Convert.ToInt32(cmd.ExecuteScalar())==1)
+                    {
+                        if(NewPassword1.Text==NewPassword2.Text&&NewPassword1.Text!="")
+                        {
+                            cmd.CommandText = SQL.Statements.InsertNewPasswort;
+                            cmd.Parameters.AddWithValue("@NewPasswort", SHA1.Create().ComputeHash(Encoding.UTF8.GetBytes(NewPassword1.Text)));
+                            cmd.ExecuteNonQuery();
+                            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "ClosePWChanger", "jQuery('#ChangePasswordModal').modal('hide');", true);
+                        }
+                        else
+                        {
+                            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "NewPassError", "jQuery('#NewPass1').addClass('has-error');jQuery('#NewPass2').addClass('has-error');", true);
+                        }
+                    }
+                    else
+                    {
+                        ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "OldPassError", "jQuery('#OldPass').addClass('has-error');", true);
+                    }
+                    con.Close();
+                }
+            }
         }
     }
 }

@@ -10,7 +10,6 @@
     <!--Scripts oben wegen abruffehler-->
     <script src="JQuery/jquery-1.10.2.js"></script>
     <script src="Javascript/Lessoner.js"></script>
-    <link href="Bootstrap/css/bootstrap-theme.css" rel="stylesheet" />
     <link href="Bootstrap/css/bootstrap.css" rel="stylesheet" />
     <link href="CSS/Style.css" rel="stylesheet" />
     <link href="CSS/print.css" rel="stylesheet" />
@@ -29,7 +28,7 @@
                 </div>
                 <!---------------------------------------------->
                 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-                    <div class="container hidden-print">
+                    <div class="container">
                         <div class="navbar-header">
                             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                                 <span class="sr-only">Toggle navigation</span>
@@ -37,36 +36,32 @@
                                 <span class="icon-bar"></span>
                                 <span class="icon-bar"></span>
                             </button>
-                            <a class="navbar-brand" href="#">Lessoner</a>
                         </div>
-                        <div class="collapse navbar-collapse">
-                            <ul class="nav navbar-nav">
-                                <li class="active"><a href="#">Hauptseite</a></li>
-                                <li><a href="about.aspx">Über den Lessoner</a></li>
-                                <li><a href="kontakt.aspx">Kontakt</a></li>
-                            </ul>
-                            <div class="navbar-form navbar-right">
-                                <asp:UpdatePanel runat="server" UpdateMode="Always" ID="LoginControllsUpdatePanel">
-                                    <ContentTemplate>
-                                        <div class="btn-group" style="display: none" runat="server" id="PageDropDown">
-                                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                        <asp:UpdatePanel runat="server" UpdateMode="Always" ID="LoginControllsUpdatePanel">
+                            <ContentTemplate>
+                                <div class="collapse navbar-collapse">
+                                    <ul class="nav navbar-nav" runat="server">
+                                        <li><a href="/Default.aspx">Hauptseite</a></li>
+                                        <li id="LinkLessoner" runat="server" class="active"><a href="#">Stundenplan</a></li>
+                                        <li id="LinkLessonerBuilder" runat="server"><a href="/lessonerbuilder.aspx">Stundenplanerstellung</a></li>
+                                        <li id="LinkStudentManagement" runat="server"><a href="/schuelerverwaltung.aspx">Schülerverwaltung</a></li>
+                                        <li id="LinkTeacherMamagement" runat="server"><a href="/lehrerverwaltung.aspx">Lehrerverwaltung</a></li>
+                                    </ul>
+                                    <ul class="nav navbar-nav navbar-right">
+                                        <li class="dropdown" runat="server" id="PageDropDown">
+                                            <a class="dropdown-toggle" data-toggle="dropdown">
                                                 <span runat="server" id="User"></span><span class="caret"></span>
-                                            </button>
+                                            </a>
                                             <ul class="dropdown-menu">
-                                                <li id="LinkLessoner" runat="server"><a href="/lessoner.aspx">Stundenplan</a></li>
-                                                <li id="LinkLessonerBuilder" runat="server"><a href="/lessonerbuilder.aspx">Stundenplanerstellung</a></li>
-                                                <li id="LinkStudentManagement" runat="server"><a href="/schuelerverwaltung.aspx">Schülerverwaltung</a></li>
-                                                <li id="LinkTeacherMamagement" runat="server"><a href="/lehrerverwaltung.aspx">Lehrerverwaltung</a></li>
-                                                <li role="presentation" class="divider"></li>
                                                 <li><a>Passwort ändern</a></li>
                                                 <li>
                                                     <asp:LinkButton ID="Logoutbutton" runat="server" OnClick="Logoutbutton_Click">Abmelden</asp:LinkButton></li>
                                             </ul>
-                                        </div>
-                                    </ContentTemplate>
-                                </asp:UpdatePanel>
-                            </div>
-                        </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </ContentTemplate>
+                        </asp:UpdatePanel>
                     </div>
                 </div>
                 <div class="page-header hidden-print">
@@ -84,7 +79,7 @@
                                 </div>
                             </div>
                             <div class="col-md-3 hidden-sm" style="text-align: center" runat="server" id="PrintButtonContainer">
-                                <button class="btn btn-primary btn-large" onclick="javascript:window.print()"><span class="glyphicon glyphicon-print"></span>   Stundenplan drucken</button>
+                                <button class="btn btn-primary btn-large" onclick="javascript:window.print()"><span class="glyphicon glyphicon-print"></span>Stundenplan drucken</button>
                             </div>
                             <div class="col-md-3" runat="server" id="ClassTeacherSwitchContainer">
                                 <div class="btn-group maxwidth-sm" style="float: right" id="ClassTeacherSwitch" runat="server" data-id="-1" data-name="">

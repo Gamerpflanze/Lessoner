@@ -36,3 +36,7 @@ function ClearLoadingIndicator()
 {
     jQuery("#LoadingModal").modal("hide");
 }
+function WrongPass()
+{
+    jQuery("#OldPass").addClass("has-error");
+}

@@ -79,7 +79,7 @@ function TextChanged(Sender)
         if (!Input.parent().parent().hasClass("warning")) {
             var Current = Input.parent().parent();
             Input.parent().removeClass("has-error");
-            for (var i = 0; i < Input.parent().parent().children().length; i++)
+            for (var i = 0; i < Input.parent().parent().children().length-1; i++)
             {
                 if(Current.children(":nth-child(" + (i+1) + ")").children().val()=="")
                 {
@@ -166,7 +166,7 @@ function AddNewTeacher()
     if (CantEdit) { return; }
     HasError = true;
     DoneChange = true;
-    var NewRow = jQuery('<tr data-changed="true" data-newTeacher="true" data-id="-1" class="danger" data-rights="000000000">\
+    var NewRow = jQuery('<tr data-changed="true" data-newTeacher="true" data-id="-1" class="danger" data-rights="0000000000000">\
             <td onclick="EditTeacher(this)" class="has-error"><span></span></td>\
             <td onclick="EditTeacher(this)" class="has-error"><span></span></td>\
             <td onclick="EditTeacher(this)" class="has-error"><span></span></td>\
@@ -175,6 +175,7 @@ function AddNewTeacher()
             <td onclick="EditTeacher(this)" class="has-error"><span></span></td>\
             <td onclick="EditTeacher(this)" class="has-error"><span></span></td>\
             <td onclick="EditTeacher(this)" class="has-error"><span></span></td>\
+            <td data-ignoretransform="true" class="has-error"><span></span></td>\
         </tr>');
     NewRow.appendTo(jQuery("#TeacherList"));
     NewRow.children(":first").click();

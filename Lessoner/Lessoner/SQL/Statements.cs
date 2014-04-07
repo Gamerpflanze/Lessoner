@@ -7,6 +7,11 @@ namespace Lessoner.SQL
 {
     public static class Statements
     {
+        public const string InsertNewPasswort = @"UPDATE tbanmeldung
+                                                  SET Passwort = @NewPasswort
+                                                  WHERE Email = @Email";
+        public const string CheckPassword = @"SELECT COUNT(*) FROM tbanmeldung
+                                              WHERE Email = @Email and Passwort = @Passwort";
         public const string GetTeacher = @"SELECT * FROM tblehrer";
         public const string DeleteLessonName = @"DELETE FROM tbfaecher
                                                  WHERE ID = @ID";
