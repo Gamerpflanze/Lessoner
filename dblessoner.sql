@@ -24,22 +24,14 @@ CREATE TABLE IF NOT EXISTS `tbanmeldung` (
   `Passwort` varbinary(20) NOT NULL,
   `ProfilBildPfad` varchar(256) DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8;
 
--- Exportiere Daten aus Tabelle dblessoner.tbanmeldung: ~10 rows (ungefähr)
+-- Exportiere Daten aus Tabelle dblessoner.tbanmeldung: ~2 rows (ungefähr)
 DELETE FROM `tbanmeldung`;
 /*!40000 ALTER TABLE `tbanmeldung` DISABLE KEYS */;
 INSERT INTO `tbanmeldung` (`ID`, `Email`, `Passwort`, `ProfilBildPfad`) VALUES
-	(2, 'lehrer', _binary 0x7110EDA4D09E062AA5E4A390B0A572AC0D2C0220, NULL),
-	(3, 'schueler', _binary 0x7110EDA4D09E062AA5E4A390B0A572AC0D2C0220, NULL),
-	(4, 'Musterhausen', _binary 0x7110EDA4D09E062AA5E4A390B0A572AC0D2C0220, NULL),
-	(5, 'Florian.Fürstenberg', _binary 0x7110EDA4D09E062AA5E4A390B0A572AC0D2C0220, NULL),
-	(17, 'wa', _binary 0x1C4F0C6EB8BF8BBF11CC2AE1CDCC5C5D1F3A3C16, NULL),
-	(18, 'ab', _binary 0x1C4F0C6EB8BF8BBF11CC2AE1CDCC5C5D1F3A3C16, NULL),
-	(19, 'wf', _binary 0x1C4F0C6EB8BF8BBF11CC2AE1CDCC5C5D1F3A3C16, NULL),
-	(20, 'fa', _binary 0x1C4F0C6EB8BF8BBF11CC2AE1CDCC5C5D1F3A3C16, NULL),
-	(21, 'g', _binary 0x1C4F0C6EB8BF8BBF11CC2AE1CDCC5C5D1F3A3C16, NULL),
-	(22, 'w', _binary 0x1C4F0C6EB8BF8BBF11CC2AE1CDCC5C5D1F3A3C16, NULL);
+	(1, 'root', _binary 0x39DFA55283318D31AFE5A3FF4A0E3253E2045E43, NULL),
+	(27, 'Fürstenberg', _binary 0x2B17A1D835891A3B71C1469F0283F91D58B6BE66, NULL);
 /*!40000 ALTER TABLE `tbanmeldung` ENABLE KEYS */;
 
 
@@ -74,7 +66,7 @@ CREATE TABLE IF NOT EXISTS `tbfachinfo` (
   `Stunde_Ende` int(11) NOT NULL,
   `FachModID` int(11) NOT NULL,
   `Information` varchar(512) NOT NULL DEFAULT '',
-  `RaumID` int(11) DEFAULT NULL,
+  `RaumID` int(11),
   PRIMARY KEY (`ID`),
   KEY `fkLehrer_idx` (`LehrerID`),
   KEY `fkFach_idx` (`FachID`),
@@ -82,8 +74,7 @@ CREATE TABLE IF NOT EXISTS `tbfachinfo` (
   KEY `fk_tbFachinfo_tbFachMod` (`FachModID`),
   KEY `fk_tbFachInfo_tbRaumID` (`RaumID`),
   CONSTRAINT `fkFach` FOREIGN KEY (`FachID`) REFERENCES `tbfaecher` (`ID`) ON UPDATE NO ACTION,
-  CONSTRAINT `fkLehrer` FOREIGN KEY (`LehrerID`) REFERENCES `tblehrer` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_tbFachinfo_tbFachMod` FOREIGN KEY (`FachModID`) REFERENCES `tbfachmod` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_tbFachinfo_tbFachMod` FOREIGN KEY (`FachModID`) REFERENCES `tbfachmod` (`ID`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `fk_tbFachInfo_tbRaumID` FOREIGN KEY (`RaumID`) REFERENCES `tbraum` (`ID`) ON DELETE SET NULL ON UPDATE NO ACTION,
   CONSTRAINT `fk_tbFachinfo_tbTage` FOREIGN KEY (`TagID`) REFERENCES `tbtage` (`ID`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=187 DEFAULT CHARSET=utf8;
@@ -336,14 +327,11 @@ CREATE TABLE IF NOT EXISTS `tblehrer` (
   KEY `AnmeldungID_idx` (`AnmeldungID`),
   CONSTRAINT `AnmeldungID` FOREIGN KEY (`AnmeldungID`) REFERENCES `tbanmeldung` (`ID`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `KlasseID` FOREIGN KEY (`KlasseID`) REFERENCES `tbklasse` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Exportiere Daten aus Tabelle dblessoner.tblehrer: ~2 rows (ungefähr)
+-- Exportiere Daten aus Tabelle dblessoner.tblehrer: ~0 rows (ungefähr)
 DELETE FROM `tblehrer`;
 /*!40000 ALTER TABLE `tblehrer` DISABLE KEYS */;
-INSERT INTO `tblehrer` (`ID`, `Titel`, `Vorname`, `Name`, `Strasse`, `Hausnummer`, `PLZ`, `Ort`, `KlasseID`, `AnmeldungID`) VALUES
-	(7, '', 'Max', 'Mustermann', 'Musterstrasse', '1', '12345', 'Musterhausen', 0, 4),
-	(11, 'w', 'w', 'w', 'wa', 'w', 'w', 'w', NULL, 22);
 /*!40000 ALTER TABLE `tblehrer` ENABLE KEYS */;
 
 
@@ -385,14 +373,14 @@ INSERT INTO `tbrechtebeschreibung` (`ID`, `Group`, `Name`, `Beschreibung`) VALUE
 	(4, 'lessoner', 'chooseclass', 'Darf alle Klassen sehen'),
 	(5, 'lessoner', 'uploadfile', 'Darf Dateien hochladen'),
 	(6, 'lessoner', 'deletefile', 'Darf Dateien löschen'),
-	(7, 'studentmanagement', 'permission', 'Zugriff auf Schülerverwaltung'),
-	(8, 'studentmanagement', 'editstudents', 'Darf Schüler bearbeiten'),
-	(9, 'studentmanagement', 'addclass', 'Darf Klassen erstellen'),
-	(10, 'studentmanagement', 'deletestudent', 'Darf Schüler löschen'),
-	(11, 'teachermanagement', 'permission', 'Darf Lehrer bearbeiten'),
-	(12, 'teachermanagement', 'editteacher', 'Darf Lehrer bearbeiten'),
-	(13, 'teachermanagement', 'deleteteacher', 'Darf Lehrer löschen'),
-	(14, 'lessoner', 'editlessoninfo', 'Darf Stundeninfo bearbeiten');
+	(7, 'lessoner', 'editlessoninfo', 'Darf Stundeninfo bearbeiten'),
+	(8, 'studentmanagement', 'permission', 'Zugriff auf Schülerverwaltung'),
+	(9, 'studentmanagement', 'editstudents', 'Darf Schüler bearbeiten'),
+	(10, 'studentmanagement', 'editclass', 'Darf Klassen erstellen/bearbeiten'),
+	(11, 'studentmanagement', 'deletestudent', 'Darf Schüler löschen'),
+	(12, 'teachermanagement', 'permission', 'Zugriff auf Lehrerverwaltung'),
+	(13, 'teachermanagement', 'editteacher', 'Darf Lehrer bearbeiten'),
+	(14, 'teachermanagement', 'deleteteacher', 'Darf Lehrer löschen');
 /*!40000 ALTER TABLE `tbrechtebeschreibung` ENABLE KEYS */;
 
 
@@ -408,60 +396,38 @@ CREATE TABLE IF NOT EXISTS `tbrechtewert` (
   CONSTRAINT `FK_tbrechtewert_tbrechtebeschreibung` FOREIGN KEY (`RechtID`) REFERENCES `tbrechtebeschreibung` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Exportiere Daten aus Tabelle dblessoner.tbrechtewert: ~50 rows (ungefähr)
+-- Exportiere Daten aus Tabelle dblessoner.tbrechtewert: ~28 rows (ungefähr)
 DELETE FROM `tbrechtewert`;
 /*!40000 ALTER TABLE `tbrechtewert` DISABLE KEYS */;
 INSERT INTO `tbrechtewert` (`AnmeldungID`, `RechtID`, `Wert`) VALUES
-	(2, 1, 1),
-	(2, 2, 1),
-	(2, 3, 1),
-	(2, 4, 1),
-	(2, 5, 1),
-	(2, 6, 1),
-	(2, 7, 1),
-	(2, 8, 1),
-	(2, 9, 1),
-	(2, 10, 1),
-	(3, 1, 0),
-	(3, 2, 1),
-	(3, 3, 1),
-	(3, 4, 1),
-	(3, 5, 1),
-	(3, 6, 1),
-	(3, 7, 1),
-	(3, 8, 1),
-	(3, 9, 1),
-	(3, 10, 1),
-	(4, 1, 1),
-	(4, 2, 1),
-	(4, 3, 1),
-	(4, 4, 1),
-	(4, 5, 1),
-	(4, 6, 1),
-	(4, 7, 1),
-	(4, 8, 1),
-	(4, 9, 1),
-	(4, 10, 1),
-	(5, 1, 0),
-	(5, 2, 1),
-	(5, 3, 0),
-	(5, 4, 1),
-	(5, 5, 1),
-	(5, 6, 1),
-	(5, 7, 1),
-	(5, 8, 1),
-	(5, 9, 1),
-	(5, 10, 1),
-	(22, 1, 1),
-	(22, 2, 0),
-	(22, 3, 0),
-	(22, 4, 0),
-	(22, 5, 0),
-	(22, 6, 0),
-	(22, 7, 0),
-	(22, 8, 0),
-	(22, 9, 0),
-	(22, 10, 0);
+	(1, 1, 1),
+	(1, 2, 1),
+	(1, 3, 1),
+	(1, 4, 1),
+	(1, 5, 1),
+	(1, 6, 1),
+	(1, 7, 1),
+	(1, 8, 1),
+	(1, 9, 1),
+	(1, 10, 1),
+	(1, 11, 1),
+	(1, 12, 1),
+	(1, 13, 1),
+	(1, 14, 1),
+	(27, 1, 0),
+	(27, 2, 0),
+	(27, 3, 0),
+	(27, 4, 0),
+	(27, 5, 0),
+	(27, 6, 0),
+	(27, 7, 0),
+	(27, 8, 0),
+	(27, 9, 0),
+	(27, 10, 0),
+	(27, 11, 0),
+	(27, 12, 0),
+	(27, 13, 0),
+	(27, 14, 0);
 /*!40000 ALTER TABLE `tbrechtewert` ENABLE KEYS */;
 
 
@@ -482,14 +448,13 @@ CREATE TABLE IF NOT EXISTS `tbschueler` (
   KEY `AnmeldungID_idx` (`AnmeldungID`),
   CONSTRAINT `Fk_AnmeldungID` FOREIGN KEY (`AnmeldungID`) REFERENCES `tbanmeldung` (`ID`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `fk_tbSchueler_KlasseID` FOREIGN KEY (`KlasseID`) REFERENCES `tbklasse` (`ID`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
--- Exportiere Daten aus Tabelle dblessoner.tbschueler: ~2 rows (ungefähr)
+-- Exportiere Daten aus Tabelle dblessoner.tbschueler: ~1 rows (ungefähr)
 DELETE FROM `tbschueler`;
 /*!40000 ALTER TABLE `tbschueler` DISABLE KEYS */;
 INSERT INTO `tbschueler` (`ID`, `Vorname`, `Name`, `Strasse`, `Hausnummer`, `PLZ`, `Ort`, `KlasseID`, `AnmeldungID`) VALUES
-	(4, 'Mariane', 'Musterfrau', 'Musterstraße', '42', '45678', 'Mustercity', 1, 3),
-	(6, 'Florian', 'Fürstenberg', 'Erdbrüggenstrasse', '59', '45889', 'Gelsenkirchen', 1, 5);
+	(10, 'Florian', 'Fürstenberg', 'Erdbrüggenstraße', '59', '45889', 'Gelsenkirchen', 1, 27);
 /*!40000 ALTER TABLE `tbschueler` ENABLE KEYS */;
 
 
