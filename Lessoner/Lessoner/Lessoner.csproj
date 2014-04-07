@@ -95,6 +95,8 @@
     <Content Include="Dokumente\dbLessoner.sql" />
     <Content Include="Dokumente\Fehlermeldungen.ods" />
     <Content Include="ClassDiagram1.cd" />
+    <Content Include="ErrorPages\500Error.html" />
+    <Content Include="ErrorPages\404Error.html" />
     <Content Include="packages.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Lehrerverwaltung.aspx.cs" Inherits="Lessoner.Lehrerverwaltung" %>
+﻿w<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Lehrerverwaltung.aspx.cs" Inherits="Lessoner.Lehrerverwaltung" %>
 
 <!DOCTYPE html>
 
@@ -52,6 +52,7 @@
                                         <li id="LinkTeacherMamagement" runat="server"><a href="/lehrerverwaltung.aspx">Lehrerverwaltung</a></li>
                                         <li role="presentation" class="divider"></li>
                                         <li><a>Passwort ändern</a></li>
+                                        <li><asp:LinkButton ID="Logoutbutton" runat="server" OnClick="Logoutbutton_Click">Abmelden</asp:LinkButton></li>
                                     </ul>
                                 </div>
                             </ContentTemplate>
@@ -92,8 +93,8 @@
                             <asp:TableHeaderCell></asp:TableHeaderCell>
                         </asp:TableHeaderRow>
                     </asp:Table>
-                    <button type="button" class="btn btn-default hidden-print" onclick="AddNewTeacher()">Hinzufügen</button>
-                    <button type="button" class="btn btn-primary pull-right hidden-print" onclick="SaveTeachers()">Speichern</button>
+                    <button type="button" class="btn btn-default hidden-print" onclick="AddNewTeacher()" runat="server" id="AddTeacher">Hinzufügen</button>
+                    <button type="button" class="btn btn-primary pull-right hidden-print" onclick="SaveTeachers()" runat="server" id="SaveAll">Speichern</button>
                 </ContentTemplate>
                 <Triggers>
                 </Triggers>
@@ -123,7 +124,7 @@
         </div>
     </form>
     <div class="modal" id="LoadingModal" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog" style="width: 282px !important; margin-top: 350px; margin-left: auto !important; margin-right: auto !important;">
+        <div class="modal-dialog" style="width: 170px !important; margin-top: 350px; margin-left: auto !important; margin-right: auto !important;">
             <div class="modal-content">
                 <div class="modal-body">
                     <img src="Data/Images/loading.gif" alt="Lade" id="LoadingImage" />

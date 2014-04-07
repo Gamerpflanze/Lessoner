@@ -57,6 +57,7 @@
                                                 <li id="LinkTeacherMamagement" runat="server"><a href="/lehrerverwaltung.aspx">Lehrerverwaltung</a></li>
                                                 <li role="presentation" class="divider"></li>
                                                 <li><a>Passwort ändern</a></li>
+                                                <li><asp:LinkButton ID="Logoutbutton" runat="server" OnClick="Logoutbutton_Click">Abmelden</asp:LinkButton></li>
                                             </ul>
                                         </div>
                                     </ContentTemplate>
@@ -443,7 +444,7 @@
             </div>
         </div>
         <div runat="server" class="modal" id="LoadingModal" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog" style="width: 282px !important; margin-top: 350px;">
+        <div class="modal-dialog" style="width: 170px !important; margin-top: 350px; margin-left: auto !important; margin-right: auto !important;">
                 <div class="modal-content">
                     <div class="modal-body">
                         <!--TODO:Ladezeichen ändern(?)-->

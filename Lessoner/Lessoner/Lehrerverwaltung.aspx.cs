@@ -44,13 +44,20 @@ namespace Lessoner
                     Response.End();
                     return;
                 }
-                if (!StoredVars.Objects.Rights["studentmanagement"]["permission"])
+                if (!StoredVars.Objects.Rights["teachermanagement"]["permission"])
                 {
                     Response.Clear();
                     Response.StatusCode = 403;
                     Response.End();
                     return;
                 }
+                if (!StoredVars.Objects.Rights["studentmanagement"]["editstudents"])
+                {
+                    ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "CantEditSet", "CantEditSetter();", true);
+                    AddTeacher.Style.Add("display", "none");
+                    SaveAll.Style.Add("display", "none");
+                }
+
 #endif
             if (StoredVars.Objects.Loggedin)
             {
@@ -202,18 +209,22 @@ namespace Lessoner
             lEmail.Text = Email;
             CellEmail.Controls.Add(lEmail);
             row.Controls.Add(CellEmail);
-
-            TableCell CellDelete = new TableCell();
-            CellDelete.Attributes.Add("data-ignoretransform", "true");
-            HtmlButton DeleteButton = new HtmlButton();
-            DeleteButton.Attributes.Add("onclick", "DeleteStudent(this)");
-            DeleteButton.Attributes.Add("class", "btn btn-danger hidden-print");
-            DeleteButton.Attributes.Add("data-id", ID.ToString());
-            HtmlGenericControl DeleteSpan = new HtmlGenericControl("span");
-            DeleteSpan.Attributes.Add("class", "glyphicon glyphicon-remove");
-            DeleteButton.Controls.Add(DeleteSpan);
-            CellDelete.Controls.Add(DeleteButton);
-            row.Controls.Add(CellDelete);
+#if !DEBUG
+            if (StoredVars.Objects.Rights["teachermanagement"]["deleteteacher"])
+#endif
+            {
+                TableCell CellDelete = new TableCell();
+                CellDelete.Attributes.Add("data-ignoretransform", "true");
+                HtmlButton DeleteButton = new HtmlButton();
+                DeleteButton.Attributes.Add("onclick", "DeleteStudent(this)");
+                DeleteButton.Attributes.Add("class", "btn btn-danger hidden-print");
+                DeleteButton.Attributes.Add("data-id", ID.ToString());
+                HtmlGenericControl DeleteSpan = new HtmlGenericControl("span");
+                DeleteSpan.Attributes.Add("class", "glyphicon glyphicon-remove");
+                DeleteButton.Controls.Add(DeleteSpan);
+                CellDelete.Controls.Add(DeleteButton);
+                row.Controls.Add(CellDelete);
+            }
             return row;
         }
         private void BuildRightOptions()
@@ -283,7 +294,7 @@ namespace Lessoner
                                 if (Convert.ToBoolean(TeacherData[i][0]))
                                 {//Neuer Schüler
                                     byte[] Password;
-                                    if (TeacherData[i].Length != 5 || TeacherData[i][3].Length != 9 || TeacherData[i][4].Length != 8)//Daten auf richtiges format überprüfen
+                                    if (TeacherData[i].Length != 5 || TeacherData[i][3].Length != 13 || TeacherData[i][4].Length != 8)//Daten auf richtiges format überprüfen
                                     {
                                         ErrorArray[1].Add(i);
                                         continue;
@@ -322,7 +333,7 @@ namespace Lessoner
                                 {
                                     //Aktualisieren
                                     //Änderungen
-                                    if (TeacherData[i].Length != 5 || TeacherData[i][3].Length != 9 || TeacherData[i][4].Length != 8)//Daten auf richtiges format überprüfen
+                                    if (TeacherData[i].Length != 5 || TeacherData[i][3].Length != 13 || TeacherData[i][4].Length != 8)//Daten auf richtiges format überprüfen
                                     {
                                         ErrorArray[1].Add(i);
                                         continue;
@@ -399,10 +410,15 @@ namespace Lessoner
             {
                 LinkStudentManagement.Style.Add("display", "none");
             }
-            if (!StoredVars.Objects.Rights["lessonerbuilder"]["permission"])
+            if (!StoredVars.Objects.Rights["teachermanagement"]["permission"])
             {
-                //LinkLessonerBuilder.Dispose();
+                LinkTeacherMamagement.Style.Add("display", "none");
             }
+        }
+        protected void Logoutbutton_Click(object sender, EventArgs e)
+        {
+            StoredVars.Objects = new StoredVars();
+            Response.Redirect("/default.aspx", true);
         }
     }
 }

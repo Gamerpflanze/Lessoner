@@ -208,3 +208,7 @@ body {
     cursor:default !important;
     text-align:right;
 }
+#LessonInfoText:hover
+{
+    cursor:default !important;
+}

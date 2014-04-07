@@ -149,6 +149,12 @@ namespace Lessoner
                         ClassTeacherSelecter.Attributes.Add("class", "col-md-6");
                     }
                 }
+                if (!StoredVars.Objects.Rights["lessoner"]["editlessoninfo"])
+                {
+                    ApplyInfoText.Style.Add("display", "none");
+                    LessonInfoText.Enabled = false;
+
+                }
 #endif
                 if (!Page.IsPostBack)
                 {
@@ -770,6 +776,11 @@ namespace Lessoner
             }
 
             LoadLessoner();
+        }
+        protected void Logoutbutton_Click(object sender, EventArgs e)
+        {
+            StoredVars.Objects = new StoredVars();
+            Response.Redirect("/default.aspx", true);
         }
     }
 }

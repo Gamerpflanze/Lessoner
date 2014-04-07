@@ -1235,5 +1235,10 @@ namespace Lessoner
                 //LinkLessonerBuilder.Dispose();
             }
         }
+        protected void Logoutbutton_Click(object sender, EventArgs e)
+        {
+            StoredVars.Objects = new StoredVars();
+            Response.Redirect("/default.aspx", true);
+        }
     }
 }

@@ -5,8 +5,10 @@ var SelectedRow = jQuery([]);
 var SelectedIndex = -1;
 var DoneChange = false;
 var HasError = false;
+var CantEdit = false;
 function EditStudent(sender)
 {
+    if (CantEdit) { return; }
     var Sender = jQuery(sender);
     if (Sender.parent().index() == SelectedIndex)
     {
@@ -50,6 +52,7 @@ function EditStudent(sender)
 }
 function RightChanged(Sender)
 {
+    if (CantEdit) { return; }
     var sender = jQuery(Sender);
     DoneChange = true;
     SelectedRow.addClass("warning");
@@ -61,6 +64,7 @@ function RightChanged(Sender)
 }
 function TextChanged(Sender)
 {
+    if (CantEdit) { return; }
     DoneChange = true;
     var Input = jQuery(Sender);
     Input.parent().parent().attr("data-changed", "true");
@@ -92,6 +96,7 @@ function TextChanged(Sender)
 
 function SaveStudents()
 {
+    if (CantEdit) { return; }
     if (!DoneChange || HasError)
     {
         return;
@@ -159,9 +164,10 @@ function SaveStudents()
 }
 function AddNewStudent()
 {
+    if (CantEdit) { return;}
     HasError = true;
     DoneChange = true;
-    var NewRow = jQuery('<tr data-changed="true" data-newstudent="true" data-id="-1" class="danger" data-rights="000000000">\
+    var NewRow = jQuery('<tr data-changed="true" data-newstudent="true" data-id="-1" class="danger" data-rights="00000000000000">\
             <td onclick="EditStudent(this)" class="has-error"><span></span></td>\
             <td onclick="EditStudent(this)" class="has-error"><span></span></td>\
             <td onclick="EditStudent(this)" class="has-error"><span></span></td>\
@@ -169,6 +175,7 @@ function AddNewStudent()
             <td onclick="EditStudent(this)" class="has-error"><span></span></td>\
             <td onclick="EditStudent(this)" class="has-error"><span></span></td>\
             <td onclick="EditStudent(this)" class="has-error"><span></span></td>\
+            <td class="has-error" data-ignoretransform="true"></td>\
         </tr>');
     NewRow.appendTo(jQuery("#StudentList"));
     NewRow.children(":first").click();
@@ -192,7 +199,10 @@ function ReadyClassChange()
 }
 
 
-
+function CantEditSetter()
+{
+    CantEdit = true;
+}
 
 
 window.onbeforeunload = function ()

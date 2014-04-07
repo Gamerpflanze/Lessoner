@@ -85,6 +85,15 @@ namespace Lessoner {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl LinkTeacherMamagement;
         
         /// <summary>
+        /// Logoutbutton-Steuerelement
+        /// </summary>
+        /// <remarks>
+        /// Automatisch generiertes Feld
+        /// Um dies zu ändern, verschieben Sie die Felddeklaration aus der Designerdatei in eine Code-Behind-Datei.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton Logoutbutton;
+        
+        /// <summary>
         /// PageHeader-Steuerelement
         /// </summary>
         /// <remarks>
@@ -121,6 +130,33 @@ namespace Lessoner {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl ClassList;
         
         /// <summary>
+        /// NewClassBtn-Steuerelement
+        /// </summary>
+        /// <remarks>
+        /// Automatisch generiertes Feld
+        /// Um dies zu ändern, verschieben Sie die Felddeklaration aus der Designerdatei in eine Code-Behind-Datei.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor NewClassBtn;
+        
+        /// <summary>
+        /// RenameClass-Steuerelement
+        /// </summary>
+        /// <remarks>
+        /// Automatisch generiertes Feld
+        /// Um dies zu ändern, verschieben Sie die Felddeklaration aus der Designerdatei in eine Code-Behind-Datei.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlButton RenameClass;
+        
+        /// <summary>
+        /// DeleteClass-Steuerelement
+        /// </summary>
+        /// <remarks>
+        /// Automatisch generiertes Feld
+        /// Um dies zu ändern, verschieben Sie die Felddeklaration aus der Designerdatei in eine Code-Behind-Datei.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlButton DeleteClass;
+        
+        /// <summary>
         /// StudentRights-Steuerelement
         /// </summary>
         /// <remarks>
@@ -155,6 +191,24 @@ namespace Lessoner {
         /// Um dies zu ändern, verschieben Sie die Felddeklaration aus der Designerdatei in eine Code-Behind-Datei.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Table StudentList;
+        
+        /// <summary>
+        /// AddStudent-Steuerelement
+        /// </summary>
+        /// <remarks>
+        /// Automatisch generiertes Feld
+        /// Um dies zu ändern, verschieben Sie die Felddeklaration aus der Designerdatei in eine Code-Behind-Datei.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlButton AddStudent;
+        
+        /// <summary>
+        /// SaveAll-Steuerelement
+        /// </summary>
+        /// <remarks>
+        /// Automatisch generiertes Feld
+        /// Um dies zu ändern, verschieben Sie die Felddeklaration aus der Designerdatei in eine Code-Behind-Datei.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlButton SaveAll;
         
         /// <summary>
         /// DeleteConfirmPanel-Steuerelement
