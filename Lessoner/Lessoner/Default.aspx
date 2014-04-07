@@ -27,7 +27,7 @@
                         <h4 class="modal-title" id="myModalLabel">Einloggen</h4>
                     </div>
                     <div class="modal-body">
-                        <asp:UpdatePanel runat="server">
+                        <asp:UpdatePanel runat="server" UpdateMode="Always">
                             <ContentTemplate>
                                 <asp:ScriptManager runat="server"></asp:ScriptManager>
                                 <asp:Panel runat="server" ID="LoginControlls">
@@ -69,32 +69,34 @@
                         <span class="icon-bar"></span>
                     </button>
                 </div>
-                <div class="collapse navbar-collapse">
-                    <ul class="nav navbar-nav">
-                        <li class="active"><a href="#">Hauptseite</a></li>
-                        <li id="display" style="display: none"><a href="Lessoner.aspx">Stundenplan</a></li>
-                    </ul>
-                    <div class="navbar-form navbar-right">
-                        <asp:UpdatePanel runat="server" UpdateMode="Always" ID="LoginControllsUpdatePanel">
-                            <ContentTemplate>
-                                <button class="btn btn-primary navbar-right maxwidth-xs" runat="server" data-toggle="modal" data-target="#LoginModal" id="OpenLogin">Einloggen</button>
-                                <div class="btn-group" style="display: none" runat="server" id="PageDropDown">
-                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                <asp:UpdatePanel runat="server" UpdateMode="Always" ID="LoginControllsUpdatePanel">
+                    <ContentTemplate>
+                        <div class="collapse navbar-collapse">
+                            <ul class="nav navbar-nav" runat="server">
+                                <li class="active"><a href="#">Hauptseite</a></li>
+                                <li id="LinkLessoner" runat="server" style="display: none;"><a href="/lessoner.aspx">Stundenplan</a></li>
+                                <li id="LinkLessonerBuilder" runat="server" style="display: none;"><a href="/lessonerbuilder.aspx">Stundenplanerstellung</a></li>
+                                <li id="LinkStudentManagement" runat="server" style="display: none;"><a href="/schuelerverwaltung.aspx">Schülerverwaltung</a></li>
+                                <li id="LinkTeacherMamagement" runat="server" style="display: none;"><a href="/lehrerverwaltung.aspx">Lehrerverwaltung</a></li>
+                            </ul>
+                            <ul class="nav navbar-nav navbar-right">
+                                <li>
+                                    <a href="#" runat="server" data-toggle="modal" data-target="#LoginModal" id="OpenLogin">Einloggen</a>
+                                </li>
+                                <li class="dropdown" style="display: none" runat="server" id="PageDropDown">
+                                    <a class="dropdown-toggle" data-toggle="dropdown">
                                         <span runat="server" id="User"></span><span class="caret"></span>
-                                    </button>
+                                    </a>
                                     <ul class="dropdown-menu">
-                                        <li id="LinkLessoner" runat="server"><a href="/lessoner.aspx">Stundenplan</a></li>
-                                        <li id="LinkLessonerBuilder" runat="server"><a href="/lessonerbuilder.aspx">Stundenplanerstellung</a></li>
-                                        <li id="LinkStudentManagement" runat="server"><a href="/schuelerverwaltung.aspx">Schülerverwaltung</a></li>
-                                        <li id="LinkTeacherMamagement" runat="server"><a href="/lehrerverwaltung.aspx">Lehrerverwaltung</a></li>
-                                        <li role="presentation" class="divider"></li>
                                         <li><a>Passwort ändern</a></li>
+                                        <li>
+                                            <asp:LinkButton ID="Logoutbutton" runat="server" OnClick="Logoutbutton_Click">Abmelden</asp:LinkButton></li>
                                     </ul>
-                                </div>
-                            </ContentTemplate>
-                        </asp:UpdatePanel>
-                    </div>
-                </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </ContentTemplate>
+                </asp:UpdatePanel>
             </div>
         </div>
         <div class="jumbotron">

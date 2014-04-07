@@ -60,18 +60,25 @@ namespace Lessoner
         private void ReadyPageDropDown()
         {
             User.InnerText = StoredVars.Objects.Vorname + " " + StoredVars.Objects.Nachname;
-            if(!StoredVars.Objects.Rights["lessonerbuilder"]["permission"])
+            LinkLessoner.Style["display"] = "inline";
+            if(StoredVars.Objects.Rights["lessonerbuilder"]["permission"])
             {
-                LinkLessonerBuilder.Style.Add("display", "none");
+                LinkLessonerBuilder.Style["display"] = "inline";
             }
-            if (!StoredVars.Objects.Rights["studentmanagement"]["permission"])
+            if (StoredVars.Objects.Rights["studentmanagement"]["permission"])
             {
-                LinkStudentManagement.Style.Add("display", "none");
+                LinkStudentManagement.Style["display"] = "inline";
             }
-            if (!StoredVars.Objects.Rights["lessonerbuilder"]["permission"])
+            if (StoredVars.Objects.Rights["teachermanagement"]["permission"])
             {
-                //LinkLessonerBuilder.Dispose();
+                LinkTeacherMamagement.Style["display"] = "inline";
             }
+        }
+
+        protected void Logoutbutton_Click(object sender, EventArgs e)
+        {
+            StoredVars.Objects = new StoredVars();
+            Response.Redirect("/default.aspx", true);
         }
     }
 }

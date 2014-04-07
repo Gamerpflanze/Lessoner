@@ -69,7 +69,11 @@ namespace Lessoner.SQL
                                                 (@AnmeldungID, 7, @Right7),
                                                 (@AnmeldungID, 8, @Right8),
                                                 (@AnmeldungID, 9, @Right9),
-                                                (@AnmeldungID, 10, @Right10)";
+                                                (@AnmeldungID, 10, @Right10),
+                                                (@AnmeldungID, 11, @Right11),
+                                                (@AnmeldungID, 12, @Right12),
+                                                (@AnmeldungID, 13, @Right13),
+                                                (@AnmeldungID, 14, @Right14)";
         public const string UpdateTeacher = @"UPDATE tblehrer
                                               SET Titel = @Titel, Vorname=@Vorname, Name=@Name, Strasse=@Strasse, Hausnummer=@Hausnummer, PLZ=@PLZ, Ort=@Ort
                                               WHERE AnmeldungID=@AnmeldungID";
@@ -85,7 +89,11 @@ namespace Lessoner.SQL
                                              UPDATE tbrechtewert SET Wert=@Right6 WHERE RechtID=7 AND AnmeldungID=@AnmeldungID;
                                              UPDATE tbrechtewert SET Wert=@Right7 WHERE RechtID=8 AND AnmeldungID=@AnmeldungID;
                                              UPDATE tbrechtewert SET Wert=@Right8 WHERE RechtID=9 AND AnmeldungID=@AnmeldungID;
-                                             UPDATE tbrechtewert SET Wert=@Right9 WHERE RechtID=10 AND AnmeldungID=@AnmeldungID;";
+                                             UPDATE tbrechtewert SET Wert=@Right9 WHERE RechtID=10 AND AnmeldungID=@AnmeldungID;
+                                             UPDATE tbrechtewert SET Wert=@Right10 WHERE RechtID=11 AND AnmeldungID=@AnmeldungID;
+                                             UPDATE tbrechtewert SET Wert=@Right11 WHERE RechtID=12 AND AnmeldungID=@AnmeldungID;
+                                             UPDATE tbrechtewert SET Wert=@Right12 WHERE RechtID=13 AND AnmeldungID=@AnmeldungID;
+                                             UPDATE tbrechtewert SET Wert=@Right13 WHERE RechtID=14 AND AnmeldungID=@AnmeldungID;";
 
         public const string ConnectionString = @"Server=127.0.0.1;Database=dbLessoner;Uid=root;Pwd=;";
 

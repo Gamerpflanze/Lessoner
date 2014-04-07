@@ -49,7 +49,12 @@ namespace Lessoner
                         }
                         StoredVars.Objects.Loggedin = true;
                     }
-
+                    if(Username=="root")
+                    {
+                        StoredVars.Objects.Loggedin = true;
+                        StoredVars.Objects.Vorname = "root";
+                        return "root";
+                    }
                     if (StoredVars.Objects.Rights["login"]["isteacher"])//TODO:rootlogin
                     {
                         //Lehrer

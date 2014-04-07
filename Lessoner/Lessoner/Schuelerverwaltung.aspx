@@ -50,6 +50,7 @@
                                         <li id="LinkTeacherMamagement" runat="server"><a href="/lehrerverwaltung.aspx">Lehrerverwaltung</a></li>
                                         <li role="presentation" class="divider"></li>
                                         <li><a>Passwort ändern</a></li>
+                                        <li><asp:LinkButton ID="Logoutbutton" runat="server" OnClick="Logoutbutton_Click">Abmelden</asp:LinkButton></li>
                                     </ul>
                                 </div>
                             </ContentTemplate>
@@ -67,15 +68,15 @@
                                 <a class="btn btn-default dropdown-toggle maxwidth-xs pull-left" data-toggle="dropdown" runat="server" id="OpenClassMenu">Keine Klasse<span class="hidden-print caret"></span>
                                 </a>
                                 <ul class="dropdown-menu maxwidth-xs hidden-print" id="ClassList" runat="server">
-                                    <li><a onclick="jQuery('#NewClassModal').modal('show');">&lt;Neue Klasse&gt;</a></li>
+                                    <li><a onclick="jQuery('#NewClassModal').modal('show');" runat="server" id="NewClassBtn">&lt;Neue Klasse&gt;</a></li>
                                 </ul>
                             </div>
                         </div>
                         <div class="col-sm-3" style="text-align: center">
-                            <button type="button" class="btn btn-default maxwidth-xs hidden-print" onclick="jQuery('#RenameClassModal').modal('show')">Umbenennen</button>
+                            <button type="button" class="btn btn-default maxwidth-xs hidden-print" onclick="jQuery('#RenameClassModal').modal('show')" runat="server" id="RenameClass">Umbenennen</button>
                         </div>
                         <div class="col-sm-3" style="text-align: center">
-                            <button type="button" class="btn btn-default maxwidth-xs hidden-print" onclick="jQuery('#DeleteClassConfirmModal').modal('show')">Löschen</button>
+                            <button type="button" class="btn btn-default maxwidth-xs hidden-print" onclick="jQuery('#DeleteClassConfirmModal').modal('show')" runat="server" id="DeleteClass">Löschen</button>
                         </div>
                         <div class="col-sm-3">
                             <button type="button" class="btn btn-default maxwidth-xs hidden-xs pull-right hidden-print" onclick="javascript:window.print()">Klassenliste Drucken</button>
@@ -105,8 +106,8 @@
                             <asp:TableHeaderCell></asp:TableHeaderCell>
                         </asp:TableHeaderRow>
                     </asp:Table>
-                    <button type="button" class="btn btn-default hidden-print" onclick="AddNewStudent()">Hinzufügen</button>
-                    <button type="button" class="btn btn-primary pull-right hidden-print" onclick="SaveStudents()">Speichern</button>
+                    <button type="button" class="btn btn-default hidden-print" onclick="AddNewStudent()" runat="server" id="AddStudent">Hinzufügen</button>
+                    <button type="button" class="btn btn-primary pull-right hidden-print" onclick="SaveStudents()" runat="server" id="SaveAll">Speichern</button>
                 </ContentTemplate>
                 <Triggers>
                 </Triggers>
@@ -195,6 +196,7 @@
                                 <h4 class="modal-title" id="RenameClassModalTitle">Neue Klasse</h4>
                             </div>
                             <div class="modal-body">
+                                uto !important;">
                                 Neuer Klassenname:
                                 <asp:TextBox runat="server" ID="RenameClassName" CssClass="form-control" autocomplete="off"></asp:TextBox>
                             </div>
@@ -213,7 +215,7 @@
         </div>
     </form>
     <div class="modal" id="LoadingModal" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog" style="width: 282px !important; margin-top: 350px; margin-left: auto !important; margin-right: auto !important;">
+        <div class="modal-dialog" style="width: 170px !important; margin-top: 350px; margin-left: auto !important; margin-right: auto !important;">
             <div class="modal-content">
                 <div class="modal-body">
                     <img src="Data/Images/loading.gif" alt="Lade" id="LoadingImage" />

@@ -5,8 +5,10 @@ var SelectedRow = jQuery([]);
 var SelectedIndex = -1;
 var DoneChange = false;
 var HasError = false;
+var CantEdit = false;
 function EditTeacher(sender)
 {
+    if (CantEdit) { return; }
     var Sender = jQuery(sender);
     if (Sender.parent().index() == SelectedIndex)
     {
@@ -50,6 +52,7 @@ function EditTeacher(sender)
 }
 function RightChanged(Sender)
 {
+    if (CantEdit) { return; }
     var sender = jQuery(Sender);
     DoneChange = true;
     SelectedRow.addClass("warning");
@@ -92,6 +95,7 @@ function TextChanged(Sender)
 
 function SaveTeachers()
 {
+    if (CantEdit) { return; }
     if (!DoneChange || HasError)
     {
         return;
@@ -159,6 +163,7 @@ function SaveTeachers()
 }
 function AddNewTeacher()
 {
+    if (CantEdit) { return; }
     HasError = true;
     DoneChange = true;
     var NewRow = jQuery('<tr data-changed="true" data-newTeacher="true" data-id="-1" class="danger" data-rights="000000000">\
@@ -186,6 +191,9 @@ function SetCharAt(string, replacement, index) {
 
 
 
+function CantEditSetter() {
+    CantEdit = true;
+}
 
 
 window.onbeforeunload = function ()
