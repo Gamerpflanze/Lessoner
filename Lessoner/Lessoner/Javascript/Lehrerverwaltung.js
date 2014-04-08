@@ -69,6 +69,10 @@ function TextChanged(Sender)
     Input.parent().parent().attr("data-changed", "true");
     if(Input.val()=="")
     {
+        if (Input.parent().attr("data-alowedempty") == "true")
+        {
+            return;
+        }
         HasError = true;
         Input.parent().addClass("has-error");
         Input.parent().parent().removeClass("warning");
@@ -79,7 +83,7 @@ function TextChanged(Sender)
         if (!Input.parent().parent().hasClass("warning")) {
             var Current = Input.parent().parent();
             Input.parent().removeClass("has-error");
-            for (var i = 0; i < Input.parent().parent().children().length-1; i++)
+            for (var i = 1; i < Input.parent().parent().children().length-1; i++)//1 Da titel übersprungen
             {
                 if(Current.children(":nth-child(" + (i+1) + ")").children().val()=="")
                 {
@@ -167,7 +171,7 @@ function AddNewTeacher()
     HasError = true;
     DoneChange = true;
     var NewRow = jQuery('<tr data-changed="true" data-newTeacher="true" data-id="-1" class="danger" data-rights="0000000000000">\
-            <td onclick="EditTeacher(this)" class="has-error"><span></span></td>\
+            <td onclick="EditTeacher(this)" class="has-error" data-alowedempty="true"><span></span></td>\
             <td onclick="EditTeacher(this)" class="has-error"><span></span></td>\
             <td onclick="EditTeacher(this)" class="has-error"><span></span></td>\
             <td onclick="EditTeacher(this)" class="has-error"><span></span></td>\

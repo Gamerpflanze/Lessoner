@@ -419,4 +419,5 @@ function ReadyRemoveRoom()
 function ReadyRemoveLessonName() {
     jQuery("#LessonNameToRemove").text(jQuery("#ddLessonName").text());
     jQuery('#RemoveLessonNameConfirm').modal({ backdrop: false });
-} 
+}
+var ErrorText = "";

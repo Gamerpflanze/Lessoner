@@ -86,7 +86,9 @@
     <Content Include="Bootstrap\fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Bootstrap\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="Bootstrap\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Clean_dblessoner.sql" />
     <Content Include="CSS\print.css" />
+    <Content Include="Data\FileDownload.aspx" />
     <Content Include="Data\Images\loading.gif" />
     <Content Include="Data\ProfileImages\0000.jpg" />
     <Content Include="Data\ProfileImages\Kunst.jpg" />
@@ -94,7 +96,6 @@
     <Content Include="DebugPage.aspx" />
     <Content Include="Dokumente\dbLessoner.sql" />
     <Content Include="Dokumente\Fehlermeldungen.ods" />
-    <Content Include="ClassDiagram1.cd" />
     <Content Include="ErrorPages\500Error.html" />
     <Content Include="ErrorPages\404Error.html" />
     <None Include="Web.Debug.config">
@@ -144,6 +145,13 @@
     <Compile Include="Code\HelperMethods.cs" />
     <Compile Include="Code\Lesson.cs" />
     <Compile Include="Code\StoredVars.cs" />
+    <Compile Include="Data\FileDownload.aspx.cs">
+      <DependentUpon>FileDownload.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Data\FileDownload.aspx.designer.cs">
+      <DependentUpon>FileDownload.aspx</DependentUpon>
+    </Compile>
     <Compile Include="DebugPage.aspx.cs">
       <DependentUpon>DebugPage.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

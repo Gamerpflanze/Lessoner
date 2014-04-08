@@ -158,6 +158,7 @@ namespace Lessoner
             CellTitle.Attributes.Add("onClick", "EditTeacher(this)");
             Label lTitle = new Label();
             lTitle.Text = Title;
+            CellTitle.Attributes.Add("data-alowedempty", "true");
             CellTitle.Controls.Add(lTitle);
             row.Controls.Add(CellTitle);
 
@@ -304,7 +305,7 @@ namespace Lessoner
                                         Password = hasher.ComputeHash(Encoding.UTF8.GetBytes(TeacherData[i][4][3] + TeacherData[i][4][4]));
                                     }
                                     cmd.CommandText = SQL.Statements.InsertNewLogin;
-                                    cmd.Parameters.AddWithValue("@Email", TeacherData[i][4][6]);
+                                    cmd.Parameters.AddWithValue("@Email", TeacherData[i][4][7]);
                                     cmd.Parameters.AddWithValue("@Password", Password);
                                     int LoginID = Convert.ToInt32(cmd.ExecuteScalar());
                                     cmd.Parameters.Clear();
@@ -358,7 +359,7 @@ namespace Lessoner
                                     cmd.ExecuteNonQuery();
                                     cmd.Parameters.Clear();
                                     cmd.CommandText = SQL.Statements.UpdateLoginName;   //Loginname Updaten
-                                    cmd.Parameters.Add("@Email", TeacherData[i][4][6]);
+                                    cmd.Parameters.Add("@Email", TeacherData[i][4][7]);
                                     cmd.Parameters.AddWithValue("@AnmeldungID", TeacherData[i][2]);
                                     cmd.ExecuteNonQuery();
                                     cmd.Parameters.Clear();

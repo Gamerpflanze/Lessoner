@@ -52,14 +52,10 @@ namespace Lessoner
                 ScriptManager.RegisterClientScriptBlock(this, typeof(Page), "ErrorDisplay", "LoginFailed()", true);
                 return;
             }
-            LoginControlls.CssClass = "";
-            LoginControlls.Controls.Clear();
-            LinkButton ProfileLink = new LinkButton();
-            ProfileLink.Text = Username;
-            LoginControlls.Controls.Add(ProfileLink);
             OpenLogin.Style.Add("display", "none");
             PageDropDown.Style.Add("display", "block");
             ReadyPageDropDown();
+            ScriptManager.RegisterClientScriptBlock(this, typeof(Page), "CloseLogin", "jQuery('#LoginModal').modal('hide');jQuery('#LoadingModal').modal('hide');", true);
         }
         private void ReadyPageDropDown()
         {
@@ -102,7 +98,7 @@ namespace Lessoner
                             cmd.CommandText = SQL.Statements.InsertNewPasswort;
                             cmd.Parameters.AddWithValue("@NewPasswort", SHA1.Create().ComputeHash(Encoding.UTF8.GetBytes(NewPassword1.Text)));
                             cmd.ExecuteNonQuery();
-                            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "ClosePWChanger", "jQuery('#ChangePasswordModal').modal('hide');", true);
+                            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "ClosePWChanger", "jQuery('#ChangePasswordModal').modal('hide');jQuery('#LoadingModal').modal('hide');", true);
                         }
                         else
                         {

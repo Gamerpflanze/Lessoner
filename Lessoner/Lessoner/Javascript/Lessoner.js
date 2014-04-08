@@ -33,7 +33,7 @@ function getdays() {
 
 function LoadLessonInfoModal(ID, Open) {
     jQuery("#CurrentLesson").val(ID);
-
+    jQuery('#LoadingModal').modal({ backdrop: 'static', keyboard: false });
     $.ajax({
         async: true,
         type: "POST",
@@ -42,6 +42,7 @@ function LoadLessonInfoModal(ID, Open) {
         dataType: "JSON",
         contentType: "application/json; charset=utf-8;",
         success: function (data) {
+            jQuery("#LoadingModal").modal("hide");
             jQuery("#LessonInfoText").val(data.d[0]);
             jQuery("#FileTable").children("tbody").remove();
             for (var i = 0; i < data.d[1][0].length; i++) {

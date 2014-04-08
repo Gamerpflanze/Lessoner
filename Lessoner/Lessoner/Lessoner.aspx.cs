@@ -18,73 +18,80 @@ namespace Lessoner
         {
             get
             {
-                return StoredVars.Objects.Lessoner.WeekIndex;
+                //return StoredVars.Objects.Lessoner.WeekIndex;
+                return Convert.ToInt32(ViewState["WeekIndex"]);
             }
             set
             {
-                StoredVars.Objects.Lessoner.WeekIndex = value;
+                //StoredVars.Objects.Lessoner.WeekIndex = value;
+                ViewState["WeekIndex"] = value;
             }
         }
         List<DateTime> WeekBegins
         {
             get
             {
-                return StoredVars.Objects.Lessoner.WeekBegins;
+                //return StoredVars.Objects.Lessoner.WeekBegins;
+                return ViewState["WeekBegins"] as List<DateTime>;
             }
             set
             {
-                StoredVars.Objects.Lessoner.WeekBegins = value;
+                //StoredVars.Objects.Lessoner.WeekBegins = value;
+                ViewState["WeekBegins"] = value;
             }
         }
         LessonerCache.Selecter SelectedTimeTable
         {
             get
             {
-                return StoredVars.Objects.Lessoner.SelectedTimeTable;
+                //return StoredVars.Objects.Lessoner.SelectedTimeTable;
+                LessonerCache.Selecter s = new LessonerCache.Selecter();
+                s.ID = Convert.ToInt32(ViewState["SelectedTimeTableID"]);
+                s.Name = Convert.ToString(ViewState["SelectedTimeTableName"]);
+                s.Week = Convert.ToInt32(ViewState["SelectedTimeTableWeek"]);
+                return s;
             }
             set
             {
-                StoredVars.Objects.Lessoner.SelectedTimeTable = value;
+                //StoredVars.Objects.Lessoner.SelectedTimeTable = value;
+                //ViewState["SelectedTimeTable"] = value;
+
+                ViewState["SelectedTimeTableID"] = value.ID;
+                ViewState["SelectedTimeTableName"] = value.Name;
+                ViewState["SelectedTimeTableWeek"] = value.Week;
             }
         }
         bool TeacherLessons
         {
             get
             {
-                return StoredVars.Objects.Lessoner.TeacherLessons;
+                //return StoredVars.Objects.Lessoner.TeacherLessons;
+                return Convert.ToBoolean(ViewState["TeacherLessons"]);
             }
             set
             {
-                StoredVars.Objects.Lessoner.TeacherLessons = value;
+                //StoredVars.Objects.Lessoner.TeacherLessons = value;
+                ViewState["TeacherLessons"] = value;
             }
         }
-        List<Lesson> Lessons
-        {
-            get
-            {
-                return StoredVars.Objects.Lessoner.Lessons;
-            }
-            set
-            {
-                StoredVars.Objects.Lessoner.Lessons = value;
-            }
-        }
+        List<Lesson> Lessons = new List<Lesson>();
         string Script = "";
         protected void Page_Init(object sender, EventArgs e)
         {
             InitialiseLessoner();
         }
+        private void InitLists()
+        {
+            WeekBegins = new List<DateTime>();
+            Lessons = new List<Lesson>();
+            SelectedTimeTable = new LessonerCache.Selecter();
+        }
         protected void Page_Load(object sender, EventArgs e)
         {
-            //Http Errors 'nd shit
-
-            //EventHandler
             this.LoadComplete += new EventHandler(Page_LoadComplete);
-            //this.PreRender += new System.EventHandler(this.LessonerBuilder_PreRender);
-            //
-            //Script += JavascriptCaller.ClearCopyModal;
             if (!Page.IsPostBack)
             {
+                InitLists();
 #if !DEBUG
                 if (!StoredVars.Objects.Loggedin)
                 {
@@ -169,26 +176,29 @@ namespace Lessoner
                 Date = Date.AddDays(-((double)HelperMethods.DayOfWeekToNumber(Date.DayOfWeek) - 1));
                 for (int i = 0; i < 6; i++)
                 {
-                    StoredVars.Objects.Lessoner.WeekBegins.Add(Date);
+                    WeekBegins.Add(Date);
                     Date = Date.AddDays(7);
                 }
                 txtWeekBegin.Text = WeekBegins[WeekIndex].ToString("dd.MM.yyyy");
 
                 btnLastDate.Attributes.Add("disabled", "disabled");
             }
-            if (StoredVars.Objects.Rights["login"]["isteacher"])
+            if (!IsPostBack)
             {
-                LessonerCache.Selecter stt = SelectedTimeTable;
-                stt.ID = -1;
-                stt.Name = "";
-                SelectedTimeTable = stt;
-            }
-            else
-            {
-                LessonerCache.Selecter stt = SelectedTimeTable;
-                stt.ID = StoredVars.Objects.KlasseID;
-                stt.Name = StoredVars.Objects.KlasseName;
-                SelectedTimeTable = stt;
+                if (StoredVars.Objects.Rights["login"]["isteacher"])
+                {
+                    LessonerCache.Selecter stt = SelectedTimeTable;
+                    stt.ID = -1;
+                    stt.Name = "";
+                    SelectedTimeTable = stt;
+                }
+                else
+                {
+                    LessonerCache.Selecter stt = SelectedTimeTable;
+                    stt.ID = StoredVars.Objects.KlasseID;
+                    stt.Name = StoredVars.Objects.KlasseName;
+                    SelectedTimeTable = stt;
+                }
             }
             using (MySqlConnection con = new MySqlConnection(SQL.Statements.ConnectionString))
             {
@@ -241,6 +251,32 @@ namespace Lessoner
                             ScriptManager.GetCurrent(this).RegisterAsyncPostBackControl(TeacherLink);
                             li.Controls.Add(TeacherLink);
                             TeacherList.Controls.Add(li);
+                        }
+                    }
+                    string ErrorText = "";
+                    cmd.CommandText = SQL.Statements.CountTeacher;
+                    if (Convert.ToInt32(cmd.ExecuteScalar()) == 0)
+                    {
+                        ErrorText += "Es existieren momentan keine Lehrer. ";
+                    }
+                    cmd.CommandText = SQL.Statements.CountClasses;
+                    if (Convert.ToInt32(cmd.ExecuteScalar()) == 0)
+                    {
+                        ErrorText += "Es existieren momentan keine Klassen. ";
+                    }
+                    if (ErrorText != "")
+                    {
+                        tbTimetable.Style.Add("display", "none");
+                        Header.Style.Add("display", "none");
+                        ErrorMessage.Style["display"] = "inline";
+                        if (StoredVars.Objects.Rights["login"]["isteacher"])
+                        {
+                            ErrorMessage.InnerText = ErrorText + "Diese wurden noch nicht erstellt. Daher ist diese Seite noch nicht Verfügbar.";
+                        }
+                        else
+                        {
+                            ErrorMessage.InnerText = ErrorText + "Diese Seite ist momentan noch nicht verfügbar.";
+
                         }
                     }
                     con.Close();
@@ -377,8 +413,15 @@ namespace Lessoner
                         cmd.CommandText = SQL.Statements.CheckForLessoner;
                         if (Convert.ToInt32(cmd.ExecuteScalar()) == 0)
                         {
-                            cmd.CommandText = SQL.Statements.InsertEmptyLessoner;
-                            cmd.ExecuteNonQuery();
+                            try
+                            {
+                                cmd.CommandText = SQL.Statements.InsertEmptyLessoner;
+                                cmd.ExecuteNonQuery();
+                            }
+                            catch
+                            {
+
+                            }
                         }
                     }
                     cmd.CommandText = SQL.Statements.GetDayInformations;
@@ -668,6 +711,8 @@ namespace Lessoner
             }
 
             ReloadLessonInfoModal();
+            LoadLessoner();
+            Script += "jQuery('#LoadingModal').modal('hide');";
         }
         [WebMethod]
         public static dynamic LoadLessonInfoModal(int ID)

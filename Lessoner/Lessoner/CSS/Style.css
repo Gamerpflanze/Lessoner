@@ -212,3 +212,11 @@ body {
 {
     cursor:default !important;
 }
+.Control-Margin-Bottom
+{
+    margin-bottom:17px;
+}
+.NumericBoxHeightFix
+{
+    height:33px;
+}

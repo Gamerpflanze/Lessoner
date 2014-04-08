@@ -62,7 +62,7 @@
                         </asp:UpdatePanel>
                     </div>
                 </div>
-                <div class="page-header">
+                <div class="page-header" id="Header" runat="server">
                     <div class="container">
                         <div class="input-group left" style="float: left">
                             <asp:LinkButton CssClass="btn btn-default LessonerButtonLeft DisabledATag" ID="btnLastDate" runat="server" OnClick="btnLastDate_Click" OnClientClick="OpenLoadingIndicator('true');">
@@ -82,10 +82,10 @@
                         </div>
                         <button class="btn btn-default" style="float: right;" data-toggle="modal" data-target="#CopyModal">Kopieren</button>
                     </div>
-                    <div class="row">
-                    </div>
+
                 </div>
-                <div class="container">
+                <div class="container" id="Body" runat="server">
+                    <h1 runat="server" id="ErrorMessage" style="display: none"></h1>
                     <asp:Table runat="server" ID="tbTimetable" CssClass="table table-bordered" EnableViewState="false">
                         <asp:TableHeaderRow TableSection="TableHeader">
                             <asp:TableHeaderCell CssClass="tableStunde" runat="server">Zeit</asp:TableHeaderCell>
@@ -131,7 +131,7 @@
                                 <h4 class="modal-title" id="LessonEditTitle">Stunde bearbeiten</h4>
                             </div>
                             <div class="modal-body">
-                                <div class="row" style="text-align: center">
+                                <div class="row Control-Margin-Bottom" style="text-align: center;">
                                     <div class="col-md-4">
                                         <div class="btn-group pull-left">
                                             <button class="btn btn-default dropdown-toggle" data-toggle="dropdown" runat="server" id="ddLessonName">
@@ -162,11 +162,11 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row">
+                                <div class="row Control-Margin-Bottom">
                                     <div class="col-sm-4" style="float: left">
                                         <div class="input-group">
                                             <span class="input-group-addon">Von</span>
-                                            <asp:TextBox runat="server" ID="txtCountBegin" CssClass="form-control LessonerNumericBox" Text="" ReadOnly="true" />
+                                            <asp:TextBox runat="server" ID="txtCountBegin" CssClass="form-control LessonerNumericBox NumericBoxHeightFix" Text="" ReadOnly="true" />
                                             <span class="input-group-addon UpDownButtonContainer">
                                                 <table>
                                                     <tr>
@@ -186,7 +186,7 @@
                                     <div class="col-xs-4" style="float: left">
                                         <div class="input-group">
                                             <span class="input-group-addon">Bis</span>
-                                            <asp:TextBox runat="server" ID="txtCountEnd" CssClass="form-control LessonerNumericBox" Text="" ReadOnly="true" />
+                                            <asp:TextBox runat="server" ID="txtCountEnd" CssClass="form-control LessonerNumericBox NumericBoxHeightFix" Text="" ReadOnly="true" />
                                             <span class="input-group-addon UpDownButtonContainer">
                                                 <table>
                                                     <tr>
@@ -318,10 +318,10 @@
                                 <h4 class="modal-title" id="CopyModalTitle">Stundenplan Kopieren</h4>
                             </div>
                             <div class="modal-body">
-                                <div class="row">
+                                <div class="row Control-Margin-Bottom">
                                     <div class="col-lg-6">
                                         <div class="input-group" id="DateFromGroup">
-                                            <span class="input-group-addon">Von</span>
+                                            <span class="input-group-addon" >Von</span>
                                             <input type="text" class="form-control" runat="server" id="txtDateFrom" onblur="txtDateFrom_Blur()" />
                                             <span class="input-group-addon UpDownButtonContainer">
                                                 <table>
@@ -482,7 +482,7 @@
                                 <h4 class="modal-title" id="NewLessonModalTitle">Neues Fach</h4>
                             </div>
                             <div class="modal-body">
-                                <div class="input-group">
+                                <div class="input-group Control-Margin-Bottom">
                                     <span class="input-group-addon">Name</span>
                                     <asp:TextBox CssClass="form-control" runat="server" ID="NormalLessonName"></asp:TextBox>
                                 </div>
@@ -545,6 +545,22 @@
                             <asp:AsyncPostBackTrigger ControlID="RemoveConfirmButton" />
                         </Triggers>
                     </asp:UpdatePanel>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade AbortModal" id="LastSubject" tabindex="-1" role="dialog" aria-labelledby="LastSubjectTitle" aria-hidden="true">
+            <div class="modal-dialog AbortModalDialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="LastSubjectTitle">Achtung</h4>
+                    </div>
+                    <div class="modal-body">
+                        Das gewählte Fach konnte nicht gelöscht werden da es das letzte verfügbare Fach ist.
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">OK</button>
+                    </div>
                 </div>
             </div>
         </div>
