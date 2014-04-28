@@ -7,8 +7,11 @@ using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
 using System.Web.Services;
 using System.Web.Script.Services;
+using System.Web.Configuration;
 using System.Security.Cryptography;
 using System.Text;
+using System.Net;
+using System.Net.Mail;
 using MySql;
 using MySql.Data;
 using MySql.Data.MySqlClient;
@@ -320,6 +323,14 @@ namespace Lessoner
             dynamic ErrorArray = new dynamic[2];
             ErrorArray[0] = 2;
             ErrorArray[1] = new List<dynamic>();
+            
+            SmtpClient Client = new SmtpClient();
+            Client.EnableSsl = true;
+
+            MailMessage Mail = new MailMessage();
+            Mail.Subject = "Zu Lessoner hinzugefügt";
+            
+            string MailBody = "Sie wurden als Schüler zum Lessoner hinzugefügt. Bitte legen sie ihr Passwort fest indem sie auf den folgenden Link klicken: "+WebConfigurationManager.AppSettings["SetPasswortUrl"]+"{0}";
 #if !DEBUG
             if (!StoredVars.Objects.Rights["studentmanagement"]["editstudents"])
             {
@@ -353,10 +364,13 @@ namespace Lessoner
                                     }
                                     cmd.CommandText = SQL.Statements.InsertNewLogin;
                                     cmd.Parameters.AddWithValue("@Email", StudentData[i][4][6]);
-                                    cmd.Parameters.AddWithValue("@Password", Password);
+                                    cmd.Parameters.AddWithValue("@Password", Guid.NewGuid().ToString("N"));
+
                                     int LoginID = Convert.ToInt32(cmd.ExecuteScalar());
+                                    
                                     cmd.Parameters.Clear();
                                     cmd.CommandText = SQL.Statements.InsertNewStudent;
+                                    
                                     cmd.Parameters.AddWithValue("@AnmeldungID", LoginID);
                                     cmd.Parameters.AddWithValue("@Vorname", StudentData[i][4][0]);
                                     cmd.Parameters.AddWithValue("@Name", StudentData[i][4][1]);
@@ -365,17 +379,35 @@ namespace Lessoner
                                     cmd.Parameters.AddWithValue("@PLZ", StudentData[i][4][4]);
                                     cmd.Parameters.AddWithValue("@Ort", StudentData[i][4][5]);
                                     cmd.Parameters.AddWithValue("@KlasseID", ClassID);
+                                    
                                     cmd.ExecuteNonQuery();
                                     cmd.Parameters.Clear();
+                                    
                                     cmd.CommandText = SQL.Statements.InsertNewRights;
+                                    
                                     cmd.Parameters.AddWithValue("@AnmeldungID", LoginID);
                                     cmd.Parameters.AddWithValue("@Right1", 0);//da Kein Lehrer
+                                    
                                     for (int j = 0; j < StudentData[i][3].Length; j++)
                                     {//                                                            V    Doesnt work another way              V 
                                         cmd.Parameters.AddWithValue("@Right" + (j + 2).ToString(), Convert.ToByte(StudentData[i][3][j] == '1'));
                                     }
+                                    
                                     cmd.ExecuteNonQuery();
                                     cmd.Parameters.Clear();
+
+                                    string PageParameter = Guid.NewGuid().ToString("N");
+                                    
+                                    cmd.Parameters.AddWithValue("@AnmeldungID", LoginID);
+                                    cmd.Parameters.AddWithValue("@Parameter", PageParameter);
+                                    cmd.CommandText = SQL.Statements.InsertNewSetPasswortPageParameter;
+
+                                    cmd.ExecuteNonQuery();
+
+                                    Mail.Body = String.Format(MailBody, "?key="+PageParameter);
+                                    Mail.To.Clear();
+                                    Mail.To.Add(StudentData[i][4][6]);
+                                    Client.Send(Mail);
                                 }
                                 else
                                 {
@@ -414,7 +446,7 @@ namespace Lessoner
                         }
                         con.Close();
                     }
-                    catch
+                    catch(Exception ex)
                     {
                         //TODO:fehlerbehebung
                     }

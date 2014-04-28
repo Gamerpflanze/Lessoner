@@ -207,6 +207,7 @@ body {
 .LessonerNumericBox {
     cursor:default !important;
     text-align:right;
+    height:34px !important;
 }
 #LessonInfoText:hover
 {
@@ -215,8 +216,4 @@ body {
 .Control-Margin-Bottom
 {
     margin-bottom:17px;
-}
-.NumericBoxHeightFix
-{
-    height:33px;
 }

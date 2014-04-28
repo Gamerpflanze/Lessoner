@@ -37,7 +37,7 @@
                                     <div class="form-group">
                                         <asp:TextBox TextMode="Password" placeholder="Passwort" class="form-control" ID="txtPasswort" runat="server"></asp:TextBox>
                                     </div>
-                                    <asp:Button class="btn btn-success" Text="Anmelden" OnClick="btnLoginSubmit_Click" ID="btnLoginSubmit" OnClientClick="jQuery('#LoadingModal').modal({backdrop:false})" runat="server" />
+                                    <asp:LinkButton class="btn btn-success" OnClick="btnLoginSubmit_Click" ID="btnLoginSubmit" OnClientClick="jQuery('#LoadingModal').modal({backdrop:false})" runat="server" >Anmelden</asp:LinkButton>
                                 </asp:Panel>
                             </ContentTemplate>
                             <Triggers>

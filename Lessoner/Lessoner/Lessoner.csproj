@@ -125,6 +125,7 @@
     <Content Include="Javascript\profile.js" />
     <Content Include="Javascript\Lehrerverwaltung.js" />
     <Content Include="Javascript\Schuelerverwaltung.js" />
+    <Content Include="Javascript\SetNewPasswort.js" />
     <Content Include="JQuery\jquery-1.10.2 Compressed.js" />
     <Content Include="JQuery\jquery-1.10.2.js" />
     <Content Include="Lehrerverwaltung.aspx" />
@@ -133,6 +134,7 @@
     <Content Include="profile.aspx" />
     <Content Include="Programm\Benutzererstellung.exe" />
     <Content Include="Schuelerverwaltung.aspx" />
+    <Content Include="SetNewPasswort.aspx" />
     <Content Include="TeacherEinst.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -215,6 +217,13 @@
     </Compile>
     <Compile Include="Schuelerverwaltung.aspx.designer.cs">
       <DependentUpon>Schuelerverwaltung.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SetNewPasswort.aspx.cs">
+      <DependentUpon>SetNewPasswort.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SetNewPasswort.aspx.designer.cs">
+      <DependentUpon>SetNewPasswort.aspx</DependentUpon>
     </Compile>
     <Compile Include="SQL\Statements.cs" />
     <Compile Include="TeacherEinst.aspx.cs">

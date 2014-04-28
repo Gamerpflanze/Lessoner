@@ -7,6 +7,14 @@ namespace Lessoner.SQL
 {
     public static class Statements
     {
+        public const string SetFirstPasswort = @"UPDATE tbanmeldung
+                                                 SET Passwort = @Passwort
+                                                 WHERE ID = (SELECT AnmeldungID FROM tbpasswortsetzen WHERE Parameter = @Parameter LIMIT 1);
+                                                 DELETE FROM tbpasswortsetzen WHERE Parameter = @Parameter;";
+
+        public const string CountSetPasswortParameter = @"SELECT COUNT(*) FROM tbpasswortsetzen WHERE Parameter = @Parameter";
+        public const string InsertNewSetPasswortPageParameter = @"INSERT INTO tbpasswortsetzen (AnmeldungID, Parameter)
+                                                                  VALUES(@AnmeldungID, @Parameter)";
         public const string CountLessons = @"SELECT COUNT(*) FROM tbfaecher";
         public const string CountClasses = @"SELECT COUNT(*) FROM tbklasse";
         public const string CountTeacher = @"SELECT COUNT(*) FROM tblehrer";
@@ -88,7 +96,7 @@ namespace Lessoner.SQL
         public const string UpdateStudent = @"UPDATE tblehrer
                                               SET Vorname=@Vorname, Name=@Name, Strasse=@Strasse, Hausnummer=@Hausnummer, PLZ=@PLZ, Ort=@Ort
                                               WHERE AnmeldungID=@AnmeldungID";
-        
+
         public const string UpdateRights = @"UPDATE tbrechtewert SET Wert=@Right1 WHERE RechtID=2 AND AnmeldungID=@AnmeldungID;
                                              UPDATE tbrechtewert SET Wert=@Right2 WHERE RechtID=3 AND AnmeldungID=@AnmeldungID;
                                              UPDATE tbrechtewert SET Wert=@Right3 WHERE RechtID=4 AND AnmeldungID=@AnmeldungID;
@@ -132,7 +140,7 @@ namespace Lessoner.SQL
                                                 JOIN tbrechtebeschreibung as b
                                                 ON b.ID = r.RechtID
                                                 WHERE a.Email=@Email AND a.Passwort = @Passwort";
-        
+
         public const string GetStudentRights = @"SELECT a.ID as LoginID, b.`Group` as RechtGruppe, b.Name as RechtName,r.Wert as RechtWert
                                                  FROM tbanmeldung as a
                                                  JOIN tbschueler as s

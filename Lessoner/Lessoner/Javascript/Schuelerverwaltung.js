@@ -6,18 +6,16 @@ var SelectedIndex = -1;
 var DoneChange = false;
 var HasError = false;
 var CantEdit = false;
-function EditStudent(sender)
-{
+function EditStudent(sender) {
     if (CantEdit) { return; }
     var Sender = jQuery(sender);
-    if (Sender.parent().index() == SelectedIndex)
-    {
+    if (Sender.parent().index() == SelectedIndex) {
         return;
     }
     jQuery("#StudentRights").appendTo(jQuery("#StudentRightsKeeper"));
     jQuery("#StudentOptions").parent().remove();
     for (var i = 0; i < SelectedRow.children().length; i++) {
-        if (SelectedRow.children(":nth-child(" + (i+1) + ")").attr("data-ignoretransform") == "true") { continue; }
+        if (SelectedRow.children(":nth-child(" + (i + 1) + ")").attr("data-ignoretransform") == "true") { continue; }
         var Input = SelectedRow.first().children(":eq(" + i + ")").children().first();//After 2 hours of trying random stuff, this line of the script works. We are never going to find out why.
         Input.replaceWith(jQuery("<span>" + Input.val() + "</span>"));
     }
@@ -26,7 +24,7 @@ function EditStudent(sender)
     SelectedRow.attr("id", "EditingRow");
     SelectedIndex = Sender.parent().index();
     for (var i = 0; i < SelectedRow.children().length; i++) {
-        if (SelectedRow.children(":nth-child(" + (i+1) + ")").attr("data-ignoretransform") == "true") { continue;}
+        if (SelectedRow.children(":nth-child(" + (i + 1) + ")").attr("data-ignoretransform") == "true") { continue; }
         var Label = SelectedRow.first().children(":eq(" + i + ")").children().first();
         Label.replaceWith(jQuery("<input type='text' class='form-control' onkeyup='TextChanged(this)' id='' value='" + Label.html() + "' />"));
     }
@@ -37,21 +35,17 @@ function EditStudent(sender)
     TableCell.attr("id", "StudentOptions");
     TableRow.append(TableCell);
     TableRow.insertAfter(SelectedRow);
-    for (var i = 0; i < jQuery("#StudentRights").children().length; i++)
-    {
-        var Current = jQuery("#StudentRights").children(":nth-child(" + (i+1) + ")").children().children("input");
-        if(SelectedRow.attr("data-rights")[parseInt(Current.parent().attr("data-location"))]==1)
-        {
+    for (var i = 0; i < jQuery("#StudentRights").children().length; i++) {
+        var Current = jQuery("#StudentRights").children(":nth-child(" + (i + 1) + ")").children().children("input");
+        if (SelectedRow.attr("data-rights")[parseInt(Current.parent().attr("data-location"))] == 1) {
             Current.prop('checked', true);;
         }
-        else
-        {
+        else {
             Current.prop('checked', false);
         }
     }
 }
-function RightChanged(Sender)
-{
+function RightChanged(Sender) {
     if (CantEdit) { return; }
     var sender = jQuery(Sender);
     DoneChange = true;
@@ -62,28 +56,29 @@ function RightChanged(Sender)
     SelectedRow.removeAttr("data-rights");
     SelectedRow.attr("data-rights", Rights);
 }
-function TextChanged(Sender)
-{
+function TextChanged(Sender) {
     if (CantEdit) { return; }
     DoneChange = true;
     var Input = jQuery(Sender);
     Input.parent().parent().attr("data-changed", "true");
-    if(Input.val()=="")
-    {
+    if (Input.val() == "") {
         HasError = true;
         Input.parent().addClass("has-error");
         Input.parent().parent().removeClass("warning");
         Input.parent().parent().addClass("danger");
     }
-    else
-    {
+    else {
         if (!Input.parent().parent().hasClass("warning")) {
             var Current = Input.parent().parent();
             Input.parent().removeClass("has-error");
-            for (var i = 0; i < Input.parent().parent().children().length; i++)
-            {
-                if(Current.children(":nth-child(" + (i+1) + ")").children().val()=="")
-                {
+            for (var i = 0; i < Input.parent().parent().children().length; i++) {
+                var Value = Current.children(":nth-child(" + (i + 1) + ")").children().val();
+                if (i == Input.parent().parent().children().length-2) {
+                    if (!IsValidEmailAddress(Value)) {
+                        return;
+                    }
+                }
+                if (Value == "") {
                     return;
                 }
             }
@@ -94,11 +89,9 @@ function TextChanged(Sender)
     }
 }
 
-function SaveStudents()
-{
+function SaveStudents() {
     if (CantEdit) { return; }
-    if (!DoneChange || HasError)
-    {
+    if (!DoneChange || HasError) {
         return;
     }
     jQuery("#LoadingModal").modal({ backdrop: "static", keyboard: false });
@@ -107,6 +100,7 @@ function SaveStudents()
         if (EditRow.children(":nth-child(" + i + ")").attr("data-ignoretransform") == "true") { continue; }
         var Input = EditRow.first().children(":nth-child(" + i + ")").children().first();
         Input.replaceWith(jQuery("<span>" + Input.val() + "</span>"));
+        
     }
     EditRow.removeAttr("id");
     jQuery("#StudentRights").appendTo(jQuery("#StudentRightsKeeper"));
@@ -115,8 +109,7 @@ function SaveStudents()
     SelectedIndex = -1;
     var Table = jQuery("#StudentList").children("tbody");
     var Submit = new Array();
-    for(var i = 1; i<=Table.children().length; i++)
-    {
+    for (var i = 1; i <= Table.children().length; i++) {
         var Current = Table.children(":nth-child(" + i + ")");
         Submit.push(new Array());
         Submit[i - 1].push(Current.attr("data-newstudent"));
@@ -124,8 +117,7 @@ function SaveStudents()
         Submit[i - 1].push(Current.attr("data-id"));
         Submit[i - 1].push(Current.attr("data-rights"));
         Submit[i - 1].push(new Array());
-        for(var j = 1; j<=Current.children().length; j++)
-        {
+        for (var j = 1; j <= Current.children().length; j++) {
             if (Current.children(":nth-child(" + j + ")").attr("data-ignoretransform") == "true") { continue; }
             var Input = Current.children(":nth-child(" + j + ")").children();
             Submit[i - 1][4].push(Input.text());
@@ -135,15 +127,13 @@ function SaveStudents()
         async: true,
         type: "POST",
         url: "Schuelerverwaltung.aspx/SaveStudent",
-        data: JSON.stringify({ "StudentData": Submit, "ClassID":parseInt(jQuery("#ClassSelecter").attr("data-id")) }),//Converting JSON to JSON works,                                                                  because fuck dis
+        data: JSON.stringify({ "StudentData": Submit, "ClassID": parseInt(jQuery("#ClassSelecter").attr("data-id")) }),//Converting JSON to JSON works,                                                                  because fuck dis
         dataType: "JSON",
         contentType: "application/json; charset=utf-8;",
         success: function (data) {
-            if (data.d == 0)
-            {
-                for (var i = 1; i <= Table.children().length; i++)
-                {
-                    var CurrentRow=Table.children(":nth-child("+i+")");
+            if (data.d == 0) {
+                for (var i = 1; i <= Table.children().length; i++) {
+                    var CurrentRow = Table.children(":nth-child(" + i + ")");
                     CurrentRow.removeClass("warning");
                     CurrentRow.attr("data-newstudent", "false");
                     CurrentRow.attr("data-changed", "false");
@@ -162,12 +152,11 @@ function SaveStudents()
         }
     });
 }
-function AddNewStudent()
-{
-    if (CantEdit) { return;}
+function AddNewStudent() {
+    if (CantEdit) { return; }
     HasError = true;
     DoneChange = true;
-    var NewRow = jQuery('<tr data-changed="true" data-newstudent="true" data-id="-1" class="danger" data-rights="00000000000000">\
+    var NewRow = jQuery('<tr data-changed="true" data-newstudent="true" data-id="-1" class="danger" data-rights="0000000000000">\
             <td onclick="EditStudent(this)" class="has-error"><span></span></td>\
             <td onclick="EditStudent(this)" class="has-error"><span></span></td>\
             <td onclick="EditStudent(this)" class="has-error"><span></span></td>\
@@ -180,8 +169,7 @@ function AddNewStudent()
     NewRow.appendTo(jQuery("#StudentList"));
     NewRow.children(":first").click();
 }
-function DeleteStudent(sender)
-{
+function DeleteStudent(sender) {
     jQuery("#DeleteTarget").val(jQuery(sender).attr("data-id"));
     jQuery("#DeleteConfirmModal").modal("show");
 }
@@ -189,8 +177,7 @@ function SetCharAt(string, replacement, index) {
     return string.substring(0, index) + replacement + string.substring(index + String(replacement).length, string.length);
 }
 
-function ReadyClassChange()
-{
+function ReadyClassChange() {
     SelectedIndex = -1;
     SelectedRow = jQuery([]);
     jQuery('#LoadingModal').modal({ backdrop: 'static', keyboard: false });
@@ -199,16 +186,17 @@ function ReadyClassChange()
 }
 
 
-function CantEditSetter()
-{
+function CantEditSetter() {
     CantEdit = true;
 }
 
 
-window.onbeforeunload = function ()
-{
-    if(DoneChange)
-    {
+window.onbeforeunload = function () {
+    if (DoneChange) {
         return "Sie haben änderungen an einigen Schülern gemacht, die möglicherweise verloren gehen können.";
     }
 }
+function IsValidEmailAddress(Email) {
+    var pattern = new RegExp(/^(("[\w-+\s]+")|([\w-+]+(?:\.[\w-+]+)*)|("[\w-+\s]+")([\w-+]+(?:\.[\w-+]+)*))(@((?:[\w-+]+\.)*\w[\w-+]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][\d]\.|1[\d]{2}\.|[\d]{1,2}\.))((25[0-5]|2[0-4][\d]|1[\d]{2}|[\d]{1,2})\.){2}(25[0-5]|2[0-4][\d]|1[\d]{2}|[\d]{1,2})\]?$)/i);
+    return pattern.test(Email);
+};

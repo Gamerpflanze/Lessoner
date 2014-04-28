@@ -6,9 +6,12 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
 using System.Web.Services;
+using System.Web.Configuration;
 using System.Web.Script.Services;
 using System.Security.Cryptography;
 using System.Text;
+using System.Net;
+using System.Net.Mail;
 using MySql;
 using MySql.Data;
 using MySql.Data.MySqlClient;
@@ -273,6 +276,13 @@ namespace Lessoner
             dynamic ErrorArray = new dynamic[2];
             ErrorArray[0] = 2;
             ErrorArray[1] = new List<dynamic>();
+
+            SmtpClient Client = new SmtpClient();
+            Client.EnableSsl = true;
+
+            MailMessage Mail = new MailMessage();
+            Mail.Subject = "Zu Lessoner hinzugefügt";
+            string MailBody = "Sie wurden als Lehrer zum Lessoner hinzugefügt. Bitte legen sie ihr Passwort fest indem sie auf den folgenden Link klicken: " + WebConfigurationManager.AppSettings["SetPasswortUrl"] + "{0}";
 #if !DEBUG
             if (!StoredVars.Objects.Loggedin || !StoredVars.Objects.Rights["teachermanagement"]["editteacher"])
             {
@@ -329,6 +339,20 @@ namespace Lessoner
                                     }
                                     cmd.ExecuteNonQuery();
                                     cmd.Parameters.Clear();
+
+
+                                    string PageParameter = Guid.NewGuid().ToString("N");
+
+                                    cmd.Parameters.AddWithValue("@AnmeldungID", LoginID);
+                                    cmd.Parameters.AddWithValue("@Parameter", PageParameter);
+                                    cmd.CommandText = SQL.Statements.InsertNewSetPasswortPageParameter;
+
+                                    cmd.ExecuteNonQuery();
+
+                                    Mail.Body = String.Format(MailBody, "?key=" + PageParameter);
+                                    Mail.To.Clear();
+                                    Mail.To.Add(TeacherData[i][4][7]);
+                                    Client.Send(Mail);
                                 }
                                 else
                                 {
@@ -368,7 +392,7 @@ namespace Lessoner
                         }
                         con.Close();
                     }
-                    catch
+                    catch(Exception ex)
                     {
                         //TODO:fehlerbehebung
                     }
