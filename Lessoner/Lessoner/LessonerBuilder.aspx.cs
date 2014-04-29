@@ -14,52 +14,15 @@ namespace Lessoner
 {
     public partial class LessonerBuilder : System.Web.UI.Page
     {
-        //=================================================================
-        //Globale Variablen
-        //Dient zur Kürzung
-        /*int WeekIndex
-        {
-            get
-            {
-                return StoredVars.Objects.LessonerBuilder.WeekIndex;
-            }
-            set
-            {
-                StoredVars.Objects.LessonerBuilder.WeekIndex = value;
-            }
-        }
-        List<DateTime> WeekBegins
-        {
-            get
-            {
-                return StoredVars.Objects.LessonerBuilder.WeekBegins;
-            }
-            set
-            {
-                StoredVars.Objects.LessonerBuilder.WeekBegins = value;
-            }
-        }
-        LessonerBuilderCache.ClassSelector SelectedTimeTable
-        {
-            get
-            {
-                return StoredVars.Objects.LessonerBuilder.SelectedTimeTable;
-            }
-            set
-            {
-                StoredVars.Objects.LessonerBuilder.SelectedTimeTable = value;
-            }
-        }*/
+        
         int WeekIndex
         {
             get
             {
-                //return StoredVars.Objects.Lessoner.WeekIndex;
                 return Convert.ToInt32(ViewState["WeekIndex"]);
             }
             set
             {
-                //StoredVars.Objects.Lessoner.WeekIndex = value;
                 ViewState["WeekIndex"] = value;
             }
         }
@@ -67,12 +30,10 @@ namespace Lessoner
         {
             get
             {
-                //return StoredVars.Objects.Lessoner.WeekBegins;
                 return ViewState["WeekBegins"] as List<DateTime>;
             }
             set
             {
-                //StoredVars.Objects.Lessoner.WeekBegins = value;
                 ViewState["WeekBegins"] = value;
             }
         }
@@ -80,7 +41,6 @@ namespace Lessoner
         {
             get
             {
-                //return StoredVars.Objects.Lessoner.SelectedTimeTable;
                 LessonerBuilderCache.ClassSelector s = new LessonerBuilderCache.ClassSelector();
                 s.ClassID = Convert.ToInt32(ViewState["SelectedTimeTableClassID"]);
                 s.ClassName = Convert.ToString(ViewState["SelectedTimeTableClassName"]);
@@ -89,9 +49,6 @@ namespace Lessoner
             }
             set
             {
-                //StoredVars.Objects.Lessoner.SelectedTimeTable = value;
-                //ViewState["SelectedTimeTable"] = value;
-
                 ViewState["SelectedTimeTableClassID"] = value.ClassID;
                 ViewState["SelectedTimeTableClassName"] = value.ClassName;
                 ViewState["SelectedTimeTableWeek"] = value.Week;
@@ -101,12 +58,10 @@ namespace Lessoner
         {
             get
             {
-                //return StoredVars.Objects.LessonerBuilder.Modal.Teacher;
                 return ViewState["Teacher"] as Dictionary<int, string>;
             }
             set
             {
-                //StoredVars.Objects.LessonerBuilder.Modal.Teacher = value;
                 ViewState["Teacher"] = value;
             }
         }
@@ -114,12 +69,10 @@ namespace Lessoner
         {
             get
             {
-                //return StoredVars.Objects.LessonerBuilder.Modal.Rooms;
                 return ViewState["Rooms"] as Dictionary<int, string>;
             }
             set
             {
-                //StoredVars.Objects.LessonerBuilder.Modal.Rooms = value;
                 ViewState["Rooms"] = value;
             }
         }
@@ -127,12 +80,10 @@ namespace Lessoner
         {
             get
             {
-                //return StoredVars.Objects.LessonerBuilder.Modal.LessonName;
                 return ViewState["LessonName"] as Dictionary<int, string>;
             }
             set
             {
-                //StoredVars.Objects.LessonerBuilder.Modal.LessonName = value;
                 ViewState["LessonName"] = value;
             }
         }
@@ -140,26 +91,14 @@ namespace Lessoner
         {
             get
             {
-                //return StoredVars.Objects.LessonerBuilder.Modal.LessonModifier;
                 return ViewState["LessonModifier"] as Dictionary<int, string>;
             }
             set
             {
-                //StoredVars.Objects.LessonerBuilder.Modal.LessonModifier = value;
                 ViewState["LessonModifier"] = value;
             }
         }
-        /*List<Lesson> Lessons
-        {
-            get
-            {
-                return StoredVars.Objects.LessonerBuilder.Lessons;
-            }
-            set
-            {
-                StoredVars.Objects.LessonerBuilder.Lessons = value;
-            }
-        }*/
+
         List<Lesson> Lessons = new List<Lesson>();
         string Script = "";
         private void InitDictonaries()
@@ -199,7 +138,7 @@ namespace Lessoner
                             return;
                         }
 #endif
-                        //btnLastDate.Attributes.Add("disabled", "disabled");
+
                         if (StoredVars.Objects.Loggedin)
                         {
                             PageDropDown.Style.Add("display", "block");
@@ -259,7 +198,6 @@ namespace Lessoner
                     }
                     cmd.Parameters.Clear();
                     cmd.CommandText = SQL.Statements.GetClasses;
-                    //con.Open();
 
                     using (MySqlDataReader reader = cmd.ExecuteReader())
                     {
@@ -351,7 +289,7 @@ namespace Lessoner
                 RoomLink.Attributes.Add("data-id", i.ToString());
                 RoomLink.Text = Rooms[i];
                 li.Controls.Add(RoomLink);
-                RoomLink.Attributes.Add("onclick", "Room_Click(this);");///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                RoomLink.Attributes.Add("onclick", "Room_Click(this);");
                 RoomList.Controls.Add(li);
             }
             InitialiseLessoner();
@@ -408,7 +346,7 @@ namespace Lessoner
             ClearLoadingIndicator();
             LoadLessoner();
         }
-        private struct Day //TODO: Vieleicht später als Klasse
+        private struct Day
         {
             public bool FindetStatt;
             public int ID;
@@ -444,7 +382,7 @@ namespace Lessoner
                                 AddIcon.Attributes.Add("class", "glyphicon glyphicon-plus");
                                 EmptyControlls.Style.Add("float", "right");
                                 AddButton.Controls.Add(AddIcon);
-                                AddButton.Click += new EventHandler(this.AddLession_Click);
+                                AddButton.Click += new EventHandler(this.AddLesson_Click);
                                 AddButton.OnClientClick = "OpenLoadingIndicator('true')";
                                 EmptyControlls.Controls.Add(AddButton);
                                 ScriptManager.GetCurrent(this).RegisterAsyncPostBackControl(AddButton);
@@ -459,7 +397,7 @@ namespace Lessoner
                                 EditButton.CssClass = "LessonEditButton btn-xs";
                                 EditButton.Style.Add("float", "right");
                                 EditButton.Controls.Add(EditIcon);
-                                EditButton.Click += new EventHandler(this.EditLession_Click);
+                                EditButton.Click += new EventHandler(this.EditLessoon_Click);
                                 EditButton.OnClientClick = "OpenLoadingIndicator('true')";
                                 EditControlls.Style.Add("z-index", "999");
                                 EditControlls.Controls.Add(EditButton);
@@ -679,7 +617,7 @@ namespace Lessoner
             ClearLoadingIndicator();
             Script += JavascriptCaller.OpenDeleteConfirmModal;
         }
-        protected void EditLession_Click(object sender, EventArgs e)
+        protected void EditLessoon_Click(object sender, EventArgs e)
         {
             LoadLessoner();
             TableCell LessonCell = ((sender as Control).Parent as Control).Parent as TableCell;
@@ -703,9 +641,9 @@ namespace Lessoner
 
             ClearLoadingIndicator();
             Script += JavascriptCaller.OpenLessonEditModal;
-            txtCountEnd.Attributes.Add("data-totalmax", tbTimetable.Controls.Count.ToString());
+            txtCountEnd.Attributes.Add("data-totalmax", (tbTimetable.Controls.Count -1).ToString());
         }
-        protected void AddLession_Click(object sender, EventArgs e)
+        protected void AddLesson_Click(object sender, EventArgs e)
         {
             LoadLessoner();
             int Row = tbTimetable.Controls.IndexOf((((sender as Control).Parent as Control).Parent as TableCell).Parent as TableRow);
@@ -722,7 +660,6 @@ namespace Lessoner
                     con.Close();
                 }
             }
-
             LoadLessoner();
             TableCell LessonCell = ((sender as Control).Parent as Control).Parent as TableCell;
             Lesson lesson = Lessons[Convert.ToInt32(LessonCell.Attributes["data-listid"])];
@@ -742,7 +679,10 @@ namespace Lessoner
 
             Modal_LessonBegin.Value = lesson.StundeBeginn.ToString();
             Modal_LessonEnd.Value = lesson.StundeEnde.ToString();
+            LoadLessoner();
             ClearLoadingIndicator();
+            (LessonCell.Controls[1] as Panel).Style["display"] = "block";
+            txtCountEnd.Attributes.Add("data-totalmax", (tbTimetable.Controls.Count - 1).ToString());
             Script += JavascriptCaller.OpenLessonEditModal;
         }
         private void KeepEditModalOpen()
@@ -939,6 +879,7 @@ namespace Lessoner
             Task LessonerDBWriter = new Task(() => CopyLessoner(StartDate, EndDate, WeekSpan, Class, weekindex, weekbegins), TaskCreationOptions.LongRunning);
             LessonerDBWriter.Start();
             LoadLessoner();
+            CloseLoadingIndicator();
         }
 
         private void LessonerBuilder_PreRender(object sender, EventArgs e)
@@ -1012,7 +953,7 @@ namespace Lessoner
                         RoomLink.Attributes.Add("data-id", i.ToString());
                         RoomLink.Text = Rooms[i];
                         li.Controls.Add(RoomLink);
-                        RoomLink.Attributes.Add("onclick", "Room_Click(this);");///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                        RoomLink.Attributes.Add("onclick", "Room_Click(this);");
                         RoomList.Controls.Add(li);
                         if (first)
                         {
@@ -1040,7 +981,7 @@ namespace Lessoner
                         });";
         }
 
-        protected void AddLesson_Click(object sender, EventArgs e)
+        protected void NewLesson_Click(object sender, EventArgs e)
         {
             int ID;
             using (MySqlConnection con = new MySqlConnection(SQL.Statements.ConnectionString))
@@ -1076,6 +1017,7 @@ namespace Lessoner
                 LessonNameLink.Attributes.Add("onclick", "LessonName_Click(this);");
                 ulLessonNames.Controls.Add(li);
             }
+            LoadLessoner();
         }
 
         protected void RemoveLessonNameButton_Click(object sender, EventArgs e)
@@ -1188,10 +1130,11 @@ namespace Lessoner
             {
                 LinkStudentManagement.Style.Add("display", "none");
             }
-            if (!StoredVars.Objects.Rights["lessonerbuilder"]["permission"])
+            if (!StoredVars.Objects.Rights["teachermanagement"]["permission"])
             {
-                //LinkLessonerBuilder.Dispose();
+                LinkTeacherMamagement.Style.Add("display", "none");
             }
+              
         }
         protected void Logoutbutton_Click(object sender, EventArgs e)
         {

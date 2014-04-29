@@ -70,10 +70,7 @@ namespace Lessoner
             BuildRightOptions();
             LoadTeacherList();
         }
-        /*protected void AddEmptyStudent_Click(object sender, EventArgs e)
-        {
 
-        }*/
         struct Teacher
         {
             public string Titel;
@@ -140,7 +137,7 @@ namespace Lessoner
                             {
                                 continue;
                             }
-                            Rights += Convert.ToInt32(reader["RechtWert"]).ToString();//Umweg damitt 1 oder 0 anstatt true oder false
+                            Rights += Convert.ToInt32(reader["RechtWert"]).ToString();//Umweg damit 1 oder 0 anstatt true oder false
                         }
                         TeacherList.Controls.Add(BuildStudentRow(t.LoginID, t.Email,t.Titel, t.Vorname, t.Name, t.Strasse, t.Hausnummer, t.PLZ, t.Ort, Rights));
                     }
@@ -251,7 +248,6 @@ namespace Lessoner
                         HtmlGenericControl span = new HtmlGenericControl("span");
                         HtmlGenericControl label = new HtmlGenericControl("label");
 
-                        //check.Attributes.Add("onchange", "RightChanged(this)");
                         span.Attributes.Add("data-location", Location.ToString());
                         check.ID = reader["ID"].ToString();
                         label.InnerText = reader["Beschreibung"].ToString();
@@ -268,14 +264,13 @@ namespace Lessoner
         }
         /* 0=Success
          * 1=Nicht erlaubt
-         * 2+[]=Fehler pro zeile
          */
         [WebMethod, ScriptMethod(ResponseFormat = ResponseFormat.Json, UseHttpGet = false)]
         public static dynamic SaveTeacher(dynamic TeacherData)
         {
-            dynamic ErrorArray = new dynamic[2];
-            ErrorArray[0] = 2;
-            ErrorArray[1] = new List<dynamic>();
+            //dynamic ErrorArray = new dynamic[2];
+            //ErrorArray[0] = 2;
+            //ErrorArray[1] = new List<dynamic>();
 
             SmtpClient Client = new SmtpClient();
             Client.EnableSsl = true;
@@ -307,7 +302,6 @@ namespace Lessoner
                                     byte[] Password;
                                     if (TeacherData[i].Length != 5 || TeacherData[i][3].Length != 13 || TeacherData[i][4].Length != 8)//Daten auf richtiges format überprüfen
                                     {
-                                        ErrorArray[1].Add(i);
                                         continue;
                                     }
                                     using (SHA1 hasher = SHA1.Create())
@@ -360,7 +354,6 @@ namespace Lessoner
                                     //Änderungen
                                     if (TeacherData[i].Length != 5 || TeacherData[i][3].Length != 13 || TeacherData[i][4].Length != 8)//Daten auf richtiges format überprüfen
                                     {
-                                        ErrorArray[1].Add(i);
                                         continue;
                                     }
                                     cmd.CommandText = SQL.Statements.UpdateRights;      //Update Rechte
@@ -399,14 +392,8 @@ namespace Lessoner
                 }
             }
 
-            if (ErrorArray[1].Count > 0)
-            {
-                return ErrorArray;
-            }
-            else
-            {
                 return 0;
-            }
+
         }
 
         protected void DeleteConfirmButton_Click(object sender, EventArgs e)

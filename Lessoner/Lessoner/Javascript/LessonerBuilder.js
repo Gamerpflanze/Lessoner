@@ -32,12 +32,10 @@ function AddData(data) {
             var row = jQuery("<tr></tr>");
             var time = jQuery("<td></td>");
             var Days = new Array();
-            //TODO: Taginformationen holen
             for (var j = 0; j < data.d[1]; j++) {
                 Days.push(jQuery("<td></td>"));
             }
 
-            // column.text(data.d[1][i][0] + "<br>" + data.d[1][i][0] + "<br>" + data.d[1][i][0]);
             var Number = jQuery("<p></p>");
             var Begin = jQuery("<p></p>");
             var End = jQuery("<p></p>");
@@ -61,28 +59,7 @@ function AddData(data) {
     }
 }
 var WantedModalClose = false;
-/*function KeepEditModalOpen() {
-    var Modal = jQuery("#LessonEdit");
-    Modal.removeClass("fade");
-    Modal.addClass("in");
-    Modal.modal("show");
-    $('#LessonEdit').on('hide.bs.modal', function (e) {
-        $('#LessonEdit').addClass('fade');
-        if (WantedModalClose) {
-            WantedModalClose = false
-            return true;
-        }
-        else {
-            $('#AskAbort').modal({ backdrop: false });
-            return false;
-        }
-    });
-    $('#AskAbort').on('hidden.bs.modal', function (e) {
-        return false;
-    });
-    jQuery(".modal-backdrop:first").remove();
-    jQuery(".modal-backdrop:last").addClass("fade");
-}*/
+
 function KeepAbortModalOpen() {
     var Modal = jQuery("#AskAbort");
     Modal.removeClass("fade");
@@ -129,28 +106,7 @@ function HideLessonEditModalNoAbort() {
     MadeChange = false;
     jQuery("#LessonEdit").modal("hide");
 }
-/*function KeepDayEditModalOpen() {
-    var Modal = jQuery("#EditDay");
-    Modal.removeClass("fade");
-    Modal.addClass("in");
-    Modal.modal("show");
-    $('#EditDay').on('hide.bs.modal', function (e) {
-        $('#EditDay').addClass('fade');
-        if (WantedModalClose) {
-            WantedModalClose = false
-            return true;
-        }
-        else {
-            $('#AbortDay').modal({ backdrop: false });
-            return false;
-        }
-    });
-    $('#AbortDay').on('hidden.bs.modal', function (e) {
-        return false;
-    });
-    jQuery(".modal-backdrop:first").remove();
-    jQuery(".modal-backdrop:last").addClass("fade");
-}*/
+
 function OpenDayEditModal() {
     $('#EditDay').on('hide.bs.modal', function (e) {
         $('#EditDay').addClass('fade');

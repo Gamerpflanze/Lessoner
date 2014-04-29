@@ -22,9 +22,8 @@ namespace Lessoner
     {
         public static string GetLoginData(string Username, string Passwort)
         {
-            //TODO: Datenbank abfrage für login
             StoredVars.Objects = new StoredVars();
-            //TODO: Root PW setzen!
+
             using (MySqlConnection con = new MySqlConnection(SQL.Statements.ConnectionString))
             {
                 using (MySqlCommand cmd = con.CreateCommand())
@@ -56,7 +55,7 @@ namespace Lessoner
                         StoredVars.Objects.EMail = "root";
                         return "root";
                     }
-                    if (StoredVars.Objects.Rights["login"]["isteacher"])//TODO:rootlogin
+                    if (StoredVars.Objects.Rights["login"]["isteacher"])
                     {
                         //Lehrer
                         cmd.CommandText = SQL.Statements.GetTeacherInfos;
@@ -91,7 +90,6 @@ namespace Lessoner
                             }
                             if (i > 1)
                             {
-                                //return ErrorReturns.MultipleUserError;
                                 throw new MultipleUserException();
                             }
                         }
@@ -135,112 +133,6 @@ namespace Lessoner
             }
             StoredVars.Objects.Loggedin = true;
             return StoredVars.Objects.Vorname + " " + StoredVars.Objects.Nachname;
-        }
-        public static Lesson[][] GetLessonerBuilder(int KlasseID, DateTime Date)
-        {
-
-            using (MySqlConnection con = new MySqlConnection(SQL.Statements.ConnectionString))
-            {
-                using (MySqlCommand cmd = con.CreateCommand())
-                {
-                    try
-                    {
-                        con.Open();
-                        cmd.CommandText = SQL.Statements.CountLessoner;
-                        cmd.Parameters.AddWithValue("@KlasseID", KlasseID);
-                        cmd.Parameters.AddWithValue("@Datum", Date.ToString("yyyy-MM-dd"));
-                        if (Convert.ToInt32(cmd.ExecuteScalar()) > 0)
-                        {
-                            List<Lesson> LessionList = new List<Lesson>();
-                            Lesson[][] ReturnLessions = new Lesson[5][];
-
-                            cmd.CommandText = SQL.Statements.GetLessonerBuilder;
-                            using (MySqlDataReader reader = cmd.ExecuteReader())
-                            {
-                                while (reader.Read())
-                                {
-                                    Lesson Current = new Lesson();
-
-                                    if (!DBNull.Value.Equals(reader["information"]))//TODO: herausfinden wieso das hier ist
-                                    {
-                                        Current.Information = Convert.ToString(reader["information"]);
-                                    }
-                                    Current.FindetStatt = Convert.ToBoolean(reader["FindetStatt"]);
-                                    if (Current.FindetStatt)
-                                    {
-                                        Current.ID = Convert.ToInt32(reader["FachID"]);
-                                        Current.NameLong = Convert.ToString(reader["Name"]);
-                                        Current.NameShot = Convert.ToString(reader["NameKurz"]);
-                                        Current.FachModID = Convert.ToInt32(reader["FachModID"]);
-                                        Current.TagInfoID = Convert.ToInt32(reader["TagInfoID"]);
-                                        Current.StundeBeginn = Convert.ToInt32(reader["Stunde_Beginn"]);
-                                        Current.StundeEnde = Convert.ToInt32(reader["Stunde_Ende"]);
-                                        LessionList.Add(Current);
-                                    }
-                                }
-                            }
-                            con.Close();
-                            //Inizialisieren von ReturnLessions
-                            for (int i = 1; i <= 5; i++)
-                            {
-                                int IndexCount = 0;
-                                for (int j = 0; j < LessionList.Count; j++)
-                                {
-                                    if (LessionList[j].TagInfoID == i)
-                                    {
-                                        IndexCount++;
-                                    }
-                                }
-                                ReturnLessions[i - 1] = new Lesson[IndexCount];
-                            }
-
-                            //Einsortieren von Fächern
-                            /*for(int i = 0; i<ReturnLessions.Length; i++)
-                            {
-                                for(int j = 0; j<ReturnLessions[i].Length; j++)
-                                {
-                                    for(int k = 0; k<LessionList.Count; k++)
-                                    {
-                                        if(LessionList[k].TagInfoID = i && j )
-                                    }
-                                }
-                            }*/
-                            for (int i = 1; i <= 5; i++)
-                            {
-                                List<Lesson> SortedLessions = new List<Lesson>();
-                                int CurrentLession = 1;
-                                for (int j = 0; j < LessionList.Count; j++)
-                                {
-                                    if (LessionList[j].TagInfoID == i)
-                                    {
-                                        if (LessionList[j].StundeBeginn == CurrentLession)
-                                        {
-                                            SortedLessions.Add(LessionList[j]);
-                                            CurrentLession = LessionList[j].StundeEnde + 1;
-                                        }
-                                    }
-                                }
-                                ReturnLessions[i - 1] = SortedLessions.ToArray();
-                            }
-
-                            return ReturnLessions;
-                        }
-                        else
-                        {
-                            return new Lesson[5][];
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        //TODO: Fehlerbehebung
-                    }
-                }
-                return new Lesson[5][];
-            }
-        }
-        public static void SetDefaultStudent(int AnmeldungID)
-        {
-
         }
     }
 }

@@ -18,12 +18,10 @@ namespace Lessoner
         {
             get
             {
-                //return StoredVars.Objects.Lessoner.WeekIndex;
                 return Convert.ToInt32(ViewState["WeekIndex"]);
             }
             set
             {
-                //StoredVars.Objects.Lessoner.WeekIndex = value;
                 ViewState["WeekIndex"] = value;
             }
         }
@@ -31,12 +29,10 @@ namespace Lessoner
         {
             get
             {
-                //return StoredVars.Objects.Lessoner.WeekBegins;
                 return ViewState["WeekBegins"] as List<DateTime>;
             }
             set
             {
-                //StoredVars.Objects.Lessoner.WeekBegins = value;
                 ViewState["WeekBegins"] = value;
             }
         }
@@ -44,7 +40,6 @@ namespace Lessoner
         {
             get
             {
-                //return StoredVars.Objects.Lessoner.SelectedTimeTable;
                 LessonerCache.Selecter s = new LessonerCache.Selecter();
                 s.ID = Convert.ToInt32(ViewState["SelectedTimeTableID"]);
                 s.Name = Convert.ToString(ViewState["SelectedTimeTableName"]);
@@ -53,9 +48,6 @@ namespace Lessoner
             }
             set
             {
-                //StoredVars.Objects.Lessoner.SelectedTimeTable = value;
-                //ViewState["SelectedTimeTable"] = value;
-
                 ViewState["SelectedTimeTableID"] = value.ID;
                 ViewState["SelectedTimeTableName"] = value.Name;
                 ViewState["SelectedTimeTableWeek"] = value.Week;
@@ -65,12 +57,10 @@ namespace Lessoner
         {
             get
             {
-                //return StoredVars.Objects.Lessoner.TeacherLessons;
                 return Convert.ToBoolean(ViewState["TeacherLessons"]);
             }
             set
             {
-                //StoredVars.Objects.Lessoner.TeacherLessons = value;
                 ViewState["TeacherLessons"] = value;
             }
         }
@@ -357,7 +347,7 @@ namespace Lessoner
             ClearLoadingIndicator();
             LoadLessoner();
         }
-        private struct Day //TODO: Vieleicht später als Klasse
+        private struct Day
         {
             public bool FindetStatt;
             public int ID;
@@ -770,9 +760,9 @@ namespace Lessoner
             {
                 LinkStudentManagement.Style.Add("display", "none");
             }
-            if (!StoredVars.Objects.Rights["lessonerbuilder"]["permission"])
+            if (!StoredVars.Objects.Rights["teachermanagement"]["permission"])
             {
-                //LinkLessonerBuilder.Dispose();
+                LinkTeacherMamagement.Style.Add("display", "none");
             }
         }
 

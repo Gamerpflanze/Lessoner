@@ -13,8 +13,6 @@
     <script src="Javascript/Lehrerverwaltung.js"></script>
     <link href="Bootstrap/css/bootstrap.css" rel="stylesheet" />
     <link href="CSS/print.css" rel="stylesheet" />
-    <!--
-    -->
     <link href="CSS/Style.css" rel="stylesheet" />
     <title>Lehrer Verwaltung</title>
 </head>

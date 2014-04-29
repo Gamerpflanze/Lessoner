@@ -63,7 +63,6 @@ function SendLoginData(Page)
 }
 function LoginRecieve(data)
 {
-    //TODO: Fehlerausgabe und weiterleitung
     if(data.d == "LoginDenited")
     {
         DisplayError("Benutzername oder Passwort falsch");

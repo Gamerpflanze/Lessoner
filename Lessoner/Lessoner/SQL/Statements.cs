@@ -114,6 +114,7 @@ namespace Lessoner.SQL
         public const string ConnectionString = @"Server=127.0.0.1;Database=dbLessoner;Uid=root;Pwd=;";
 
         //TODO: Ordnen(?)
+        //Nein
         public const string CheckForLessoner = @"SELECT COUNT(s.ID) FROM tbstundenplan as s
                                                  WHERE s.KlasseID = @KlasseID AND s.Datum = @Datum ";
 
@@ -170,8 +171,6 @@ namespace Lessoner.SQL
         /// Gibt die Informationen eines Lehrers Zurück. @LoginID = Die Anmelde ID des Lehrers
         /// </summary>
         /// 
-        //TODO: Florian! Datum für tbStundenplan!
-        //TODO: Florian! Rechtevergabe!
         public const string GetTeacherInfos = @"SELECT l.ID, a.Email, l.Titel, l.Vorname, l.Name, l.Strasse, l.Hausnummer, l.PLZ, l.Ort, l.KlasseID FROM tbanmeldung as a
                                                 JOIN tblehrer as l
                                                 ON l.AnmeldungID = a.ID
@@ -217,6 +216,62 @@ namespace Lessoner.SQL
                                            VALUES (@Titel, @Vorname, @Name, @Strasse, @Hausnummer, @PLZ, @Ort, @KlasseID, SELECT ID
 																		                                                  FROM tbanmeldung
 																		                                                  WHERE Email = @Email)";
+
+ //                                    .ooOOOOo.  .oOOOOOOo
+ //                                .oOOOooooooo oOOOOOOOOOO oo.
+ //                              .ooooooOOOOOO oOOoO @@) OO OOOo.
+ //                        .oooOOOOOOOOOOOOOO OO oO       OO OOOOo
+ //                  .ooOOOOOOOOOOOOOOOOOOOO O oOOO.     .OO OOOOOO
+ //              .ooOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOo. .oOOO OOOOOO
+ //            oOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO oOOOOOOO
+ //          .OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOooooooOOOOOOOOO
+ //         .OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
+ //        .OoOOOOOOOooOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO'
+ //        OOOOOOOOOOOOOOOOOOO /\/\/\/\/\/\/\/\/ OOOOOOOOOOOOOOO"
+ //        `OOOOOOOOOOO /\/\/\/    /\/\/\/\/\/\ oOOOOOOOOOOOOOO'
+ //          /\/\/\/\/\/      /\/\/\/\/\ ooooooOOOOOOOOOOOOOO"
+ //                     /\/\/\/\/\ oooooOOOOOOOOOOOOOOOOOOOOO
+ //               \/\/\/\/\/ oooooOOOOOOOOOOOO"'ooooooOOOOOOO
+ //                `""OOOOOOOOOOOOOOOO"'.ooooooOOOOOOOOOOOOOOO
+ //                                   .OOOOOOOOOOOOOOOOOOOOOOOO
+ //                                 .oOOOOOOOOOOOOOOOOOOOOOOOOOOo
+ //                             ..oOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
+ //                       ..oooOOOoOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
+ //                ..oooOOOOOOOOoOOOOOOOOOOOOOOOOOOOO"" OOOOOOO oOO
+ //          .oooOOOOOOOO"""   oOOOOOOOOOOOOOOOO"  ooOOOOOOOOO oOOO
+ //          OO `O           .OOOOOOOOOOOOOOOO   ooooooooooooooOOO
+ //          `O             .OOOOOOOOOOOOOOOO OO OOOOOOOOOOOOOOOO
+ //     .oO                 OOOOOOOOOOOOOOOOO OOOOOOOOOOOOOOOOOOO
+ //   .oOO'                 OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
+ //  oOOO'                  OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
+ //.OOOO'                   oOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
+ //OOOO'                  .oooOOOOOOOOOOOOOOOOOOOOOOOOOOOooOOOOOOOOo.
+ //OOOO                .oOOOOOooOOOOOOOOOOOOOOOOOOOOooOOOOOOOOOOOOOoOo
+ //OOOO.             .oOOOOOOOOOooOOOOOOOOOOOOOOooOOOOOOOOOOOOOOOOOoOO
+ //OOOOO.          .oOOOOOOOOOOOOOOoooOOOOOOOOoOOOOOOOOOOOOOOOOOOOOoOO
+ //OOOOOO.        .OOOOOOOOOOOOOOOOOOOOooo  OOOOOOOOOOOOOOOOOOOOOOO OO
+ //`OOOOOO.      .OOOOOOOOOOOOOOOOOOOO"'     `OOOOOOOOOOOOOOOOOOOOO OO
+ // `OOOOOOo.    OOOOOOOOOOOOOOOOOOO"          `OOOOOOOOOOOOOOOOOO OOO
+ //  `OOOOOOOOo. OOOOOOOOOOOOOOOOO"       ..ooOOO`OOOOOOOOOOOOOOOO OOO
+ //    "OOOOOOOOO`OOOOOOOOOOOOOOo.OOOOOOOOOOOOOOOOO`OOOOOOOOOOOOO OOOO
+ //      "OOOOOOOOOo"OOOOOOOOOOOOOOo.OOOOOOOOOOOOOOO`OOOOOOOOOOO OOOO'
+ //         `"OOOOOOOOo"OOOOOOOOOOOOOoo.OOOOOOOOOOOO OOOOOOOOOOO OO'
+ //              `"OOOOOOOo"OOOOOOOOOOOOOo.OOOOOOOOO OOOOOOOOOOOO.
+ //                            `"OOOOOOOOOOOOo.      OOOoooooOOOOO
+ //                      ...ooooooooooOOOOOOOOOO.    `OOOOOOOOOOOO
+ //                  .oOOOOOOOOOOOOOOOOOOOOOOOOOO     `OOOOOOOOOO'
+ //                 /  OOOOO oO/~~~\OOOOOO/~~~\OO       `OOOOOOOO
+ //                | _OOOOOO O|     |O OO|     |'        OOOOOOO'
+ //                |/          \   /      \   /        .oOOOOOO'
+ //                              \|        |/    .oooOOOOOOOOOOOo
+ //                                          .oOOOOOOOOOOOOOOOOOOOo
+ //                                         /  OOO oO/~~~\OOOOO/~~\O
+ //                                        | _OOOO O|     |O O|    |'
+ //                                        |/        \   /     \  /
+ //                                                   \/        \/
+
+        //Because dinosaurs are fucking cool!
+
         public const string DeleteLessonsFromDay = @"DELETE FROM tbfachinfo
                                                      WHERE TagID = @TagID";
         public const string SetClass = @"INSERT INTO tbklasse (Name)
@@ -248,7 +303,8 @@ namespace Lessoner.SQL
                                              WHERE ID = @ID";
 
         public const string InsertDefaultLesson = @"INSERT INTO tbfachinfo (LehrerID, FachID, TagID, Stunde_Beginn, Stunde_Ende, FachModID)
-                                                    VALUES ((SELECT ID FROM tblehrer LIMIT 1), (SELECT ID FROM tbfaecher LIMIT 1), @TagID, @Stunde, @Stunde, (SELECT ID FROM tbfachmod LIMIT 1))";
+                                                    VALUES ((SELECT ID FROM tblehrer LIMIT 1), (SELECT ID FROM tbfaecher LIMIT 1), @TagID, @Stunde, @Stunde, (SELECT ID FROM tbfachmod LIMIT 1));
+                                                    ";
         public const string UpdateDay = @"UPDATE tbtage
                                           SET FindetStatt = @FindetStatt, Information = @Information
                                           WHERE ID = @ID;";
@@ -330,6 +386,7 @@ namespace Lessoner.SQL
                                         ORDER BY fv.Stunde ASC";
 
         //TODO: Kann das weg?
+        //Nein
         //Immer Das Letzte Statement (da sehr lang)
         public const string CreateDatabase = @"-- --------------------------------------------------------
 -- Host:                         127.0.0.1
