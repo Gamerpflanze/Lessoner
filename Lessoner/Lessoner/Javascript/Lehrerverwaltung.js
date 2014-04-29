@@ -85,7 +85,14 @@ function TextChanged(Sender)
             Input.parent().removeClass("has-error");
             for (var i = 1; i < Input.parent().parent().children().length-1; i++)//1 Da titel übersprungen
             {
-                if(Current.children(":nth-child(" + (i+1) + ")").children().val()=="")
+                var Value = Current.children(":nth-child(" + (i + 1) + ")").children().val();
+
+                if (i == Input.parent().parent().children().length - 2) {
+                    if (!IsValidEmailAddress(Value)) {
+                        return;
+                    }
+                }
+                if(Value=="")
                 {
                     return;
                 }
@@ -193,7 +200,10 @@ function SetCharAt(string, replacement, index) {
     return string.substring(0, index) + replacement + string.substring(index + String(replacement).length, string.length);
 }
 
-
+function IsValidEmailAddress(Email) {
+    var pattern = new RegExp(/^(("[\w-+\s]+")|([\w-+]+(?:\.[\w-+]+)*)|("[\w-+\s]+")([\w-+]+(?:\.[\w-+]+)*))(@((?:[\w-+]+\.)*\w[\w-+]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][\d]\.|1[\d]{2}\.|[\d]{1,2}\.))((25[0-5]|2[0-4][\d]|1[\d]{2}|[\d]{1,2})\.){2}(25[0-5]|2[0-4][\d]|1[\d]{2}|[\d]{1,2})\]?$)/i);
+    return pattern.test(Email);
+};
 
 
 function CantEditSetter() {
