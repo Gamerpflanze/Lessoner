@@ -87,6 +87,7 @@
     <Content Include="Bootstrap\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="Bootstrap\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="CSS\print.css" />
+    <Content Include="CSS\print2.css" />
     <Content Include="Data\Images\loading.gif" />
     <Content Include="Data\ProfileImages\0000.jpg" />
     <Content Include="Data\ProfileImages\Kunst.jpg" />

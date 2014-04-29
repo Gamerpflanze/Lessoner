@@ -1,0 +1,39 @@
+﻿@page {
+    size: 21.0cm 29.7cm;
+    margin-top: 1cm;
+    margin-bottom: 1cm;
+}
+
+@page :left {
+    margin-left: 2cm;
+    margin-right: 1cm;
+}
+
+@page :right {
+    margin-left: 2cm;
+    margin-right: 1cm;
+}
+
+@media print {
+    div {
+        font-size: 9pt;
+        border: none !important;
+        overflow: hidden !important;
+    }
+
+    #tbTimetable > thead > tr > th {
+        border: thin solid black !important;
+    }
+
+    #tbTimetable > tbody > tr > td {
+        border: thin solid black !important;
+    }
+
+    .HourTable > tbody > tr > td {
+        border: none !important;
+    }
+
+    .caret {
+        display: none;
+    }
+}
