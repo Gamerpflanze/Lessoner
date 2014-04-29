@@ -12,7 +12,7 @@
     <script src="Javascript/Lessoner.js"></script>
     <link href="Bootstrap/css/bootstrap.css" rel="stylesheet" />
     <link href="CSS/Style.css" rel="stylesheet" />
-    <link href="CSS/print.css" rel="stylesheet" />
+    <link href="CSS/print2.css" rel="stylesheet" />
 </head>
 <body>
     <form id="Form1" runat="server" enctype="multipart/form-data" method="post">

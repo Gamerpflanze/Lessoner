@@ -16,7 +16,7 @@ function EditStudent(sender) {
     jQuery("#StudentOptions").parent().remove();
     for (var i = 0; i < SelectedRow.children().length; i++) {
         if (SelectedRow.children(":nth-child(" + (i + 1) + ")").attr("data-ignoretransform") == "true") { continue; }
-        var Input = SelectedRow.first().children(":eq(" + i + ")").children().first();//After 2 hours of trying random stuff, this line of the script works. We are never going to find out why.
+        var Input = SelectedRow.first().children(":eq(" + i + ")").children().first();
         Input.replaceWith(jQuery("<span>" + Input.val() + "</span>"));
     }
     SelectedRow.removeAttr("id");
@@ -127,7 +127,7 @@ function SaveStudents() {
         async: true,
         type: "POST",
         url: "Schuelerverwaltung.aspx/SaveStudent",
-        data: JSON.stringify({ "StudentData": Submit, "ClassID": parseInt(jQuery("#ClassSelecter").attr("data-id")) }),//Converting JSON to JSON works,                                                                  because fuck dis
+        data: JSON.stringify({ "StudentData": Submit, "ClassID": parseInt(jQuery("#ClassSelecter").attr("data-id")) }),//Converting JSON to JSON works
         dataType: "JSON",
         contentType: "application/json; charset=utf-8;",
         success: function (data) {
@@ -148,7 +148,6 @@ function SaveStudents() {
             jQuery("#LoadingModal").modal("hide");
             alert("error");
             alert(message);
-            //TODO:sum error
         }
     });
 }
@@ -197,6 +196,7 @@ window.onbeforeunload = function () {
     }
 }
 function IsValidEmailAddress(Email) {
+    //Quelle = MSDN, dient zur validierung des Formates der E-Mail-Adresse
     var pattern = new RegExp(/^(("[\w-+\s]+")|([\w-+]+(?:\.[\w-+]+)*)|("[\w-+\s]+")([\w-+]+(?:\.[\w-+]+)*))(@((?:[\w-+]+\.)*\w[\w-+]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][\d]\.|1[\d]{2}\.|[\d]{1,2}\.))((25[0-5]|2[0-4][\d]|1[\d]{2}|[\d]{1,2})\.){2}(25[0-5]|2[0-4][\d]|1[\d]{2}|[\d]{1,2})\]?$)/i);
     return pattern.test(Email);
 };

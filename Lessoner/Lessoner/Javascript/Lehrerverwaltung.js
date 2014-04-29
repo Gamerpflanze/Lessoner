@@ -18,7 +18,7 @@ function EditTeacher(sender)
     jQuery("#TeacherOptions").parent().remove();
     for (var i = 0; i < SelectedRow.children().length; i++) {
         if (SelectedRow.children(":nth-child(" + (i+1) + ")").attr("data-ignoretransform") == "true") { continue; }
-        var Input = SelectedRow.first().children(":eq(" + i + ")").children().first();//After 2 hours of trying random stuff, this line of the script works. We are never going to find out why.
+        var Input = SelectedRow.first().children(":eq(" + i + ")").children().first();  //After 2 hours of trying random stuff, this line of the script works. We are never going to find out why.
         Input.replaceWith(jQuery("<span>" + Input.val() + "</span>"));
     }
     SelectedRow.removeAttr("id");
@@ -83,7 +83,7 @@ function TextChanged(Sender)
         if (!Input.parent().parent().hasClass("warning")) {
             var Current = Input.parent().parent();
             Input.parent().removeClass("has-error");
-            for (var i = 1; i < Input.parent().parent().children().length-1; i++)//1 Da titel übersprungen
+            for (var i = 1; i < Input.parent().parent().children().length-1; i++)   //1 Da titel übersprungen
             {
                 var Value = Current.children(":nth-child(" + (i + 1) + ")").children().val();
 

@@ -89,6 +89,7 @@
     <Content Include="Clean_dblessoner.sql" />
     <Content Include="CSS\print.css" />
     <Content Include="Data\FileDownload.aspx" />
+    <Content Include="CSS\print2.css" />
     <Content Include="Data\Images\loading.gif" />
     <Content Include="Data\ProfileImages\0000.jpg" />
     <Content Include="Data\ProfileImages\Kunst.jpg" />
@@ -117,12 +118,10 @@
     <Content Include="Default.aspx" />
     <Content Include="ErrorPages\403Error.html" />
     <Content Include="Global.asax" />
-    <Content Include="impressum.aspx" />
     <Content Include="Javascript\Global.js" />
     <Content Include="Javascript\Lessoner.js" />
     <Content Include="Javascript\LessonerBuilder.js" />
     <Content Include="Javascript\LoginScript.js" />
-    <Content Include="Javascript\profile.js" />
     <Content Include="Javascript\Lehrerverwaltung.js" />
     <Content Include="Javascript\Schuelerverwaltung.js" />
     <Content Include="Javascript\SetNewPasswort.js" />
@@ -131,18 +130,15 @@
     <Content Include="Lehrerverwaltung.aspx" />
     <Content Include="Lessoner.aspx" />
     <Content Include="LessonerBuilder.aspx" />
-    <Content Include="profile.aspx" />
     <Content Include="Programm\Benutzererstellung.exe" />
     <Content Include="Schuelerverwaltung.aspx" />
     <Content Include="SetNewPasswort.aspx" />
-    <Content Include="TeacherEinst.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CacheClasses\LessonerCache.cs" />
     <Compile Include="CacheClasses\LessonerBuilderCache.cs" />
     <Compile Include="CacheClasses\LessonerBuilderModalCache.cs" />
-    <Compile Include="Code\Enums.cs" />
     <Compile Include="Code\GlobalWebMethods.cs" />
     <Compile Include="Code\HelperMethods.cs" />
     <Compile Include="Code\Lesson.cs" />
@@ -174,13 +170,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="impressum.aspx.cs">
-      <DependentUpon>impressum.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="impressum.aspx.designer.cs">
-      <DependentUpon>impressum.aspx</DependentUpon>
-    </Compile>
     <Compile Include="Javascript\JavascriptCaller.cs" />
     <Compile Include="Lehrerverwaltung.aspx.cs">
       <DependentUpon>Lehrerverwaltung.aspx</DependentUpon>
@@ -203,13 +192,6 @@
     <Compile Include="LessonerBuilder.aspx.designer.cs">
       <DependentUpon>LessonerBuilder.aspx</DependentUpon>
     </Compile>
-    <Compile Include="profile.aspx.cs">
-      <DependentUpon>profile.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="profile.aspx.designer.cs">
-      <DependentUpon>profile.aspx</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Schuelerverwaltung.aspx.cs">
       <DependentUpon>Schuelerverwaltung.aspx</DependentUpon>
@@ -226,13 +208,6 @@
       <DependentUpon>SetNewPasswort.aspx</DependentUpon>
     </Compile>
     <Compile Include="SQL\Statements.cs" />
-    <Compile Include="TeacherEinst.aspx.cs">
-      <DependentUpon>TeacherEinst.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="TeacherEinst.aspx.designer.cs">
-      <DependentUpon>TeacherEinst.aspx</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Data\Class\" />

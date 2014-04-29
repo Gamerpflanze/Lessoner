@@ -554,9 +554,9 @@ namespace Lessoner
             {
                 LinkStudentManagement.Style.Add("display", "none");
             }
-            if (!StoredVars.Objects.Rights["lessonerbuilder"]["permission"])
+            if (!StoredVars.Objects.Rights["teachermanagement"]["permission"])
             {
-                //LinkLessonerBuilder.Dispose();
+                LinkTeacherMamagement.Style.Add("display", "none");
             }
         }
         protected void Logoutbutton_Click(object sender, EventArgs e)

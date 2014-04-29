@@ -239,8 +239,7 @@
                                 <h4 class="modal-title" id="AskAbortTitle">Achtung</h4>
                             </div>
                             <div class="modal-body">
-                                <!--<span class="glyphicon glyphicon-warning-sign" style="float: left; font-size: 38px; margin-right: 20px;"></span>-->
-                                Möchten sie die änderungen an dieser Stunde speichern?
+                                Möchten Sie die Änderungen an dieser Stunde speichern?
                             </div>
                             <div class="modal-footer" style="margin-top: 0px; text-align: center;">
                                 <asp:Button runat="server" CssClass="btn btn-default" Text="Speichern" OnClick="Apply_Click" ID="btnSave" />
@@ -257,7 +256,7 @@
                                 <h4 class="modal-title" id="DeleteConfirmTitle">Bestätigen</h4>
                             </div>
                             <div class="modal-body">
-                                Sind sie sicher, dass sie diese Stunde entfernen möchten?
+                                Sind Sie sicher, dass Sie diese Stunde entfernen möchten?
                             </div>
                             <div class="modal-footer">
                                 <asp:Button runat="server" CssClass="btn btn-default" Text="Ja" OnClick="btnDeleteConfirm_Click" ID="btnDeleteConfirm" OnClientClick="CloseDeleteConfirmModal();OpenLoadingIndicator('true');" />
@@ -300,7 +299,7 @@
                                 <h4 class="modal-title" id="AbortDayTitle">Achtung</h4>
                             </div>
                             <div class="modal-body">
-                                Möchten sie die änderungen an diesem Tag speichern?
+                                Möchten Sie die änderungen an diesem Tag speichern?
                             </div>
                             <div class="modal-footer" style="margin-top: 0px; text-align: center;">
                                 <asp:Button runat="server" CssClass="btn btn-default" Text="Speichern" OnClick="ApplyDay_Click" ID="btnSaveDay" OnClientClick="OpenLoadingIndicator('false');" />
@@ -443,7 +442,6 @@
             <div class="modal-dialog" style="width: 170px !important; margin-top: 350px; margin-left: auto !important; margin-right: auto !important;">
                 <div class="modal-content">
                     <div class="modal-body">
-                        <!--TODO:Ladezeichen ändern(?)-->
                         <img src="Data/Images/loading.gif" alt="Lade" id="LoadingImage" />
                     </div>
                 </div>
@@ -493,7 +491,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
-                                <asp:Button CssClass="btn btn-primary" runat="server" Text="Übernehmen" ID="AddLesson" OnClick="AddLesson_Click" />
+                                <asp:Button CssClass="btn btn-primary" runat="server" Text="Übernehmen" ID="AddLesson" OnClick="NewLesson_Click" />
                             </div>
                         </ContentTemplate>
                         <Triggers>

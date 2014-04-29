@@ -87,7 +87,7 @@
                                         <span runat="server" id="User"></span><span class="caret"></span>
                                     </a>
                                     <ul class="dropdown-menu">
-                                        <li><a onclick="jQuery('#ChangePasswordModal').modal('show');">Passwort ändern</a></li>
+                                        <li><a onclick="jQuery('#ChangePasswordModal').modal('show');" style="cursor:pointer">Passwort ändern</a></li>
                                         <li>
                                             <asp:LinkButton ID="Logoutbutton" runat="server" OnClick="Logoutbutton_Click">Abmelden</asp:LinkButton></li>
                                     </ul>

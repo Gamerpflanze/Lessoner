@@ -1,9 +1,0 @@
-ALTER TABLE `tblehrer`
-	ALTER `KlasseID` DROP DEFAULT;
-ALTER TABLE `tblehrer`
-	CHANGE COLUMN `KlasseID` `KlasseID` INT(11) NOT NULL AFTER `Ort`;
-	
-ALTER TABLE `tbfachinfo`
-	ALTER `FachModID` DROP DEFAULT;
-ALTER TABLE `tbfachinfo`
-	CHANGE COLUMN `FachModID` `FachModID` INT(11) NOT NULL AFTER `Stunde_Ende`;
