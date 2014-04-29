@@ -51,7 +51,6 @@
                                                 <span runat="server" id="User"></span><span class="caret"></span>
                                             </a>
                                             <ul class="dropdown-menu">
-                                                <li><a>Passwort ändern</a></li>
                                                 <li>
                                                     <asp:LinkButton ID="Logoutbutton" runat="server" OnClick="Logoutbutton_Click">Abmelden</asp:LinkButton></li>
                                             </ul>
