@@ -17,7 +17,7 @@ namespace Lessoner
         //=================================================================
         //Globale Variablen
         //Dient zur Kürzung
-        int WeekIndex
+        /*int WeekIndex
         {
             get
             {
@@ -49,52 +49,107 @@ namespace Lessoner
             {
                 StoredVars.Objects.LessonerBuilder.SelectedTimeTable = value;
             }
+        }*/
+        int WeekIndex
+        {
+            get
+            {
+                //return StoredVars.Objects.Lessoner.WeekIndex;
+                return Convert.ToInt32(ViewState["WeekIndex"]);
+            }
+            set
+            {
+                //StoredVars.Objects.Lessoner.WeekIndex = value;
+                ViewState["WeekIndex"] = value;
+            }
+        }
+        List<DateTime> WeekBegins
+        {
+            get
+            {
+                //return StoredVars.Objects.Lessoner.WeekBegins;
+                return ViewState["WeekBegins"] as List<DateTime>;
+            }
+            set
+            {
+                //StoredVars.Objects.Lessoner.WeekBegins = value;
+                ViewState["WeekBegins"] = value;
+            }
+        }
+        LessonerBuilderCache.ClassSelector SelectedTimeTable
+        {
+            get
+            {
+                //return StoredVars.Objects.Lessoner.SelectedTimeTable;
+                LessonerBuilderCache.ClassSelector s = new LessonerBuilderCache.ClassSelector();
+                s.ClassID = Convert.ToInt32(ViewState["SelectedTimeTableClassID"]);
+                s.ClassName = Convert.ToString(ViewState["SelectedTimeTableClassName"]);
+                s.Week = Convert.ToInt32(ViewState["SelectedTimeTableWeek"]);
+                return s;
+            }
+            set
+            {
+                //StoredVars.Objects.Lessoner.SelectedTimeTable = value;
+                //ViewState["SelectedTimeTable"] = value;
+
+                ViewState["SelectedTimeTableClassID"] = value.ClassID;
+                ViewState["SelectedTimeTableClassName"] = value.ClassName;
+                ViewState["SelectedTimeTableWeek"] = value.Week;
+            }
         }
         Dictionary<int, string> Teacher
         {
             get
             {
-                return StoredVars.Objects.LessonerBuilder.Modal.Teacher;
+                //return StoredVars.Objects.LessonerBuilder.Modal.Teacher;
+                return ViewState["Teacher"] as Dictionary<int, string>;
             }
             set
             {
-                StoredVars.Objects.LessonerBuilder.Modal.Teacher = value;
+                //StoredVars.Objects.LessonerBuilder.Modal.Teacher = value;
+                ViewState["Teacher"] = value;
             }
         }
         Dictionary<int, string> Rooms
         {
             get
             {
-                return StoredVars.Objects.LessonerBuilder.Modal.Rooms;
+                //return StoredVars.Objects.LessonerBuilder.Modal.Rooms;
+                return ViewState["Rooms"] as Dictionary<int, string>;
             }
             set
             {
-                StoredVars.Objects.LessonerBuilder.Modal.Rooms = value;
+                //StoredVars.Objects.LessonerBuilder.Modal.Rooms = value;
+                ViewState["Rooms"] = value;
             }
         }
         Dictionary<int, string> LessonName
         {
             get
             {
-                return StoredVars.Objects.LessonerBuilder.Modal.LessonName;
+                //return StoredVars.Objects.LessonerBuilder.Modal.LessonName;
+                return ViewState["LessonName"] as Dictionary<int, string>;
             }
             set
             {
-                StoredVars.Objects.LessonerBuilder.Modal.LessonName = value;
+                //StoredVars.Objects.LessonerBuilder.Modal.LessonName = value;
+                ViewState["LessonName"] = value;
             }
         }
         Dictionary<int, string> LessonModifier
         {
             get
             {
-                return StoredVars.Objects.LessonerBuilder.Modal.LessonModifier;
+                //return StoredVars.Objects.LessonerBuilder.Modal.LessonModifier;
+                return ViewState["LessonModifier"] as Dictionary<int, string>;
             }
             set
             {
-                StoredVars.Objects.LessonerBuilder.Modal.LessonModifier = value;
+                //StoredVars.Objects.LessonerBuilder.Modal.LessonModifier = value;
+                ViewState["LessonModifier"] = value;
             }
         }
-        List<Lesson> Lessons
+        /*List<Lesson> Lessons
         {
             get
             {
@@ -104,59 +159,66 @@ namespace Lessoner
             {
                 StoredVars.Objects.LessonerBuilder.Lessons = value;
             }
-        }
+        }*/
+        List<Lesson> Lessons = new List<Lesson>();
         string Script = "";
+        private void InitDictonaries()
+        {
+            WeekBegins = new List<DateTime>();
+            Teacher = new Dictionary<int, string>();
+            Rooms = new Dictionary<int, string>();
+            LessonName = new Dictionary<int, string>();
+            LessonModifier = new Dictionary<int, string>();
+        }
         protected void Page_Load(object sender, EventArgs e)
         {
-            //Http Errors 'nd shit
-
-            //EventHandler
             this.LoadComplete += new EventHandler(Page_LoadComplete);
-            //this.PreRender += new System.EventHandler(this.LessonerBuilder_PreRender);
-            //
-            Script += JavascriptCaller.ClearCopyModal;
-            if (!Page.IsPostBack)
+            using (MySqlConnection con = new MySqlConnection(SQL.Statements.ConnectionString))
             {
-#if !DEBUG
-                if (!StoredVars.Objects.Loggedin)
+                using (MySqlCommand cmd = con.CreateCommand())
                 {
-                    Response.Clear();
-                    Response.StatusCode = 403;
-                    Response.End();
-                    return;
-                }
-                if (!StoredVars.Objects.Rights["lessonerbuilder"]["permission"])
-                {
-                    Response.Clear();
-                    Response.StatusCode = 403;
-                    Response.End();
-                    return;
-                }
-#endif
-                //btnLastDate.Attributes.Add("disabled", "disabled");
-                if (StoredVars.Objects.Loggedin)
-                {
-                    PageDropDown.Style.Add("display", "block");
-                    ReadyPageDropDown();
-                }
+                    con.Open();
+                    Script += JavascriptCaller.ClearCopyModal;
 
-                DateTime Date = DateTime.Now.Date;
-                Date = Date.AddDays(-((double)HelperMethods.DayOfWeekToNumber(Date.DayOfWeek) - 1));
-                for (int i = 0; i < 6; i++)
-                {
-                    StoredVars.Objects.LessonerBuilder.WeekBegins.Add(Date);
-                    Date = Date.AddDays(7);
-                }
-                txtWeekBegin.Text = WeekBegins[WeekIndex].ToString("dd.MM.yyyy");
-                LessonerBuilderCache.ClassSelector cl = SelectedTimeTable;
-                cl.ClassID = -1;
-                SelectedTimeTable = cl;
-                btnLastDate.Attributes.Add("disabled", "disabled");
-                using (MySqlConnection con = new MySqlConnection(SQL.Statements.ConnectionString))
-                {
-                    using (MySqlCommand cmd = con.CreateCommand())
+                    if (!Page.IsPostBack)
                     {
-                        con.Open();
+                        InitDictonaries();
+#if !DEBUG
+                        if (!StoredVars.Objects.Loggedin)
+                        {
+                            Response.Clear();
+                            Response.StatusCode = 403;
+                            Response.End();
+                            return;
+                        }
+                        if (!StoredVars.Objects.Rights["lessonerbuilder"]["permission"])
+                        {
+                            Response.Clear();
+                            Response.StatusCode = 403;
+                            Response.End();
+                            return;
+                        }
+#endif
+                        //btnLastDate.Attributes.Add("disabled", "disabled");
+                        if (StoredVars.Objects.Loggedin)
+                        {
+                            PageDropDown.Style.Add("display", "block");
+                            ReadyPageDropDown();
+                        }
+
+                        DateTime Date = DateTime.Now.Date;
+                        Date = Date.AddDays(-((double)HelperMethods.DayOfWeekToNumber(Date.DayOfWeek) - 1));
+                        for (int i = 0; i < 6; i++)
+                        {
+                            WeekBegins.Add(Date);
+                            Date = Date.AddDays(7);
+                        }
+                        txtWeekBegin.Text = WeekBegins[WeekIndex].ToString("dd.MM.yyyy");
+                        LessonerBuilderCache.ClassSelector cl = SelectedTimeTable;
+                        cl.ClassID = -1;
+                        SelectedTimeTable = cl;
+                        btnLastDate.Attributes.Add("disabled", "disabled");
+
                         Teacher.Clear();
                         LessonName.Clear();
                         LessonModifier.Clear();
@@ -194,16 +256,10 @@ namespace Lessoner
                             }
                         }
                         Rooms.Add(-1, "Kein Raum");
-                        con.Close();
                     }
-                }
-            }
-            using (MySqlConnection con = new MySqlConnection(SQL.Statements.ConnectionString))
-            {
-                using (MySqlCommand cmd = con.CreateCommand())
-                {
+                    cmd.Parameters.Clear();
                     cmd.CommandText = SQL.Statements.GetClasses;
-                    con.Open();
+                    //con.Open();
 
                     using (MySqlDataReader reader = cmd.ExecuteReader())
                     {
@@ -232,6 +288,24 @@ namespace Lessoner
                             li.Controls.Add(ClassLink);
                             ClassList.Controls.Add(li);
                         }
+                    }
+                    string ErrorText = "";
+                    cmd.CommandText = SQL.Statements.CountTeacher;
+                    if (Convert.ToInt32(cmd.ExecuteScalar()) == 0)
+                    {
+                        ErrorText += "Es existieren momentan keine Lehrer. ";
+                    }
+                    cmd.CommandText = SQL.Statements.CountClasses;
+                    if (Convert.ToInt32(cmd.ExecuteScalar()) == 0)
+                    {
+                        ErrorText += "Es existieren momentan keine Klassen. ";
+                    }
+                    if(ErrorText!="")
+                    {
+                        tbTimetable.Style.Add("display", "none");
+                        Header.Style.Add("display", "none");
+                        ErrorMessage.Style["display"]="inline";
+                        ErrorMessage.InnerText = ErrorText + "Bitte erstellen Sie diese zuerst.";
                     }
                     con.Close();
                 }
@@ -436,8 +510,12 @@ namespace Lessoner
                     cmd.CommandText = SQL.Statements.CheckForLessoner;
                     if (Convert.ToInt32(cmd.ExecuteScalar()) == 0)
                     {
-                        cmd.CommandText = SQL.Statements.InsertEmptyLessoner;
-                        cmd.ExecuteNonQuery();
+                        try
+                        {
+                            cmd.CommandText = SQL.Statements.InsertEmptyLessoner;//Funktioniert nur wenn es Klassen gibt. Da Stundenplan ohne Klassen nicht angezeigt wird, es aber trozdem dies ausgeführt wird, ist  try catch hier
+                            cmd.ExecuteNonQuery();
+                        }
+                        catch { }
                     }
                     cmd.CommandText = SQL.Statements.GetDayInformations;
                     using (MySqlDataReader reader = cmd.ExecuteReader())
@@ -652,6 +730,7 @@ namespace Lessoner
             ddTeacher.InnerHtml = Teacher[lesson.LehrerID] + "<span class=\"caret\"></span>";
             ddLessonName.InnerHtml = LessonName[lesson.FachID] + "<span class=\"caret\"></span>";
             ddLessonMod.InnerHtml = LessonModifier[lesson.FachModID] + "<span class=\"caret\"></span>";
+            ddRoom.InnerHtml = Rooms[lesson.RoomID] + "<span class=\"caret\"></span>";
 
             Modal_TeacherID.Value = lesson.LehrerID.ToString();
             Modal_LessonNameID.Value = lesson.FachID.ToString();
@@ -861,145 +940,7 @@ namespace Lessoner
             LessonerDBWriter.Start();
             LoadLessoner();
         }
-        //Tasks==================================================================
-        private void CopyLessoner(DateTime StartDate, DateTime EndDate, int WeekSpan, int Class, int weekindex, List<DateTime> weekbegins)
-        {
-            List<DateTime> InsertDates = new List<DateTime>();
-            DateTime CurrentDate = StartDate;
-            List<Lesson> TimeTableLessons = new List<Lesson>();
-            List<DayClone> TimeTableDays = new List<DayClone>();
-            while (CurrentDate <= EndDate)
-            {
-                InsertDates.Add(CurrentDate);
-                CurrentDate = CurrentDate.AddDays(7 * WeekSpan);
-            }
 
-            using (MySqlConnection con = new MySqlConnection(SQL.Statements.ConnectionString))
-            {
-                using (MySqlCommand cmd = con.CreateCommand())
-                {
-                    cmd.CommandText = SQL.Statements.GetDayInformations;
-                    cmd.Parameters.AddWithValue("@KlasseID", Class);
-                    cmd.Parameters.AddWithValue("@Datum", weekbegins[weekindex]);
-                    con.Open();
-                    using (MySqlDataReader reader = cmd.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            DayClone d = new DayClone();
-                            d.ID = Convert.ToInt32(reader["TagID"]);
-                            d.FindetStatt = Convert.ToBoolean(reader["FindetStatt"]);
-                            d.Information = reader["Information"].ToString();
-                            d.DayNameID = Convert.ToInt32(reader["TagInfoID"]);
-                            TimeTableDays.Add(d);
-                        }
-                    }
-                    cmd.Parameters.Clear();
-                    cmd.CommandText = SQL.Statements.GetLessonPerDay;
-                    cmd.Parameters.AddWithValue("@TagID", -1);
-                    for (int i = 0; i < TimeTableDays.Count; i++)
-                    {
-                        cmd.Parameters["@TagID"].Value = TimeTableDays[i].ID;
-                        using (MySqlDataReader reader = cmd.ExecuteReader())
-                        {
-                            while (reader.Read())
-                            {
-                                Lesson l = new Lesson();
-                                l.ID = Convert.ToInt32(reader["ID"]);
-                                l.LehrerID = Convert.ToInt32(reader["LehrerID"]);
-                                l.FachID = Convert.ToInt32(reader["FachID"]);
-                                l.TagID = Convert.ToInt32(reader["TagID"]);
-                                l.StundeBeginn = Convert.ToInt32(reader["Stunde_Beginn"]);
-                                l.StundeEnde = Convert.ToInt32(reader["Stunde_Ende"]);
-                                l.FachModID = Convert.ToInt32(reader["FachModID"]);
-                                l.TagInfoID = TimeTableDays[i].DayNameID;
-                                TimeTableLessons.Add(l);
-                            }
-                        }
-                    }
-                    for (int i = 0; i < InsertDates.Count; i++)
-                    {
-                        cmd.Parameters.Clear();
-                        cmd.Parameters.AddWithValue("@KlasseID", Class);
-                        cmd.Parameters.AddWithValue("@Datum", InsertDates[i]);
-                        cmd.CommandText = SQL.Statements.CheckForLessoner;
-                        if (Convert.ToInt32(cmd.ExecuteScalar()) == 0)
-                        {
-                            cmd.CommandText = SQL.Statements.InsertEmptyLessoner;
-                            cmd.ExecuteNonQuery();
-                        }
-
-                        cmd.CommandText = SQL.Statements.GetLessonerID;
-                        int LessonerID = Convert.ToInt32(cmd.ExecuteScalar());
-
-                        cmd.CommandText = SQL.Statements.GetDayIDs;
-                        cmd.Parameters.AddWithValue("@StundenplanID", LessonerID);
-                        List<Day> days = new List<Day>();
-                        using (MySqlDataReader reader = cmd.ExecuteReader())
-                        {
-                            while (reader.Read())
-                            {
-                                Day d = new Day();
-                                d.ID = Convert.ToInt32(reader["ID"]);
-                                d.TagInfoID = Convert.ToInt32(reader["TagInfoID"]);
-                                days.Add(d);
-                            }
-                        }
-                        cmd.CommandText = SQL.Statements.UpdateDay;
-                        cmd.Parameters.AddWithValue("@FindetStatt", true);
-                        cmd.Parameters.AddWithValue("@Information", "");
-                        cmd.Parameters.AddWithValue("@ID", -1);
-                        for (int j = 0; j < days.Count; j++)
-                        {
-                            for (int k = 0; k < TimeTableDays.Count; k++)
-                            {
-                                if (TimeTableDays[k].DayNameID == days[j].TagInfoID)
-                                {
-                                    cmd.Parameters["@FindetStatt"].Value = TimeTableDays[k].FindetStatt;
-                                    cmd.Parameters["@Information"].Value = TimeTableDays[k].Information;
-                                    cmd.Parameters["@ID"].Value = days[j].ID;
-                                    cmd.ExecuteNonQuery();
-                                    break;
-                                }
-                            }
-                        }
-                        cmd.Parameters.Clear();
-                        cmd.CommandText = SQL.Statements.DeleteLessonsFromDay;
-                        cmd.Parameters.AddWithValue("@TagID", -1);
-                        for (int j = 0; j < days.Count; j++)
-                        {
-                            cmd.Parameters["@TagID"].Value = days[j].ID;
-                            cmd.ExecuteNonQuery();
-                        }
-                        cmd.Parameters.Clear();
-                        cmd.Parameters.AddWithValue("@LehrerID", -1);
-                        cmd.Parameters.AddWithValue("@FachID", -1);
-                        cmd.Parameters.AddWithValue("@TagID", -1);
-                        cmd.Parameters.AddWithValue("@FachModID", -1);
-                        cmd.Parameters.AddWithValue("@Stunde_Beginn", -1);
-                        cmd.Parameters.AddWithValue("@Stunde_Ende", -1);
-                        cmd.CommandText = SQL.Statements.InsertLesson;
-                        for (int j = 0; j < TimeTableLessons.Count; j++)
-                        {
-                            for (int k = 0; k < days.Count; k++)
-                            {
-                                if (days[k].TagInfoID == TimeTableLessons[j].TagInfoID)
-                                {
-                                    cmd.Parameters["@LehrerID"].Value = TimeTableLessons[j].LehrerID;
-                                    cmd.Parameters["@FachID"].Value = TimeTableLessons[j].FachID;
-                                    cmd.Parameters["@TagID"].Value = days[k].ID;
-                                    cmd.Parameters["@FachModID"].Value = TimeTableLessons[j].FachModID;
-                                    cmd.Parameters["@Stunde_Beginn"].Value = TimeTableLessons[j].StundeBeginn;
-                                    cmd.Parameters["@Stunde_Ende"].Value = TimeTableLessons[j].StundeEnde;
-                                    cmd.ExecuteNonQuery();
-                                }
-                            }
-                        }
-                    }
-                    con.Close();
-                }
-            }
-        }
         private void LessonerBuilder_PreRender(object sender, EventArgs e)
         {
             LoadLessoner();
@@ -1148,17 +1089,33 @@ namespace Lessoner
             {
                 using (MySqlCommand cmd = con.CreateCommand())
                 {
-
                     con.Open();
-                    cmd.CommandText = SQL.Statements.DeleteLessonName;
-                    cmd.Parameters.AddWithValue("@ID", Convert.ToInt32(Modal_LessonNameID.Value));
-                    try
-                    {
-                        cmd.ExecuteNonQuery();
-                    }
-                    catch (MySqlException)
+                    cmd.CommandText = SQL.Statements.CountLessons;
+                    if (Convert.ToInt32(cmd.ExecuteScalar()) == 1)
                     {
                         Script += @"
+                        jQuery(document).ready(function(){
+                            jQuery('#RemoveLessonNameConfirm').modal('hide');
+                            jQuery('#LessonEdit').removeClass('fade');
+                            jQuery('#LessonEdit').modal('show');
+                            jQuery('.modal-backdrop:first').remove();
+                            jQuery('#LessonEdit').addClass('fade');
+                            jQuery('.modal-backdrop').addClass('fade');
+                            jQuery('#LastSubject').modal({backdrop:false});
+                        });";
+                        return;
+                    }
+                    else
+                    {
+                        cmd.CommandText = SQL.Statements.DeleteLessonName;
+                        cmd.Parameters.AddWithValue("@ID", Convert.ToInt32(Modal_LessonNameID.Value));
+                        try
+                        {
+                            cmd.ExecuteNonQuery();
+                        }
+                        catch (MySqlException)
+                        {
+                            Script += @"
                         jQuery(document).ready(function(){
                             jQuery('#RemoveLessonNameConfirm').modal('hide');
                             jQuery('#LessonEdit').removeClass('fade');
@@ -1169,8 +1126,9 @@ namespace Lessoner
                             jQuery('#LessonNameNotDeleted').modal({backdrop:false});
                         });";
 
-                        con.Close();
-                        return;
+                            con.Close();
+                            return;
+                        }
                     }
                     con.Close();
                 }
@@ -1240,5 +1198,145 @@ namespace Lessoner
             StoredVars.Objects = new StoredVars();
             Response.Redirect("/default.aspx", true);
         }
+        #region Tasks
+        private void CopyLessoner(DateTime StartDate, DateTime EndDate, int WeekSpan, int Class, int weekindex, List<DateTime> weekbegins)
+        {
+            List<DateTime> InsertDates = new List<DateTime>();
+            DateTime CurrentDate = StartDate;
+            List<Lesson> TimeTableLessons = new List<Lesson>();
+            List<DayClone> TimeTableDays = new List<DayClone>();
+            while (CurrentDate <= EndDate)
+            {
+                InsertDates.Add(CurrentDate);
+                CurrentDate = CurrentDate.AddDays(7 * WeekSpan);
+            }
+
+            using (MySqlConnection con = new MySqlConnection(SQL.Statements.ConnectionString))
+            {
+                using (MySqlCommand cmd = con.CreateCommand())
+                {
+                    cmd.CommandText = SQL.Statements.GetDayInformations;
+                    cmd.Parameters.AddWithValue("@KlasseID", Class);
+                    cmd.Parameters.AddWithValue("@Datum", weekbegins[weekindex]);
+                    con.Open();
+                    using (MySqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            DayClone d = new DayClone();
+                            d.ID = Convert.ToInt32(reader["TagID"]);
+                            d.FindetStatt = Convert.ToBoolean(reader["FindetStatt"]);
+                            d.Information = reader["Information"].ToString();
+                            d.DayNameID = Convert.ToInt32(reader["TagInfoID"]);
+                            TimeTableDays.Add(d);
+                        }
+                    }
+                    cmd.Parameters.Clear();
+                    cmd.CommandText = SQL.Statements.GetLessonPerDay;
+                    cmd.Parameters.AddWithValue("@TagID", -1);
+                    for (int i = 0; i < TimeTableDays.Count; i++)
+                    {
+                        cmd.Parameters["@TagID"].Value = TimeTableDays[i].ID;
+                        using (MySqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                Lesson l = new Lesson();
+                                l.ID = Convert.ToInt32(reader["ID"]);
+                                l.LehrerID = Convert.ToInt32(reader["LehrerID"]);
+                                l.FachID = Convert.ToInt32(reader["FachID"]);
+                                l.TagID = Convert.ToInt32(reader["TagID"]);
+                                l.StundeBeginn = Convert.ToInt32(reader["Stunde_Beginn"]);
+                                l.StundeEnde = Convert.ToInt32(reader["Stunde_Ende"]);
+                                l.FachModID = Convert.ToInt32(reader["FachModID"]);
+                                l.TagInfoID = TimeTableDays[i].DayNameID;
+                                TimeTableLessons.Add(l);
+                            }
+                        }
+                    }
+                    for (int i = 0; i < InsertDates.Count; i++)
+                    {
+                        cmd.Parameters.Clear();
+                        cmd.Parameters.AddWithValue("@KlasseID", Class);
+                        cmd.Parameters.AddWithValue("@Datum", InsertDates[i]);
+                        cmd.CommandText = SQL.Statements.CheckForLessoner;
+                        if (Convert.ToInt32(cmd.ExecuteScalar()) == 0)
+                        {
+                            cmd.CommandText = SQL.Statements.InsertEmptyLessoner;
+                            cmd.ExecuteNonQuery();
+                        }
+
+                        cmd.CommandText = SQL.Statements.GetLessonerID;
+                        int LessonerID = Convert.ToInt32(cmd.ExecuteScalar());
+
+                        cmd.CommandText = SQL.Statements.GetDayIDs;
+                        cmd.Parameters.AddWithValue("@StundenplanID", LessonerID);
+                        List<Day> days = new List<Day>();
+                        using (MySqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                Day d = new Day();
+                                d.ID = Convert.ToInt32(reader["ID"]);
+                                d.TagInfoID = Convert.ToInt32(reader["TagInfoID"]);
+                                days.Add(d);
+                            }
+                        }
+                        cmd.CommandText = SQL.Statements.UpdateDay;
+                        cmd.Parameters.AddWithValue("@FindetStatt", true);
+                        cmd.Parameters.AddWithValue("@Information", "");
+                        cmd.Parameters.AddWithValue("@ID", -1);
+                        for (int j = 0; j < days.Count; j++)
+                        {
+                            for (int k = 0; k < TimeTableDays.Count; k++)
+                            {
+                                if (TimeTableDays[k].DayNameID == days[j].TagInfoID)
+                                {
+                                    cmd.Parameters["@FindetStatt"].Value = TimeTableDays[k].FindetStatt;
+                                    cmd.Parameters["@Information"].Value = TimeTableDays[k].Information;
+                                    cmd.Parameters["@ID"].Value = days[j].ID;
+                                    cmd.ExecuteNonQuery();
+                                    break;
+                                }
+                            }
+                        }
+                        cmd.Parameters.Clear();
+                        cmd.CommandText = SQL.Statements.DeleteLessonsFromDay;
+                        cmd.Parameters.AddWithValue("@TagID", -1);
+                        for (int j = 0; j < days.Count; j++)
+                        {
+                            cmd.Parameters["@TagID"].Value = days[j].ID;
+                            cmd.ExecuteNonQuery();
+                        }
+                        cmd.Parameters.Clear();
+                        cmd.Parameters.AddWithValue("@LehrerID", -1);
+                        cmd.Parameters.AddWithValue("@FachID", -1);
+                        cmd.Parameters.AddWithValue("@TagID", -1);
+                        cmd.Parameters.AddWithValue("@FachModID", -1);
+                        cmd.Parameters.AddWithValue("@Stunde_Beginn", -1);
+                        cmd.Parameters.AddWithValue("@Stunde_Ende", -1);
+                        cmd.CommandText = SQL.Statements.InsertLesson;
+                        for (int j = 0; j < TimeTableLessons.Count; j++)
+                        {
+                            for (int k = 0; k < days.Count; k++)
+                            {
+                                if (days[k].TagInfoID == TimeTableLessons[j].TagInfoID)
+                                {
+                                    cmd.Parameters["@LehrerID"].Value = TimeTableLessons[j].LehrerID;
+                                    cmd.Parameters["@FachID"].Value = TimeTableLessons[j].FachID;
+                                    cmd.Parameters["@TagID"].Value = days[k].ID;
+                                    cmd.Parameters["@FachModID"].Value = TimeTableLessons[j].FachModID;
+                                    cmd.Parameters["@Stunde_Beginn"].Value = TimeTableLessons[j].StundeBeginn;
+                                    cmd.Parameters["@Stunde_Ende"].Value = TimeTableLessons[j].StundeEnde;
+                                    cmd.ExecuteNonQuery();
+                                }
+                            }
+                        }
+                    }
+                    con.Close();
+                }
+            }
+        }
+        #endregion
     }
 }

@@ -112,6 +112,15 @@ namespace Lessoner {
         protected global::System.Web.UI.WebControls.LinkButton Logoutbutton;
         
         /// <summary>
+        /// Header-Steuerelement
+        /// </summary>
+        /// <remarks>
+        /// Automatisch generiertes Feld
+        /// Um dies zu ändern, verschieben Sie die Felddeklaration aus der Designerdatei in eine Code-Behind-Datei.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl Header;
+        
+        /// <summary>
         /// WeekSelectContainer-Steuerelement
         /// </summary>
         /// <remarks>
@@ -272,6 +281,15 @@ namespace Lessoner {
         /// Um dies zu ändern, verschieben Sie die Felddeklaration aus der Designerdatei in eine Code-Behind-Datei.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl TeacherList;
+        
+        /// <summary>
+        /// ErrorMessage-Steuerelement
+        /// </summary>
+        /// <remarks>
+        /// Automatisch generiertes Feld
+        /// Um dies zu ändern, verschieben Sie die Felddeklaration aus der Designerdatei in eine Code-Behind-Datei.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl ErrorMessage;
         
         /// <summary>
         /// tbTimetable-Steuerelement

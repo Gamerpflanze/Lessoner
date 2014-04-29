@@ -64,7 +64,7 @@
                         </asp:UpdatePanel>
                     </div>
                 </div>
-                <div class="page-header hidden-print">
+                <div class="page-header hidden-print" runat="server" id="Header">
                     <div class="container">
                         <div class="row">
                             <div class="col-md-3" id="WeekSelectContainer" runat="server">
@@ -79,7 +79,7 @@
                                 </div>
                             </div>
                             <div class="col-md-3 hidden-sm" style="text-align: center" runat="server" id="PrintButtonContainer">
-                                <button class="btn btn-primary btn-large" onclick="javascript:window.print()"><span class="glyphicon glyphicon-print"></span>Stundenplan drucken</button>
+                                <button type="button" class="btn btn-primary btn-large" onclick="javascript:window.print()"><span class="glyphicon glyphicon-print"></span>Stundenplan drucken</button>
                             </div>
                             <div class="col-md-3" runat="server" id="ClassTeacherSwitchContainer">
                                 <div class="btn-group maxwidth-sm" style="float: right" id="ClassTeacherSwitch" runat="server" data-id="-1" data-name="">
@@ -108,6 +108,7 @@
                     </div>
                 </div>
                 <div class="container">
+                    <h1 runat="server" id="ErrorMessage" style="display:none"></h1>
                     <div class="table-responsive">
                         <asp:Table runat="server" ID="tbTimetable" CssClass="table table-bordered table-responsive" EnableViewState="false">
                             <asp:TableHeaderRow TableSection="TableHeader">
@@ -150,7 +151,7 @@
                                 <h4 class="modal-title" id="LessonInfoModalTitle">Stundeninfos</h4>
                             </div>
                             <div class="modal-body">
-                                <asp:TextBox MaxLength="512" runat="server" TextMode="MultiLine" ID="LessonInfoText" CssClass="form-control" Style="height: 200px;"></asp:TextBox>
+                                <asp:TextBox MaxLength="512" runat="server" TextMode="MultiLine" ID="LessonInfoText" CssClass="form-control Control-Margin-Bottom" Style="height: 200px;"></asp:TextBox>
                                 <asp:Button runat="server" ID="ApplyInfoText" CssClass="btn btn-default pull-right" Text="Übernehmen" OnClick="ApplyInfoText_Click" />
                                 <asp:Table runat="server" CssClass="table table-hover" ID="FileTable">
                                     <asp:TableHeaderRow TableSection="TableHeader">

@@ -3,6 +3,7 @@
 /// <reference path="Global.js" />
 function LoginFailed() {
     jQuery("#LoginControlls").addClass("has-error");
+    jQuery("#LoadingModal").modal("hide");
 }
 
 

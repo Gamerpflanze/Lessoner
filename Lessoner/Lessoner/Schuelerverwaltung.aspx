@@ -193,7 +193,6 @@
                                 <h4 class="modal-title" id="RenameClassModalTitle">Neue Klasse</h4>
                             </div>
                             <div class="modal-body">
-                                uto !important;">
                                 Neuer Klassenname:
                                 <asp:TextBox runat="server" ID="RenameClassName" CssClass="form-control" autocomplete="off"></asp:TextBox>
                             </div>

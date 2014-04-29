@@ -37,7 +37,7 @@
                                     <div class="form-group">
                                         <asp:TextBox TextMode="Password" placeholder="Passwort" class="form-control" ID="txtPasswort" runat="server"></asp:TextBox>
                                     </div>
-                                    <asp:Button class="btn btn-success" Text="Anmelden" OnClick="btnLoginSubmit_Click" ID="btnLoginSubmit" runat="server" />
+                                    <asp:LinkButton class="btn btn-success" OnClick="btnLoginSubmit_Click" ID="btnLoginSubmit" OnClientClick="jQuery('#LoadingModal').modal({backdrop:false})" runat="server" >Anmelden</asp:LinkButton>
                                 </asp:Panel>
                             </ContentTemplate>
                             <Triggers>
@@ -46,7 +46,6 @@
                                 <asp:AsyncPostBackTrigger ControlID="btnLoginSubmit" />
                             </Triggers>
                         </asp:UpdatePanel>
-
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-primary" data-dismiss="modal">Schließen</button>
@@ -445,10 +444,19 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
-                                <asp:Button runat="server" CssClass="btn btn-default" Text="Passwort Speichern" ID="SavePassword" OnClick="SavePassword_Click" OnClientClick=""/>
+                                <asp:Button runat="server" CssClass="btn btn-default" Text="Passwort Speichern" ID="SavePassword" OnClick="SavePassword_Click" OnClientClick="jQuery('#LoadingModal').modal({backdrop:false});"/>
                                 </div>
                         </ContentTemplate>
                     </asp:UpdatePanel>
+                </div>
+            </div>
+        </div>
+        <div runat="server" class="modal" id="LoadingModal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog" style="width: 170px !important; margin-top: 350px; margin-left: auto !important; margin-right: auto !important;">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <img src="Data/Images/loading.gif" alt="Lade" id="LoadingImage" />
+                    </div>
                 </div>
             </div>
         </div>
