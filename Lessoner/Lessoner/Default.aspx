@@ -32,7 +32,7 @@
                                 <asp:ScriptManager runat="server"></asp:ScriptManager>
                                 <asp:Panel runat="server" ID="LoginControlls">
                                     <div class="form-group">
-                                        <asp:TextBox runat="server" placeholder="Login" class="form-control" ID="txtUsername"></asp:TextBox>
+                                        <asp:TextBox runat="server" placeholder="E-Mail" class="form-control" ID="txtUsername"></asp:TextBox>
                                     </div>
                                     <div class="form-group">
                                         <asp:TextBox TextMode="Password" placeholder="Passwort" class="form-control" ID="txtPasswort" runat="server"></asp:TextBox>
@@ -140,8 +140,13 @@
                                         </tbody>
                                     </table>
                                 </td>
-                                <td class="LessonCell" data-listid="0" data-infotype="1" rowspan="2" data-toggle="modal" data-target="#Programmieren"><span style="text-align: center;" class="visible-lg">Programmieren</span><span style="text-align: center;" class="hidden-lg">PR</span></td>
-                                <td class="LessonCell" data-listid="2" data-infotype="1" rowspan="2" data-toggle="modal" data-target="#Wirtschaft"><span style="text-align: center;" class="visible-lg">Wirtschaft</span><span style="text-align: center;" class="hidden-lg">W</span></td>
+                                <td class="LessonCell" data-listid="0" data-infotype="1" rowspan="2" data-toggle="modal" data-target="#Programmieren" style="position:relative"><span style="text-align: center;" class="visible-lg">Programmieren</span><span style="text-align: center;" class="hidden-lg">PR</span>
+                                    <span style="Position:absolute;bottom:12px;left:12px;">515</span><span style="Position:absolute;bottom:12px;right:12px;">Hoffmeister</span>
+                                </td>
+                                <td class="LessonCell" data-listid="2" data-infotype="1" rowspan="2" data-toggle="modal" data-target="#Wirtschaft" style="position:relative"><span style="text-align: center;" class="visible-lg">Wirtschaft</span><span style="text-align: center;" class="hidden-lg">W</span>
+                                    <span style="Position:absolute;bottom:12px;left:12px;">407</span><span style="Position:absolute;bottom:12px;right:12px;">Stracke</span>
+                                    
+                                </td>
                             </tr>
                             <tr data-infotype="0">
                                 <td>
@@ -174,8 +179,14 @@
                                         </tbody>
                                     </table>
                                 </td>
-                                <td class="LessonCell" data-listid="1" data-infotype="1" rowspan="4" data-toggle="modal" data-target="#Elektroprozesstechnik"><span style="text-align: center;" class="visible-lg">Elektroprozesstechnik</span><span style="text-align: center;" class="hidden-lg">EP</span></td>
-                                <td class="LessonCell" data-listid="3" data-infotype="1" rowspan="2" data-toggle="modal" data-target="#Mathe"><span style="text-align: center;" class="visible-lg">Mathe</span><span style="text-align: center;" class="hidden-lg">M</span></td>
+                                <td class="LessonCell" data-listid="1" data-infotype="1" rowspan="4" data-toggle="modal" data-target="#Elektroprozesstechnik" style="position:relative"><span style="text-align: center;" class="visible-lg">Elektroprozesstechnik</span><span style="text-align: center;" class="hidden-lg">EP</span>
+                                    <span style="Position:absolute;bottom:12px;left:12px;">407</span><span style="Position:absolute;bottom:12px;right:12px;">Auffenberg</span>
+
+                                </td>
+                                <td class="LessonCell" data-listid="3" data-infotype="1" rowspan="2" data-toggle="modal" data-target="#Mathe" style="position:relative"><span style="text-align: center;" class="visible-lg">Mathe</span><span style="text-align: center;" class="hidden-lg">M</span>
+                                    <span style="Position:absolute;bottom:12px;left:12px;">416</span><span style="Position:absolute;bottom:12px;right:12px;">Schneider</span>
+
+                                </td>
                             </tr>
                             <tr data-infotype="0">
                                 <td>
@@ -209,7 +220,8 @@
                                     </table>
                                 </td>
                                 <td class="LessonCell" style="display: none;"></td>
-                                <td class="LessonCell" data-listid="4" data-infotype="1" data-toggle="modal" data-target="#Frei"><span style="text-align: center;" class="visible-lg">Frei</span><span style="text-align: center;" class="hidden-lg">frei</span></td>
+                                
+                                <td class="LessonCell" data-listid="4" data-infotype="1" data-toggle="modal" data-target="#Frei"><!--span style="text-align: center;" class="visible-lg">Frei</!--span><span style="text-align: center;" class="hidden-lg">frei</span--></td>
 
                             </tr>
                             <tr data-infotype="0">
@@ -227,7 +239,10 @@
                                     </table>
                                 </td>
                                 <td class="LessonCell" style="display: none;"></td>
-                                <td class="LessonCell" data-listid="4" data-infotype="1" data-toggle="modal" data-target="#BN"><span style="text-align: center;" class="visible-lg">Betriebssysteme/Netzwerke</span><span style="text-align: center;" class="hidden-lg">BN</span></td>
+                                <td class="LessonCell" data-listid="4" data-infotype="1" data-toggle="modal" style="position:relative" data-target="#BN"><span style="text-align: center;" class="visible-lg">Betriebssysteme/Netzwerke</span><span style="text-align: center;" class="hidden-lg">BN</span>
+                                    <div><span style="Position:absolute;bottom:12px;left:12px;">504</span><span style="Position:absolute;bottom:12px;right:12px;">Sielaff</span></div>
+
+                                </td>
                             </tr>
                         </tbody>
                     </table>

@@ -476,7 +476,9 @@ namespace Lessoner
                                 int Begin = Convert.ToInt32(reader["Stunde_Beginn"]);
                                 HtmlGenericControl TextBig = new HtmlGenericControl("span");
                                 HtmlGenericControl TextSmall = new HtmlGenericControl("span");
-
+                                HtmlGenericControl Room = new HtmlGenericControl("span");
+                                HtmlGenericControl Teacher = new HtmlGenericControl("span");
+                                
                                 TextBig.Style.Add("text-align", "center");
                                 TextBig.InnerText = reader["FachName"].ToString();
                                 TextBig.Attributes.Add("class", "visible-lg");
@@ -484,6 +486,19 @@ namespace Lessoner
                                 TextSmall.Style.Add("text-align", "center");
                                 TextSmall.InnerText = reader["FachNameKurz"].ToString();
                                 TextSmall.Attributes.Add("class", "hidden-lg");
+                                    
+                                Room.Style.Add("Position", "absolute");
+                                Room.Style.Add("bottom", "12px");
+                                Room.Style.Add("left", "12px");
+                                Room.InnerText = reader["RaumName"].ToString();
+
+                                if (!TeacherLessons)
+                                {
+                                    Teacher.Style.Add("Position", "absolute");
+                                    Teacher.Style.Add("bottom", "12px");
+                                    Teacher.Style.Add("right", "12px");
+                                    Teacher.InnerText = reader["Lehrername"].ToString();
+                                }
 
                                 l.ID = Convert.ToInt32(reader["ID"]);
                                 l.LehrerID = Convert.ToInt32(reader["LehrerID"]);
@@ -507,6 +522,10 @@ namespace Lessoner
                                 (tbTimetable.Controls[Begin].Controls[l.TagInfoID] as TableCell).Attributes.Add("onclick", "LoadLessonInfoModal(" + reader["ID"].ToString() + ", true)");
                                 (tbTimetable.Controls[Begin].Controls[l.TagInfoID] as TableCell).Controls.Add(TextBig);
                                 (tbTimetable.Controls[Begin].Controls[l.TagInfoID] as TableCell).Controls.Add(TextSmall);
+
+                                (tbTimetable.Controls[Begin].Controls[l.TagInfoID] as TableCell).Controls.Add(Room);
+                                (tbTimetable.Controls[Begin].Controls[l.TagInfoID] as TableCell).Controls.Add(Teacher);
+
                                 (tbTimetable.Controls[Begin].Controls[l.TagInfoID] as TableCell).Attributes.Add("data-listid", j.ToString());
                                 (tbTimetable.Controls[Begin].Controls[l.TagInfoID] as TableCell).Attributes["data-infotype"] = "1";
                                 (tbTimetable.Controls[Begin].Controls[l.TagInfoID] as TableCell).Style.Add("position", "relative");

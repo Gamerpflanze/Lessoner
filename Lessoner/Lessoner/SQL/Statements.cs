@@ -322,7 +322,7 @@ namespace Lessoner.SQL
         public const string GetDayIDs = @"SELECT t.ID, t.TagInfoID FROM tbtage as t
                                           WHERE t.StundenplanID = @StundenplanID
                                           ORDER BY t.ID";
-
+        
         public const string GetLessonPerDayTeacher = @"SELECT fi.*, f.Name as FachName, f.NameKurz as FachNameKurz, t.TagInfoID, r.ID as RaumID, r.Name as RaumName 
                                                        FROM tbtage as t
                                                        JOIN tbfachinfo as fi ON t.ID = fi.TagID
@@ -333,10 +333,11 @@ namespace Lessoner.SQL
                                                        WHERE l.ID = @LehrerID AND t.TagInfoID=@TagInfoID AND s.Datum = @Woche
                                                        ORDER BY Stunde_Beginn";
 
-        public const string GetLessonPerDay = @"SELECT fi.*, f.Name as FachName, f.NameKurz as FachNameKurz, t.TagInfoID, r.ID as RaumID, r.Name as RaumName FROM tbtage as t
+        public const string GetLessonPerDay = @"SELECT fi.*, f.Name as FachName, f.NameKurz as FachNameKurz, t.TagInfoID, r.ID as RaumID, r.Name as RaumName, l.Name as Lehrername FROM tbtage as t
                                                 JOIN tbfachinfo as fi ON t.ID = fi.TagID
                                                 JOIN tbfaecher as f ON fi.FachID = f.ID
                                                 LEFT JOIN tbraum as r on fi.RaumID = r.ID
+                                                LEFT JOIN tblehrer as l on l.ID = fi.LehrerID
                                                 WHERE t.ID = @TagID
                                                 ORDER BY Stunde_Beginn";
 

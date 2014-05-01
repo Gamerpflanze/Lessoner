@@ -83,7 +83,7 @@
                             <asp:TableHeaderCell>Hausnr.</asp:TableHeaderCell>
                             <asp:TableHeaderCell>PLZ</asp:TableHeaderCell>
                             <asp:TableHeaderCell>Ort</asp:TableHeaderCell>
-                            <asp:TableHeaderCell>Loginname</asp:TableHeaderCell>
+                            <asp:TableHeaderCell>E-Mail</asp:TableHeaderCell>
                             <asp:TableHeaderCell></asp:TableHeaderCell>
                         </asp:TableHeaderRow>
                     </asp:Table>

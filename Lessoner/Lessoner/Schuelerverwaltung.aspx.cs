@@ -407,7 +407,9 @@ namespace Lessoner
                                     Mail.Body = String.Format(MailBody, "?key="+PageParameter);
                                     Mail.To.Clear();
                                     Mail.To.Add(StudentData[i][4][6]);
+
                                     Client.Send(Mail);
+
                                 }
                                 else
                                 {
